@@ -183,7 +183,7 @@ export function TripDetails({ trip }: { trip: Trip }) {
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="text-sm">
-                  ${Math.floor(data.tripPriceInCents / 100)}
+                  ${Math.floor(data.adultTripPriceInCents / 100)}
                 </Badge>
                 {data.isFeatured && <Badge className="text-xs">Featured</Badge>}
               </div>
@@ -255,7 +255,11 @@ export function TripDetails({ trip }: { trip: Trip }) {
                           <TableCell className="font-medium">
                             {request.userEmail}
                           </TableCell>
-                          <TableCell>{request.travelersCount}</TableCell>
+                          <TableCell>
+                            {request.adultsCount}
+                            {request.childrenCount !== 0 && ` + ${request.childrenCount} children`}
+                            {request.infantsCount !== 0 && ` + ${request.infantsCount} infants`}
+                          </TableCell>
                           <TableCell>
                             {request.createdAt.toLocaleDateString("en-Us", {
                               month: "short",

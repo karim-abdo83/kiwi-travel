@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
@@ -42,21 +43,27 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface BookingFormProps {
-  price: number;
   duration: string;
   availableDays: (typeof days)[number][];
   tripId: number;
   reviewsCount: number;
   reviewsValue: number;
+  adultPrice: number;
+  childAge: string;
+  infantAge: string;
+  childPrice: number | null;
 }
 
 const BookingForm = ({
-  price,
   duration,
   availableDays,
   tripId,
   reviewsCount,
   reviewsValue,
+  adultPrice,
+  childPrice,
+  childAge,
+  infantAge,
 }: BookingFormProps) => {
   const t = useTranslations("TripDetailsPage.bookingForm");
 
@@ -72,9 +79,32 @@ const BookingForm = ({
     <Card>
       <CardContent className="space-y-6 p-6">
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-3xl font-bold">${price}</span>
-            <span className="text-muted-foreground">{t("perPerson")}</span>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-3xl font-bold">${adultPrice}</span>
+              <span className="text-muted-foreground">{t("perPerson")}</span>
+            </div>
+
+            {/* Child Price - only show if not null */}
+            {childPrice !== null && (
+              <div className="flex items-center justify-between">
+                <span className="text-xl font-semibold">${childPrice}</span>
+                <span className="text-sm text-muted-foreground">
+                  {t("perChild")}{" "}
+                  ({childAge})
+                </span>
+              </div>
+            )}
+
+            {/* Infant Price - only show if not null */}
+            {!!infantAge.trim() && (
+              <div className="flex items-center justify-between">
+                <span className="text-xl font-semibold">{t("free")}</span>
+                <span className="text-sm text-muted-foreground">
+                  {t("perInfant")} ({infantAge})
+                </span>
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-1">
             <CalendarIcon className="h-4 w-4 text-muted-foreground" />
@@ -102,7 +132,10 @@ const BookingForm = ({
         {isSignedIn ? (
           <BookingSubmitDialog
             mappedDays={mappedDays}
-            price={price}
+            adultPrice={adultPrice}
+            childPrice={childPrice}
+            childAge={childAge}
+            infantAge={infantAge}
             tripId={tripId}
           />
         ) : (
@@ -129,15 +162,21 @@ const BookingForm = ({
 };
 
 interface BookingSubmitDialog {
-  price: number;
   mappedDays: number[];
   tripId: number;
+  adultPrice: number;
+  childAge: string;
+  infantAge: string;
+  childPrice: number | null;
 }
 
 const BookingSubmitDialog = ({
-  price,
   mappedDays,
   tripId,
+  adultPrice,
+  childPrice,
+  childAge,
+  infantAge,
 }: BookingSubmitDialog) => {
   const t = useTranslations("TripDetailsPage.bookingForm");
 
@@ -169,28 +208,38 @@ const BookingSubmitDialog = ({
   const form = useForm<TripBookingFormValues>({
     resolver: zodResolver(tripBookingFormSchema),
     defaultValues: {
-      travelersCount: 1,
+      adultsCount: 1,
+      childrenCount: 0,
+      infantsCount: 0,
       phone: "",
     },
   });
 
-  // Get the current travelers value for price calculation
-  const travelers = form.watch("travelersCount") || 1;
+  // Get the current traveler counts for price calculation
+  const adults = form.watch("adultsCount") || 1
+  const children = form.watch("childrenCount") || 0
+  const infants = form.watch("infantsCount") || 0
 
-  // Calculate total price based on number of travelers
-  const totalPrice = (price * travelers).toFixed(2);
+  // Calculate total price based on traveler types
+  const adultTotal = adultPrice * adults
+  const childTotal = (childPrice ?? 0) * children
+  const totalPrice = (adultTotal + childTotal).toFixed(2)
 
-  const handleIncreaseTravelers = () => {
-    const current = form.getValues("travelersCount") || 1;
-    form.setValue("travelersCount", current + 1, { shouldValidate: true });
-  };
-
-  const handleDecreaseTravelers = () => {
-    const current = form.getValues("travelersCount") || 1;
-    if (current > 1) {
-      form.setValue("travelersCount", current - 1, { shouldValidate: true });
+  const handleIncreaseCount = (field: "adultsCount" | "childrenCount" | "infantsCount") => {
+    const current = form.getValues(field) || 0
+    const max = 10
+    if (current < max) {
+      form.setValue(field, current + 1, { shouldValidate: true })
     }
-  };
+  }
+
+  const handleDecreaseCount = (field: "adultsCount" | "childrenCount" | "infantsCount") => {
+    const current = form.getValues(field) || 0
+    const min = field === "adultsCount" ? 1 : 0
+    if (current > min) {
+      form.setValue(field, current - 1, { shouldValidate: true })
+    }
+  }
 
   function onSubmit(data: TripBookingFormValues) {
     if (isPending) return;
@@ -211,18 +260,18 @@ const BookingSubmitDialog = ({
       }}
     >
       <DialogTrigger asChild>
-        <Button type="button" className="w-full">
+        <Button type="button" id={`book-trip-open-dialog-id-${tripId}`} className="w-full">
           {t("bookNow")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] overflow-y-auto max-h-screen">
         <DialogHeader>
           <DialogTitle>{t("dialogTitle")}</DialogTitle>
           <DialogDescription>{t("dialogDescription")}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form id={`book-trip-form-id-${tripId}`} onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="date"
@@ -282,64 +331,206 @@ const BookingSubmitDialog = ({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="travelersCount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("travelersCount")}</FormLabel>
-                  <div className="flex items-center">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={handleDecreaseTravelers}
-                      disabled={field.value <= 1}
-                    >
-                      -
-                    </Button>
-                    <FormControl>
-                      <div className="w-full text-center">
-                        <span className="text-lg font-medium">
-                          {field.value}
-                        </span>
-                        <Input
-                          type="hidden"
-                          {...field}
-                          onChange={(e) => {
-                            const value = Number.parseInt(e.target.value);
-                            field.onChange(isNaN(value) ? 1 : value);
-                          }}
-                        />
+            <div>
+              <Label className="block mb-2 text-sm font-medium">{t("travelersCount")}</Label>
+              <Card className="p-3 space-y-3">
+                <FormField
+                  control={form.control}
+                  name="adultsCount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium">{t("adults")}</p>
+                        </div>
+                        <div className="flex items-center">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="h-7 w-7 p-0"
+                            onClick={() => handleDecreaseCount("adultsCount")}
+                            disabled={field.value <= 1}
+                          >
+                            -
+                          </Button>
+                          <FormControl>
+                            <div className="w-8 text-center">
+                              <span className="text-sm font-medium">{field.value}</span>
+                              <Input
+                                type="hidden"
+                                {...field}
+                                onChange={(e) => {
+                                  const value = Number.parseInt(e.target.value)
+                                  field.onChange(isNaN(value) ? 1 : value)
+                                }}
+                              />
+                            </div>
+                          </FormControl>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="h-7 w-7 p-0"
+                            onClick={() => handleIncreaseCount("adultsCount")}
+                            disabled={field.value >= 10}
+                          >
+                            +
+                          </Button>
+                        </div>
                       </div>
-                    </FormControl>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={handleIncreaseTravelers}
-                    >
-                      +
-                    </Button>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormItem>
+                  )}
+                />
 
-            <div className="mt-2 rounded-lg bg-muted p-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("basePrice")}</span>
-                <span className="text-sm">${price}</span>
-              </div>
-              <div className="mt-2 flex items-center justify-between border-t pt-2">
-                <span className="text-lg font-bold">{t("total")}</span>
-                <span className="text-lg font-bold">${totalPrice}</span>
-              </div>
+                {
+                  childPrice !== null && (
+                    <FormField
+                      control={form.control}
+                      name="childrenCount"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm font-medium">{t("children")}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {childAge}
+                              </p>
+                            </div>
+                            <div className="flex items-center">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="h-7 w-7 p-0"
+                                onClick={() => handleDecreaseCount("childrenCount")}
+                                disabled={field.value <= 0}
+                              >
+                                -
+                              </Button>
+                              <FormControl>
+                                <div className="w-8 text-center">
+                                  <span className="text-sm font-medium">{field.value}</span>
+                                  <Input
+                                    type="hidden"
+                                    {...field}
+                                    onChange={(e) => {
+                                      const value = Number.parseInt(e.target.value)
+                                      field.onChange(isNaN(value) ? 0 : value)
+                                    }}
+                                  />
+                                </div>
+                              </FormControl>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="h-7 w-7 p-0"
+                                onClick={() => handleIncreaseCount("childrenCount")}
+                                disabled={field.value >= 10}
+                              >
+                                +
+                              </Button>
+                            </div>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  )
+                }
+
+                {
+                  !!infantAge.trim() && (
+                    <FormField
+                      control={form.control}
+                      name="infantsCount"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm font-medium">{t("infants")}</p>
+                              <p className="text-xs text-muted-foreground">{infantAge}</p>
+                            </div>
+                            <div className="flex items-center">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="h-7 w-7 p-0"
+                                onClick={() => handleDecreaseCount("infantsCount")}
+                                disabled={field.value <= 0}
+                              >
+                                -
+                              </Button>
+                              <FormControl>
+                                <div className="w-8 text-center">
+                                  <span className="text-sm font-medium">{field.value}</span>
+                                  <Input
+                                    type="hidden"
+                                    {...field}
+                                    onChange={(e) => {
+                                      const value = Number.parseInt(e.target.value)
+                                      field.onChange(isNaN(value) ? 0 : value)
+                                    }}
+                                  />
+                                </div>
+                              </FormControl>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="h-7 w-7 p-0"
+                                onClick={() => handleIncreaseCount("infantsCount")}
+                                disabled={field.value >= 10}
+                              >
+                                +
+                              </Button>
+                            </div>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  )
+                }
+
+              </Card>
             </div>
 
+            <Card className="p-3 space-y-2">
+              <div className="space-y-1 text-sm">
+                {adults > 0 && (
+                  <div className="flex items-center justify-between">
+                    <span>
+                      {t("adults")} ({adults}) &times; ${adultPrice}
+                    </span>
+                    <span>${adultTotal.toFixed(2)}</span>
+                  </div>
+                )}
+                {children > 0 && (
+                  <div className="flex items-center justify-between">
+                    <span>
+                      {t("children")} ({children}) &times; ${childPrice}
+                    </span>
+                    <span>${childTotal.toFixed(2)}</span>
+                  </div>
+                )}
+                {infants > 0 && (
+                  <div className="flex items-center justify-between">
+                    <span>
+                      {t("infants")} ({infants}) &times; {t("free")}
+                    </span>
+                    <span>{t("free")}</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center justify-between border-t pt-2">
+                <span className="font-bold">{t("total")}</span>
+                <span className="font-bold">${totalPrice}</span>
+              </div>
+            </Card>
+
             <DialogFooter>
-              <Button disabled={isPending} type="submit" className="w-full">
+              <Button id={`book-trip-inside-dialog-id-${tripId}`} disabled={isPending} type="submit" className="w-full">
                 {t("completeBooking")}
               </Button>
             </DialogFooter>

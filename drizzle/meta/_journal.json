@@ -162,6 +162,34 @@
       "when": 1748099882454,
       "tag": "0022_futuristic_lethal_legion",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1748875067196,
+      "tag": "0023_faithful_bastion",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1748887772501,
+      "tag": "0024_minor_black_cat",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1749039927832,
+      "tag": "0025_true_susan_delgado",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1749374571062,
+      "tag": "0026_narrow_romulus",
+      "breakpoints": true
     }
   ]
 }

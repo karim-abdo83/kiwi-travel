@@ -119,10 +119,10 @@ export default async function DestinationTripsPage({
                 </p>
                 <div className="mt-4 flex items-center justify-between">
                   <span className="text-lg font-bold">
-                    ${Math.floor(trip.tripPriceInCents / 100)}
+                    ${Math.floor(trip.adultTripPriceInCents / 100)}
                   </span>
                   <Link href={`/trips/${trip.id}`}>
-                    <Button>{t("bookNow")}</Button>
+                    <Button id={`book-trip-outside-id-${trip.id}`}>{t("bookNow")}</Button>
                   </Link>
                 </div>
               </CardContent>

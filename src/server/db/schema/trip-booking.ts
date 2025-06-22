@@ -10,12 +10,15 @@ export const tripBooking = pgTable(
     userId: c.text("user_id").notNull(),
     userPhone: c.text("user_phone").notNull(),
     userEmail: c.text("user_email").notNull(),
-    priceInCents: c.integer("price_in_cents").notNull(),
+    adultPriceInCents: c.integer("adult_price_in_cents").notNull(),
+    childPriceInCents: c.integer("child_price_in_cents").notNull().default(0),
     tripId: c.integer("trip_id")
       .notNull()
       .references(() => trip.id, { onDelete: "cascade" }),
     bookingDate: c.date("booking_date").notNull(),
-    travelersCount: c.integer("travelers_count").notNull(),
+    adultsCount: c.integer("adults_count").notNull(),
+    childrenCount: c.integer("children_count").notNull().default(0),
+    infantsCount: c.integer("infants_count").notNull().default(0),
     isSeenByAdmin: c.boolean("is_seen_by_admin").notNull().default(false),
     status: c.text("status", {
       enum: ["pending", "accepted", "cancelled", "done", "missed"],

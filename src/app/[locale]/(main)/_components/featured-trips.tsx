@@ -112,7 +112,7 @@ export default function FeaturedTrips() {
                   <CardFooter className="flex items-center justify-between p-4 pt-0">
                     <span className="text-lg font-bold">${trip.price}</span>
                     <Link href={`/trips/${trip.id}`}>
-                      <Button size="sm">{t("buttonLabel")}</Button>
+                      <Button id={`book-trip-outside-id-${trip.id}`} size="sm">{t("buttonLabel")}</Button>
                     </Link>
                   </CardFooter>
                 </Card>

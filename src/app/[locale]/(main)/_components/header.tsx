@@ -21,8 +21,7 @@ export const Header = () => {
     <header className="z-20 fixed w-full top-0 h-16 border-b shadow bg-background text-foreground p-4">
       <nav className="container flex items-center justify-between gap-4 mx-auto">
         <Link className="flex gap-2 items-center" href="/">
-          <img className="-mt-1 w-56 sm:block hidden" src="/logo.svg" alt="Karim Tour" />
-          <img className="-mt-1 size-10 sm:hidden" src="/logo-icon.svg" alt="Karim Tour" />
+          <img className="-mt-1 sm:w-56 w-48 block" src="/logo.svg" alt="Karim Tour" />
         </Link>
         <div className="md:flex hidden gap-4">
           <SignedOut>

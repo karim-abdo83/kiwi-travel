@@ -91,7 +91,7 @@ export function TripsList() {
     {
       accessorKey: "price",
       header: "Price",
-      cell: ({ row }) => "$" + row.original.tripPriceInCents / 100,
+      cell: ({ row }) => "$" + row.original.adultTripPriceInCents / 100,
     },
     {
       accessorKey: "isAvailable",

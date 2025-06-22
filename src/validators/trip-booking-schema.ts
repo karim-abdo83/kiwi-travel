@@ -5,11 +5,13 @@ export const tripBookingFormSchema = z.object({
   date: z.date({
     required_error: "Please select a date",
   }),
-  travelersCount: z
+  adultsCount: z
     .number({
-      required_error: "Please select number of travelers",
+      required_error: "Please select number of adults",
     })
-    .min(1, "At least 1 traveler is required"),
+    .min(1, "At least 1 adult is required"),
+  childrenCount: z.number(),
+  infantsCount: z.number(),
   phone: z
     .string()
     .min(1, "Phone number is required")

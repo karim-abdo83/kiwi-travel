@@ -16,6 +16,7 @@ import { Link } from "@/i18n/routing";
 import { api } from "@/trpc/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
 export const BookingsList = () => {
@@ -23,7 +24,7 @@ export const BookingsList = () => {
 
   const [selectedBooking, setSelectedBooking] = useState<number | null>(null);
   const [selectedOperation, setSelectedOperation] = useState<
-    "confirm" | "cancel"
+    "confirm" | "cancel" | "delete"
   >("confirm");
 
   const response = useCommonMutationResponse(undefined, refetch);
@@ -34,13 +35,17 @@ export const BookingsList = () => {
     api.tripBooking.adminCancelBooking.useMutation(response);
   const { mutate: markAsDone } =
     api.tripBooking.adminMarkAsDoneBooking.useMutation(response);
+  const { mutate: deleteBooking } =
+    api.tripBooking.adminDelete.useMutation(response);
 
   const handleOperation = () => {
     if (selectedBooking) {
       if (selectedOperation === "confirm") {
         confirm(selectedBooking);
-      } else {
+      } else if (selectedOperation === "cancel") {
         cancel(selectedBooking);
+      } else if (selectedOperation === "delete") {
+        deleteBooking(selectedBooking);
       }
 
       setSelectedBooking(null);
@@ -83,8 +88,17 @@ export const BookingsList = () => {
       ),
     },
     {
-      accessorKey: "travelersCount",
+      id: "travelersCount",
       header: "Travelers Count",
+      cell: ({ row }) => (
+        <>
+          {row.original.adultsCount}
+          {row.original.childrenCount !== 0 &&
+            ` + ${row.original.childrenCount} children`}
+          {row.original.infantsCount !== 0 &&
+            ` + ${row.original.infantsCount} infants`}
+        </>
+      ),
     },
     {
       accessorKey: "createdAt",
@@ -137,6 +151,16 @@ export const BookingsList = () => {
               Mark as Done
             </Button>
           )}
+          <Button
+            variant="destructive"
+            size="icon"
+            onClick={() => {
+              setSelectedBooking(request.id);
+              setSelectedOperation("delete");
+            }}
+          >
+            <Trash2 />
+          </Button>
         </div>
       ),
     },
@@ -158,7 +182,9 @@ export const BookingsList = () => {
             <DialogTitle>
               {selectedOperation === "confirm"
                 ? "Confirm request"
-                : "Cancel request"}
+                : selectedOperation === "cancel"
+                  ? "Cancel request"
+                  : "Confirm Deletion"}
             </DialogTitle>
             <DialogDescription>
               Are you sure you want to {selectedOperation} this booking request
