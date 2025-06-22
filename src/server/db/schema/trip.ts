@@ -24,7 +24,10 @@ export const trip = pgTable("trips", (c) => ({
     .integer("destination_id")
     .notNull()
     .references(() => destination.id, { onDelete: "restrict" }),
-  tripPriceInCents: c.integer("trip_price_in_cents").notNull(),
+  adultTripPriceInCents: c.integer("adult_trip_price_in_cents").notNull(),
+  childTripPriceInCents: c.integer("child_trip_price_in_cents").notNull().default(0),
+  childAge: c.text("child_age").notNull().default(""),
+  infantAge: c.text("infant_age").notNull().default(""),
   isAvailable: c.boolean("is_available").notNull(),
   isFeatured: c.boolean("is_featured").notNull(),
   isConfirmationRequired: c

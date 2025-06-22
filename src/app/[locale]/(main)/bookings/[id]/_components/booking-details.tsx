@@ -82,6 +82,18 @@ export function BookingDetails({ booking }: { booking: Booking }) {
     (data.status === "accepted" && !data.trip.isConfirmationRequired);
   const canReview = data.status === "done" && !data.review;
 
+  const travelersCount = data.adultsCount + data.childrenCount + data.infantsCount;
+
+  const adults = data.adultsCount;
+  const children = data.childrenCount;
+  const infants = data.infantsCount;
+
+  const adultPrice = data.adultPriceInCents / 100;
+  const childPrice = data.childPriceInCents / 100;
+
+  const adultTotal = adults * adultPrice;
+  const childTotal = children * childPrice;
+
   return (
     <main className="container mx-auto mt-14 px-4 py-8 lg:px-0">
       <div className="mb-6">
@@ -142,8 +154,8 @@ export function BookingDetails({ booking }: { booking: Booking }) {
                   <div>
                     <p className="font-medium">{t("travelers")}</p>
                     <p className="text-muted-foreground">
-                      {data.travelersCount}{" "}
-                      {data.travelersCount === 1 ? t("person") : t("people")}
+                      {travelersCount}{" "}
+                      {travelersCount === 1 ? t("person") : t("people")}
                     </p>
                   </div>
                 </div>
@@ -152,15 +164,6 @@ export function BookingDetails({ booking }: { booking: Booking }) {
                   <div>
                     <p className="font-medium">{t("contactPhone")}</p>
                     <p className="text-muted-foreground">{data.userPhone}</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Calendar className="mt-0.5 h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{t("bookingDate")}</p>
-                    <p className="text-muted-foreground">
-                      {formatDate(data.bookingDate)}
-                    </p>
                   </div>
                 </div>
               </div>
@@ -196,25 +199,44 @@ export function BookingDetails({ booking }: { booking: Booking }) {
                   <span className="font-bold">
                     $
                     {Math.floor(
-                      (data.trip.tripPriceInCents * data.travelersCount) / 100,
+                      (data.trip.adultTripPriceInCents * data.adultsCount) / 100,
+                    ) + Math.floor(
+                      (data.trip.childTripPriceInCents * data.childrenCount) / 100,
                     )}
                   </span>
                 </div>
                 <Separator />
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("pricePerPerson")}
-                  </span>
-                  <span className="font-medium">
-                    ${Math.floor(data.trip.tripPriceInCents / 100)}
-                  </span>
-                </div>
-                <Separator />
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("travelers")}
-                  </span>
-                  <span className="font-medium">{data.travelersCount}</span>
+                <div className="space-y-1 text-sm">
+                  {adults > 0 && (
+                    <div className="flex items-center justify-between">
+                      <span>
+                        <span className="w-24 inline-block">{t("adults")}</span>
+                        {" "} 
+                        {adults} &times; ${adultPrice}
+                      </span>
+                      <span className="font-medium">${adultTotal.toFixed(2)}</span>
+                    </div>
+                  )}
+                  {children > 0 && (
+                    <div className="flex items-center justify-between">
+                      <span>
+                        <span className="w-24 inline-block">{t("children")}</span>
+                        {" "}
+                        {children} &times; ${childPrice}
+                      </span>
+                      <span className="font-medium">${childTotal.toFixed(2)}</span>
+                    </div>
+                  )}
+                  {infants > 0 && (
+                    <div className="flex items-center justify-between">
+                      <span>
+                        <span className="w-24 inline-block">{t("infants")}</span>
+                        {" "} 
+                        {infants} &times; {t("free")}
+                      </span>
+                      <span className="font-medium">{t("free")}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </CardContent>

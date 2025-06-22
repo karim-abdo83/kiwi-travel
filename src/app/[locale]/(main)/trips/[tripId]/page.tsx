@@ -70,7 +70,8 @@ export default async function TripDetailsPage({
 
   if (!trip) notFound();
 
-  const price = trip.tripPriceInCents / 100;
+  const adultPrice = trip.adultTripPriceInCents / 100;
+  const childPrice = trip.childTripPriceInCents / 100;
 
   const amenities = [
     {
@@ -122,7 +123,7 @@ export default async function TripDetailsPage({
                 </span>
               </div>
             </div>
-            <ul className="flex flex-wrap gap-2">
+            <ul className="flex flex-wrap gap-2 empty:hidden">
               {
                 trip.tripTypes.map(({ tripType }) => <li key={tripType.id}>
                   <Badge>
@@ -132,6 +133,9 @@ export default async function TripDetailsPage({
               }
             </ul>
           </div>
+          <p className="text-muted-foreground">
+            {localeAttribute(trip, "description")}
+          </p>
 
           {/* Main Image Gallery */}
           <AssetGallery
@@ -140,7 +144,7 @@ export default async function TripDetailsPage({
           />
 
           {/* Tabs for Description and Details */}
-          <Tabs defaultValue="description" className="w-full">
+          <Tabs defaultValue="description" className="w-full lg:block hidden">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="description">
                 {t("tabs.description")}
@@ -204,11 +208,73 @@ export default async function TripDetailsPage({
           <BookingForm
             availableDays={trip.availableDays}
             tripId={trip.id}
-            price={price}
+            adultPrice={adultPrice}
+            childPrice={!!trip.childAge.trim() ? childPrice : null}
+            childAge={trip.childAge}
+            infantAge={trip.infantAge}
             duration={duration}
             reviewsValue={reviewsValue}
             reviewsCount={reviewsCount}
           />
+
+          {/* Tabs for Description and Details for mobile */}
+          <Tabs defaultValue="description" className="lg:hidden mt-6 w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="description">
+                {t("tabs.description")}
+              </TabsTrigger>
+              <TabsTrigger value="details">{t("tabs.details")}</TabsTrigger>
+            </TabsList>
+            <TabsContent value="description" className="mt-6 space-y-4">
+              <div
+                className="prose rich-text-editor-cotent"
+                dangerouslySetInnerHTML={{
+                  __html: localeAttribute(trip, "longDescription"),
+                }}
+              />
+            </TabsContent>
+            <TabsContent value="details" className="mt-6">
+              <div className="grid gap-6">
+                <div>
+                  <h3 className="mb-3 text-lg font-semibold">
+                    {t("tripFeatures")}
+                  </h3>
+                  <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    {trip.features.map(({ feature }) => (
+                      <li key={feature.id} className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-primary" />
+                        <span>{localeAttribute(feature, "content")}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <Separator />
+
+                <div>
+                  <h3 className="mb-3 text-lg font-semibold">
+                    {t("amenities")}
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    {amenities.map((amenity) => {
+                      const Icon = amenity.icon;
+                      return (
+                        <div
+                          key={amenity.title}
+                          className="flex flex-col items-center justify-center rounded-lg bg-muted p-4"
+                        >
+                          <Icon className="mb-2 h-6 w-6" />
+                          <span className="text-center text-sm">
+                            {t_Amenities(amenity.title)}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
 
           <div className="mt-6 rounded-lg bg-muted p-4">
             <div className="mb-2 flex items-center gap-2">

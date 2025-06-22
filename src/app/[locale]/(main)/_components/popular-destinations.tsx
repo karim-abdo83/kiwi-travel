@@ -45,7 +45,7 @@ export default function PopularDestinations() {
             ))}
           {destinations?.map((destination) => (
             <Link key={destination.id} href={`/destinations/${destination.id}`}>
-              <Card className="overflow-hidden group">
+              <Card id={`destination-details-id-${destination.id}`} className="overflow-hidden group">
                 <CardHeader className="p-0">
                   <Image
                     src={destination.imageUrl}

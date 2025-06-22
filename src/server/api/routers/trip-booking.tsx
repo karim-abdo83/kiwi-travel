@@ -15,7 +15,6 @@ import {
   adminProcedure,
   authProtectedProcedure,
   createTRPCRouter,
-  publicProcedure,
 } from "../trpc";
 import { env } from "@/env";
 import { render } from "@react-email/components";
@@ -31,7 +30,6 @@ const emailTransporter = nodemailer.createTransport({
     pass: env.EMAIL_SENDING_PASSWORD,
   },
 });
-
 
 export const tripBookingRouter = createTRPCRouter({
   list: authProtectedProcedure.query(
@@ -51,7 +49,7 @@ export const tripBookingRouter = createTRPCRouter({
                 titleEn: true,
                 titleRu: true,
                 assetsUrls: true,
-                tripPriceInCents: true,
+                adultTripPriceInCents: true,
               },
               with: {
                 destination: {
@@ -73,14 +71,15 @@ export const tripBookingRouter = createTRPCRouter({
             id: item.id,
             status: item.status,
             bookingDate: item.bookingDate,
-            travelersCount: item.travelersCount,
+            travelersCount:
+              item.adultsCount + item.childrenCount + item.infantsCount,
             review: item.review,
             titleEn: item.trip.titleEn,
             titleRu: item.trip.titleRu,
             image: mainImage(item.trip.assetsUrls),
             locationEn: `${item.trip.destination.country.nameEn}, ${item.trip.destination.nameEn}`,
             locationRu: `${item.trip.destination.country.nameRu}, ${item.trip.destination.nameRu}`,
-            price: Math.floor(item.trip.tripPriceInCents / 100),
+            price: Math.floor(item.trip.adultTripPriceInCents / 100),
           })),
         ),
   ),
@@ -104,7 +103,8 @@ export const tripBookingRouter = createTRPCRouter({
               titleEn: true,
               titleRu: true,
               assetsUrls: true,
-              tripPriceInCents: true,
+              adultTripPriceInCents: true,
+              childTripPriceInCents: true,
               isConfirmationRequired: true,
             },
             with: {
@@ -135,7 +135,8 @@ export const tripBookingRouter = createTRPCRouter({
       const trip = await ctx.db.query.trip.findFirst({
         columns: {
           id: true,
-          tripPriceInCents: true,
+          adultTripPriceInCents: true,
+          childTripPriceInCents: true,
           isConfirmationRequired: true,
         },
         where: ({ id }, { eq }) => eq(id, input.tripId),
@@ -174,32 +175,14 @@ export const tripBookingRouter = createTRPCRouter({
         userId: ctx.userId,
         userPhone: input.phone,
         userEmail: user.emailAddresses[0]!.emailAddress,
-        priceInCents: trip.tripPriceInCents,
-        travelersCount: input.travelersCount,
+        adultPriceInCents: trip.adultTripPriceInCents,
+        childPriceInCents: trip.childTripPriceInCents,
+        adultsCount: input.adultsCount,
+        childrenCount: input.childrenCount,
+        infantsCount: input.infantsCount,
         tripId: input.tripId,
         bookingDate: format(input.date, "yyyy-MM-dd"),
         status: trip.isConfirmationRequired ? "pending" : "accepted",
-      });
-
-      const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
-      await sendTelegramNotification(
-        `🧾 <b>Новая бронь</b>\nПользователь: ${user.emailAddresses[0]!.emailAddress}\nТелефон: ${input.phone}\nТур: ${input.tripId}\nДата: ${format(input.date, "yyyy-MM-dd")}\n<a href="${bookingLink}">Открыть в админке</a>`
-      );
-
-      const tEmail = await getTranslations("General.bookingEmail.new");
-
-      const emailHtml = await render(
-        <BookingEmail
-          bookingId={0} // или реальный ID, если захочешь получить его из insert
-          bookingLink={bookingLink}
-          translations={tEmail}
-        />
-      );
-
-      await sendEmail({
-        email: emailHtml,
-        to: user.emailAddresses[0]!.emailAddress,
-        subject: tEmail("title"), // например, "📩 Новая бронь"
       });
 
       return {
@@ -323,18 +306,18 @@ export const tripBookingRouter = createTRPCRouter({
       const t = await getTranslations("General.bookingEmail.accepted");
 
       const email = await render(
-        <BookingEmail 
+        <BookingEmail
           bookingId={input}
           bookingLink={`${env.NEXT_PUBLIC_APP_URL}/bookings/${input}`}
           translations={t}
-        />
-      )
+        />,
+      );
 
       sendEmail({
         email,
-        to: userEmailAddress ?? '',
+        to: userEmailAddress ?? "",
         subject: t("title"),
-      })
+      });
 
       return {
         message: "booking has been confirmed successfully",
@@ -394,18 +377,18 @@ export const tripBookingRouter = createTRPCRouter({
       const t = await getTranslations("General.bookingEmail.rejected");
 
       const email = await render(
-        <BookingEmail 
+        <BookingEmail
           bookingId={input}
           bookingLink={`${env.NEXT_PUBLIC_APP_URL}/bookings/${input}`}
           translations={t}
-        />
-      )
+        />,
+      );
 
       sendEmail({
         email,
-        to: userEmailAddress ?? '',
+        to: userEmailAddress ?? "",
         subject: t("title"),
-      })
+      });
 
       return {
         message: "booking has been cancelled successfully",
@@ -457,23 +440,18 @@ export const tripBookingRouter = createTRPCRouter({
       const t = await getTranslations("General.bookingEmail.completed");
 
       const email = await render(
-        <BookingEmail 
+        <BookingEmail
           bookingId={input}
           bookingLink={`${env.NEXT_PUBLIC_APP_URL}/bookings/${input}`}
           translations={t}
-        />
-      )
+        />,
+      );
 
       sendEmail({
         email,
-        to: userEmailAddress ?? '',
+        to: userEmailAddress ?? "",
         subject: t("title"),
-      })
-      const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/bookings/${input}`;
-
-      await sendTelegramNotification(
-        `📩 New booking confirmed\n<a href="${bookingLink}">View booking</a>`
-      );
+      });
 
       return {
         message: "booking has been marked as done successfully",
@@ -509,75 +487,32 @@ export const tripBookingRouter = createTRPCRouter({
         return result;
       }),
   ),
+  adminDelete: adminProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.delete(tripBooking).where(eq(tripBooking.id, input));
+
+      return {
+        message: "Deleted Successfully",
+      };
+    }),
 });
 
 async function sendEmail({
   email,
   to,
   subject,
-  copyToAdmin = true,
 }: {
   email: string;
   to: string;
   subject: string;
-  copyToAdmin?: boolean;
-}): Promise<void> {
-  try {
-    await emailTransporter.sendMail({
+}): Promise<any> {
+  return emailTransporter
+    .sendMail({
       from: env.EMAIL_SENDING_ADDRESS,
       to,
       subject,
       html: email,
-    });
-    console.log(`✅ Email sent to ${to}`);
-  } catch (err) {
-    console.error("❌ Error sending email to user", err);
-  }
-
-  if (copyToAdmin && env.EMAIL_ADMIN_ADDRESS) {
-    try {
-      await emailTransporter.sendMail({
-        from: env.EMAIL_SENDING_ADDRESS,
-        to: env.EMAIL_ADMIN_ADDRESS,
-        subject: `[ADMIN COPY] ${subject}`,
-        html: email,
-      });
-      console.log(`📬 Admin copy sent to ${env.EMAIL_ADMIN_ADDRESS}`);
-    } catch (err) {
-      console.error("⚠️ Error sending admin copy", err);
-    }
-  }
+    })
+    .catch((err) => console.error("Error Sending Email\n", err));
 }
-
-async function sendTelegramNotification(message: string) {
-  const token = env.TELEGRAM_BOT_TOKEN;
-  const chatId = env.TELEGRAM_ADMIN_CHAT_ID;
-
-  if (!token || !chatId) {
-    console.warn("⚠️ Telegram config missing");
-    return;
-  }
-
-  const url = `https://api.telegram.org/bot${token}/sendMessage`;
-
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-        parse_mode: "HTML",
-      }),
-    });
-
-    if (!res.ok) {
-      console.error("❌ Telegram API error", await res.text());
-    } else {
-      console.log("📨 Sent Telegram message");
-    }
-  } catch (err) {
-    console.error("❌ Telegram fetch error", err);
-  }
-}
-

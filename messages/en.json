@@ -112,6 +112,12 @@
     },
     "bookingForm": {
       "perPerson": "per person",
+      "perChild": "per child",
+      "perInfant": "per infant",
+      "free": "Free",
+      "adults": "Adults",
+      "children": "Children",
+      "infants": "Infants",
       "bookingDate": "Booking Date",
       "selectDate": "Select date",
       "travelersCount": "Travelers count",
@@ -166,6 +172,10 @@
     "delete": "Delete",
     "person": "person",
     "people": "people",
+    "adults": "Adults",
+    "children": "Children",
+    "infants": "Infants",
+    "free": "Free",
     "statuses": {
       "all": "All",
       "pending": "Pending",
