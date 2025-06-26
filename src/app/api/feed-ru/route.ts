@@ -1,13 +1,13 @@
-import { generateGoogleFeed } from "@/server/utils"; // новую функцию
-import { NextResponse } from "next/server";
+import { generateRSSFeed } from '@/server/utils';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const xml = await generateGoogleFeed("ru");
+  const xml = await generateRSSFeed("ru");
 
   return new NextResponse(xml, {
     status: 200,
     headers: {
-      "Content-Type": "application/xml",
+      'Content-Type': 'application/xml',
     },
   });
 }
