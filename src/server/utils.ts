@@ -44,7 +44,7 @@ export async function generateGoogleFeed(locale: "ru" | "en"): Promise<string> {
 
   const itemsXml = trips.map((trip) => {
     const url = `https://${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.id}`;
-    const image = trip.image ?? `https://${env.NEXT_PUBLIC_APP_URL}/logo.svg`;
+    const image = `https://${env.NEXT_PUBLIC_APP_URL}/logo.svg`;
     const price = trip.price?.toFixed(2) ?? "0.00";
 
     return `
