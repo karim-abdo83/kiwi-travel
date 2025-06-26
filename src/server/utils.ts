@@ -52,7 +52,7 @@ export async function generateGoogleFeed(locale: "ru" | "en"): Promise<string> {
         <g:id>${trip.id}</g:id>
         <g:title><![CDATA[${trip.title}]]></g:title>
         <g:description><![CDATA[${trip.description}]]></g:description>
-        <g:link>${url}</link>
+        <g:link>${url}</g:link>
         <g:image_link>${image}</g:image_link>
         <g:price>${price} USD</g:price>
         <g:availability>in stock</g:availability>
