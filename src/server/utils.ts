@@ -43,8 +43,8 @@ export async function generateGoogleFeed(locale: "ru" | "en"): Promise<string> {
   const trips = await api.trip.listRssFeed(locale);
 
   const itemsXml = trips.map((trip) => {
-    const url = `https://${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.id}`;
-    const image = `https://${env.NEXT_PUBLIC_APP_URL}/logo.svg`;
+    const url = `${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.id}`;
+    const image = `${env.NEXT_PUBLIC_APP_URL}/logo.svg`;
     const price = trip.price?.toFixed(2) ?? "0.00";
 
     return `
