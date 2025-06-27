@@ -198,7 +198,7 @@ export const tripRouter = createTRPCRouter({
       adultTripPriceInCents: true,
     }),
     orderBy: (fields, { desc }) => desc(fields.isFeatured),
-    limit: 100,
+    limit: 500,
   }).then(res => res.map(item => ({
     id: item.id,
     price: Math.floor(item.adultTripPriceInCents / 100),
