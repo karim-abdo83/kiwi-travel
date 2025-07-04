@@ -183,6 +183,39 @@ export const tripRouter = createTRPCRouter({
         message: "Deleted successfully",
       };
     }),
+  adminDuplicate: adminProcedure
+  .input(z.number())
+  .mutation(async ({ ctx, input }) => {
+    const original = await ctx.db.query.trip.findFirst({
+      where: (fields, { eq }) => eq(fields.id, input),
+    });
+
+    if (!original) throw new Error("Trip not found");
+
+    // Убираем id из original
+    const { id, createdAt, updatedAt, ...rest } = original;
+
+    const duplicated = await ctx.db
+      .insert(trip)
+      .values({
+        ...rest,
+        titleEn: original.titleEn + " (Copy)",
+        titleRu: original.titleRu + " (Copy)",
+        assetsUrls: original.assetsUrls,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning({ id: trip.id });
+
+    if (!duplicated[0]) {
+      throw new Error("Trip duplication failed");
+    }
+
+    return {
+      message: "Trip duplicated successfully",
+      tripId: duplicated[0].id,
+    };
+  }),
   listRssFeed: publicProcedure.input(z.enum(["en", "ru"])).query(({ ctx, input }) => ctx.db.query.trip.findMany({
     columns: input === "en" ? ({
       id: true,

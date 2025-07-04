@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { CheckCircle, CircleX, Edit, Eye, Trash } from "lucide-react";
+import { CheckCircle, CircleX, Edit, Eye, Trash, Copy } from "lucide-react";
 import { api } from "@/trpc/react";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslations } from "next-intl";
@@ -40,7 +40,15 @@ export function TripsList() {
       refetch();
     },
   });
-
+  const { mutate: duplicateTrip } = api.trip.adminDuplicate.useMutation({
+    onSuccess: ({ message }) => {
+      toast({ title: "Success", description: message });
+      refetch();
+    },
+    onError: (error) => {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    },
+  });
   type Trip = NonNullable<typeof data>[number];
 
   const [tripToDelete, setTripToDelete] = useState<number | null>(null);
@@ -147,6 +155,13 @@ export function TripsList() {
               <Link href={`/dashboard/trips/edit/${trip.id}`}>
                 <Edit className="h-4 w-4" />
               </Link>
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => duplicateTrip(trip.id)}
+            >
+              <Copy className="h-4 w-4" />
             </Button>
             <Button
               variant="destructive"
