@@ -21,7 +21,7 @@ export async function generateRSSFeed(locale: Locale): Promise<string> {
       "//",
       "/",
     ),
-    image_url: `${env.NEXT_PUBLIC_APP_URL}/logo.svg`,
+    image_url: `${env.NEXT_PUBLIC_APP_URL}/image_link`,
   });
 
   trips.forEach((trip) => {
@@ -55,7 +55,7 @@ export async function generateGoogleFeed(locale: "ru" | "en"): Promise<string> {
         <g:link>${url}</g:link>
         <g:image_link>${image}</g:image_link>
         <g:price>${price} USD</g:price>
-        <g:availability>in stock</g:availability>
+        <g:availability>in_stock</g:availability>
         <g:condition>new</g:condition>
         <g:brand>Karim Tour</g:brand>
         <g:identifier_exists>false</g:identifier_exists>
