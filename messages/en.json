@@ -1,5 +1,20 @@
 {
   "HomePage": {
+    "weProvide": {
+      "sectionTitle": "What we serve",
+      "bookNowPayLater": "Book now, pay later – zero upfront cost",
+      "freeCancellations": "Free cancellations up to 12 hours before your tour",
+      "unbeatablePrices": "Unbeatable prices with exceptional service",
+      "expertGuides": "Expert Russian-speaking guides",
+      "privateGroupTours": "Private and group tours tailored to you",
+      "transferServices": "Organized transfer services",
+      "quickBooking": "One quick call – and your adventure is booked!",
+      "transparentPricing": "Transparent pricing, no hidden fees",
+      "tourGuide": {
+        "title": "Tour Guide",
+        "description": "We provide a best rusian tour guide"
+      }
+    },
     "hero": {
       "headline": "Discover Your Next Adventure",
       "subheadline": "Find and book amazing trips around the world",
@@ -106,6 +121,8 @@
     "travelTime": "Travel time:",
     "askQuestion": "Ask a Question",
     "reviews": "Reviews",
+    "bookNow": "Book Now",
+    "youMayLike": "Trips you may like",
     "tabs": {
       "description": "Description",
       "details": "Details & Features"
@@ -136,7 +153,10 @@
       "error": "Error",
       "successMessage": "Trip has been booked successfully",
       "successMessageWithConfirm": "Booking has been created successfully, waiting for acceptance",
-      "existingBookingError": "You have already booked a trip with same date, consider updating the existing one."
+      "existingBookingError": "You have already booked a trip with same date, consider updating the existing one.",
+      "bookingEmail": "Booking Email",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid Email"
     }
   },
   "BookingsPage": {

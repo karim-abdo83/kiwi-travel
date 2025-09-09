@@ -1,9 +1,11 @@
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import { Instagram, Facebook, MessageSquare, MessageCircle, Send, Phone, FacebookIcon } from "lucide-react";
 
 interface Social {
-  name: string;
+  icon: React.ReactNode;
   link: string;
+  name: string;
 }
 
 export default function Footer() {
@@ -13,33 +15,39 @@ export default function Footer() {
 
   const socials: Social[] = [
     {
-      name: "Instagram",
+      icon: <Instagram className="w-5 h-5" />,
       link: "https://www.instagram.com/kiwitraveleg?igsh=MXJzZjFwY2Fzc2E2Zw==",
+      name: "Instagram"
     },
     {
-      name: "Facebook",
+      icon: <FacebookIcon className="w-5 h-5" />,
       link: "https://www.facebook.com/share/16NjtcXwqN/?mibextid=wwXIfr",
+      name: "Facebook"
     },
     {
-      name: "VK",
+      icon: <MessageSquare className="w-5 h-5" />,
       link: "https://vk.com/kiwitravelseg",
+      name: "VK"
     },
     {
-      name: "WhatsApp",
+      icon: <MessageCircle className="w-5 h-5" />,
       link: "https://chat.whatsapp.com/CPsj1lzPPb8A5VtdaVOZ20",
+      name: "WhatsApp"
     },
     {
-      name: "Telegram",
+      icon: <Send className="w-5 h-5" />,
       link: "https://t.me/karimkiwi",
+      name: "Telegram"
     },
     {
-      name: "Viber",
+      icon: <Phone className="w-5 h-5" />,
       link: "https://invite.viber.com/?g2=AQA0x%2BECmdFOrlSTvNRusTVCZ9u6iaAtDGMI1Ok8C480GH8eKU2hM9%2F8J8kWlMHp",
+      name: "Viber"
     },
   ];
 
   return (
-    <footer className="bg-[#0b3275] py-8 text-primary-foreground">
+    <footer className="bg-[#0b3275] py-8 text-primary-foreground px-4 lg:px-6">
       <div className="container mx-auto px-4 md:px-0">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div>
@@ -85,7 +93,6 @@ export default function Footer() {
                   {t("quickLinks.trips")}
                 </Link>
               </li>
-              {/* About Us link removed */}
             </ul>
           </div>
           <div>
@@ -96,7 +103,6 @@ export default function Footer() {
                   {t("supportLinks.faqs")}
                 </Link>
               </li>
-              {/* Contact Us link removed */}
               <li>
                 <Link href="/privacy" className="hover:underline">
                   {t("supportLinks.privacyPolicy")}
@@ -111,20 +117,22 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="mb-4 text-lg font-semibold">{t("followUsTitle")}</h3>
-            <ul className="grid list-disc grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4">
+            <div className="grid grid-cols-2 gap-4">
               {socials.map((social) => (
-                <li key={social.name}>
-                  <a
-                    key={social.name}
-                    href={social.link}
-                    target="_blank"
-                    className="hover:text-[#ff8106]"
-                  >
-                    {social.name}
-                  </a>
-                </li>
+                <a
+                  key={social.name}
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center space-x-2 p-2 rounded-lg transition-colors"
+                >
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-[#0b3275] flex-shrink-0 group-hover:bg-transparent group-hover:text-[#ff8106] transition-colors">
+                    {social.icon}
+                  </span>
+                  <span className="text-sm whitespace-nowrap group-hover:text-[#ff8106] transition-colors">{social.name}</span>
+                </a>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
         <div className="mt-8 border-t border-foreground/20 pt-8 text-center">

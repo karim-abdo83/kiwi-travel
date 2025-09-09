@@ -14,11 +14,19 @@ import {
   Car,
   Check,
   CircleDollarSign,
+  FacebookIcon,
+  InstagramIcon,
   Globe,
   MapPin,
   MessageCircle,
+  MessageSquare,
   Star,
+  Send,
   User,
+  Clock,
+  Users2,
+  CalendarDays,
+  Hourglass,
 } from "lucide-react";
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -26,6 +34,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { TouristTrip, WithContext } from "schema-dts";
 import BookingForm from "./_components/booking-form";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export async function generateMetadata({
   params,
@@ -71,6 +81,7 @@ export default async function TripDetailsPage({
 
   if (!trip) notFound();
 
+  const similarTrips = await api.trip.similar(Number(trip.destinationId));
   const adultPrice = trip.adultTripPriceInCents / 100;
   const childPrice = trip.childTripPriceInCents / 100;
 
@@ -108,6 +119,13 @@ export default async function TripDetailsPage({
       url: `${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.id}`.replaceAll('//', '/'),
     },
   };
+  const getLocaleDuration = (duration: string) => {
+    return duration
+      .replaceAll("days", t_TimeUnits("days"))
+      .replaceAll("hours", t_TimeUnits("hours"))
+      .replaceAll("day", t_TimeUnits("day"))
+      .replaceAll("hour", t_TimeUnits("hour"));
+  };
 
   return (
     <>
@@ -117,44 +135,88 @@ export default async function TripDetailsPage({
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <main className="container mx-auto mt-14 px-4 py-8 md:px-0">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {/* Main Content - 2/3 width on desktop */}
-          <div className="space-y-8 lg:col-span-2">
-            {/* Trip Title and Status */}
-            <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-              <div>
-                <h1 className="text-3xl font-bold">
-                  {localeAttribute(trip, "title")}
-                </h1>
-                <div className="mt-2 flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">
-                    {localeAttribute(trip.destination.country, "name")},{" "}
-                    {localeAttribute(trip.destination, "name")}
-                  </span>
-                </div>
+      <main className="container mx-auto mt-14 space-y-8 px-4 py-8 md:px-6 lg:px-6">
+        {/* Image Gallery - Full Width */}
+        <div className="space-y-2">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+            <div>
+              <h1 className="text-3xl font-bold">
+                {localeAttribute(trip, "title")}
+              </h1>
+              <div className="mt-2 flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">
+                  {localeAttribute(trip.destination.country, "name")},{" "}
+                  {localeAttribute(trip.destination, "name")}
+                </span>
               </div>
-              <ul className="flex flex-wrap gap-2 empty:hidden">
-                {trip.tripTypes.map(({ tripType }) => (
-                  <li key={tripType.id}>
-                    <Badge>{localeAttribute(tripType, "name")}</Badge>
-                  </li>
-                ))}
-              </ul>
             </div>
-            <p className="text-muted-foreground">
-              {localeAttribute(trip, "description")}
-            </p>
+            <ul className="flex flex-wrap gap-2 empty:hidden">
+              {trip.tripTypes.map(({ tripType }) => (
+                <li key={tripType.id}>
+                  <Badge>{localeAttribute(tripType, "name")}</Badge>
+                </li>
+              ))}
+            </ul>
+            <ul className="flex items-center gap-2">
+              <li className="group">
+                <a
+                  href="https://www.instagram.com/kiwitraveleg?igsh=MXJzZjFwY2Fzc2E2Zw=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 border border-gray-200 hover:shadow hover:scale-105 transition-all duration-200"
+                  aria-label="Instagram"
+                >
+                  <InstagramIcon className="w-4.5 h-4.5 text-pink-600" />
+                </a>
+              </li>
+              <li className="group">
+                <a
+                  href="https://www.facebook.com/share/16NjtcXwqN/?mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 border border-gray-200 hover:shadow hover:scale-105 transition-all duration-200"
+                  aria-label="Facebook"
+                >
+                  <FacebookIcon className="w-4.5 h-4.5 text-blue-600" />
+                </a>
+              </li>
+              <li className="group">
+                <a
+                  href="https://vk.com/kiwitravelseg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 border border-gray-200 hover:shadow hover:scale-105 transition-all duration-200"
+                  aria-label="VK"
+                >
+                  <MessageSquare className="w-4.5 h-4.5 text-blue-700" />
+                </a>
+              </li>
+              <li className="group">
+                <a
+                  href="https://t.me/karimkiwi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 border border-gray-200 hover:shadow hover:scale-105 transition-all duration-200"
+                  aria-label="Telegram"
+                >
+                  <Send className="w-4.5 h-4.5 text-blue-500" />
+                </a>
+              </li>
+            </ul>
+          </div>
+          <AssetGallery
+            assets={trip.assetsUrls}
+            title={localeAttribute(trip, "title")}
+          />
+        </div>
 
-            {/* Main Image Gallery */}
-            <AssetGallery
-              assets={trip.assetsUrls}
-              title={localeAttribute(trip, "title")}
-            />
-
+        {/* Main Content and Sidebar */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          {/* Main Content */}
+          <div className="space-y-8 lg:col-span-2">
             {/* Tabs for Description and Details */}
-            <Tabs defaultValue="description" className="hidden w-full lg:block">
+            <Tabs defaultValue="description" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="description">
                   {t("tabs.description")}
@@ -162,6 +224,9 @@ export default async function TripDetailsPage({
                 <TabsTrigger value="details">{t("tabs.details")}</TabsTrigger>
               </TabsList>
               <TabsContent value="description" className="mt-6 space-y-4">
+                <p className="text-xl font-semibold">
+                  {t("tabs.description")}
+                </p>
                 <div
                   className="rich-text-editor-cotent prose"
                   dangerouslySetInnerHTML={{
@@ -214,10 +279,76 @@ export default async function TripDetailsPage({
                 </div>
               </TabsContent>
             </Tabs>
+            <div className=" bg-white rounded-2xl p-6 shadow-md ">
+              <h3 className="text-xl font-bold text-gray-900 mb-6">{t("tripInformation")}</h3>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between bg-blue-50 p-4 rounded-lg transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:bg-blue-100/50">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                      <Globe className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <p className="text-lg font-semibold text-gray-700">{t("country")}</p>
+                  </div>
+                  <p className="text-lg font-bold text-gray-500">
+                    {localeAttribute(trip.destination.country, "name")}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between bg-green-50 p-4 rounded-lg  transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:bg-blue-100/50">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                      <MapPin className="h-6 w-6 text-green-600" />
+                    </div>
+                    <p className="text-lg font-semibold text-gray-700">{t("destination")}</p>
+                  </div>
+                  <p className="text-lg font-bold text-gray-500">
+                    {localeAttribute(trip.destination, "name")}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between bg-purple-50 p-4 rounded-lg transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:bg-blue-100/50">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                      <Hourglass className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <p className="text-lg font-semibold text-gray-700">{t("duration")}</p>
+                  </div>
+                  <p className="text-lg font-bold text-gray-500">{duration}</p>
+                </div>
+
+                <div className="flex items-center justify-between bg-blue-50 p-4 rounded-lg transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:bg-blue-100/50">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                      <Users2 className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <p className="text-lg font-semibold text-gray-700">{t("type")}</p>
+                  </div>
+                  <p className="text-lg font-bold text-gray-500">
+                    {trip.tripTypes
+                      .map((t) => localeAttribute(t.tripType, "name"))
+                      .join(", ")}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between bg-orange-50 p-4 rounded-lg transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:bg-blue-100/50">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center">
+                      <Clock className="h-7 w-7 text-[#ff8106] font-bold" />
+                    </div>
+                    <p className="text-lg font-semibold text-gray-700">{t("travelTime")}</p>
+                  </div>
+                  <p className="text-lg font-bold text-gray-500">
+                    {format(`0001-01-01T${trip.travelTime}`, "hh:mm a")}
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          {/* Sidebar - 1/3 width on desktop */}
-          <div className="lg:col-span-1">
+          {/* Sidebar */}
+          <div className="space-y-6">
             <BookingForm
               availableDays={trip.availableDays}
               tripId={trip.id}
@@ -229,111 +360,6 @@ export default async function TripDetailsPage({
               reviewsValue={reviewsValue}
               reviewsCount={reviewsCount}
             />
-
-            {/* Tabs for Description and Details for mobile */}
-            <Tabs defaultValue="description" className="mt-6 w-full lg:hidden">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="description">
-                  {t("tabs.description")}
-                </TabsTrigger>
-                <TabsTrigger value="details">{t("tabs.details")}</TabsTrigger>
-              </TabsList>
-              <TabsContent value="description" className="mt-6 space-y-4">
-                <div
-                  className="rich-text-editor-cotent prose"
-                  dangerouslySetInnerHTML={{
-                    __html: localeAttribute(trip, "longDescription"),
-                  }}
-                />
-              </TabsContent>
-              <TabsContent value="details" className="mt-6">
-                <div className="grid gap-6">
-                  <div>
-                    <h3 className="mb-3 text-lg font-semibold">
-                      {t("tripFeatures")}
-                    </h3>
-                    <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      {trip.features.map(({ feature }) => (
-                        <li
-                          key={feature.id}
-                          className="flex items-center gap-2"
-                        >
-                          <Check className="h-4 w-4 text-primary" />
-                          <span>{localeAttribute(feature, "content")}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <Separator />
-
-                  <div>
-                    <h3 className="mb-3 text-lg font-semibold">
-                      {t("amenities")}
-                    </h3>
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                      {amenities.map((amenity) => {
-                        const Icon = amenity.icon;
-                        return (
-                          <div
-                            key={amenity.title}
-                            className="flex flex-col items-center justify-center rounded-lg bg-muted p-4"
-                          >
-                            <Icon className="mb-2 h-6 w-6" />
-                            <span className="text-center text-sm">
-                              {t_Amenities(amenity.title)}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
-
-            <div className="mt-6 rounded-lg bg-muted p-4">
-              <div className="mb-2 flex items-center gap-2">
-                <Globe className="h-5 w-5 text-primary" />
-                <h3 className="font-medium">{t("tripInformation")}</h3>
-              </div>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t("country")}</span>
-                  <span className="font-medium">
-                    {localeAttribute(trip.destination.country, "name")}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("destination")}
-                  </span>
-                  <span className="font-medium">
-                    {localeAttribute(trip.destination, "name")}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t("duration")}</span>
-                  <span className="font-medium">{duration}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t("type")}</span>
-                  <span className="font-medium">
-                    {trip.tripTypes
-                      .map((t) => localeAttribute(t.tripType, "name"))
-                      .join(", ")}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("travelTime")}
-                  </span>
-                  <span className="font-medium">
-                    {format(`0001-01-01T${trip.travelTime}`, "hh:mm a")}
-                  </span>
-                </div>
-              </div>
-            </div>
 
             {trip.reviews.length !== 0 && (
               <>
@@ -373,11 +399,10 @@ export default async function TripDetailsPage({
                             .map((_, i) => (
                               <Star
                                 key={i}
-                                className={`h-4 w-4 ${
-                                  i < review.ratingValue
-                                    ? "fill-yellow-400 text-yellow-400"
-                                    : "fill-muted text-muted"
-                                }`}
+                                className={`h-4 w-4 ${i < review.ratingValue
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : "fill-muted text-muted"
+                                  }`}
                               />
                             ))}
                         </div>
@@ -388,6 +413,51 @@ export default async function TripDetailsPage({
               </>
             )}
           </div>
+        </div>
+
+
+        {/* Similar Trips */}
+        <p className="text-2xl font-bold mt-16">{t("youMayLike")}</p>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 !mb-24">
+          {similarTrips.map((trip) => (
+            <Link
+              key={trip.id}
+              href={`/trips/${trip.id}`}
+              className="block transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 hover:shadow-gray-200 dark:hover:shadow-gray-800 rounded-lg overflow-hidden"
+            >
+              <Card
+                id={`book-trip-outside-id-${trip.id}`}
+                className="h-full"
+              >
+                <CardHeader className="relative h-48 w-full p-0">
+                  <Image
+                    src={mainImage(trip.assetsUrls)}
+                    alt={localeAttribute(trip, "title")}
+                    fill
+                    className="object-cover"
+                  />
+                </CardHeader>
+                <CardContent className="p-4">
+                  <h3 className="truncate text-xl font-semibold">
+                    {localeAttribute(trip, "title")}
+                  </h3>
+                  <p className="mt-1 flex items-center gap-1 text-sm text-gray-500">
+                    <Clock className="size-4" />
+                    {getLocaleDuration(trip.duration)}
+                  </p>
+                  <p className="mt-2 line-clamp-2">
+                    {localeAttribute(trip, "description")}
+                  </p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="text-lg font-bold">
+                      ${Math.floor(trip.adultTripPriceInCents / 100)}
+                    </span>
+                    <Button>{t("bookNow")}</Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
         </div>
       </main>
     </>

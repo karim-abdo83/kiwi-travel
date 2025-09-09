@@ -62,7 +62,7 @@ export default async function RootLayout({
           </div>
         </noscript>
       </head>
-      <body>
+      <body suppressHydrationWarning={true}>
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PTKXXBPK"

@@ -462,4 +462,21 @@ export const tripRouter = createTRPCRouter({
         },
       }),
   ),
+  similar: publicProcedure.input(z.number().int()).query(
+    async ({ ctx, input }) => await ctx.db.query.trip.findMany({
+      where: ({ destinationId }, { eq }) => eq(destinationId, input),
+      limit: 4,
+      orderBy: sql`random()`,
+      // columns: {
+      //   id: true,
+      //   titleEn: true,
+      //   titleRu: true,
+      //   adultTripPriceInCents: true,
+      //   assetsUrls: true,
+      //   duration: true,
+      //   descriptionEn: true,
+      //   descriptionRu: true,
+      // },
+    })
+  )
 });

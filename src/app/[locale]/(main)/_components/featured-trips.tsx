@@ -29,21 +29,31 @@ export default function FeaturedTrips() {
   const locale = useLocale();
   const localeAttribute = localeAttributeFactory(locale);
 
-  const { data: featuredTrips, isLoading } = api.trip.listFeatured.useQuery();
+  const { data: featuredTrips, isLoading } = api.trip.listFeatured.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
 
   return (
-    <section className="bg-accent py-16">
-      <div className="container mx-auto">
-        <h2 className="mb-8 text-center text-3xl font-bold">
+    <section className="bg-accent py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="mb-8 text-center text-2xl font-bold sm:text-3xl md:text-4xl">
           {t("sectionTitle")}
         </h2>
-        <Carousel className="sm:px-12">
-          <CarouselContent className="p-4 sm:pl-1">
+        <div className="relative">
+          <Carousel 
+            opts={{
+              align: 'start',
+              loop: true,
+              slidesToScroll: 'auto',
+            }}
+            className="w-full relative group"
+          >
+            <CarouselContent className="-ml-2 sm:-ml-4">
             {isLoading &&
               [1, 2, 3].map((item) => (
                 <CarouselItem
-                  className="basis-10/12 pl-2 sm:basis-full md:pl-4 lg:basis-1/2 xl:basis-1/3"
                   key={item}
+                  className="pl-2 sm:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                 >
                   <Card className="overflow-hidden">
                     <CardHeader className="p-0">
@@ -85,8 +95,8 @@ export default function FeaturedTrips() {
               ))}
             {featuredTrips?.map((trip) => (
               <CarouselItem
-                className="basis-10/12 pl-2 sm:basis-full md:pl-4 lg:basis-1/2 xl:basis-1/3"
                 key={trip.id}
+                className="pl-2 sm:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
               >
                 <Link href={`/trips/${trip.id}`}>
                   <Card
@@ -125,10 +135,13 @@ export default function FeaturedTrips() {
                 </Link>
               </CarouselItem>
             ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-0 hidden sm:flex" />
-          <CarouselNext className="right-0 hidden sm:flex" />
-        </Carousel>
+            </CarouselContent>
+            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-4 pointer-events-none">
+              <CarouselPrevious className="relative left-0 -translate-x-2 sm:-translate-x-4 pointer-events-auto h-8 w-8 sm:h-10 sm:w-10 bg-background/80 hover:bg-background" />
+              <CarouselNext className="relative right-0 translate-x-2 sm:translate-x-4 pointer-events-auto h-8 w-8 sm:h-10 sm:w-10 bg-background/80 hover:bg-background" />
+            </div>
+          </Carousel>
+        </div>
       </div>
     </section>
   );

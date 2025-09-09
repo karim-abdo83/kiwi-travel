@@ -61,67 +61,52 @@ export function AssetGallery({ assets, title }: AssetGalleryProps) {
   };
 
   return (
-    <div className="space-y-2">
-      {/* Main Asset */}
-      <div
-        className="relative h-[300px] w-full cursor-pointer overflow-hidden rounded-xl sm:h-[400px]"
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Main Image */}
+      <div 
+        className="relative h-96 w-full cursor-pointer overflow-hidden rounded-xl group"
         onClick={() => openLightbox(0)}
       >
-        <AssetItem
-          url={assets[0] ?? PLACEHOLDER_IMAGE}
-          title={title}
-          index={0}
-          className="object-cover transition-transform duration-300 hover:scale-105"
-          priority
-        />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 hover:bg-black/20" />
+        <div className="relative w-full h-full overflow-hidden">
+          <AssetItem
+            url={assets[0] ?? PLACEHOLDER_IMAGE}
+            title={title}
+            index={0}
+            className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        </div>
       </div>
 
-      {/* Thumbnail images */}
-      <div className="grid grid-cols-4 gap-2">
-        {assets.slice(1, visibleThumbnailsCount + 1).map((asset, index) => (
-          <div
-            key={asset}
-            className="relative h-20 cursor-pointer overflow-hidden rounded-lg"
-            onClick={() => openLightbox(index + 1)}
-          >
-            <AssetItem
-              index={index}
-              url={asset}
-              title={title}
-              className="object-cover transition-transform duration-300 hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors duration-300"></div>
-          </div>
-        ))}
-
-        {
-          assets.length < 5 && (
-            <div className="bg-secondary size-full rounded-lg" style={{ gridColumn: `span ${5 - assets.length}` }} />
-          )
-        }
-
-        {/* "More images" placeholder - only show if there are more than 5 total images */}
-        {hasMoreImages && (
-          <div
-            className="relative h-20 cursor-pointer overflow-hidden rounded-lg"
-            onClick={() => openLightbox(visibleThumbnailsCount + 1)}
-          >
-            <AssetItem
-              url={assets[visibleThumbnailsCount + 1] ?? PLACEHOLDER_IMAGE}
-              title={title}
-              index={visibleThumbnailsCount + 1}
-              className="object-cover"
-            />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/50 transition-colors duration-300 hover:bg-black/60">
-              <span className="text-lg font-medium text-white">
-                +{remainingImagesCount}
-              </span>
+      {/* Thumbnails Grid */}
+      <div className="grid grid-cols-2 gap-2 h-96">
+        {[1, 2, 3, 4].map((index) => {
+          const asset = assets[index];
+          if (!asset) return null;
+          
+          return (
+            <div 
+              key={index} 
+              className="relative cursor-pointer overflow-hidden rounded-lg group/grid"
+              onClick={() => openLightbox(index)}
+            >
+              <AssetItem
+                url={asset}
+                title={title}
+                index={index}
+                className="object-cover w-full h-full transition-all duration-700 group-hover/grid:scale-110 group-hover/grid:brightness-110"
+              />
+              {index === 3 && assets.length > 5 && (
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">+{assets.length - 5} more</span>
+                </div>
+              )}
             </div>
-          </div>
-        )}
+          );
+        })}
       </div>
-
+      
       {/* Lightbox Component */}
       {open && (
         <LazyLightbox

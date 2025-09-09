@@ -17,19 +17,21 @@ export default function PopularDestinations() {
 
   const { data: destinations, isLoading } = api.destination.list.useQuery({
     isPopularOnly: true,
-    limitFour: true,
+    limit: 12,
+    minAsLimit: true,
   });
 
+
   return (
-    <section className="py-16">
+    <section className="py-16 px-4 lg:px-6">
       <div className="container mx-auto px-4 md:px-0">
-        <h2 className="mb-8 text-center text-3xl font-bold">
+        <h2 className="mb-8 text-center text-2xl lg:text-3xl md:text-3xl font-bold">
           {t("sectionTitle")}
         </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {isLoading &&
-            [1, 2, 3, 4].map((item) => (
-              <Card key={item} className="overflow-hidden">
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
+              <Card key={item} className="overflow-hidden h-full">
                 <CardHeader className="p-0">
                   <Skeleton className="h-48 rounded-b-none w-full" />
                 </CardHeader>
@@ -44,19 +46,24 @@ export default function PopularDestinations() {
               </Card>
             ))}
           {destinations?.map((destination) => (
-            <Link key={destination.id} href={`/destinations/${destination.id}`}>
-              <Card id={`destination-details-id-${destination.id}`} className="overflow-hidden group">
-                <CardHeader className="p-0">
+            <Link key={destination.id} href={`/destinations/${destination.id}`} className="block h-full">
+              <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group">
+                <div className="relative h-48 w-full overflow-hidden">
                   <Image
                     src={destination.imageUrl}
                     alt={localeAttribute(destination, "name")}
                     width={300}
                     height={200}
-                    className="h-48 w-full object-cover"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                </CardHeader>
-                <CardContent className="p-4 group-hover:bg-muted transition-colors">
-                  <CardTitle className="text-center">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <h3 className="text-white text-md font-semibold">
+                      {localeAttribute(destination, "name")}
+                    </h3>
+                  </div>
+                </div>
+                <CardContent className="p-4 transition-colors duration-300 group-hover:bg-muted/30">
+                  <CardTitle className="text-center text-nowrap overflow-hidden text-ellipsis">
                     {localeAttribute(destination, "name")}
                   </CardTitle>
                 </CardContent>
