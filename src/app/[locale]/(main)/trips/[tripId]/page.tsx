@@ -293,7 +293,6 @@ export default async function TripDetailsPage({
               </div>
             </div>
 
-            {/* Booking form on small screens (after trip information, before tabs) */}
             <div className="block lg:hidden">
               <BookingForm
                 availableDays={trip.availableDays}
