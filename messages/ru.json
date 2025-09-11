@@ -227,7 +227,9 @@
     "reviewPlaceholder": "Расскажите подробности о вашем опыте...",
     "cancel": "Отмена",
     "submitReview": "Отправить отзыв",
-    "submitting": "Отправка..."
+    "submitting": "Отправка...",
+    "email": "Email",
+    "fullName": "Full Name"
   },
   "CancelBookingDialog": {
     "cancelBookingTitle": "Отменить бронирование на {title}",

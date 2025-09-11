@@ -9,13 +9,13 @@ export const review = pgTable("reviews", (c) => ({
   // via trip relation
   tripId: c
     .integer("trip_id")
-    .notNull()
+    // .notNull()
     .references(() => trip.id, { onDelete: "cascade" }),
   tripBookingId: c
     .integer("trip_booking_id")
-    .notNull()
+    // .notNull()
     .references(() => tripBooking.id, { onDelete: "cascade" }),
-  userId: c.text("user_id").notNull(),
+  userId: c.text("user_id")/*.notNull()*/,
   userEmail: c.text("user_email").notNull(),
   userImageUrl: c.text("user_image_url"),
   userFullName: c.text("user_full_name"),

@@ -16,6 +16,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useCommonMutationResponse } from "@/hooks/use-common-mutation-response";
 import { api } from "@/trpc/react";
 import { useTranslations } from "next-intl";
+import { Input } from "./ui/input";
+import { cn } from "@/lib/utils";
 
 interface ReviewDialogProps {
   open: boolean;
@@ -23,6 +25,22 @@ interface ReviewDialogProps {
   bookingId: number;
   title: string;
   disableManualClose?: boolean;
+  // For admin
+  isAdmin?: boolean;
+  onSuccess?: () => void;
+  review?: {
+    message: string;
+    id: number;
+    createdAt: Date;
+    tripId: number | null;
+    userId: string | null;
+    userEmail: string;
+    tripBookingId: number | null;
+    userImageUrl: string | null;
+    userFullName: string | null;
+    ratingValue: number;
+    isHiddenByAdmin: boolean;
+  };
 }
 
 export function ReviewDialog({
@@ -31,13 +49,19 @@ export function ReviewDialog({
   bookingId,
   title,
   disableManualClose,
+  // 
+  isAdmin = false,
+  onSuccess,
+  review: reviewToEdit = undefined,
 }: ReviewDialogProps) {
   const t = useTranslations("ReviewDialog");
   const t_ToastMessage = useTranslations("ToastMessages");
 
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(reviewToEdit ? reviewToEdit?.ratingValue || 0 : 0);
   const [hoveredRating, setHoveredRating] = useState(0);
-  const [review, setReview] = useState("");
+  const [review, setReview] = useState(reviewToEdit ? reviewToEdit?.message || "" : "");
+  const [email, setEmail] = useState(reviewToEdit ? reviewToEdit?.userEmail || "" : "");
+  const [fullName, setFullName] = useState(reviewToEdit ? reviewToEdit?.userFullName || "" : "");
 
   const { invalidate } = api.useUtils().tripBooking.view;
 
@@ -46,6 +70,7 @@ export function ReviewDialog({
     () => {
       invalidate();
       onOpenChange(false);
+      onSuccess?.();
       setRating(0);
       setReview("");
     },
@@ -58,19 +83,41 @@ export function ReviewDialog({
   const { mutate: addReview, isPending } =
     api.review.create.useMutation(response);
 
+  const { mutate: addUpdateReviewByAdmin, isPending: isAdminPending } =
+    (reviewToEdit ? api.review.updateByAdmin : api.review.createByAdmin).useMutation(response);
+
   const handleSubmit = () => {
-    addReview({
-      bookingId,
-      message: review,
-      ratingValue: rating,
-    });
+    if (isAdmin) {
+      if (!email || !fullName) {
+        if (!email) {
+          alert('Please enter emil.')
+        }
+        if (!fullName) {
+          alert('Enter full name.')
+        }
+      } else {
+        addUpdateReviewByAdmin({
+          id: reviewToEdit?.id!,
+          email,
+          fullName,
+          message: review,
+          ratingValue: rating,
+        });
+      }
+    } else {
+      addReview({
+        bookingId,
+        message: review,
+        ratingValue: rating,
+      });
+    }
   };
 
   return (
     <Dialog
       open={open}
       onOpenChange={(open) => {
-        if (isPending || !!disableManualClose) return;
+        if (isPending || isAdminPending || !!disableManualClose) return;
 
         onOpenChange(open);
       }}
@@ -97,17 +144,54 @@ export function ReviewDialog({
                   onMouseLeave={() => setHoveredRating(0)}
                 >
                   <Star
-                    className={`h-8 w-8 ${
-                      star <= (hoveredRating || rating)
-                        ? "fill-amber-400 text-amber-400"
-                        : "text-gray-300"
-                    }`}
+                    className={`h-8 w-8 ${star <= (hoveredRating || rating)
+                      ? "fill-amber-400 text-amber-400"
+                      : "text-gray-300"
+                      }`}
                   />
                   <span className="sr-only">{t("rateStars", { star })}</span>
                 </button>
               ))}
             </div>
           </div>
+
+          {isAdmin ?
+            <>
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium">
+                  {t("email")}
+                </label>
+                <div className="space-y-1">
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder={t("email")}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className={cn(
+                      "w-full",
+                      email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && "border-red-500 focus-visible:ring-red-500"
+                    )}
+                  />
+                  {email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && (
+                    <p className="text-sm text-red-500">{t("Please enter a valid email address")}</p>
+                  )}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="fullName" className="text-sm font-medium">
+                  {t("fullName")}
+                </label>
+                <Input
+                  id="fullName"
+                  placeholder={t("fullName")}
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+              </div>
+            </> : null
+          }
 
           <div className="space-y-2">
             <label htmlFor="review" className="text-sm font-medium">
@@ -134,9 +218,9 @@ export function ReviewDialog({
           </Button>
           <Button
             onClick={handleSubmit}
-            disabled={isPending || rating < 1 || review.length === 0}
+            disabled={isPending || isAdminPending || rating < 1 || review.length === 0}
           >
-            {isPending ? t("submitting") : t("submitReview")}
+            {isPending || isAdminPending ? t("submitting") : t("submitReview")}
           </Button>
         </DialogFooter>
       </DialogContent>

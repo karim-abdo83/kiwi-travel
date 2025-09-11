@@ -5,14 +5,14 @@
       "bookNowPayLater": "Book now, pay later – zero upfront cost",
       "freeCancellations": "Free cancellations up to 12 hours before your tour",
       "unbeatablePrices": "Unbeatable prices with exceptional service",
-      "expertGuides": "Expert Russian-speaking guides",
+      "expertGuides": "Expert English-speaking guides",
       "privateGroupTours": "Private and group tours tailored to you",
       "transferServices": "Organized transfer services",
       "quickBooking": "One quick call – and your adventure is booked!",
       "transparentPricing": "Transparent pricing, no hidden fees",
       "tourGuide": {
         "title": "Tour Guide",
-        "description": "We provide a best rusian tour guide"
+        "description": "We provide a best english tour guide"
       }
     },
     "hero": {
@@ -127,6 +127,7 @@
       "description": "Description",
       "details": "Details & Features"
     },
+    
     "bookingForm": {
       "perPerson": "per person",
       "perChild": "per child",
@@ -232,7 +233,12 @@
     "reviewPlaceholder": "Share details of your experience...",
     "cancel": "Cancel",
     "submitReview": "Submit Review",
-    "submitting": "Submitting..."
+    "submitting": "Submitting...",
+    "email": "Email",
+    "fullName": "Full Name",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid Email",
+    "fullNameRequired": "Full name is required"
   },
   "CancelBookingDialog": {
     "cancelBookingTitle": "Cancel your booking to {title}",
@@ -322,6 +328,11 @@
     "ErrorTitle": "Error",
     "AddReview": "review has been added successfully",
     "DeleteReview": "review has been deleted successfully",
-    "CancelBooking": "booking has been cancelled successfully"
-  }
+    "CancelBooking": "booking has been cancelled successfully"}
+    ,
+    "ReviewPage": {
+    "title": "Reviews",
+    "description": "Reviews",
+    "addReview": "Add Review",
+    "newReview": "New Review"}
 }
