@@ -153,9 +153,19 @@
       "successMessage": "Поездка успешно забронирована",
       "successMessageWithConfirm": "Бронирование успешно создано, ожидание подтверждения",
       "existingBookingError": "Вы уже забронировали поездку на ту же дату, рассмотрите возможность обновления существующей поездки.",
-      "bookingEmail": "Booking Email",
-      "emailRequired": "Email is required",
-      "emailInvalid": "Invalid Email"}
+      "bookingEmail": "Email для бронирования",
+      "emailRequired": "Требуется email",
+      "emailInvalid": "Неверный формат email",
+      "contactViaWhatsApp": "Контакт через WhatsApp",
+      "safePayment": "Безопасная оплата",
+      "safePaymentDescription": "Просто, удобно и надежно!",
+      "noHiddenFees": "Нет скрытых платежей",
+      "noHiddenFeesDescription": "Вы видите цену – это то, что вы заплатите!",
+      "officialPartner": "Официальный партнер",
+      "officialPartnerDescription": "Утвержденный билетный провайдер!",
+      "trustedHelpCenter": "Надёжный центр поддержки",
+      "trustedHelpCenterDescription": "Официальная поддержка клиентов!"
+    }
   },
   "BookingsPage": {
     "title": "Бронирования",

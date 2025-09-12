@@ -160,7 +160,16 @@
       "existingBookingError": "You have already booked a trip with same date, consider updating the existing one.",
       "bookingEmail": "Booking Email",
       "emailRequired": "Email is required",
-      "emailInvalid": "Invalid Email"
+      "emailInvalid": "Invalid Email",
+      "contactViaWhatsApp": "Contact via WhatsApp",
+      "safePayment": "Safe Payment",
+      "safePaymentDescription": "Simple, convenient and reliable!",
+      "noHiddenFees": "No hidden fees",
+      "noHiddenFeesDescription": "You see the price that’s exactly what you pay!",
+      "officialPartner": "Official Partner",
+      "officialPartnerDescription": "Approved ticket provider!",
+      "trustedHelpCenter": "Trusted Help Center",
+      "trustedHelpCenterDescription": "Official customer support!"
     }
   },
   "BookingsPage": {

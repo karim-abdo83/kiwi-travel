@@ -262,9 +262,13 @@ export default async function TripDetailsPage({
                   <p className="mb-1 text-sm font-medium text-gray-500">
                     {t("availableDays")}
                   </p>
-                  <p className="text-base font-semibold text-gray-700">
-                    {trip.availableDays}
-                  </p>
+                  <div className="flex flex-wrap justify-center gap-1">
+                    {trip.availableDays.map((day, index) => (
+                      <span key={index} className="inline-block rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
+                        {day}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="flex flex-col items-center rounded-xl bg-purple-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-purple-100/60 hover:shadow-md">
@@ -279,23 +283,9 @@ export default async function TripDetailsPage({
                   </p>
                 </div>
 
-                <div className="flex flex-col items-center rounded-xl bg-indigo-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-indigo-100/60 hover:shadow-md sm:col-span-2">
-                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
-                    <Users2 className="h-6 w-6 text-indigo-600" />
-                  </div>
-                  <p className="mb-1 text-sm font-medium text-gray-500">
-                    {t("type")}
-                  </p>
-                  <p className="text-base font-semibold text-gray-700">
-                    {trip.tripTypes
-                      .map((t) => localeAttribute(t.tripType, "name"))
-                      .join(", ")}
-                  </p>
-                </div>
-
                 <div className="flex flex-col items-center rounded-xl bg-orange-50 p-2 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100/60 hover:shadow-md sm:col-span-2">
                   <div className="mb-1 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">
-                    <Clock className="h-10 w-10 text-[#ff8106]" />
+                    <Clock className="h-6 w-6 text-[#ff8106]" />
                   </div>
                   <p className="text-sm font-medium text-gray-500">
                     {t("travelTime")}
