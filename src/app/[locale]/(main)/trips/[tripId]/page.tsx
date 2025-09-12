@@ -27,6 +27,7 @@ import {
   Users2,
   CalendarDays,
   Hourglass,
+  Calendar,
 } from "lucide-react";
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -225,54 +226,67 @@ export default async function TripDetailsPage({
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Main Content */}
           <div className="space-y-8 lg:col-span-2">
-            <div className="rounded-2xl bg-white p-2 shadow-md lg:shadow-lg">
+            <div className="rounded-2xl bg-white p-4 shadow-md lg:shadow-lg">
               <h3 className="text-md mb-6 font-bold text-gray-900">
                 {t("tripInformation")}
               </h3>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="flex flex-col items-center rounded-xl bg-blue-50 p-2 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-blue-100/60 hover:shadow-md">
-                  <div className="mb-1 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-                    <Globe className="h-10 w-10 text-blue-600" />
+                <div className="flex flex-col items-center rounded-xl bg-blue-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-blue-100/60 hover:shadow-md">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
+                    <MapPin className="h-6 w-6 text-blue-600" />
                   </div>
-                  <p className="text-sm font-medium text-gray-500">
-                    {t("country")}
+                  <p className="mb-1 text-sm font-medium text-gray-500">
+                    {t("pickupPoint")}
                   </p>
-                  <p className="text-base font-semibold text-gray-600">
-                    {localeAttribute(trip.destination.country, "name")}
-                  </p>
-                </div>
-                <div className="flex flex-col items-center rounded-xl bg-green-50 p-2 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-green-100/60 hover:shadow-md">
-                  <div className="mb-1 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                    <MapPin className="h-10 w-10 text-green-600" />
-                  </div>
-                  <p className="text-sm font-medium text-gray-500">
-                    {t("destination")}
-                  </p>
-                  <p className="text-base font-semibold text-gray-600">
-                    {localeAttribute(trip.destination, "name")}
+                  <p className="text-base font-semibold text-gray-700">
+                    {trip.pickupPointEn}
                   </p>
                 </div>
 
-                <div className="flex flex-col items-center rounded-xl bg-purple-50 p-2 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-purple-100/60 hover:shadow-md">
-                  <div className="mb-1 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
-                    <Hourglass className="h-10 w-10 text-purple-600" />
+                <div className="flex flex-col items-center rounded-xl bg-green-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-green-100/60 hover:shadow-md">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                    <MapPin className="h-6 w-6 text-green-600" />
                   </div>
-                  <p className="text-sm font-medium text-gray-500">
+                  <p className="mb-1 text-sm font-medium text-gray-500">
+                    {t("placeOfReturn")}
+                  </p>
+                  <p className="text-base font-semibold text-gray-700">
+                    {trip.placeOfReturnEn}
+                  </p>
+                </div>
+
+                <div className="flex flex-col items-center rounded-xl bg-amber-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-amber-100/60 hover:shadow-md">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100">
+                    <Calendar className="h-6 w-6 text-amber-600" />
+                  </div>
+                  <p className="mb-1 text-sm font-medium text-gray-500">
+                    {t("availableDays")}
+                  </p>
+                  <p className="text-base font-semibold text-gray-700">
+                    {trip.availableDays}
+                  </p>
+                </div>
+
+                <div className="flex flex-col items-center rounded-xl bg-purple-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-purple-100/60 hover:shadow-md">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
+                    <Clock className="h-6 w-6 text-purple-600" />
+                  </div>
+                  <p className="mb-1 text-sm font-medium text-gray-500">
                     {t("duration")}
                   </p>
-                  <p className="text-base font-semibold text-gray-600">
+                  <p className="text-base font-semibold text-gray-700">
                     {duration}
                   </p>
                 </div>
 
-                <div className="flex flex-col items-center rounded-xl bg-blue-50 p-2 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-blue-100/60 hover:shadow-md">
-                  <div className="mb-1 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-                    <Users2 className="h-10 w-10 text-blue-600" />
+                <div className="flex flex-col items-center rounded-xl bg-indigo-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-indigo-100/60 hover:shadow-md sm:col-span-2">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
+                    <Users2 className="h-6 w-6 text-indigo-600" />
                   </div>
-                  <p className="text-sm font-medium text-gray-500">
+                  <p className="mb-1 text-sm font-medium text-gray-500">
                     {t("type")}
                   </p>
-                  <p className="text-base font-semibold text-gray-600">
+                  <p className="text-base font-semibold text-gray-700">
                     {trip.tripTypes
                       .map((t) => localeAttribute(t.tripType, "name"))
                       .join(", ")}

@@ -187,6 +187,11 @@ export function TripForm({ initialData, id }: TripFormProps) {
       isFeatured: initialData?.isFeatured || false,
       isConfirmationRequired: initialData?.isConfirmationRequired || false,
       tripTypes: initialData?.tripTypes,
+      // pickup and place of return
+      pickupPointEn: initialData?.pickupPointEn || "",
+      pickupPointRu: initialData?.pickupPointRu || "",
+      placeOfReturnEn: initialData?.placeOfReturnEn || "",
+      placeOfReturnRu: initialData?.placeOfReturnRu || "",
     },
   });
 
@@ -509,6 +514,66 @@ export function TripForm({ initialData, id }: TripFormProps) {
                     onValueChange={(value) => field.onChange(value.map(Number))}
                     placeholder="Select trip types"
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* English Pickup Point */}
+          <FormField
+            control={form.control}
+            name="pickupPointEn"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>English Pickup Point</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Enter English pickup point" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Russian Pickup Point */}
+          <FormField
+            control={form.control}
+            name="pickupPointRu"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Russian Pickup Point</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Enter Russian pickup point" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* English Place of Return */}
+          <FormField
+            control={form.control}
+            name="placeOfReturnEn"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>English Place of Return</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Enter English place of return" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Russian Place of Return */}
+          <FormField
+            control={form.control}
+            name="placeOfReturnRu"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Russian Place of Return</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Enter Russian place of return" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

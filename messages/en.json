@@ -122,6 +122,9 @@
     "askQuestion": "Ask a Question",
     "reviews": "Reviews",
     "bookNow": "Book Now",
+    "pickupPoint": "Pickup Point",
+    "placeOfReturn": "Place of Return",
+    "availableDays": "Available Days",
     "youMayLike": "Trips you may like",
     "tabs": {
       "description": "Description",

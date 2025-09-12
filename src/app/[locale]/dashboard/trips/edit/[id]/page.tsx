@@ -32,6 +32,10 @@ export default async function EditTripPage({
           childPrice: trip.childTripPriceInCents / 100,
           features: trip.features.map((f) => f.featureId),
           tripTypes: trip.tripTypes.map((t) => t.tripTypeId),
+          pickupPointEn: trip?.pickupPointEn || "",
+          pickupPointRu: trip?.pickupPointRu || "",
+          placeOfReturnEn: trip?.placeOfReturnEn || "",
+          placeOfReturnRu: trip?.placeOfReturnRu || "",
         }}
       />
     </div>

@@ -117,8 +117,11 @@
     "travelTime": "Время отправления:",
     "askQuestion": "Задать вопрос",
     "reviews": "Отзывов",
-    "bookNow": "Book Now",
-    "youMayLike": "Trips you may like",
+    "bookNow": "Забронировать",
+    "youMayLike": "Похожие поездки",
+    "availableDays": "Доступные дни",
+    "pickupPoint": "Место отправления",
+    "placeOfReturn": "Место возврата",
     "tabs": {
       "description": "Описание",
       "details": "Детали и особенности"

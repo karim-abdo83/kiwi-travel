@@ -48,6 +48,11 @@ export const tripFormSchema = z.object({
     .positive("Child price must be a positive number"),
   childAge: z.string(),
   infantAge: z.string(),
+  // 
+  pickupPointEn: z.string().optional(),
+  pickupPointRu: z.string().optional(),
+  placeOfReturnEn: z.string().optional(),
+  placeOfReturnRu: z.string().optional(),
 });
 
 export const tripSearchFormSchema = z.object({

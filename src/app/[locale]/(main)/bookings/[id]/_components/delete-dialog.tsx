@@ -17,7 +17,7 @@ interface DeleteDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   reviewId: number;
-  isAdmin: boolean;
+  isAdmin?: boolean;
   onSuccess?: () => void;
 }
 
@@ -26,7 +26,7 @@ export function DeleteDialog({
   onOpenChange,
   reviewId,
   onSuccess,
-  isAdmin
+  isAdmin = false,
 }: DeleteDialogProps) {
   const t = useTranslations("DeleteReviewDialog");
   const t_ToastMessage = useTranslations("ToastMessages");

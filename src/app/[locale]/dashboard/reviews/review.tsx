@@ -157,7 +157,7 @@ const Reviews = () => {
                     open
                     onOpenChange={() => setDialogState(dialogInitialState)}
                     title={t("editReview")}
-                    review={reviews.find((review) => review.id === dialogState.reviewId)}
+                    review={reviews?.find((itm: any) => itm.id === dialogState.reviewId)}
                     bookingId={1}
                     disableManualClose={false}
                     onSuccess={refetch}
