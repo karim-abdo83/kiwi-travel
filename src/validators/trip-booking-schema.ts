@@ -19,6 +19,7 @@ export const tripBookingFormSchema = z.object({
       /^(?:\+?(\d{1,3}))?[-. (]*([\d]{1,14})(?:[-. ]*([\d]{1,14}))?(?:[-. ]*([\d]{1,14}))?(?: *x(\d+))?$/,
       "Please enter a valid phone number",
     ),
+  email: z.string().optional(),
 });
 
 export type TripBookingFormValues = z.infer<typeof tripBookingFormSchema>

@@ -22,7 +22,7 @@ export default async function DestinationsPage() {
   const destinations = await api.destination.list({});
 
   return (
-    <main className="container mx-auto mt-20 px-4 py-8 lg:grid lg:px-0">
+    <main className="container mx-auto mt-20 px-4 py-8 lg:grid lg:px-6">
       <h1 className="text-3xl font-bold mb-8 text-center">{t("destinations")}</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {destinations.map((destination) => (

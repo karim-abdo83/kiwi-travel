@@ -62,15 +62,15 @@ export default async function DestinationTripsPage({
   };
 
   return (
-    <main className="container mx-auto mt-20 px-4 py-8 lg:grid lg:px-0">
-      <Link href="/destinations" className="mb-6">
+    <main className="container mx-auto md:mt-20 mt-12 lg:mt-20 px-4  py-8 lg:grid lg:px-6">
+      <Link href="/destinations" className="mb-10 md:mb-0 lg:mb-0">
         <Button variant="link">
           <ArrowLeft className="h-4 w-4" />
           {t("backToDestinations")}
         </Button>
       </Link>
 
-      <div className="relative mb-8 h-64 w-full overflow-hidden rounded-xl">
+      <div className="relative mb-8 h-64 w-full overflow-hidden rounded-xl mt-2">
         <Image
           src={destination.imageUrl}
           alt={localeAttribute(destination, "name")}
@@ -95,14 +95,18 @@ export default async function DestinationTripsPage({
       {destination.trips.length === 0 ? (
         <p className="text-gray-500">{t("noTripsAvailable")}</p>
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {destination.trips.map((trip) => (
-            <Link key={trip.id} href={`/trips/${trip.id}`}>
+            <Link 
+              key={trip.id} 
+              href={`/trips/${trip.id}`} 
+              className="block transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 hover:shadow-gray-200 dark:hover:shadow-gray-800 rounded-lg overflow-hidden"
+            >
               <Card
                 id={`book-trip-outside-id-${trip.id}`}
-                className="overflow-hidden"
+                className="h-full"
               >
-                <CardHeader className="relative h-48 w-full">
+                <CardHeader className="relative h-48 w-full p-0">
                   <Image
                     src={mainImage(trip.assetsUrls)}
                     alt={localeAttribute(trip, "title")}

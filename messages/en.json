@@ -1,5 +1,20 @@
 {
   "HomePage": {
+    "weProvide": {
+      "sectionTitle": "What we serve",
+      "bookNowPayLater": "Book now, pay later – zero upfront cost",
+      "freeCancellations": "Free cancellations up to 12 hours before your tour",
+      "unbeatablePrices": "Unbeatable prices with exceptional service",
+      "expertGuides": "Expert English-speaking guides",
+      "privateGroupTours": "Private and group tours tailored to you",
+      "transferServices": "Organized transfer services",
+      "quickBooking": "One quick call – and your adventure is booked!",
+      "transparentPricing": "Transparent pricing, no hidden fees",
+      "tourGuide": {
+        "title": "Tour Guide",
+        "description": "We provide a best english tour guide"
+      }
+    },
     "hero": {
       "headline": "Discover Your Next Adventure",
       "subheadline": "Find and book amazing trips around the world",
@@ -106,10 +121,16 @@
     "travelTime": "Travel time:",
     "askQuestion": "Ask a Question",
     "reviews": "Reviews",
+    "bookNow": "Book Now",
+    "pickupPoint": "Pickup Point",
+    "placeOfReturn": "Place of Return",
+    "availableDays": "Available Days",
+    "youMayLike": "Trips you may like",
     "tabs": {
       "description": "Description",
       "details": "Details & Features"
     },
+    
     "bookingForm": {
       "perPerson": "per person",
       "perChild": "per child",
@@ -136,7 +157,19 @@
       "error": "Error",
       "successMessage": "Trip has been booked successfully",
       "successMessageWithConfirm": "Booking has been created successfully, waiting for acceptance",
-      "existingBookingError": "You have already booked a trip with same date, consider updating the existing one."
+      "existingBookingError": "You have already booked a trip with same date, consider updating the existing one.",
+      "bookingEmail": "Booking Email",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid Email",
+      "contactViaWhatsApp": "Contact via WhatsApp",
+      "safePayment": "Safe Payment",
+      "safePaymentDescription": "Simple, convenient and reliable!",
+      "noHiddenFees": "No hidden fees",
+      "noHiddenFeesDescription": "You see the price that’s exactly what you pay!",
+      "officialPartner": "Official Partner",
+      "officialPartnerDescription": "Approved ticket provider!",
+      "trustedHelpCenter": "Trusted Help Center",
+      "trustedHelpCenterDescription": "Official customer support!"
     }
   },
   "BookingsPage": {
@@ -212,7 +245,14 @@
     "reviewPlaceholder": "Share details of your experience...",
     "cancel": "Cancel",
     "submitReview": "Submit Review",
-    "submitting": "Submitting..."
+    "submitting": "Submitting...",
+    "email": "Email",
+    "fullName": "Full Name",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid Email",
+    "fullNameRequired": "Full name is required",
+    "Please enter a valid email address": "Please enter a valid email address"
+    
   },
   "CancelBookingDialog": {
     "cancelBookingTitle": "Cancel your booking to {title}",
@@ -226,7 +266,9 @@
     "deleteReviewDescription": "Are you sure you want to delete this review? This action cannot be undone.",
     "cancel": "Cancel",
     "confirmDeletion": "Yes",
-    "deleting": "Deleting..."
+    "deleting": "Deleting...",
+    "editReview": "Edit Review"
+    
   },
   "General": {
     "amenities": {
@@ -302,6 +344,12 @@
     "ErrorTitle": "Error",
     "AddReview": "review has been added successfully",
     "DeleteReview": "review has been deleted successfully",
-    "CancelBooking": "booking has been cancelled successfully"
-  }
+    "CancelBooking": "booking has been cancelled successfully"}
+    ,
+    "ReviewPage": {
+    "title": "Reviews",
+    "description": "Reviews",
+    "addReview": "Add Review",
+    "newReview": "New Review",
+     "editReview": "Edit Review"}
 }

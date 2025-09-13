@@ -17,12 +17,16 @@ interface DeleteDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   reviewId: number;
+  isAdmin?: boolean;
+  onSuccess?: () => void;
 }
 
 export function DeleteDialog({
   open,
   onOpenChange,
   reviewId,
+  onSuccess,
+  isAdmin = false,
 }: DeleteDialogProps) {
   const t = useTranslations("DeleteReviewDialog");
   const t_ToastMessage = useTranslations("ToastMessages");
@@ -32,8 +36,11 @@ export function DeleteDialog({
   const response = useCommonMutationResponse(
     undefined,
     () => {
-      invalidate();
+      if (!isAdmin) {
+        invalidate();
+      }
       onOpenChange(false);
+      onSuccess?.();
     },
     {
       success: t_ToastMessage("SuccessTitle"),
@@ -42,7 +49,7 @@ export function DeleteDialog({
   );
 
   const { mutate: deleteReview, isPending } =
-    api.review.delete.useMutation(response);
+    (isAdmin ? api.review.deleteByAdmin : api.review.delete).useMutation(response);
 
   return (
     <Dialog

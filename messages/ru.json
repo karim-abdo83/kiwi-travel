@@ -1,5 +1,16 @@
 {
   "HomePage": {
+    "weProvide": {
+      "sectionTitle": "Наши услуги",
+      "bookNowPayLater": "Без предоплаты",
+      "freeCancellations": "Бесплатная отмена за 12 часов",
+      "unbeatablePrices": "Лучшие цены и качество сервиса",
+      "expertGuides": "Русскоговорящие гиды",
+      "privateGroupTours": "Групповые и индивидуальные экскурсии",
+      "transferServices": "Организация всех трансферов",
+      "quickBooking": "Звонок — и экскурсия забронирована!",
+      "transparentPricing": "Никаких скрытых комиссий"
+    },
     "hero": {
       "headline": "Ваше следующее приключение начинается здесь",
       "subheadline": "Выбирайте экскурсии, бронируйте с уверенностью",
@@ -106,6 +117,11 @@
     "travelTime": "Время отправления:",
     "askQuestion": "Задать вопрос",
     "reviews": "Отзывов",
+    "bookNow": "Забронировать",
+    "youMayLike": "Похожие поездки",
+    "availableDays": "Доступные дни",
+    "pickupPoint": "Место отправления",
+    "placeOfReturn": "Место возврата",
     "tabs": {
       "description": "Описание",
       "details": "Детали и особенности"
@@ -136,7 +152,19 @@
       "error": "Ошибка",
       "successMessage": "Поездка успешно забронирована",
       "successMessageWithConfirm": "Бронирование успешно создано, ожидание подтверждения",
-      "existingBookingError": "Вы уже забронировали поездку на ту же дату, рассмотрите возможность обновления существующей поездки."
+      "existingBookingError": "Вы уже забронировали поездку на ту же дату, рассмотрите возможность обновления существующей поездки.",
+      "bookingEmail": "Email для бронирования",
+      "emailRequired": "Требуется email",
+      "emailInvalid": "Неверный формат email",
+      "contactViaWhatsApp": "Контакт через WhatsApp",
+      "safePayment": "Безопасная оплата",
+      "safePaymentDescription": "Просто, удобно и надежно!",
+      "noHiddenFees": "Нет скрытых платежей",
+      "noHiddenFeesDescription": "Вы видите цену – это то, что вы заплатите!",
+      "officialPartner": "Официальный партнер",
+      "officialPartnerDescription": "Утвержденный билетный провайдер!",
+      "trustedHelpCenter": "Надёжный центр поддержки",
+      "trustedHelpCenterDescription": "Официальная поддержка клиентов!"
     }
   },
   "BookingsPage": {
@@ -212,7 +240,9 @@
     "reviewPlaceholder": "Расскажите подробности о вашем опыте...",
     "cancel": "Отмена",
     "submitReview": "Отправить отзыв",
-    "submitting": "Отправка..."
+    "submitting": "Отправка...",
+    "email": "Email",
+    "fullName": "Full Name"
   },
   "CancelBookingDialog": {
     "cancelBookingTitle": "Отменить бронирование на {title}",

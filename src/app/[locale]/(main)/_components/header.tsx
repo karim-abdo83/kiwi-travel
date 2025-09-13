@@ -7,6 +7,7 @@ import {
   SignUpButton,
   UserButton,
 } from "@clerk/nextjs";
+
 import { useTranslations } from "next-intl";
 import { Suspense } from "react";
 import DashboardButton from "./dashboard-button";

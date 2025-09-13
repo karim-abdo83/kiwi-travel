@@ -16,11 +16,13 @@ import {
   Plane,
   Sparkles,
   SquareArrowOutUpRight,
+  Star,
   Users
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { BookingsOption } from "./bookings-option";
 import { useSidebar } from "./sidebar-provider";
+import { title } from "process";
 ;
 
 const sidebarNavItems = [
@@ -53,7 +55,13 @@ const sidebarNavItems = [
     title: "F.A.Q.",
     href: "/dashboard/faqs",
     icon: CircleHelp,
-  },
+  }
+  ,
+  {
+    title :"Reviews",
+    href: "/dashboard/reviews",
+    icon:Star,
+  }
 ];
 
 export function DashboardSidebar() {

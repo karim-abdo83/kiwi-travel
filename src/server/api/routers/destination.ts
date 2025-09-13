@@ -59,17 +59,31 @@ export const destinationRouter = createTRPCRouter({
     .input(
       z.object({
         isPopularOnly: z.boolean().nullish(),
-        limitFour: z.boolean().nullish(),
+        limit: z.number().int().nullish(),
+        minAsLimit: z.boolean().nullish(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      return await ctx.db.query.destination.findMany({
+      const data = await ctx.db.query.destination.findMany({
         where: input.isPopularOnly
           ? ({ isPopular }, { eq }) => eq(isPopular, true)
           : undefined,
-        orderBy: input.limitFour ? sql`random()` : undefined,
-        limit: input.limitFour ? 4 : undefined,
+        orderBy: input.limit ? sql`random()` : undefined,
+        limit: input.limit ?? undefined,
       });
+
+      if (input.minAsLimit && input.isPopularOnly && input.limit && data.length < input.limit) {
+        // If we need more destinations to meet the limit, fetch non-popular ones
+        const nonPopular = await ctx.db.query.destination.findMany({
+          where: ({ isPopular }, { eq }) => eq(isPopular, false),
+          orderBy: sql`random()`,
+          limit: input.limit - data.length,
+        });
+
+        return [...data, ...nonPopular];
+      }
+
+      return data;
     }),
   tinyListSearch: publicProcedure
     .input(z.string())

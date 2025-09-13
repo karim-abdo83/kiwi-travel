@@ -35,6 +35,12 @@ export const trip = pgTable("trips", (c) => ({
     .notNull()
     .default(false),
   duration: c.text("duration").notNull(),
+  // tour information
+  pickupPointEn: c.text("pickup_point_en"),
+  pickupPointRu: c.text("pickup_point_ru"),
+  placeOfReturnEn: c.text("place_of_return_en"),
+  placeOfReturnRu: c.text("place_of_return_ru"),
+  // 
   availableDays: c
     .text("available_days", {
       enum: days,

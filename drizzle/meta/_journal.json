@@ -190,6 +190,20 @@
       "when": 1749374571062,
       "tag": "0026_narrow_romulus",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1757609468910,
+      "tag": "0027_unknown_enchantress",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1757652799191,
+      "tag": "0028_perpetual_chronomancer",
+      "breakpoints": true
     }
   ]
 }

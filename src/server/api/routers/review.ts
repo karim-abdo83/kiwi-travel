@@ -1,4 +1,4 @@
-import { addReviewFormSchema } from "@/validators/review-schema";
+import { addReviewAdminFormSchema, addReviewFormSchema } from "@/validators/review-schema";
 import {
   adminProcedure,
   authProtectedProcedure,
@@ -68,6 +68,64 @@ export const reviewRouter = createTRPCRouter({
         message: t("AddReview"),
       };
     }),
+  createByAdmin: adminProcedure
+    .input(addReviewAdminFormSchema)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(reviewTableSchema).values({
+        ratingValue: input.ratingValue,
+        message: input.message,
+        // tripBookingId: 123,
+        // tripId: 123,
+        userEmail: input.email,
+        // userId: 'admin',
+        userImageUrl: null,
+        userFullName: input.fullName,
+      });
+
+      const t = await getTranslations("ToastMessages");
+
+      return {
+        message: t("AddReview"),
+      };
+    }),
+  updateByAdmin: adminProcedure
+    .input(addReviewAdminFormSchema.extend({ id: z.number().int() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.update(reviewTableSchema).set({
+        ratingValue: input.ratingValue,
+        message: input.message,
+        // tripBookingId: 123,
+        // tripId: 123,
+        userEmail: input.email,
+        // userId: 'admin',
+        userImageUrl: null,
+        userFullName: input.fullName,
+      }).where(eq(reviewTableSchema.id, input.id));
+
+      const t = await getTranslations("ToastMessages");
+
+      return {
+        message: t("UpdateReview"),
+      };
+    }),
+deleteByAdmin: adminProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .delete(reviewTableSchema)
+        .where(
+          and(
+            eq(reviewTableSchema.id, input),
+          ),
+        );
+
+
+      const t = await getTranslations("ToastMessages");
+      
+      return {
+        message: t("DeleteReview"),
+      };
+    }),
   delete: authProtectedProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
@@ -87,6 +145,8 @@ export const reviewRouter = createTRPCRouter({
         message: t("DeleteReview"),
       };
     }),
+
+    //admin
   adminHide: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
@@ -128,6 +188,20 @@ export const reviewRouter = createTRPCRouter({
           message: true,
         },
         limit: 3,
+      }),
+  ),
+  listForAdmin: adminProcedure.query(
+    async ({ ctx }) =>
+      await ctx.db.query.review.findMany({
+        // columns: {
+        //   id: true,
+        //   email: true,
+        //   userImageUrl: true,
+        //   userEmail: true,
+        //   userFullName: true,
+        //   message: true,
+        // },
+        // limit: 10,
       }),
   ),
 });

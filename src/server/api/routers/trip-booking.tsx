@@ -213,6 +213,94 @@ export const tripBookingRouter = createTRPCRouter({
           : t("successMessage"),
       };
     }),
+  createAnonymously: publicProcedure
+    .input(
+      tripBookingFormSchema.extend({
+        tripId: z.number({ required_error: "Trip is required" }),
+        email: z.string().email({ message: "Email is required" }),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const t = await getTranslations("TripDetailsPage.bookingForm");
+
+      const trip = await ctx.db.query.trip.findFirst({
+        columns: {
+          id: true,
+          adultTripPriceInCents: true,
+          childTripPriceInCents: true,
+          isConfirmationRequired: true,
+        },
+        where: ({ id }, { eq }) => eq(id, input.tripId),
+      });
+
+      if (!trip) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Trip doesn't exist with provided `tripId`",
+        });
+      }
+
+      const existingBooking = await ctx.db.query.tripBooking.findFirst({
+        columns: {
+          id: true,
+        },
+        where: ({ userId, tripId, status, bookingDate }, { eq, and }) =>
+          and(
+            eq(userId, input.email),
+            eq(tripId, input.tripId),
+            eq(bookingDate, format(input.date, "yyyy-MM-dd")),
+            inArray(status, ["pending", "accepted"]),
+          ),
+      });
+
+      if (existingBooking) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: t("existingBookingError"),
+        });
+      }
+
+      await ctx.db.insert(tripBooking).values({
+        userId: input.email,
+        userPhone: input.phone,
+        userEmail: input.email,
+        adultPriceInCents: trip.adultTripPriceInCents,
+        childPriceInCents: trip.childTripPriceInCents,
+        adultsCount: input.adultsCount,
+        childrenCount: input.childrenCount,
+        infantsCount: input.infantsCount,
+        tripId: input.tripId,
+        bookingDate: format(input.date, "yyyy-MM-dd"),
+        status: trip.isConfirmationRequired ? "pending" : "accepted",
+      });
+
+      const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
+      await sendTelegramNotification(
+        `🧾 <b>Новая бронь</b>\nПользователь: ${input.email}\nТелефон: ${input.phone}\nТур: ${input.tripId}\nДата: ${format(input.date, "yyyy-MM-dd")}\n<a href="${bookingLink}">Открыть в админке</a>`
+      );
+
+      const tEmail = await getTranslations("General.bookingEmail.new");
+
+      const emailHtml = await render(
+        <BookingEmail
+          bookingId={0} // или реальный ID, если захочешь получить его из insert
+          bookingLink={bookingLink}
+          translations={tEmail}
+        />
+      );
+
+      await sendEmail({
+        email: emailHtml,
+        to: input.email,
+        subject: tEmail("title"), // например, "📩 Новая бронь"
+      });
+
+      return {
+        message: trip.isConfirmationRequired
+          ? t("successMessageWithConfirm")
+          : t("successMessage"),
+      };
+    }),
   cancel: authProtectedProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
