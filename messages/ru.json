@@ -156,7 +156,7 @@
       "bookingEmail": "Email для бронирования",
       "emailRequired": "Требуется email",
       "emailInvalid": "Неверный формат email",
-      "contactViaWhatsApp": "Контакт через WhatsApp",
+      "contactViaWhatsApp": "Напишите нам в WhatsApp",
       "safePayment": "Безопасная оплата",
       "safePaymentDescription": "Просто, удобно и надежно!",
       "noHiddenFees": "Нет скрытых платежей",
@@ -164,7 +164,8 @@
       "officialPartner": "Официальный партнер",
       "officialPartnerDescription": "Утвержденный билетный провайдер!",
       "trustedHelpCenter": "Надёжный центр поддержки",
-      "trustedHelpCenterDescription": "Официальная поддержка клиентов!"
+      "trustedHelpCenterDescription": "Официальная поддержка клиентов!",
+      "priceFrom": "Цена от"
     }
   },
   "BookingsPage": {

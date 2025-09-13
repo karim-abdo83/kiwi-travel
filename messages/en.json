@@ -169,7 +169,8 @@
       "officialPartner": "Official Partner",
       "officialPartnerDescription": "Approved ticket provider!",
       "trustedHelpCenter": "Trusted Help Center",
-      "trustedHelpCenterDescription": "Official customer support!"
+      "trustedHelpCenterDescription": "Official customer support!",
+      "priceFrom": "Price from"
     }
   },
   "BookingsPage": {

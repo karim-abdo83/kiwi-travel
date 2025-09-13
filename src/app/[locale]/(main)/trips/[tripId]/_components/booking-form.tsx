@@ -81,7 +81,7 @@ const BookingForm = ({
       <CardContent className="space-y-0 p-0">
         {/* Price Header Section */}
         <div className="px-6 pt-6 pb-4">
-          <div className="text-lg text-gray-500 mb-1">Price from</div>
+          <div className="text-lg text-gray-500 mb-1">{t("priceFrom")}</div>
           <div className="space-y-2">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
