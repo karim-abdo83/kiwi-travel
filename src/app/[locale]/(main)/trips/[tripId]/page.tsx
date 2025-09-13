@@ -8,6 +8,7 @@ import { localeAttributeFactory, mainImage } from "@/lib/utils";
 import { api } from "@/trpc/server";
 import { PageParams } from "@/types/page-params";
 import { format } from "date-fns";
+import { enUS, ru } from "date-fns/locale";
 import {
   BanknoteX,
   BookCheck,
@@ -98,6 +99,17 @@ export default async function TripDetailsPage({
     .replaceAll("hours", t_TimeUnits("hours"))
     .replaceAll("day", t_TimeUnits("day"))
     .replaceAll("hour", t_TimeUnits("hour"));
+
+  // Day name translations
+  const dayTranslations: Record<string, { en: string; ru: string }> = {
+    Sunday: { en: "Sunday", ru: "Вс" },
+    Monday: { en: "Monday", ru: "Пн" },
+    Tuesday: { en: "Tuesday", ru: "Вт" },
+    Wednesday: { en: "Wednesday", ru: "Ср" },
+    Thursday: { en: "Thursday", ru: "Чт" },
+    Friday: { en: "Friday", ru: "Пт" },
+    Saturday: { en: "Saturday", ru: "Сб" },
+  };
 
   const _avarage =
     trip.reviews.reduce((acc, curr) => acc + curr.ratingValue, 0) /
@@ -239,7 +251,7 @@ export default async function TripDetailsPage({
                     {t("pickupPoint")}
                   </p>
                   <p className="text-base font-semibold text-gray-700">
-                    {trip.pickupPointEn}
+                    {localeAttribute(trip, "pickupPoint")}
                   </p>
                 </div>
 
@@ -251,7 +263,7 @@ export default async function TripDetailsPage({
                     {t("placeOfReturn")}
                   </p>
                   <p className="text-base font-semibold text-gray-700">
-                    {trip.placeOfReturnEn}
+                    {localeAttribute(trip, "placeOfReturn")}
                   </p>
                 </div>
 
@@ -263,11 +275,14 @@ export default async function TripDetailsPage({
                     {t("availableDays")}
                   </p>
                   <div className="flex flex-wrap justify-center gap-1">
-                    {trip.availableDays.map((day, index) => (
-                      <span key={index} className="inline-block rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
-                        {day}
-                      </span>
-                    ))}
+                    {trip.availableDays.map((day, index) => {
+                      const translation = dayTranslations[day] || { en: day, ru: day };
+                      return (
+                        <span key={index} className="inline-block rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
+                          {locale === 'ru' ? translation.ru : translation.en}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
 
