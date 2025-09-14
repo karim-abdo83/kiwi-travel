@@ -76,7 +76,7 @@ export default function Footer() {
               </ul>
               <div className="mt-4">
                 <Image 
-                  src='/forFooter.jpg'
+                  src='/registration-footer.jpg'
                   alt="Footer image" 
                   width={300} 
                   height={150} 
@@ -97,7 +97,7 @@ export default function Footer() {
                       </button>
                       <div className="w-full h-full flex items-center justify-center">
                         <Image 
-                          src='/certificate.jpg' 
+                          src='/registration-certificate.jpg' 
                           alt="Enlarged footer image" 
                           width={1600}
                           height={800}
