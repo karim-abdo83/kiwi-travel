@@ -1,7 +1,10 @@
+"use client";
+import { useState } from 'react';
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-import { Instagram, Facebook, MessageSquare, MessageCircle, Send, Phone, FacebookIcon } from "lucide-react";
-
+import Image from "next/image";
+import { Instagram, Facebook, MessageSquare, MessageCircle, Send, Phone, FacebookIcon, X } from "lucide-react";
+// import forFooter from "../../../../../public/forFooter.JPG";
 interface Social {
   icon: React.ReactNode;
   link: string;
@@ -9,6 +12,7 @@ interface Social {
 }
 
 export default function Footer() {
+  const [showModal, setShowModal] = useState(false);
   const t = useTranslations("General.footer");
 
   const phones = ["+201003637624", "+905352699881", "+79645056936"];
@@ -71,6 +75,41 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
+              <div className="mt-4">
+                <Image 
+                  src="/forFooter.jpg" 
+                  alt="Footer image" 
+                  width={300} 
+                  height={150} 
+                  className="w-auto h-auto max-w-[140px] cursor-pointer hover:opacity-80 transition-opacity rounded-md shadow-md"
+                  onClick={() => setShowModal(true)}
+                  priority
+                />
+                
+                {showModal && (
+                  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" onClick={() => setShowModal(false)}>
+                    <div className="relative max-w-6xl w-full max-h-[95vh]" onClick={(e) => e.stopPropagation()}>
+                      <button 
+                        className="absolute -top-12 right-0 text-white hover:text-gray-300 bg-black/50 rounded-full p-1"
+                        onClick={() => setShowModal(false)}
+                        aria-label="Close"
+                      >
+                        <X className="w-8 h-8" />
+                      </button>
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Image 
+                          src="/certificate.jpg" 
+                          alt="Enlarged footer image" 
+                          width={1600}
+                          height={800}
+                          className="max-w-full max-h-[85vh] object-contain"
+                          priority
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div>
