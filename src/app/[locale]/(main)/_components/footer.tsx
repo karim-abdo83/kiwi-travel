@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import forFooter from "../../../../../public/forFooter.jpg";
-import certificate from "../../../../../public/certificate.jpg";
+// Using direct public paths for Vercel deployment
+const forFooter = "/forFooter.jpg";
+const certificate = "/certificate.jpg";
 import { Instagram, Facebook, MessageSquare, MessageCircle, Send, Phone, FacebookIcon, X } from "lucide-react";
-// import forFooter from "../../../../../public/forFooter.JPG";
 interface Social {
   icon: React.ReactNode;
   link: string;
