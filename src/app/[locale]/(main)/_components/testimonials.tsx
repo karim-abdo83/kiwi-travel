@@ -62,7 +62,7 @@ export default function Testimonials() {
         <h2 className="mb-8 text-center text-2xl lg:text-3xl md:text-3xl font-bold">
           {t("sectionTitle")}
         </h2>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 px-6">
           {data.map((review) => (
             <Card key={review.id}>
               <CardHeader className="flex-row items-center gap-4">

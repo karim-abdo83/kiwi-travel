@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import CompactWeProvide from "../_components/CompactWeProvide";
 
 export async function generateMetadata({
   params,
@@ -70,7 +71,7 @@ export default async function DestinationTripsPage({
         </Button>
       </Link>
 
-      <div className="relative mb-8 h-64 w-full overflow-hidden rounded-xl mt-2">
+      <div className="relative mb-6 h-64 w-full overflow-hidden rounded-xl mt-2">
         <Image
           src={destination.imageUrl}
           alt={localeAttribute(destination, "name")}
@@ -87,6 +88,11 @@ export default async function DestinationTripsPage({
               {t("tripsAvailable", { count: destination.trips.length })}
             </p>
           </div>
+        </div>
+      </div>
+      <div className="bg-white p-2 rounded-lg shadow-sm border border-gray-100 mb-2">
+        <div className=" mx-auto">
+          <CompactWeProvide />
         </div>
       </div>
 
