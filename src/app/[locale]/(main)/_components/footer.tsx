@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import forFooter from "../../../../../public/forFooter.jpg";
+import certificate from "../../../../../public/certificate.jpg";
 import { Instagram, Facebook, MessageSquare, MessageCircle, Send, Phone, FacebookIcon, X } from "lucide-react";
 // import forFooter from "../../../../../public/forFooter.JPG";
 interface Social {
@@ -77,7 +79,7 @@ export default function Footer() {
               </ul>
               <div className="mt-4">
                 <Image 
-                  src="/forFooter.jpg" 
+                  src={forFooter} 
                   alt="Footer image" 
                   width={300} 
                   height={150} 
@@ -98,7 +100,7 @@ export default function Footer() {
                       </button>
                       <div className="w-full h-full flex items-center justify-center">
                         <Image 
-                          src="/certificate.jpg" 
+                          src={certificate} 
                           alt="Enlarged footer image" 
                           width={1600}
                           height={800}
