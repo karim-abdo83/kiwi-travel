@@ -125,7 +125,7 @@
     "pickupPoint": "Pickup Point",
     "placeOfReturn": "Place of Return",
     "availableDays": "Available Days",
-    "youMayLike": "Trips you may like",
+    "youMayLike": "Other Trips you may like ", 
     "tabs": {
       "description": "Description",
       "details": "Details & Features"
