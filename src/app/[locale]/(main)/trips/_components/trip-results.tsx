@@ -105,7 +105,7 @@ export function TripResults() {
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {data.items.map((trip) => (
-          <Link href={`/trips/${trip.id}`}>
+          <Link href={`/trips/${trip.slug}`}>
             <Card
               key={trip.id}
               id={`book-trip-outside-id-${trip.id}`}
@@ -131,7 +131,7 @@ export function TripResults() {
                       {localeAttribute(trip, "title")}
                     </h3>
                     <Link
-                      href={`/destinations/${trip.destinationId}`}
+                      href={`/destinations/${trip.destinationSlug}`}
                       className="mt-1 flex items-center text-sm text-muted-foreground hover:text-primary"
                     >
                       <MapPin className="mr-1 h-4 w-4" />

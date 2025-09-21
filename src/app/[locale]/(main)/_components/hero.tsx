@@ -1,55 +1,108 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from "next-intl";
 import SearchCard from "./search-card";
 import styles from "./Hero.module.css";
 import { useTypewriter } from "@/hooks/useTypewriter";
 import { useBackgroundSlideshow } from "@/hooks/useBackgroundSlideshow";
 
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    if (typeof window !== 'undefined') {
+      const handleResize = () => setWidth(window.innerWidth);
+
+      handleResize();
+
+      window.addEventListener('resize', handleResize);
+
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
+  return isMounted ? width : 0;
+};
+
 const BACKGROUND_IMAGES = [
-  '/hero.jpg',
-  '/hero2.jpg', 
-  '/hero3.jpg' 
-];
+  '/hero1.jpg',
+  '/hero2.jpg',
+  '/hero3.jpg',
+].filter(Boolean); 
 
 export default function Hero() {
   const t = useTranslations("HomePage.hero");
   const { currentImage } = useBackgroundSlideshow(BACKGROUND_IMAGES, 5000);
-  
-  const headline = t("headline") || ''; 
+
+  const headline = t("headline") || '';
   const headlineParts = headline.split(' ');
   const lastWord = headlineParts.slice(-1)[0] || '';
   const restOfText = headlineParts.slice(0, -1).join(' ');
-  
+
   const displayText = useTypewriter(restOfText, 50);
   const [showLastWord, setShowLastWord] = useState(false);
   const lastWordDisplay = useTypewriter(lastWord, 50);
-  
+  const windowWidth = useWindowWidth();
+
   useEffect(() => {
     if (displayText === restOfText) {
       setShowLastWord(true);
     }
   }, [displayText, restOfText]);
 
+  const [imageError, setImageError] = useState(false);
+  
+  const handleImageError = () => {
+    console.error(`Failed to load image: ${currentImage}`);
+    setImageError(true);
+  };
+
+  const backgroundStyle = imageError
+    ? {
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }
+    : {
+        backgroundImage: `url(${currentImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundBlendMode: 'overlay',
+        backgroundAttachment: windowWidth >= 768 ? 'fixed' : 'scroll'
+      };
+
   return (
-    <section className="relative h-screen min-h-[600px] overflow-hidden">
-      <div className="absolute inset-0 w-full h-full">
-        {BACKGROUND_IMAGES.map((image, index) => (
-          <div 
-            key={index}
-            className={`absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed transition-opacity duration-1000 ${
-              currentImage === image ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{ backgroundImage: `url('${image}')` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70"></div>
-          </div>
-        ))}
+    <div className="relative h-screen w-full">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 transition-opacity duration-1000"
+        style={backgroundStyle}
+        onError={handleImageError}
+      >
+        {/* Preload all hero images */}
+        <div className="hidden">
+          {BACKGROUND_IMAGES.map((img, index) => (
+            <img 
+              key={index} 
+              src={img} 
+              alt="" 
+              onError={(e) => {
+                console.error(`Failed to preload image: ${img}`);
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+          ))}
+        </div>
       </div>
 
-      <div className="container relative mx-auto h-full flex flex-col items-center justify-center text-center px-4">
-        <div className={`max-w-4xl space-y-6 ${styles.animateFadeInUp}`}>
+      <div className="relative h-full flex flex-col items-center justify-center text-center px-4 pt-20 pb-32">
+        <div className={`max-w-4xl space-y-6 mt-48 ${styles.animateFadeInUp}`}>
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight min-h-[1.2em]">
             <span className="bg-clip-text">
               {displayText}
@@ -59,11 +112,16 @@ export default function Hero() {
           <p className="text-lg sm:text-xl md:text-2xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed">
             {t("subheadline")}
           </p>
-          <div className="mt-8 transform transition-all duration-500 hover:scale-105">
+        </div>
+      </div>
+
+      <div className="relative w-full mt-16">
+        <div className="absolute left-1/2 -translate-x-1/2 -bottom-1/2 w-full max-w-4xl px-4 z-50">
+          <div className="transform transition-all duration-500 hover:scale-105">
             <SearchCard />
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

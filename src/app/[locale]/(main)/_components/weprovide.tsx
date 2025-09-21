@@ -41,7 +41,7 @@ export default function WeProvide({ className = '' }: WeProvideProps) {
   
   return (
     <div className={`${className} p-4 bg-white`}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2  rounded-lg border border-gray-200 shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2  rounded-lg border border-gray-200 shadow-sm mt-16">
         {services.map((service, index) => (
           <div key={index} className="hover:bg-orange-50 rounded-md transition-colors">
             <ServiceItem

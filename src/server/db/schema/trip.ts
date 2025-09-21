@@ -7,6 +7,7 @@ import { review } from "./review";
 
 export const trip = pgTable("trips", (c) => ({
   id: c.integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  slug: c.text("slug").notNull(),
   titleEn: c.text("title_en").notNull(),
   titleRu: c.text("title_ru").notNull(),
   descriptionEn: c.text("description_en").notNull(),
@@ -35,6 +36,7 @@ export const trip = pgTable("trips", (c) => ({
     .notNull()
     .default(false),
   duration: c.text("duration").notNull(),
+  sizeOfTrip: c.text("size_of_trip").notNull().default(''),
   // tour information
   pickupPointEn: c.text("pickup_point_en"),
   pickupPointRu: c.text("pickup_point_ru"),

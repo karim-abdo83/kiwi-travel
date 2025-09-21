@@ -18,6 +18,7 @@ import {
   FacebookIcon,
   InstagramIcon,
   Globe,
+  Users,
   MapPin,
   MessageCircle,
   MessageSquare,
@@ -29,6 +30,7 @@ import {
   CalendarDays,
   Hourglass,
   Calendar,
+  UsersIcon,
 } from "lucide-react";
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -41,13 +43,15 @@ import { Button } from "@/components/ui/button";
 
 export async function generateMetadata({
   params,
-}: PageParams<{ tripId: string }>): Promise<Metadata> {
-  const { tripId } = await params;
+}: PageParams<{ slug: string }>): Promise<Metadata> {
+  const { slug } = await params;
 
   const locale = await getLocale();
   const localeAttribute = localeAttributeFactory(locale);
 
-  const trip = await api.trip.view(Number(tripId));
+  const trip = await api.trip.viewBySlug(slug);
+
+  console.log('=>>>>> Trip', trip);
 
   if (!trip) return {};
 
@@ -69,8 +73,8 @@ export async function generateMetadata({
 
 export default async function TripDetailsPage({
   params,
-}: PageParams<{ tripId: string }>) {
-  const { tripId } = await params;
+}: PageParams<{ slug: string }>) {
+  const { slug } = await params;
 
   const locale = await getLocale();
   const localeAttribute = localeAttributeFactory(locale);
@@ -79,7 +83,7 @@ export default async function TripDetailsPage({
   const t_Amenities = await getTranslations("General.amenities");
   const t_TimeUnits = await getTranslations("General.timeUnits");
 
-  const trip = await api.trip.view(Number(tripId));
+  const trip = await api.trip.viewBySlug(slug);
 
   if (!trip) notFound();
 
@@ -99,6 +103,9 @@ export default async function TripDetailsPage({
     .replaceAll("hours", t_TimeUnits("hours"))
     .replaceAll("day", t_TimeUnits("day"))
     .replaceAll("hour", t_TimeUnits("hour"));
+    // Format size of trip with localized "persons" text
+    const sizeOfTrip = trip.sizeOfTrip ? trip.sizeOfTrip.replace("persons", t("persons")) : '';
+   
 
   // Day name translations
   const dayTranslations: Record<string, { en: string; ru: string }> = {
@@ -267,6 +274,18 @@ export default async function TripDetailsPage({
                   </p>
                 </div>
 
+                <div className="flex flex-col items-center rounded-xl bg-indigo-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-indigo-100/60 hover:shadow-md">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
+                    <UsersIcon className="h-6 w-6 text-indigo-600" />
+                  </div>
+                  <p className="mb-1 text-sm font-medium text-gray-500">
+                    {t("sizeOfTrip")}
+                  </p>
+                  <p className="text-base font-semibold text-gray-700">
+                    {sizeOfTrip || t('notSpecified')}
+                  </p>
+                </div>
+
                 <div className="flex flex-col items-center rounded-xl bg-amber-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-amber-100/60 hover:shadow-md">
                   <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100">
                     <Calendar className="h-6 w-6 text-amber-600" />
@@ -298,8 +317,8 @@ export default async function TripDetailsPage({
                   </p>
                 </div>
 
-                <div className="flex flex-col items-center rounded-xl bg-orange-50 p-2 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100/60 hover:shadow-md sm:col-span-2">
-                  <div className="mb-1 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">
+                <div className="flex flex-col items-center rounded-xl bg-orange-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100/60 hover:shadow-md">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">
                     <Clock className="h-6 w-6 text-[#ff8106]" />
                   </div>
                   <p className="text-sm font-medium text-gray-500">
@@ -463,8 +482,8 @@ export default async function TripDetailsPage({
         <div className="!mb-24 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {similarTrips.map((trip) => (
             <Link
-              key={trip.id}
-              href={`/trips/${trip.id}`}
+              key={trip.slug}
+              href={`/trips/${trip.slug}`}
               className="block overflow-hidden rounded-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-200 dark:hover:shadow-gray-800"
             >
               <Card id={`book-trip-outside-id-${trip.id}`} className="h-full">
@@ -502,3 +521,4 @@ export default async function TripDetailsPage({
     </>
   );
 }
+ 

@@ -13,13 +13,13 @@ import CompactWeProvide from "../_components/CompactWeProvide";
 
 export async function generateMetadata({
   params,
-}: PageParams<{ id: string }>): Promise<Metadata> {
-  const { id } = await params;
+}: PageParams<{ slug: string }>): Promise<Metadata> {
+  const { slug } = await params;
 
   const locale = await getLocale();
   const localeAttribute = localeAttributeFactory(locale);
 
-  const destination = await api.trip.listByDestination(Number(id));
+  const destination = await api.trip.listByDestination(slug);
 
   if (!destination) return {};
 
@@ -41,10 +41,10 @@ export async function generateMetadata({
 
 export default async function DestinationTripsPage({
   params,
-}: PageParams<{ id: string }>) {
-  const { id } = await params;
+}: PageParams<{ slug: string }>) {
+  const { slug } = await params;
 
-  const destination = await api.trip.listByDestination(Number(id));
+  const destination = await api.trip.listByDestination(slug);
 
   if (!destination) return notFound();
 
@@ -104,12 +104,12 @@ export default async function DestinationTripsPage({
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {destination.trips.map((trip) => (
             <Link 
-              key={trip.id} 
-              href={`/trips/${trip.id}`} 
+              key={trip.slug} 
+              href={`/trips/${trip.slug}`} 
               className="block transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 hover:shadow-gray-200 dark:hover:shadow-gray-800 rounded-lg overflow-hidden"
             >
               <Card
-                id={`book-trip-outside-id-${trip.id}`}
+                id={`book-trip-outside-id-${trip.slug}`}
                 className="h-full"
               >
                 <CardHeader className="relative h-48 w-full p-0">

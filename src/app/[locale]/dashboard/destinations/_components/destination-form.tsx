@@ -60,6 +60,7 @@ export function DestinationForm({ initialData, id }: DestinationFormProps) {
   const form = useForm<DestinationFormValues>({
     resolver: zodResolver(clientFormSchema),
     defaultValues: {
+      slug: initialData?.slug || "",
       nameEn: initialData?.nameEn || "",
       nameRu: initialData?.nameRu || "",
       isPopular: initialData?.isPopular || false,
@@ -103,6 +104,28 @@ export function DestinationForm({ initialData, id }: DestinationFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+
+        {/* Slug */}
+        <FormField
+          control={form.control}
+          name="slug"
+          rules={{ 
+            required: true,
+            pattern: {
+              value: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+              message: "Slug must contain only lowercase letters, numbers, and hyphens",
+            },
+           }}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Slug</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter slug" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* English Name */}
           <FormField

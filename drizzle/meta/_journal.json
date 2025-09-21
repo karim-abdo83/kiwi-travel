@@ -204,6 +204,83 @@
       "when": 1757652799191,
       "tag": "0028_perpetual_chronomancer",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1758119857521,
+      "tag": "0029_equal_masque",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1758178360376,
+      "tag": "0030_deep_mesmero",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1758212774445,
+      "tag": "0031_icy_lady_vermin",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1758383537711,
+      "tag": "0032_milky_anita_blake",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1758383817724,
+      "tag": "0033_slow_true_believers",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1758386953676,
+      "tag": "0034_minor_gateway",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1758443595306,
+      "tag": "0035_sturdy_vampiro",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1758444381515,
+      "tag": "0036_silly_salo",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1758445113854,
+      "tag": "0037_fantastic_wallop",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1758448933884,
+      "tag": "0038_lyrical_vertigo",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1758451709268,
+      "tag": "0039_cloudy_silver_centurion",
+      "breakpoints": true
     }
   ]
 }

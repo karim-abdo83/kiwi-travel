@@ -5,6 +5,29 @@ import { asc, count, eq, ilike, or, sql } from "drizzle-orm";
 import { destinationFormSchema } from "@/validators/destination-schema";
 
 export const destinationRouter = createTRPCRouter({
+  // slugMigration: adminProcedure.mutation(async ({ ctx }) => {
+  //   const destinations = await ctx.db.query.destination.findMany();
+  
+  //   const updatedDestinations = await Promise.all(
+  //     destinations.map(async (item) => {
+  //       const slug = item.nameEn
+  //         .toLowerCase()
+  //         .trim()
+  //         .replace(/\s+/g, "-")       // spaces -> dash
+  //         .replace(/[^a-z0-9-]/g, "") // remove non-allowed chars
+  //         .replace(/-+/g, "-")        // collapse multiple dashes
+  //         .replace(/^-+|-+$/g, "");   // trim leading/trailing dashes
+  
+  //       await ctx.db.update(destination)
+  //         .set({ slug })
+  //         .where(eq(destination.id, item.id));
+  
+  //       return { ...item, slug }; // return updated object
+  //     })
+  //   );
+  
+  //   return updatedDestinations;
+  // }),
   adminList: adminProcedure.query(
     async ({ ctx }) =>
       await ctx.db
@@ -91,6 +114,7 @@ export const destinationRouter = createTRPCRouter({
       return await ctx.db
         .select({
           id: destination.id,
+          slug: destination.slug,
           destinationEn: destination.nameEn,
           destinationRu: destination.nameRu,
           countryEn: country.nameEn,
@@ -113,6 +137,7 @@ export const destinationRouter = createTRPCRouter({
         )
         .groupBy(
           destination.id,
+          destination.slug,
           destination.nameEn,
           destination.nameRu,
           destination.imageUrl,
@@ -122,6 +147,7 @@ export const destinationRouter = createTRPCRouter({
         .then((res) =>
           res.map((item) => ({
             id: item.id,
+            slug: item.slug,
             locationEn: `${item.countryEn}, ${item.destinationEn}`,
             locationRu: `${item.countryRu}, ${item.destinationRu}`,
             image: item.image,

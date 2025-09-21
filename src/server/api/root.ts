@@ -8,6 +8,8 @@ import { tripBookingRouter } from "./routers/trip-booking";
 import { reviewRouter } from "./routers/review";
 import { notificationsRouter } from "./routers/notifications";
 import { tripTypeRouter } from "./routers/trip-type";
+import { tripSearchRouter } from "./routers/trip-search";
+import { appContentRouter } from "./routers/app-content";
 
 /**
  * This is the primary router for your server.
@@ -24,6 +26,8 @@ export const appRouter = createTRPCRouter({
   review: reviewRouter,
   notifications: notificationsRouter,
   tripType: tripTypeRouter,
+  search: tripSearchRouter,
+  appContent: appContentRouter,
 });
 
 // export type definition of API

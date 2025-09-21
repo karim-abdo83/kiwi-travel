@@ -14,13 +14,16 @@
     "hero": {
       "headline": "Ваше следующее приключение начинается здесь",
       "subheadline": "Выбирайте экскурсии, бронируйте с уверенностью",
+      "trips": "{count, plural, one {тур} few {тура} many {туров} other {туров}}",
       "cardTitle": "Куда отправимся?",
       "advancedFilters": "Показать фильтры",
       "searchPlaceholder": "Введите страну, город или тур",
-      "search": "Поиск",
+      "search": "Поиск ",
       "notFound": "Результаты не найдены.",
       "suggestions": "Предложения",
-      "tripsCount": "{count} поездки"
+      "tripsCount": "{count} поездки",
+      "destination": "Направление",
+      "trip": "Тур"
     },
     "featuredTrips": {
       "sectionTitle": "Рекомендуемые Экскурсии",
@@ -40,7 +43,43 @@
       "reason3Description": "Поможем на всех этапах путешествия: до, во время и после. Мы всегда рядом."
     },
     "testimonials": {
-      "sectionTitle": "Что говорят наши путешественники"
+      "sectionTitle": "Отзывы наших путешественников",
+      "sectionSubtitle": "Читайте отзывы наших гостей и поделитесь своими впечатлениями",
+      "success": "Успех",
+      "error": "Ошибка",
+      "reviewSubmitted": "Спасибо за ваш отзыв!",
+      "noBookingError": "Бронирование не найдено. Пожалуйста, сначала оформите бронирование.",
+      "validationError": "Ошибка валидации",
+      "writeReview": "Оставить отзыв",
+      "yourName": "Ваше имя",
+      "yourEmail": "Ваш email",
+      "email": "имейл",
+      "yourRating": "Ваша оценка",
+      "yourReview": "Ваш отзыв",
+      "namePlaceholder": "Иван Иванов",
+      "emailPlaceholder": "ваш@email.com",
+      "reviewPlaceholder": "Поделитесь с нами своим опытом...",
+      "submitReview": "Отправить",
+      "cancel": "Отмена",
+      "submitting": "Отправка...",
+      "fillAllFields": "Пожалуйста, заполните все обязательные поля",
+      "adminReply": "Ответ администрации",
+      "noReviews": "Будьте первым, кто оставит отзыв!",
+      "beFirstToReview": "Будьте первым, кто оставит отзыв!",
+      "uploadPhotos": "Загрузить изображение",
+      "max5Photos": "Максимум 5 фото",
+      "orDragAndDrop": "или перетащите сюда",
+      "imageFormats": "PNG, JPG, JPEG до 5МБ",
+      "customerReviews": "Отзывы клиентов",
+      "optional": "необязательно",
+      "anonymous": "Аноним",
+      "rating": "Оценка",
+      "reply": "Ответ",
+      "writeReply": "Написать ответ",
+      "messagePlaceholder":"Напишите сообщение...",
+      "images": "изображения"
+
+  
     }
   },
   "FAQsPage": {
@@ -110,11 +149,13 @@
     "tripFeatures": "Особенности тура",
     "amenities": "Удобства",
     "tripInformation": "Информация о туре",
+    "persons": "человек",
+    "notSpecified": "Не указано",
     "country": "Страна:",
     "destination": "Направление:",
     "duration": "Продолжительность:",
     "type": "Тип:",
-    "travelTime": "Время отправления:",
+    "travelTime": "Время отправ ления:",
     "askQuestion": "Задать вопрос",
     "reviews": "Отзывов",
     "bookNow": "Забронировать",
@@ -122,6 +163,7 @@
     "availableDays": "Доступные дни",
     "pickupPoint": "Место отправления",
     "placeOfReturn": "Место возврата",
+    "sizeOfTrip": "Размер группы",
     "tabs": {
       "description": "Описание",
       "details": "Детали и особенности"
@@ -224,6 +266,17 @@
     "availableTrips": "Доступные поездки",
     "bookNow": "Забронировать сейчас"
   },
+  "Admin": {
+    "Settings": {
+      "title": "Настройки администратора",
+      "popularDestinationsTitle": "Заголовок раздела популярных направлений",
+      "popularDestinationsDescription": "Этот заголовок будет отображаться в разделе популярных направлений на главной странице.",
+      "saveChanges": "Сохранить изменения",
+      "saving": "Сохранение...",
+      "settingsUpdated": "Настройки успешно обновлены!",
+      "updateError": "Не удалось обновить настройки. Пожалуйста, попробуйте снова."
+    }
+  },
   "ConfirmFeedback": {
     "bookingCancelled": "Бронирование отменено",
     "bookingConfirmed": "Бронирование подтверждено",
@@ -258,6 +311,21 @@
     "cancel": "Отмена",
     "confirmDeletion": "Да",
     "deleting": "Удаление..."
+  },
+  "Auth": {
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "emailAddress": "Адрес электронной почты",
+    "password": "Пароль",
+    "forgotPassword": "Забыли пароль?",
+    "dontHaveAccount": "Нет аккаунта?",
+    "alreadyHaveAccount": "Уже есть аккаунт?",
+    "orContinueWith": "Или продолжить с помощью",
+    "signInWithGoogle": "Войти через Google",
+    "signInWithFacebook": "Войти через Facebook",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "confirmPassword": "Подтвердите пароль"
   },
   "General": {
     "amenities": {

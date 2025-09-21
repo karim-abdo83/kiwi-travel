@@ -14,6 +14,7 @@ import {
   Globe,
   Map,
   Plane,
+  Settings,
   Sparkles,
   SquareArrowOutUpRight,
   Star,
@@ -58,9 +59,14 @@ const sidebarNavItems = [
   }
   ,
   {
-    title :"Reviews",
+    title: "Reviews",
     href: "/dashboard/reviews",
-    icon:Star,
+    icon: Star,
+  },
+  {
+    title: "App Content",
+    href: "/dashboard/app-content",
+    icon: Settings,
   }
 ];
 

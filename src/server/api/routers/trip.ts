@@ -45,6 +45,7 @@ export const tripRouter = createTRPCRouter({
       },
       columns: {
         id: true,
+        slug: true,
         assetsUrls: true,
         titleEn: true,
         adultTripPriceInCents: true,
@@ -71,6 +72,7 @@ export const tripRouter = createTRPCRouter({
         where: ({ id }, { eq }) => eq(id, input),
         columns: {
           id: true,
+          slug: true,
           titleEn: true,
           titleRu: true,
           adultTripPriceInCents: true,
@@ -219,12 +221,14 @@ export const tripRouter = createTRPCRouter({
   listRssFeed: publicProcedure.input(z.enum(["en", "ru"])).query(({ ctx, input }) => ctx.db.query.trip.findMany({
     columns: input === "en" ? ({
       id: true,
+      slug: true,
       createdAt: true,
       titleEn: true,
       descriptionEn: true,
       adultTripPriceInCents: true,
     }) : ({
       id: true,
+      slug: true,
       createdAt: true,
       titleRu: true,
       descriptionRu: true,
@@ -234,6 +238,7 @@ export const tripRouter = createTRPCRouter({
     limit: 500,
   }).then(res => res.map(item => ({
     id: item.id,
+    slug: item.slug,
     price: Math.floor(item.adultTripPriceInCents / 100),
     createdAt: item.createdAt,
     title: ('titleEn' in item ? item.titleEn : (item as any).titleRu) as string,
@@ -331,6 +336,7 @@ export const tripRouter = createTRPCRouter({
       return await ctx.db
         .selectDistinct({
           id: trip.id,
+          slug: trip.slug,
           titleEn: trip.titleEn,
           titleRu: trip.titleRu,
           assets: trip.assetsUrls,
@@ -342,6 +348,7 @@ export const tripRouter = createTRPCRouter({
           destinationEn: destination.nameEn,
           destinationRu: destination.nameRu,
           destinationId: destination.id,
+          destinationSlug: destination.slug,
         })
         .from(trip)
         .innerJoin(destination, eq(trip.destinationId, destination.id))
@@ -358,9 +365,11 @@ export const tripRouter = createTRPCRouter({
 
             return {
               id: item.id,
+              slug: item.slug,
               titleEn: item.titleEn,
               titleRu: item.titleRu,
               destinationId: item.destinationId,
+              destinationSlug: item.destinationSlug,
               locationEn: `${item.countryEn}, ${item.destinationEn}`,
               locationRu: `${item.countryRu}, ${item.destinationRu}`,
               price: Math.floor(item.priceInCents / 100),
@@ -380,6 +389,7 @@ export const tripRouter = createTRPCRouter({
           where: ({ isFeatured }, { eq }) => eq(isFeatured, true),
           columns: {
             id: true,
+            slug: true,
             titleEn: true,
             titleRu: true,
             adultTripPriceInCents: true,
@@ -400,6 +410,7 @@ export const tripRouter = createTRPCRouter({
 
             return {
               id: item.id,
+              slug: item.slug,
               titleEn: item.titleEn,
               titleRu: item.titleRu,
               price: Math.floor(item.adultTripPriceInCents / 100),
@@ -409,14 +420,15 @@ export const tripRouter = createTRPCRouter({
           }),
         ),
   ),
-  listByDestination: publicProcedure.input(z.number().int()).query(
+  listByDestination: publicProcedure.input(z.string()).query(
     async ({ ctx, input }) =>
       await ctx.db.query.destination.findFirst({
-        where: ({ id }, { eq }) => eq(id, input),
+        where: ({ slug }, { eq }) => eq(slug, input),
         with: {
           trips: {
             columns: {
               id: true,
+              slug: true,
               titleEn: true,
               titleRu: true,
               descriptionEn: true,
@@ -433,6 +445,7 @@ export const tripRouter = createTRPCRouter({
     where: ({ isAvailable }, { eq }) => eq(isAvailable, true),
     columns: {
       id: true,
+      slug: true,
       updatedAt: true,
     },
   })),
@@ -440,6 +453,32 @@ export const tripRouter = createTRPCRouter({
     async ({ ctx, input }) =>
       await ctx.db.query.trip.findFirst({
         where: ({ id }, { eq }) => eq(id, input),
+        with: {
+          tripTypes: {
+            with: {
+              tripType: true,
+            },
+          },
+          destination: {
+            with: {
+              country: true,
+            },
+          },
+          features: {
+            with: {
+              feature: true,
+            },
+          },
+          reviews: {
+            where: ({ isHiddenByAdmin }, { eq }) => eq(isHiddenByAdmin, false),
+          },
+        },
+      }),
+  ),
+  viewBySlug: publicProcedure.input(z.string()).query(
+    async ({ ctx, input }) =>
+      await ctx.db.query.trip.findFirst({
+        where: ({ slug }, { eq }) => eq(slug, input),
         with: {
           tripTypes: {
             with: {
@@ -478,5 +517,5 @@ export const tripRouter = createTRPCRouter({
       //   descriptionRu: true,
       // },
     })
-  )
+  ),
 });

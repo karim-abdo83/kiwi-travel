@@ -63,7 +63,14 @@ export function TripsList() {
     setDialogOpen(false);
   };
 
+  // const {mutate: updateTripSlug, isPending: isUpdatingTripSlug} = api.trip.tripSlugMigration.useMutation();
+  
+
   const columns: ColumnDef<Trip>[] = [
+    {
+      accessorKey: "slug",
+      header: "Slug",
+    },
     {
       accessorKey: "title",
       header: "Trip",
@@ -181,6 +188,25 @@ export function TripsList() {
 
   return (
     <div>
+      {/* <Button onClick={async() => {
+        try {
+          await updateTripSlug();
+          toast({
+            title: "Success",
+            description: "Slugs updated successfully",
+          });
+        } catch (error) {
+          console.log('\n\nTrips migration error ====>>> ', error);
+          toast({
+            title: "Error",
+            description: error.toString(),
+            variant: "destructive",
+          });
+        }
+      }} disabled={isUpdatingTripSlug}>
+        {isUpdatingTripSlug ? "Updating..." : 'Update Slugs'}
+      </Button> */}
+                
       <DataTable
         columns={columns}
         hiddenColumns={["titleEn"]}

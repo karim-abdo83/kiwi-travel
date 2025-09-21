@@ -27,6 +27,7 @@ export function DestinationsList() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const { data, refetch } = api.destination.adminList.useQuery();
+  // const { mutate: runMigration, isPending: isMigrationLoading } = api.destination.slugMigration.useMutation();
   const { mutate: deleteDestination } = api.destination.adminDelete.useMutation(
     {
       onError: (error) => {
@@ -130,6 +131,15 @@ export function DestinationsList() {
 
   return (
     <div>
+
+      {/* <Button
+        variant="outline"
+        size="sm"
+        onClick={() => runMigration()}
+        disabled={isMigrationLoading}
+      >
+        {isMigrationLoading ? 'Running...' : 'Run migration'}
+      </Button> */}
       <DataTable
         columns={columns}
         data={data ?? []}

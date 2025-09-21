@@ -78,9 +78,9 @@ export default function Footer() {
                 <Image 
                   src='/registration-footer.jpg'
                   alt="Footer image" 
-                  width={300} 
-                  height={150} 
-                  className="w-auto h-auto max-w-[140px] cursor-pointer hover:opacity-80 transition-opacity rounded-md shadow-md"
+                  width={500} 
+                  height={250} 
+                  className="w-auto h-auto max-w-[170px] cursor-pointer hover:opacity-80 transition-opacity rounded-md shadow-md"
                   onClick={() => setShowModal(true)}
                   priority
                 />
@@ -99,9 +99,9 @@ export default function Footer() {
                         <Image 
                           src='/registration-certificate.jpg' 
                           alt="Enlarged footer image" 
-                          width={1600}
-                          height={800}
-                          className="max-w-full max-h-[85vh] object-contain"
+                          width={2000}
+                          height={1000}
+                          className="max-w-full max-h-[90vh] object-contain"
                           priority
                         />
                       </div>
