@@ -8,7 +8,6 @@ import { localeAttributeFactory, mainImage } from "@/lib/utils";
 import { api } from "@/trpc/server";
 import { PageParams } from "@/types/page-params";
 import { format } from "date-fns";
-import { enUS, ru } from "date-fns/locale";
 import {
   BanknoteX,
   BookCheck,
@@ -17,8 +16,6 @@ import {
   CircleDollarSign,
   FacebookIcon,
   InstagramIcon,
-  Globe,
-  Users,
   MapPin,
   MessageCircle,
   MessageSquare,
@@ -26,9 +23,6 @@ import {
   Send,
   User,
   Clock,
-  Users2,
-  CalendarDays,
-  Hourglass,
   Calendar,
   UsersIcon,
 } from "lucide-react";
@@ -40,6 +34,7 @@ import type { TouristTrip, WithContext } from "schema-dts";
 import BookingForm from "./_components/booking-form";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ReviewWriteForm } from "../../_components/reviewWrite-form";
 
 export async function generateMetadata({
   params,
@@ -50,8 +45,6 @@ export async function generateMetadata({
   const localeAttribute = localeAttributeFactory(locale);
 
   const trip = await api.trip.viewBySlug(slug);
-
-  console.log('=>>>>> Trip', trip);
 
   if (!trip) return {};
 
@@ -475,6 +468,10 @@ export default async function TripDetailsPage({
               </>
             )}
           </div>
+        </div>
+        <div className="w-full justify-center lg:top-8 ">
+        <ReviewWriteForm />
+
         </div>
 
         {/* Similar Trips */}

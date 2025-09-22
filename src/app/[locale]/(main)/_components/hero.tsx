@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import SearchCard from "./search-card";
 import styles from "./Hero.module.css";
-import { useTypewriter } from "@/hooks/useTypewriter";
 import { useBackgroundSlideshow } from "@/hooks/useBackgroundSlideshow";
 
 const useWindowWidth = () => {
@@ -14,48 +13,38 @@ const useWindowWidth = () => {
   useEffect(() => {
     setIsMounted(true);
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const handleResize = () => setWidth(window.innerWidth);
 
       handleResize();
 
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
 
-      return () => window.removeEventListener('resize', handleResize);
+      return () => window.removeEventListener("resize", handleResize);
     }
   }, []);
 
   return isMounted ? width : 0;
 };
 
-const BACKGROUND_IMAGES = [
-  '/hero1.jpg',
-  '/hero2.jpg',
-  '/hero3.jpg',
-].filter(Boolean); 
+// Desktop background images
+const DESKTOP_IMAGES = ["/hero1.jpg", "/hero2.jpg", "/hero3.jpg"];
+
+// Mobile background images
+const MOBILE_IMAGES = ["/mobile1.jpg", "/mobile2.jpg", "/mobile3.jpg"];
 
 export default function Hero() {
   const t = useTranslations("HomePage.hero");
-  const { currentImage } = useBackgroundSlideshow(BACKGROUND_IMAGES, 5000);
-
-  const headline = t("headline") || '';
-  const headlineParts = headline.split(' ');
-  const lastWord = headlineParts.slice(-1)[0] || '';
-  const restOfText = headlineParts.slice(0, -1).join(' ');
-
-  const displayText = useTypewriter(restOfText, 50);
-  const [showLastWord, setShowLastWord] = useState(false);
-  const lastWordDisplay = useTypewriter(lastWord, 50);
   const windowWidth = useWindowWidth();
+  const isMobile = windowWidth < 768;
+  const { currentImage: desktopImage } = useBackgroundSlideshow(DESKTOP_IMAGES, 5000);
+  const { currentImage: mobileImage } = useBackgroundSlideshow(MOBILE_IMAGES, 5000);
+  const currentImage = isMobile ? mobileImage : desktopImage;
 
-  useEffect(() => {
-    if (displayText === restOfText) {
-      setShowLastWord(true);
-    }
-  }, [displayText, restOfText]);
+  const headline = t("headline") || "";
 
   const [imageError, setImageError] = useState(false);
-  
+
   const handleImageError = () => {
     console.error(`Failed to load image: ${currentImage}`);
     setImageError(true);
@@ -63,38 +52,50 @@ export default function Hero() {
 
   const backgroundStyle = imageError
     ? {
-        backgroundColor: 'rgba(0,0,0,0.7)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundColor: "rgba(0,0,0,0.7)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }
     : {
         backgroundImage: `url(${currentImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundBlendMode: 'overlay',
-        backgroundAttachment: windowWidth >= 768 ? 'fixed' : 'scroll'
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundBlendMode: "overlay",
+        backgroundAttachment: windowWidth >= 768 ? "fixed" : "scroll",
       };
 
   return (
     <div className="relative h-screen w-full">
       {/* Background Image */}
-      <div 
+      <div
         className="absolute inset-0 transition-opacity duration-1000"
         style={backgroundStyle}
         onError={handleImageError}
       >
         {/* Preload all hero images */}
         <div className="hidden">
-          {BACKGROUND_IMAGES.map((img, index) => (
-            <img 
-              key={index} 
-              src={img} 
-              alt="" 
+          {DESKTOP_IMAGES.map((img, index) => (
+            <img
+              key={`desktop-${index}`}
+              src={img}
+              alt=""
               onError={(e) => {
-                console.error(`Failed to preload image: ${img}`);
+                console.error(`Failed to preload desktop image: ${img}`);
                 const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
+                target.style.display = "none";
+              }}
+            />
+          ))}
+          {MOBILE_IMAGES.map((img, index) => (
+            <img
+              key={`mobile-${index}`}
+              src={img}
+              alt=""
+              onError={(e) => {
+                console.error(`Failed to preload mobile image: ${img}`);
+                const target = e.target as HTMLImageElement;
+                target.style.display = "none";
               }}
             />
           ))}
@@ -103,11 +104,8 @@ export default function Hero() {
 
       <div className="relative h-full flex flex-col items-center justify-center text-center px-4 pt-20 pb-32">
         <div className={`max-w-4xl space-y-6 mt-48 ${styles.animateFadeInUp}`}>
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight min-h-[1.2em]">
-            <span className="bg-clip-text">
-              {displayText}
-              {showLastWord && ` ${lastWordDisplay}`}
-            </span>
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
+            {headline}
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed">
             {t("subheadline")}

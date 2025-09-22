@@ -38,6 +38,13 @@ export const ourFileRouter = {
   })
     .middleware(adminMiddleware)
     .onUploadComplete(() => ({ message: "Success" })),
+  reviewImageUploader: f({
+      image: {
+        maxFileCount: 1,
+        maxFileSize: "8MB",
+      }
+    })
+      .onUploadComplete(() => ({ message: "Success" }))
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

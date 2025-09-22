@@ -17,8 +17,9 @@ export const Header = () => {
   const t = useTranslations("General.header");
 
   return (
-    <header className="fixed top-0 z-20 h-16 w-full border-b bg-background p-4 text-foreground shadow">
-      <nav className="container mx-auto flex items-center justify-between gap-4">
+    <header className="fixed top-0 left-0 right-0 z-50 h-16 w-full border-b bg-background text-foreground shadow">
+      <div className="relative h-full w-full px-4">
+        <nav className="mx-auto h-full w-full max-w-[1440px] flex items-center justify-between">
         <Link className="flex items-center gap-2" href="/">
           <img
             className="-mt-1 block w-48 sm:w-56"
@@ -49,7 +50,8 @@ export const Header = () => {
           </SignedIn>
         </div>
         <DrawerButton />
-      </nav>
+        </nav>
+      </div>
     </header>
   );
 };
