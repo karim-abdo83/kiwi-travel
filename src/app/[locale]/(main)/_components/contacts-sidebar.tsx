@@ -2,7 +2,7 @@ import React from "react";
 
 const ContactsSidebar = () => {
   return (
-    <ul className="fixed bg-accent bottom-28 right-0 p-4 rounded-l-lg border-2 border-r-0 border-primary/50 shadow-lg grid gap-4">
+    <ul className="fixed bottom-28 right-0 z-40 grid gap-4 p-4 bg-accent rounded-l-lg border-t-2 border-b-2 border-l-2 border-primary/50 shadow-lg" style={{ boxSizing: 'border-box' }}>
       <li>
         <a target="_blank" href="https://wa.me/201003637624">
           <svg

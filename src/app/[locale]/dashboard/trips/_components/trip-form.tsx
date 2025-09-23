@@ -160,6 +160,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
   const form = useForm<TripFormValues>({
     resolver: zodResolver(clientFormSchema),
     defaultValues: {
+      slug: initialData?.slug || "",
       titleEn: initialData?.titleEn || "",
       titleRu: initialData?.titleRu || "",
       descriptionEn: initialData?.descriptionEn || "",
@@ -192,6 +193,8 @@ export function TripForm({ initialData, id }: TripFormProps) {
       pickupPointRu: initialData?.pickupPointRu || "",
       placeOfReturnEn: initialData?.placeOfReturnEn || "",
       placeOfReturnRu: initialData?.placeOfReturnRu || "",
+      // size of trip
+      sizeOfTrip: initialData?.sizeOfTrip || "",
     },
   });
 
@@ -225,34 +228,95 @@ export function TripForm({ initialData, id }: TripFormProps) {
   };
 
   const handleSubmit = async (value: TripFormValues) => {
-    const assets = await getAssets();
+    try {
+      // Ensure slug is properly formatted
+      const formattedValue = {
+        ...value,
+        // Ensure slug is trimmed and in lowercase with hyphens
+        slug: value.slug.trim().toLowerCase().replace(/\s+/g, '-'),
+      };
 
-    if (assets.length === 0) {
+      const assets = await getAssets();
+
+      if (assets.length === 0) {
+        toast({
+          variant: "destructive",
+          title: "Invalid Assets",
+          description: "You must provide at least one asset for your trip",
+        });
+        return;
+      }
+
+      if (initialData && id) {
+        await update({
+          ...formattedValue,
+          id,
+          assets,
+        });
+      } else {
+        await create({
+          ...formattedValue,
+          assets,
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
       toast({
         variant: "destructive",
-        title: "Invalid Assets",
-        description: "You must provide at least one asset for your trip",
+        title: "Error",
+        description: "An error occurred while saving the trip. Please try again.",
       });
-      return;
-    }
-
-    if (initialData && id) {
-      update({
-        ...value,
-        id,
-        assets,
-      })
-    } else {
-      create({
-        ...value,
-        assets,
-      })
     }
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+        {/* Slug */}
+        <FormField
+          control={form.control}
+          name="slug"
+          rules={{ 
+            required: "Slug is required",
+            pattern: {
+              value: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+              message: "Slug must be a valid URL slug (lowercase letters, numbers, and hyphens only)",
+            },
+            minLength: {
+              value: 3,
+              message: "Slug must be at least 3 characters long",
+            },
+            maxLength: {
+              value: 50,
+              message: "Slug must be less than 50 characters",
+            },
+          }}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Slug</FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input 
+                    placeholder="my-awesome-trip" 
+                    {...field} 
+                    onChange={(e) => {
+                      // Automatically format the slug as user types
+                      const value = e.target.value
+                        .toLowerCase()
+                        .replace(/\s+/g, '-')
+                        .replace(/[^a-z0-9-]/g, '');
+                      field.onChange(value);
+                    }}
+                  />
+                </div>
+              </FormControl>
+              <FormDescription>
+                A URL-friendly version of the title. Only lowercase letters, numbers, and hyphens are allowed.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* English Title */}
           <FormField
@@ -453,6 +517,24 @@ export function TripForm({ initialData, id }: TripFormProps) {
                   <span className="text-foreground">hour</span> and{" "}
                   <span className="text-foreground">hours</span> for
                   translation, (e.g. 1 day, 3 hours)
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        
+         {/* Size of trip */}
+            <FormField
+            control={form.control}
+            name="sizeOfTrip"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Size of Trip</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Size of Trip" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Use <span className="text-foreground">person</span>,{" "}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

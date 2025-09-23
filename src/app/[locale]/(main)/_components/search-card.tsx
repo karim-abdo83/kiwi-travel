@@ -20,10 +20,36 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { Link } from "@/i18n/routing";
 import { localeAttributeFactory } from "@/lib/utils";
 import { api } from "@/trpc/react";
-import { ChevronsUpDown, Search, Sliders } from "lucide-react";
+import { ChevronsUpDown, Search, Sliders, MapPin, Plane } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+type Destination = {
+  id: number;
+  slug: string;
+  locationEn: string;
+  locationRu: string;
+  image: string;
+  tripsCount: number;
+};
+
+const getLocalizedValue = (locale: string, obj: any, key: string): string => {
+  if (!obj) return '';
+  
+  const enKey = `${key}En`;
+  const ruKey = `${key}Ru`;
+  
+  if (locale === 'ru' && obj[ruKey]) {
+    return obj[ruKey] || '';
+  }
+  
+  if (obj[enKey]) {
+    return obj[enKey] || '';
+  }
+  
+  return obj[key] || '';
+};
 
 export default function SearchCard() {
   const t = useTranslations("HomePage.hero");
@@ -35,15 +61,24 @@ export default function SearchCard() {
 
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
-  const { data: destinations, isLoading } =
-    api.destination.tinyListSearch.useQuery(debouncedSearchTerm);
+  const { data: destinations, isLoading: isLoadingDestinations } =
+    api.destination.tinyListSearch.useQuery(debouncedSearchTerm, {
+      enabled: open,
+    });
+    
+  const { data: trips, isLoading: isLoadingTrips } =
+    api.search.search.useQuery(debouncedSearchTerm || '', {
+      enabled: Boolean(debouncedSearchTerm && debouncedSearchTerm.trim().length > 0),
+    });
+
+  const isLoading = isLoadingDestinations || isLoadingTrips;
+  const hasResults = (destinations?.length ?? 0) > 0 || (trips?.length ?? 0) > 0;
 
   return (
-    <Card className="mx-auto w-full max-w-3xl sm:rounded-xl rounded-none">
-      <CardContent className="p-6">
+    <Card className="mx-auto w-full max-w-3xl sm:rounded-xl  ">
+      <CardContent className="p-3 lg:p-6">
         <div className="flex flex-col space-y-4">
           <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
             <h2 className="text-xl font-semibold">{t("cardTitle")}</h2>
@@ -82,58 +117,97 @@ export default function SearchCard() {
                   className="h-9"
                 />
                 <CommandList className="max-h-[250px]">
-                  {!isLoading && <CommandEmpty>{t("notFound")}</CommandEmpty>}
-                  <CommandGroup
-                    heading={
-                      isLoading || destinations?.length !== 0
-                        ? t("suggestions")
-                        : undefined
-                    }
-                  >
-                    {isLoading
-                      ? // Skeleton loading state
-                        [1, 2, 3].map((item) => (
-                          <div
-                            key={item}
-                            className="flex items-center gap-3 px-2 py-2"
-                          >
-                            <Skeleton className="sm:block hidden h-8 w-8 rounded-md" />
-                            <div className="flex-1 space-y-1">
-                              <Skeleton className="h-3 w-3/4 rounded" />
-                              <Skeleton className="h-2 w-1/2 rounded" />
-                            </div>
-                            <Skeleton className="h-5 w-10 rounded-full" />
+                  {!isLoading && !hasResults && debouncedSearchTerm.length > 0 && (
+                    <CommandEmpty>{t("notFound")}</CommandEmpty>
+                  )}
+                  <CommandGroup heading={t("suggestions")}>
+                    {isLoading ? (
+                      // Skeleton loading state
+                      [1, 2, 3].map((item) => (
+                        <div key={item} className="flex items-center gap-3 px-2 py-2">
+                          <Skeleton className="sm:block hidden h-8 w-8 rounded-md" />
+                          <div className="flex-1 space-y-1">
+                            <Skeleton className="h-3 w-3/4 rounded" />
+                            <Skeleton className="h-2 w-1/2 rounded" />
                           </div>
-                        ))
-                      : destinations?.map((destination) => (
-                          <Link key={destination.id} href={`/destinations/${destination.id}`}>
-                            <CommandItem
-                              onSelect={() => {
-                                router.push(`/destinations/${destination.id}`);
-                                setOpen(false);
-                              }}
-                              className="flex items-center px-2 py-2"
-                            >
-                              <img
-                                src={destination.image}
-                                alt={localeAttribute(destination, "location")}
-                                className="mr-3 h-8 w-8 rounded-md object-cover sm:block hidden"
-                              />
+                        </div>
+                      ))
+                    ) : (
+                      <>
+                        {/* Show destinations */}
+                        {!debouncedSearchTerm && destinations?.slice(0, 5).map((destination: Destination) => (
+                          <CommandItem
+                            key={`dest-${destination.id}`}
+                            value={`dest-${destination.id}`}
+                            onSelect={() => {
+                              router.push(`/destinations/${destination.slug}`);
+                              setOpen(false);
+                            }}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">
+                                {destination.image ? (
+                                  <img 
+                                    src={destination.image} 
+                                    alt={`${getLocalizedValue(locale, { nameEn: destination.locationEn, nameRu: destination.locationRu }, 'name')} image`}
+                                    className="h-full w-full object-cover"
+                                  />
+                                ) : (
+                                  <MapPin className="h-4 w-4 text-muted-foreground" />
+                                )}
+                              </div>
                               <div className="flex-1">
-                                <div className="text-sm font-medium">
-                                  {localeAttribute(destination, "location")}
+                                <div className="font-medium">
+                                  {getLocalizedValue(locale, { 
+                                    nameEn: destination.locationEn, 
+                                    nameRu: destination.locationRu 
+                                  }, 'name')}
+                                </div>
+                                <div className="text-xs text-muted-foreground">
+                                  {destination.tripsCount} {t('trips', { count: destination.tripsCount })}
                                 </div>
                               </div>
-                              {
-                                destination.tripsCount !== 0 && (
-                                  <div className="flex items-center rounded-full bg-green-400/20 px-2 py-0.5 text-xs font-medium text-green-800">
-                                    {t("tripsCount", { count: destination.tripsCount })}
-                                  </div>
-                                )
-                              }
-                            </CommandItem>
-                          </Link>
+                              <span className="text-xs text-muted-foreground">
+                                {t('destination')}
+                              </span>
+                            </div>
+                          </CommandItem>
                         ))}
+
+                        {/* Show trips */}
+                        {/* Only show trips when there's a search term */}
+                        {debouncedSearchTerm && trips?.map((trip) => (
+                          <CommandItem
+                            key={`trip-${trip.id}`}
+                            value={`trip-${trip.id}`}
+                            onSelect={() => {
+                              router.push(`/trips/${trip.slug}`);
+                              setOpen(false);
+                            }}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
+                                <Plane className="h-4 w-4" />
+                              </div>
+                              <div className="flex-1">
+                                <div className="font-medium">
+                                  {getLocalizedValue(locale, trip, 'title')}
+                                </div>
+                                {trip.destination && (
+                                  <div className="text-xs text-muted-foreground">
+                                    {getLocalizedValue(locale, trip.destination, 'name')}
+                                    {trip.country && `, ${getLocalizedValue(locale, trip.country, 'name')}`}
+                                  </div>
+                                )}
+                              </div>
+                              <span className="text-xs text-muted-foreground">
+                                {t('trip')}
+                              </span>
+                            </div>
+                          </CommandItem>
+                        ))}
+                      </>
+                    )}
                   </CommandGroup>
                 </CommandList>
               </Command>

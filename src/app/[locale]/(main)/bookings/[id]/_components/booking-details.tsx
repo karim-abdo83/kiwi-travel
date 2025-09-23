@@ -105,7 +105,7 @@ export function BookingDetails({ booking }: { booking: Booking }) {
           {t("backToAllBookings")}
         </Link>
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <Link href={`/trips/${data.tripId}`}>
+          <Link href={`/trips/${data.trip.slug}`}>
             <Button variant="link" className="p-0">
               <LinkIcon className="!size-6" />
               <h1 className="text-2xl font-bold">

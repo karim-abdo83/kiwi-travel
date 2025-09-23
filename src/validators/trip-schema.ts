@@ -11,6 +11,7 @@ export const days = [
 ] as const;
 
 export const tripFormSchema = z.object({
+  slug: z.string().min  (1, "Slug is required"),
   titleEn: z.string().min(1, "English title is required"),
   titleRu: z.string().min(1, "Russian title is required"),
   descriptionEn: z.string().min(1, "English description is required"),
@@ -33,6 +34,7 @@ export const tripFormSchema = z.object({
     .array(z.number({ message: "trip type is required" }))
     .min(1, "At least one type must be provided"),
   duration: z.string().min(1, "Duration is required"),
+  sizeOfTrip: z.string().min(1, "Size of trip is required"),
   isAvailable: z.boolean().default(true),
   isFeatured: z.boolean().default(false),
   isConfirmationRequired: z.boolean().default(false),

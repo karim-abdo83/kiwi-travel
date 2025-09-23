@@ -10,6 +10,7 @@ export const country = pgTable("contries", (c) => ({
 
 export const destination = pgTable("destinations", (c) => ({
   id: c.integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  slug: c.text("slug").notNull(),
   nameEn: c.text("name_en").notNull(),
   nameRu: c.text("name_ru").notNull(),
   imageUrl: c.text("image_url").notNull(),

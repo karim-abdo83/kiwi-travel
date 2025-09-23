@@ -8,6 +8,7 @@ import { localeAttributeFactory } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
+import { appContent } from "@/server/db/schema";
 
 export default function PopularDestinations() {
   const t = useTranslations("HomePage.popularDestinations");
@@ -22,11 +23,15 @@ export default function PopularDestinations() {
   });
 
 
+  const { data: appContent } = api.appContent.get.useQuery();  
+
+  const sectionTitle = appContent?.popularDestinationEn || t("sectionTitle");
+
   return (
     <section className="py-16 px-4 lg:px-6">
       <div className="container mx-auto px-4 md:px-0">
         <h2 className="mb-8 text-center text-2xl lg:text-3xl md:text-3xl font-bold">
-          {t("sectionTitle")}
+          {sectionTitle}
         </h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {isLoading &&
@@ -46,7 +51,7 @@ export default function PopularDestinations() {
               </Card>
             ))}
           {destinations?.map((destination) => (
-            <Link key={destination.id} href={`/destinations/${destination.id}`} className="block h-full">
+            <Link key={destination.id} href={`/destinations/${destination.slug}`} className="block h-full">
               <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group">
                 <div className="relative h-48 w-full overflow-hidden">
                   <Image

@@ -1,0 +1,1 @@
+ALTER TABLE "trips" ADD COLUMN "size_of_trip" text DEFAULT '' NOT NULL;

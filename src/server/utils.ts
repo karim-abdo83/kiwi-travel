@@ -28,7 +28,7 @@ export async function generateRSSFeed(locale: Locale): Promise<string> {
     feed.item({
       title: trip.title,
       description: trip.description,
-      url: `${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.id}`.replaceAll(
+      url: `${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.slug}`.replaceAll(
         "//",
         "/",
       ),
@@ -43,7 +43,7 @@ export async function generateGoogleFeed(locale: "ru" | "en"): Promise<string> {
   const trips = await api.trip.listRssFeed(locale);
 
   const itemsXml = trips.map((trip) => {
-    const url = `${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.id}`;
+    const url = `${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.slug}`;
     const image = `${env.NEXT_PUBLIC_APP_URL}/logo.svg`;
     const price = trip.price?.toFixed(2) ?? "0.00";
 

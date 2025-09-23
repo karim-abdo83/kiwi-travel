@@ -101,6 +101,7 @@ export const tripBookingRouter = createTRPCRouter({
           trip: {
             columns: {
               id: true,
+              slug: true,
               titleEn: true,
               titleRu: true,
               assetsUrls: true,
@@ -226,6 +227,7 @@ export const tripBookingRouter = createTRPCRouter({
       const trip = await ctx.db.query.trip.findFirst({
         columns: {
           id: true,
+          slug: true,
           adultTripPriceInCents: true,
           childTripPriceInCents: true,
           isConfirmationRequired: true,

@@ -18,13 +18,16 @@
     "hero": {
       "headline": "Discover Your Next Adventure",
       "subheadline": "Find and book amazing trips around the world",
+      "trips": "{count, plural, one {trip} other {trips}}",
       "cardTitle": "Find your Next Travel",
       "advancedFilters": "Advanced Filters",
-      "searchPlaceholder": "Search destinations...",
-      "search": "Search",
+      "searchPlaceholder": "Search destinations or trips...",
+      "search": "Search for your next trip",
       "notFound": "No results found.",
       "suggestions": "Suggestions",
-      "tripsCount": "{count} trips"
+      "tripsCount": "{count} trips",
+      "destination": "Destination",
+      "trip": "Trip"
     },
     "featuredTrips": {
       "sectionTitle": "Featured Trips",
@@ -44,7 +47,43 @@
       "reason3Description": "Our dedicated team is always ready to assist you before, during, and after your trip."
     },
     "testimonials": {
-      "sectionTitle": "What Our Travelers Say"
+      "sectionTitle": "What Our Travelers Say",
+      "message": "Read what our customers have to say about their experiences with us.",
+      "sectionSubtitle": "Hear from our community of happy travelers and share your own experience",
+      "success": "Success",
+      "error": "Error",
+      "reviewSubmitted": "Thank you for your review!",
+      "noBookingError": "No booking found. Please complete a booking first.",
+      "validationError": "Validation Error",
+      "writeReview": "Share Your Experience",
+      "yourName": "Your Name",
+      "yourEmail": "Your Email",
+      "email": "Email",
+      "yourRating": "Your Rating",
+      "yourReview": "Your Review",
+      "namePlaceholder": "Name",
+      "emailPlaceholder": "your@email.com",
+      "reviewPlaceholder": "Share your experience with us...",
+      "messagePlaceholder": "Write your message here...",
+      "submitReview": "Send",
+      "cancel": "Cancel",
+      "submitting": "Submitting...",
+      "fillAllFields": "Please fill in all required fields",
+      "adminReply": "Admin Reply",
+      "noReviews": "Be the first to share your experience!",
+      "beFirstToReview": "Be the first to share your experience!",
+      "image": "Image",
+      "maxImages": "Maximum 5 images allowed",
+      "uploadPhotos": "Upload image",
+      "max5Photos": "Max 5 photos",
+      "orDragAndDrop": "or drag and drop",
+      "imageFormats": "PNG, JPG, JPEG up to 5MB",
+      "customerReviews": "Customer Reviews",
+      "optional": "optional",
+      "anonymous": "Anonymous",
+      "rating": "Rating",
+      "reply": "Reply",
+      "writeReply":"write Reply"
     }
   },
   "FAQsPage": {
@@ -114,6 +153,9 @@
     "tripFeatures": "Trip Features",
     "amenities": "Amenities",
     "tripInformation": "Trip Information",
+    "sizeOfTrip": "Group Size",
+    "persons": "persons",
+    "notSpecified": "Not specified",
     "country": "Country:",
     "destination": "Destination:",
     "duration": "Duration:",
@@ -237,22 +279,51 @@
     "cancel": "Cancel",
     "viewBookingDetails": "View Booking Details"
   },
+  "Admin": {
+    "Settings": {
+      "title": "Admin Settings",
+      "description": "Manage your application settings and configurations",
+      "popularDestinationsTitle": "Popular Destinations Title",
+      "popularDestinationsDescription": "This title will be displayed in the popular destinations section on the home page.",
+      "settingsUpdated": "Settings updated successfully!",
+      "updateError": "Failed to update settings. Please try again.",
+      "saveChanges": "Save Changes",
+      "saving": "Saving..."
+    }
+  },
   "ReviewDialog": {
     "reviewYourTrip": "Review your trip to {title}",
     "shareExperience": "Share your experience to help other travelers plan their journey.",
     "ratingLabel": "Rating",
+    "yourRating": "Your Rating",
     "rateStars": "Rate {star} stars",
     "yourReviewLabel": "Your Review",
+    "writeYourReview": "Write your review",
     "reviewPlaceholder": "Share details of your experience...",
-    "cancel": "Cancel",
+    "submit": "Submit Review",
     "submitReview": "Submit Review",
     "submitting": "Submitting...",
+    "successTitle": "Thank You!",
+    "successMessage": "Your review has been submitted successfully.",
+    "errorTitle": "Error",
+    "errorMessage": "Failed to submit your review. Please try again later.",
+    "requiredField": "This field is required",
+    "minLength": "Review must be at least 10 characters",
+    "maxLength": "Review cannot exceed 1000 characters",
+    "images": "Upload Photos (Optional)",
+    "uploadPhotos": "Upload image",
+    "max5Photos": "Max 5 photos",
+    "orDragAndDrop": "or drag and drop",
+    "maxImages": "Maximum 5 images allowed",
+    "imageFormats": "JPG, PNG, or WebP up to 5MB",
+    "cancel": "Cancel",
     "email": "Email",
     "fullName": "Full Name",
     "emailRequired": "Email is required",
     "emailInvalid": "Invalid Email",
     "fullNameRequired": "Full name is required",
-    "Please enter a valid email address": "Please enter a valid email address"
+    "confirmCancellation": "Confirm Cancellation",
+    "cancelling": "Cancelling..."
     
   },
   "CancelBookingDialog": {
@@ -270,6 +341,21 @@
     "deleting": "Deleting...",
     "editReview": "Edit Review"
     
+  },
+  "Auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "emailAddress": "Email Address",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "orContinueWith": "Or continue with",
+    "signInWithGoogle": "Sign in with Google",
+    "signInWithFacebook": "Sign in with Facebook",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "confirmPassword": "Confirm Password"
   },
   "General": {
     "amenities": {
@@ -345,12 +431,13 @@
     "ErrorTitle": "Error",
     "AddReview": "review has been added successfully",
     "DeleteReview": "review has been deleted successfully",
-    "CancelBooking": "booking has been cancelled successfully"}
-    ,
-    "ReviewPage": {
+    "CancelBooking": "booking has been cancelled successfully"
+  },
+  "ReviewPage": {
     "title": "Reviews",
     "description": "Reviews",
     "addReview": "Add Review",
     "newReview": "New Review",
-     "editReview": "Edit Review"}
+    "editReview": "Edit Review"
+  }
 }

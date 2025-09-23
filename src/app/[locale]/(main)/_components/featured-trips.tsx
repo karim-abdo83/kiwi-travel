@@ -34,9 +34,12 @@ export default function FeaturedTrips() {
   });
 
   return (
-    <section className="bg-accent py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="mb-8 text-center text-2xl font-bold sm:text-3xl md:text-4xl">
+    <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-cover bg-center bg-fixed" style={{
+      backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/feature-trip.jpg)'
+    }}>
+      <div className="absolute inset-0 -z-10"></div>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <h2 className="mb-8 text-center text-2xl font-bold sm:text-3xl md:text-4xl text-white">
           {t("sectionTitle")}
         </h2>
         <div className="relative">
@@ -98,7 +101,7 @@ export default function FeaturedTrips() {
                 key={trip.id}
                 className="pl-2 sm:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
               >
-                <Link href={`/trips/${trip.id}`}>
+                <Link href={`/trips/${trip.slug}`}>
                   <Card
                     id={`book-trip-outside-id-${trip.id}`}
                     className="overflow-hidden"

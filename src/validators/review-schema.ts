@@ -3,17 +3,23 @@ import { z } from "zod";
 export const ratingValues = [1, 2, 3, 4, 5] as const;
 
 export const addReviewFormSchema = z.object({
-  bookingId: z.number(),
-  message: z.string().min(1, "message is required"),
+  bookingId: z.number().optional(),
+  message: z.string().min(1, "Message is required"),
   ratingValue: z
     .number({
-      required_error: "rating is required",
+      required_error: "Rating is required",
     })
     .int()
     .refine(
       (rating) => ratingValues.includes(rating as any),
-      "rating must be between 1 and 5",
+      "Rating must be between 1 and 5"
     ),
+  image: z
+    .string().url("Must be a valid URL").optional(),
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Please enter a valid email").optional(),
+  // 
+  userId: z.string().optional(),
 });
 
 

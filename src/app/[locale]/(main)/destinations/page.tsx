@@ -26,7 +26,7 @@ export default async function DestinationsPage() {
       <h1 className="text-3xl font-bold mb-8 text-center">{t("destinations")}</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {destinations.map((destination) => (
-          <Link key={destination.id} href={`/destinations/${destination.id}`} className="group">
+          <Link key={destination.slug} href={`/destinations/${destination.slug}`} className="group">
             <article id={`destination-details-id-${destination.id}`} className="bg-muted text-card-foreground rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 h-full">
               <div className="relative h-48 w-full">
                 <Image

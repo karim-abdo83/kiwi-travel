@@ -18,6 +18,8 @@ import { api } from "@/trpc/react";
 import { useTranslations } from "next-intl";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
+import { Label } from "@radix-ui/react-dropdown-menu";
 
 interface ReviewDialogProps {
   open: boolean;
@@ -40,7 +42,44 @@ interface ReviewDialogProps {
     userFullName: string | null;
     ratingValue: number;
     isHiddenByAdmin: boolean;
+    images?: ReviewImage[];
   };
+}
+interface ImageFile {
+  preview: string;
+  isVideo: boolean;
+  isInitialData: boolean;
+  file?: File;
+}
+
+const ImageUploadField = dynamic<{
+  assets: ImageFile[];
+  setAssets: (assets: ImageFile[]) => void;
+  accept?: string;
+}>(() => 
+  import("@/app/[locale]/dashboard/trips/_components/upload-files-field")
+    .then(mod => {
+      const OriginalUploadFilesField = mod.default;
+      return function ImageOnlyUploadField({ assets, setAssets, ...props }: any) {
+        const filteredAssets = assets.filter((asset: { isVideo: any; }) => !asset.isVideo);
+        if (filteredAssets.length !== assets.length) {
+          setAssets(filteredAssets);
+        }
+        
+        return (
+          <OriginalUploadFilesField 
+            {...props} 
+            assets={filteredAssets}
+            setAssets={setAssets}
+          />
+        );
+      };
+    })
+, { ssr: false });
+
+interface ReviewImage {
+  url: string;
+  id: number;
 }
 
 export function ReviewDialog({
@@ -62,6 +101,13 @@ export function ReviewDialog({
   const [review, setReview] = useState(reviewToEdit ? reviewToEdit?.message || "" : "");
   const [email, setEmail] = useState(reviewToEdit ? reviewToEdit?.userEmail || "" : "");
   const [fullName, setFullName] = useState(reviewToEdit ? reviewToEdit?.userFullName || "" : "");
+  const [FormData, setFormData] = useState<{ images: ImageFile[] }>({
+    images: reviewToEdit?.images?.map(img => ({
+      preview: img.url,
+      isVideo: false,
+      isInitialData: true
+    })) || []
+  });
 
   const { invalidate } = api.useUtils().tripBooking.view;
 
@@ -86,11 +132,19 @@ export function ReviewDialog({
   const { mutate: addUpdateReviewByAdmin, isPending: isAdminPending } =
     (reviewToEdit ? api.review.updateByAdmin : api.review.createByAdmin).useMutation(response);
 
+  const handleFilesChange = (newFiles: ImageFile[]) => {
+    const imageFiles = newFiles.filter(file => !file.isVideo);
+    setFormData(prev => ({
+      ...prev,
+      images: imageFiles
+    }));
+  };
+
   const handleSubmit = () => {
     if (isAdmin) {
       if (!email || !fullName) {
         if (!email) {
-          alert('Please enter emil.')
+          alert('Please enter email.')
         }
         if (!fullName) {
           alert('Enter full name.')
@@ -109,6 +163,8 @@ export function ReviewDialog({
         bookingId,
         message: review,
         ratingValue: rating,
+        name: "",
+        image: "", // Set to empty string or handle image upload to get URL
       });
     }
   };
@@ -204,6 +260,17 @@ export function ReviewDialog({
               onChange={(e) => setReview(e.target.value)}
               rows={5}
             />
+          </div>
+          <div className="space-y-2">
+            <Label>{t("images")} <span className="text-gray-500">({t("optional")})</span></Label>
+            <ImageUploadField
+              assets={FormData.images}
+              setAssets={handleFilesChange}
+              accept="image/*"
+            />
+            <p className="text-xs text-gray-500">
+              {t("maxImages", { count: 5 - FormData.images.length })}
+            </p>
           </div>
         </div>
 

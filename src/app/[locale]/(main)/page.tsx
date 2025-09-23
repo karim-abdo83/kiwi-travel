@@ -10,8 +10,8 @@ export default function Page() {
     <main className="flex-grow">
       <Hero />
       <WeProvide />
-      <FeaturedTrips />
       <PopularDestinations />
+      <FeaturedTrips />
       <WhyChooseUs />
       <Testimonials />
     </main>
