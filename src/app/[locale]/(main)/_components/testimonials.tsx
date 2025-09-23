@@ -218,7 +218,9 @@ export default function Testimonials() {
 
       {/* Image Modal */}
       <Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>
-        <DialogContent className="max-w-7xl p-4 bg-transparent border-none shadow-none">
+        <DialogContent 
+          className="max-w-7xl p-0 bg-transparent border-none shadow-none [&>button]:hidden"
+        >
           <DialogTitle className="sr-only">Enlarged Review Image</DialogTitle>
           <div className="relative">
             <Button
