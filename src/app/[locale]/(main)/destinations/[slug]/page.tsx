@@ -121,7 +121,7 @@ export default async function DestinationTripsPage({
                   />
                 </CardHeader>
                 <CardContent className="p-4">
-                  <h3 className="truncate text-xl font-semibold">
+                  <h3 className="truncate text-base font-semibold">
                     {localeAttribute(trip, "title")}
                   </h3>
                   <p className="mt-1 flex items-center gap-1 text-sm text-gray-500">
