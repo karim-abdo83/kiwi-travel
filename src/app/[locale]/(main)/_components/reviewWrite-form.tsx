@@ -149,8 +149,7 @@ export function ReviewWriteForm({ onReviewSubmitted }: { onReviewSubmitted?: () 
 
 
     return (
-
-        <div className="w-full lg:w-1/3 lg:top-8 ">
+        <div className="w-full max-w-4xl mx-auto px-4">
             <Card className="w-full">
                 <div className="p-4">
                     <h2 className="text-lg font-semibold">{t("writeReview")}</h2>
@@ -261,20 +260,42 @@ export function ReviewWriteForm({ onReviewSubmitted }: { onReviewSubmitted?: () 
                             )}
                         </div>
 
-                        <Button
-                            type="submit"
-                            className="w-full bg-blue-600 hover:bg-blue-700"
-                            disabled={isAddingReview}
-                        >
-                            {isAddingReview ? (
-                                t("submitting")
-                            ) : (
-                                <>
-                                    <Send className="h-4 w-4 mr-2" />
-                                    {t("submitReview")}
-                                </>
-                            )}
-                        </Button>
+                        <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="w-full sm:w-auto"
+                                onClick={() => {
+                                    setFormData({
+                                        message: "",
+                                        ratingValue: 5,
+                                        name: "",
+                                        email: "",
+                                        image: null,
+                                    });
+                                    if (imageInputRef.current) {
+                                        imageInputRef.current.value = '';
+                                    }
+                                }}
+                                disabled={isAddingReview}
+                            >
+                                {t("cancel")}
+                            </Button>
+                            <Button
+                                type="submit"
+                                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
+                                disabled={isAddingReview}
+                            >
+                                {isAddingReview ? (
+                                    t("submitting")
+                                ) : (
+                                    <>
+                                        <Send className="h-4 w-4 mr-2" />
+                                        {t("submitReview")}
+                                    </>
+                                )}
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </Card>
