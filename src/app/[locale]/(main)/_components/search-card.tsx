@@ -69,7 +69,7 @@ export default function SearchCard() {
     });
     
   const { data: trips, isLoading: isLoadingTrips } =
-    api.search.search.useQuery(debouncedSearchTerm || '', {
+    api.search.searchExtended.useQuery(debouncedSearchTerm || '', {
       enabled: Boolean(debouncedSearchTerm && debouncedSearchTerm.trim().length > 0),
     });
 
@@ -176,35 +176,100 @@ export default function SearchCard() {
 
                         {/* Show trips */}
                         {/* Only show trips when there's a search term */}
-                        {debouncedSearchTerm && trips?.map((trip) => (
+                        {debouncedSearchTerm && trips?.map((item) => (
                           <CommandItem
-                            key={`trip-${trip.id}`}
-                            value={`trip-${trip.id}`}
+                            key={`${item.type}-${item.id}`}
+                            value={`${item.type}-${item.id}`}
                             onSelect={() => {
-                              router.push(`/trips/${trip.slug}`);
+                              if (item.type === "trip") {
+                                router.push(`/trips/${item.slug}`);
+                              } else if (item.type === "destination") {
+                                router.push(`/destinations/${item.slug}`);
+                              }
                               setOpen(false);
                             }}
                           >
                             <div className="flex items-center gap-3">
+                              {/* Icon */}
                               <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
-                                <Plane className="h-4 w-4" />
-                              </div>
-                              <div className="flex-1">
-                                <div className="font-medium">
-                                  {getLocalizedValue(locale, trip, 'title')}
-                                </div>
-                                {trip.destination && (
-                                  <div className="text-xs text-muted-foreground">
-                                    {getLocalizedValue(locale, trip.destination, 'name')}
-                                    {trip.country && `, ${getLocalizedValue(locale, trip.country, 'name')}`}
-                                  </div>
+                                {item.type === "trip" ? (
+                                  <Plane className="h-4 w-4" />
+                                ) : (
+                                  <MapPin className="h-4 w-4" />
                                 )}
                               </div>
-                              <span className="text-xs text-muted-foreground">
-                                {t('trip')}
+                          
+                              {/* Main content */}
+                              <div className="flex-1">
+                                <div className="font-medium">
+                                  {item.type === "trip"
+                                    ? getLocalizedValue(locale, item, "title")
+                                    : getLocalizedValue(locale, item, "name")}
+                                </div>
+                          
+                                {/* Secondary info */}
+                                <div className="text-xs text-muted-foreground">
+                                  {item.type === "trip" ? (
+                                    <>
+                                      {getLocalizedValue(locale, item, "destinationNameEn") ??
+                                        getLocalizedValue(locale, item, "destinationNameRu")}
+                                      {item.countryNameEn && (
+                                        <span className="text-orange-600 font-medium">
+                                          , {getLocalizedValue(locale, item, "countryNameEn")}
+                                        </span>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <>
+                                      {item.countryNameEn && (
+                                        <span className="text-orange-600 font-medium">
+                                          {getLocalizedValue(locale, item, "countryNameEn")}
+                                        </span>
+                                      )}
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                          
+                              {/* Badge */}
+                              <span className="text-xs text-muted-foreground capitalize">
+                                {t(item.type)}
                               </span>
                             </div>
                           </CommandItem>
+                        
+                          // <CommandItem
+                          //   key={`trip-${trip.id}`}
+                          //   value={`trip-${trip.id}`}
+                          //   onSelect={() => {
+                          //     router.push(`/trips/${trip.slug}`);
+                          //     setOpen(false);
+                          //   }}
+                          // >
+                          //   <div className="flex items-center gap-3">
+                          //     <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
+                          //       <Plane className="h-4 w-4" />
+                          //     </div>
+                          //     <div className="flex-1">
+                          //       <div className="font-medium">
+                          //         {getLocalizedValue(locale, trip, 'title')}
+                          //       </div>
+                          //       {trip.destination && (
+                          //         <div className="text-xs text-muted-foreground">
+                          //           {getLocalizedValue(locale, trip.destination, 'name')}
+                          //           {trip.country && (
+                          //             <span className="text-orange-600 font-medium">
+                          //               , {getLocalizedValue(locale, trip.country, 'name')}
+                          //             </span>
+                          //           )}
+                          //         </div>
+                          //       )}
+                          //     </div>
+                          //     <span className="text-xs text-muted-foreground">
+                          //       {t('trip')}
+                          //     </span>
+                          //   </div>
+                          // </CommandItem>
                         ))}
                       </>
                     )}
