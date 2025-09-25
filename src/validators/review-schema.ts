@@ -15,7 +15,9 @@ export const addReviewFormSchema = z.object({
       "Rating must be between 1 and 5"
     ),
   image: z
-    .string().url("Must be a valid URL").optional(),
+    .union([z.string().url("Must be a valid URL"), z.literal(""), z.null()])
+    .optional()
+    .transform(val => val || undefined), // Convert empty string to undefined
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Please enter a valid email").optional(),
   // 
