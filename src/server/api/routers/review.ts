@@ -150,28 +150,57 @@ export const reviewRouter = createTRPCRouter({
   createPublicly: publicProcedure
   .input(addReviewFormSchema)
   .mutation(async ({ ctx, input }) => {
+    const t = await getTranslations("ReviewForm");
+    const tToast = await getTranslations("ToastMessages");
 
+    // Validate required fields
     if (!input.ratingValue || !input.message || !input.name || !input.email) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "All fields are required except image.",
+        message: t("fillAllFields") || "All fields are required except image.",
       });
     }
 
-    await ctx.db.insert(reviewTableSchema).values({
-      ratingValue: input.ratingValue,
-      message: input.message,
-      userEmail: input.email || '',
-      userId: input.userId || null,
-      userFullName: input.name,
-      image: input.image || null,
-    });
+    try {
+      // Prepare the review data with proper typing
+      const reviewData: {
+        ratingValue: number;
+        message: string;
+        userEmail: string;
+        userId: string | null;
+        userFullName: string;
+        isHiddenByAdmin: boolean;
+        createdAt: Date;
+        image?: string;  // Make image optional
+      } = {
+        ratingValue: input.ratingValue,
+        message: input.message,
+        userEmail: input.email,
+        userId: input.userId || null,
+        userFullName: input.name,
+        isHiddenByAdmin: false, // Default to visible
+        createdAt: new Date(),
+      };
 
-    const t = await getTranslations("ToastMessages");
+      // Only add image if it exists and is a non-empty string
+      if (input.image) {
+        reviewData.image = input.image;
+      }
 
-    return {
-      message: t("AddReview"),
-    };
+      // Insert the review
+      const [newReview] = await ctx.db.insert(reviewTableSchema).values(reviewData).returning();
+
+      return {
+        ...newReview,
+        message: tToast("AddReview") || "Review submitted successfully!",
+      };
+    } catch (error) {
+      console.error("Error creating public review:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: t("errorMessage") || "Failed to submit review. Please try again.",
+      });
+    }
   }),
   create: authProtectedProcedure
   .input(addReviewFormSchema)
