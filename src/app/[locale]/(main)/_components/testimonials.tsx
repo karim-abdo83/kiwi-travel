@@ -5,15 +5,17 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
 import { Star, User, MessageSquare, X } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@clerk/nextjs";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import Link from "next/link";
+import { localeAttributeFactory } from "@/lib/utils";
 
-export default function Testimonials() {
+export default function Testimonials({ tripId }: { tripId?: number }) {
   const t = useTranslations("HomePage.testimonials");
   const { toast } = useToast();
   const { user } = useUser();
@@ -23,8 +25,12 @@ export default function Testimonials() {
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [localAdminReply, setLocalAdminReply] = useState("");
 
-  const { data, refetch, isLoading: isLoadingReviews } = api.review.listTop.useQuery();
+  const { data, refetch, isLoading: isLoadingReviews } = (tripId ? api.review.listByTripId.useQuery(tripId) : api.review.listTop.useQuery());
   const { mutate: addAdminReply, isPending: isReplyLoading } = api.review.adminReply.useMutation();
+
+  const locale = useLocale();
+  const localeAttribute = localeAttributeFactory(locale);
+
 
   return (
     <section className="py-12 bg-gray-50">
@@ -42,12 +48,12 @@ export default function Testimonials() {
               </div>
               :
               data?.map((review, index) => (
-                <Card 
+                <Card
                   key={`review-${review.id}`}
                   className="h-full flex flex-col overflow-hidden border border-gray-200 hover:scale-[1.009] transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:border-primary/20 group-hover:scale-[1.02]"
                 >
                   <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-3 w-full">
                       {review.userImageUrl ? (
                         <Image
                           src={review.userImageUrl}
@@ -61,9 +67,14 @@ export default function Testimonials() {
                           <User className="h-5 w-5" />
                         </div>
                       )}
-                      <div>
-                        <CardTitle className="text-base font-medium">
-                          {review.userFullName || t("anonymous")}
+                      <div className="w-full">
+                        <CardTitle className="text-base flex flex-row items-center font-medium justify-between w-full8">
+                          <p>
+                            {review.userFullName || t("anonymous")}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {new Date(review.createdAt).toLocaleDateString()}
+                          </p>
                         </CardTitle>
                         <div className="text-xs text-gray-500">
                           {review.userEmail}
@@ -83,11 +94,13 @@ export default function Testimonials() {
                         </div>
                       </div>
                     </div>
-                    <span className="text-xs text-gray-500">
-                      {new Date(review.createdAt).toLocaleDateString()}
-                    </span>
                   </CardHeader>
                   <CardContent className="pt-2 flex flex-col flex-grow">
+                    {review?.trip && !tripId &&
+                      <Link className="text-blue-500 text-xs mb-4 hover:underline" href={`/trips/${review.trip.slug}`}>
+                        {localeAttribute(review.trip, "title")}
+                      </Link>
+                    }
                     <div className="flex-grow">
                       <p className="text-gray-700 text-sm">{review.message}</p>
                     </div>
@@ -218,7 +231,7 @@ export default function Testimonials() {
 
       {/* Image Modal */}
       <Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>
-        <DialogContent 
+        <DialogContent
           className="max-w-7xl p-0 bg-transparent border-none shadow-none [&>button]:hidden"
         >
           <DialogTitle className="sr-only">Enlarged Review Image</DialogTitle>

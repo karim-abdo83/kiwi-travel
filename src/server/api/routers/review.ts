@@ -8,10 +8,9 @@ import {
 import { TRPCError } from "@trpc/server";
 import { clerkClient } from "@clerk/nextjs/server";
 import { review, review as reviewTableSchema } from "@/server/db/schema";
-import { and, eq, desc } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { getTranslations } from "next-intl/server";
-import { db } from "@/server/db";
 
 export const reviewRouter = createTRPCRouter({
   // create: authProtectedProcedure
@@ -150,6 +149,7 @@ export const reviewRouter = createTRPCRouter({
   createPublicly: publicProcedure
   .input(addReviewFormSchema)
   .mutation(async ({ ctx, input }) => {
+    console.log('\n\ntripId 3333', input);
     const t = await getTranslations("ReviewForm");
     const tToast = await getTranslations("ToastMessages");
 
@@ -167,11 +167,13 @@ export const reviewRouter = createTRPCRouter({
         ratingValue: number;
         message: string;
         userEmail: string;
+        
         userId: string | null;
         userFullName: string;
         isHiddenByAdmin: boolean;
         createdAt: Date;
         image?: string;  // Make image optional
+        tripId?: number;
       } = {
         ratingValue: input.ratingValue,
         message: input.message,
@@ -180,6 +182,7 @@ export const reviewRouter = createTRPCRouter({
         userFullName: input.name,
         isHiddenByAdmin: false, // Default to visible
         createdAt: new Date(),
+        tripId: input.tripId,
       };
 
       // Only add image if it exists and is a non-empty string
@@ -406,6 +409,45 @@ export const reviewRouter = createTRPCRouter({
           trip: {
             columns: {
               id: true,
+              slug: true,
+              titleEn: true,
+              titleRu: true,
+            },
+          },
+          // replies: {},
+        },
+        limit: 100,
+        orderBy: (fields, { desc }) => [desc(fields.createdAt)],
+      });
+      return reviews;
+    }
+  ),
+  listByTripId: publicProcedure.input(z.number()).query(
+    async ({ ctx, input }) => {
+      console.log('\n\ntripId 2222', input);
+      const reviews = await ctx.db.query.review.findMany({
+        where: (fields, { gte, eq, and }) =>
+          and(
+            gte(fields.ratingValue, 4),
+            eq(fields.isHiddenByAdmin, false),
+            eq(fields.tripId, input)
+          ),
+        columns: {
+          id: true,
+          image: true,
+          userImageUrl: true,
+          userEmail: true,
+          userFullName: true,
+          message: true,
+          adminReply: true,
+          createdAt: true,
+          ratingValue: true,
+        },
+        with: {
+          trip: {
+            columns: {
+              id: true,
+              slug: true,
               titleEn: true,
               titleRu: true,
             },

@@ -22,6 +22,7 @@ export const addReviewFormSchema = z.object({
   email: z.string().email("Please enter a valid email").optional(),
   // 
   userId: z.string().optional(),
+  tripId: z.number().optional(),
 });
 
 

@@ -137,6 +137,8 @@ export const tripBookingRouter = createTRPCRouter({
       const trip = await ctx.db.query.trip.findFirst({
         columns: {
           id: true,
+          slug: true,
+          titleRu: true,
           adultTripPriceInCents: true,
           childTripPriceInCents: true,
           isConfirmationRequired: true,
@@ -188,10 +190,11 @@ export const tripBookingRouter = createTRPCRouter({
       });
 
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
-      await sendTelegramNotification(
-        `🧾 <b>Новая бронь</b>\nПользователь: ${user.emailAddresses[0]!.emailAddress}\nТелефон: ${input.phone}\nТур: ${input.tripId}\nДата: ${format(input.date, "yyyy-MM-dd")}\n<a href="${bookingLink}">Открыть в админке</a>`
-      );
+      const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
 
+      await sendTelegramNotification(
+        `🧾 <b>Новая бронь</b>\nПользователь: ${input.email}\nТелефон: ${input.phone}\nТур: ${input.tripId}\nДата: ${format(input.date, "yyyy-MM-dd")}\n<a href="${bookingLink}">Открыть в админке</a>\n\n<a href="${tripLink}">${trip.titleRu}</a>`
+      );
       const tEmail = await getTranslations("General.bookingEmail.new");
 
       const emailHtml = await render(
@@ -228,6 +231,7 @@ export const tripBookingRouter = createTRPCRouter({
         columns: {
           id: true,
           slug: true,
+          titleRu: true,
           adultTripPriceInCents: true,
           childTripPriceInCents: true,
           isConfirmationRequired: true,
@@ -277,8 +281,10 @@ export const tripBookingRouter = createTRPCRouter({
       });
 
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
+      const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
+
       await sendTelegramNotification(
-        `🧾 <b>Новая бронь</b>\nПользователь: ${input.email}\nТелефон: ${input.phone}\nТур: ${input.tripId}\nДата: ${format(input.date, "yyyy-MM-dd")}\n<a href="${bookingLink}">Открыть в админке</a>`
+        `🧾 <b>Новая бронь</b>\nПользователь: ${input.email}\nТелефон: ${input.phone}\nТур: ${input.tripId}\nДата: ${format(input.date, "yyyy-MM-dd")}\n<a href="${bookingLink}">Открыть в админке</a>\n\n<a href="${tripLink}">${trip.titleRu}</a>`
       );
 
       const tEmail = await getTranslations("General.bookingEmail.new");

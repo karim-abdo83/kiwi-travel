@@ -22,10 +22,9 @@ interface ReviewFormData {
     name: string;
     email?: string;
     image: File | null;
-    images?: any[]; // For backward compatibility if needed
 }
 
-export function ReviewWriteForm({ onReviewSubmitted }: { onReviewSubmitted?: () => void }) {
+export function ReviewWriteForm({ onReviewSubmitted, tripId }: { onReviewSubmitted?: () => void, tripId: number }) {
     const t = useTranslations("HomePage.testimonials");
 
     const imageInputRef = useRef<HTMLInputElement>(null);
@@ -37,7 +36,6 @@ export function ReviewWriteForm({ onReviewSubmitted }: { onReviewSubmitted?: () 
         name: "",
         email: "",
         image: null,
-        images: [],
     });
 
     const { data, refetch, isLoading: isLoadingReviews } = api.review.listTop.useQuery();
@@ -72,7 +70,7 @@ export function ReviewWriteForm({ onReviewSubmitted }: { onReviewSubmitted?: () 
                 description: "All files have been uploaded successfully.",
             });
         },
-        onUploadError: (error) => { 
+        onUploadError: (error) => {
             toast({
                 variant: "destructive",
                 title: "Upload failed",
@@ -105,6 +103,7 @@ export function ReviewWriteForm({ onReviewSubmitted }: { onReviewSubmitted?: () 
                 ...formData,
                 message: formData.message.trim(),
                 image: imageUrl,
+                tripId
             };
 
             const validatedData = addReviewFormSchema.safeParse(validationData);
@@ -121,7 +120,7 @@ export function ReviewWriteForm({ onReviewSubmitted }: { onReviewSubmitted?: () 
                 return;
             }
 
-            await createReview(validatedData.data);
+            await createReview({...validatedData.data, tripId});
 
             setFormData({
                 message: "",
@@ -300,6 +299,5 @@ export function ReviewWriteForm({ onReviewSubmitted }: { onReviewSubmitted?: () 
                 </form>
             </Card>
         </div>
-
     );
 }
