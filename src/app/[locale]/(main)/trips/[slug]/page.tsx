@@ -35,6 +35,7 @@ import BookingForm from "./_components/booking-form";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ReviewWriteForm } from "../../_components/reviewWrite-form";
+import Testimonials from "../../_components/testimonials";
 
 export async function generateMetadata({
   params,
@@ -96,9 +97,9 @@ export default async function TripDetailsPage({
     .replaceAll("hours", t_TimeUnits("hours"))
     .replaceAll("day", t_TimeUnits("day"))
     .replaceAll("hour", t_TimeUnits("hour"));
-    // Format size of trip with localized "persons" text
-    const sizeOfTrip = trip.sizeOfTrip ? trip.sizeOfTrip.replace("persons", t("persons")) : '';
-   
+  // Format size of trip with localized "persons" text
+  const sizeOfTrip = trip.sizeOfTrip ? trip.sizeOfTrip.replace("persons", t("persons")) : '';
+
 
   // Day name translations
   const dayTranslations: Record<string, { en: string; ru: string }> = {
@@ -415,7 +416,7 @@ export default async function TripDetailsPage({
               reviewsCount={reviewsCount}
             />
 
-            {trip.reviews.length !== 0 && (
+            {/* {trip.reviews.length !== 0 && (
               <>
                 <div className="mt-6 flex w-full items-center gap-2 rounded-t-lg bg-muted p-4 pb-0 font-medium">
                   <MessageCircle className="h-5 w-5 text-primary" />
@@ -453,11 +454,10 @@ export default async function TripDetailsPage({
                             .map((_, i) => (
                               <Star
                                 key={i}
-                                className={`h-4 w-4 ${
-                                  i < review.ratingValue
+                                className={`h-4 w-4 ${i < review.ratingValue
                                     ? "fill-yellow-400 text-yellow-400"
                                     : "fill-muted text-muted"
-                                }`}
+                                  }`}
                               />
                             ))}
                         </div>
@@ -466,12 +466,16 @@ export default async function TripDetailsPage({
                   ))}
                 </div>
               </>
-            )}
+            )} */}
           </div>
         </div>
-        <div className="w-full justify-center lg:top-8 ">
-        <ReviewWriteForm />
-
+        <div className="w-full lg:top-8 bg-gray-50 flex flex-col lg:flex-row relative rounded-lg">
+          <div className="flex-1 w-full">
+            <Testimonials tripId={trip.id} />
+          </div>
+          <div className="w-full lg:w-80 py-6 px-2 lg:px-0">
+            <ReviewWriteForm tripId={trip.id} />
+          </div>
         </div>
 
         {/* Similar Trips */}
@@ -518,4 +522,3 @@ export default async function TripDetailsPage({
     </>
   );
 }
- 
