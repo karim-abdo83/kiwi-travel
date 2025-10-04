@@ -25,7 +25,9 @@ export default function PopularDestinations() {
 
   const { data: appContent } = api.appContent.get.useQuery();  
 
-  const sectionTitle = appContent?.popularDestinationEn || t("sectionTitle");
+  const sectionTitle = locale === 'ru' 
+    ? appContent?.popularDestinationRu || t("sectionTitle")
+    : appContent?.popularDestinationEn || t("sectionTitle");
 
   return (
     <section className="py-16 px-4 lg:px-6">
