@@ -76,9 +76,20 @@ const BookingForm = ({
   // ["Tuesday"] ======> [2]
   const mappedDays = availableDays.map((item) => days.indexOf(item));
 
+  const {mutate: testMutate} = api.tripBooking.testEmail.useMutation({
+    onSuccess: () => {
+      console.log('===>>> Sent');
+    },
+    onError: (err) => {
+      console.log('==>> Failed', err?.message);
+    },
+  });
+
+
   return (
     <Card className="w-full max-w-sm mx-auto bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
       <CardContent className="space-y-0 p-0">
+        <Button onClick={() => testMutate()}>Test Email</Button>
         {/* Price Header Section */}
         <div className="px-6 pt-6 pb-4">
           <div className="text-lg text-gray-500 mb-1">{t("priceFrom")}</div>
