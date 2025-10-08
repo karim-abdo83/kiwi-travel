@@ -56,7 +56,7 @@ export const BookingEmail = ({
               />
               <div>
                 <Heading style={{ ...voucherTitle, margin: '0 0 5px 0' }}>{t('bookingEmail.voucherTitle')}</Heading>
-                <Text style={contactText}>
+                <Text style={contactText }>
                   <b>{t('bookingEmail.phone1')}</b> &nbsp; - &nbsp; <b>{t('bookingEmail.phone2')}</b>
                 </Text>
               </div>
@@ -130,10 +130,23 @@ export const BookingEmail = ({
 
           {/* --- FOOTER --- */}
           <Hr style={hr} />
-          <Text style={footer}>
-            {t('bookingEmail.bestRegards')}, <br />
-            <b>{t('bookingEmail.teamName')}</b>
-          </Text>
+          <div style={footerContainer}>
+            <Text style={footerText}>
+              {t('bookingEmail.bestRegards')},<br />
+              <b>{t('bookingEmail.teamName')}</b>
+            </Text>
+            <div style={footerLinks}>
+              <a href="https://www.karimtor.com" style={footerLink}>www.karimtor.com</a>
+              <span style={footerDivider}>•</span>
+              <a href={`tel:${t('bookingEmail.phone1').replace(/\D/g, '')}`} style={footerLink}>
+                {t('bookingEmail.phone1')}
+              </a>
+              <span style={footerDivider}>•</span>
+              <a href={`mailto:info@karimtor.com`} style={footerLink}>
+                info@karimtor.com
+              </a>
+            </div>
+          </div>
         </Container>
       </Body>
     </Html>
@@ -173,6 +186,7 @@ const voucherTitle = {
 const contactText: React.CSSProperties = {
   fontSize: '14px',
   marginTop: '4px',
+  color: '#1a73e8',
   textAlign: 'center' as const,
 };
 
@@ -263,11 +277,34 @@ const hr = {
   margin: '20px 0',
 };
 
-const footer = {
-  color: '#444',
-  fontSize: '12px',
-  marginTop: '10px',
+const footerContainer = {
+  padding: '0 20px',
   textAlign: 'center' as const,
+};
+
+const footerText = {
+  color: '#444',
+  fontSize: '14px',
+  margin: '0 0 10px 0',
+  lineHeight: '1.5',
+};
+
+const footerLinks = {
+  margin: '10px 0',
+  fontSize: '12px',
+  color: '#666',
+};
+
+const footerLink = {
+  color: '#1a73e8',
+  textDecoration: 'none',
+  margin: '0 5px',
+};
+
+const footerDivider = {
+  color: '#999',
+  margin: '0 8px',
+  display: 'inline-block',
 };
 
 const button = {
