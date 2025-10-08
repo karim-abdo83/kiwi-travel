@@ -192,11 +192,11 @@ const voucherTitle = {
   margin: '0',
 };
 
-const contactText = {
+const contactText: React.CSSProperties = {
   color: '#333',
   fontSize: '14px',
   marginTop: '4px',
-  textAlign: 'center',
+  textAlign: 'center' as const,
 };
 
 const tableSection = {
