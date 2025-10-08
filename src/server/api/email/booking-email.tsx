@@ -39,9 +39,6 @@ export const BookingEmail = ({
   isAdminCopy = false,
 }: BookingEmailProps) => {
   const title = isAdminCopy ? t('adminTitle') : t('title');
-  const description = isAdminCopy ? t('adminDescription') : t('description');
-  const buttonText = t('buttonText');
-
   return (
     <Html>
       <Head />
@@ -49,23 +46,18 @@ export const BookingEmail = ({
       <Body style={main}>
         <Container style={container}>
           {/* --- HEADER --- */}
-          <Section style={headerSection}>
-            <Row>
-              <Column style={{ width: '30%' }}>
-                <Img
-                  src="/logo-footer.svg" // Replace with actual Karim Tour logo URL
-                  alt="Karim Tour Logo"
-                  width="80"
-                  height="80"
-                />
-              </Column>
-              <Column style={{ width: '70%', textAlign: 'right' }}>
-                <Heading style={voucherTitle}>TOURISTS VOUCHER</Heading>
-                <Text style={contactText}>
-                  <b>+201003637624</b> &nbsp; - &nbsp; <b>+905352699881</b>
-                </Text>
-              </Column>
-            </Row>
+          <Section style={{ ...headerSection, textAlign: 'center' }}>
+            <img
+              src="/logo-footer.svg"
+              alt="Karim Tour Logo"
+              width="80"
+              height="80"
+              style={{ margin: '0 auto' }}
+            />
+            <Heading style={{ ...voucherTitle, margin: '10px 0' }}>TOURISTS VOUCHER</Heading>
+            <Text style={contactText}>
+              <b>+201003637624</b> &nbsp; - &nbsp; <b>+905352699881</b>
+            </Text>
           </Section>
 
           {/* --- TABLE --- */}
@@ -164,14 +156,6 @@ export const BookingEmail = ({
             Best regards, <br />
             <b>Karim Tour Team</b>
           </Text>
-
-          {!isAdminCopy && (
-            <Section style={{ textAlign: 'center', marginTop: '20px' }}>
-              <Button style={button} href={bookingLink}>
-                {buttonText}
-              </Button>
-            </Section>
-          )}
         </Container>
       </Body>
     </Html>
@@ -212,6 +196,7 @@ const contactText = {
   color: '#333',
   fontSize: '14px',
   marginTop: '4px',
+  textAlign: 'center',
 };
 
 const tableSection = {
