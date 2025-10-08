@@ -48,7 +48,16 @@ export const BookingEmail = ({
           {/* --- HEADER --- */}
           <Section style={headerSection}>
             <Row>
-              <Column>
+              <Column style={logoColumn}>
+                <Img
+                  src="https://www.karimtor.com/logo.png"
+                  alt="Karim Tour Logo"
+                  width="120"
+                  height="auto"
+                  style={logoStyle}
+                />
+              </Column>
+              <Column style={voucherColumn}>
                 <Heading style={voucherTitle}>TOURISTS VOUCHER</Heading>
                 <Text style={contactText}>
                   +201003637624 &nbsp; - &nbsp; +905352699881
@@ -66,27 +75,27 @@ export const BookingEmail = ({
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr style={rowStyle}>
                   <td style={td}><strong>Ticket Number</strong></td>
                   <td style={td}>{bookingId}</td>
                 </tr>
-                <tr>
+                <tr style={altRowStyle}>
                   <td style={td}><strong>Name & Family Name</strong></td>
                   <td style={td}>{bookingData.fullName}</td>
                 </tr>
-                <tr>
+                <tr style={rowStyle}>
                   <td style={td}><strong>Service (Trip)</strong></td>
                   <td style={td}>{bookingData.tripTitle}</td>
                 </tr>
-                <tr>
+                <tr style={altRowStyle}>
                   <td style={td}><strong>Number of Persons</strong></td>
                   <td style={td}>{bookingData.numberOfPeople}</td>
                 </tr>
-                <tr>
+                <tr style={rowStyle}>
                   <td style={td}><strong>Trip Price</strong></td>
                   <td style={td}><strong>${bookingData.totalAmount}</strong></td>
                 </tr>
-                <tr>
+                <tr style={altRowStyle}>
                   <td style={td}><strong>Payment Method</strong></td>
                   <td style={td}>Online</td>
                 </tr>
@@ -156,6 +165,24 @@ const headerSection: React.CSSProperties = {
   backgroundColor: '#1e3a8a',
   color: '#ffffff',
   textAlign: 'center',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const logoColumn: React.CSSProperties = {
+  width: '30%',
+  textAlign: 'left' as const,
+};
+
+const voucherColumn: React.CSSProperties = {
+  width: '70%',
+  textAlign: 'right' as const,
+};
+
+const logoStyle = {
+  maxWidth: '120px',
+  height: 'auto',
 };
 
 const voucherTitle: React.CSSProperties = {
@@ -194,6 +221,14 @@ const th: React.CSSProperties = {
   textAlign: 'left',
   fontWeight: 'bold',
   fontSize: '16px',
+};
+
+const rowStyle = {
+  backgroundColor: '#ffffff',
+};
+
+const altRowStyle = {
+  backgroundColor: '#f8f9fa',
 };
 
 const td = {
