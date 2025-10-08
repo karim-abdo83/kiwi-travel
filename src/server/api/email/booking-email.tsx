@@ -46,56 +46,49 @@ export const BookingEmail = ({
       <Body style={main}>
         <Container style={container}>
           {/* --- HEADER --- */}
-          <Section style={{ ...headerSection, textAlign: 'center' }}>
-            <img
-              src="/logo-footer.svg"
-              alt="Karim Tour Logo"
-              width="80"
-              height="80"
-              style={{ margin: '0 auto' }}
-            />
-            <Heading style={{ ...voucherTitle, margin: '10px 0' }}>TOURISTS VOUCHER</Heading>
-            <Text style={contactText}>
-              <b>+201003637624</b> &nbsp; - &nbsp; <b>+905352699881</b>
-            </Text>
+          <Section style={headerSection}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <img
+                src="/logo-footer.svg"
+                alt="Karim Tour Logo"
+                width="80"
+                height="80"
+              />
+              <div>
+                <Heading style={{ ...voucherTitle, margin: '0 0 5px 0' }}>TOURISTS VOUCHER</Heading>
+                <Text style={contactText}>
+                  <b>+201003637624</b> &nbsp; - &nbsp; <b>+905352699881</b>
+                </Text>
+              </div>
+            </div>
           </Section>
 
           {/* --- TABLE --- */}
-          <Section style={tableSection}>
-            <table style={table}>
-              <thead>
-                <tr>
-                  <th style={th}>Details</th>
-                  <th style={th}>Information</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style={td}>Ticket Number</td>
-                  <td style={td}>{bookingId}</td>
-                </tr>
-                <tr>
-                  <td style={td}>Name & Family Name</td>
-                  <td style={td}>{bookingData.fullName}</td>
-                </tr>
-                <tr>
-                  <td style={td}>Service (Trip)</td>
-                  <td style={td}>{bookingData.tripTitle}</td>
-                </tr>
-                <tr>
-                  <td style={td}>Number of Persons</td>
-                  <td style={td}>{bookingData.numberOfPeople}</td>
-                </tr>
-                <tr>
-                  <td style={td}>Trip Price</td>
-                  <td style={td}>${bookingData.totalAmount}</td>
-                </tr>
-                <tr>
-                  <td style={td}>Payment Method</td>
-                  <td style={td}>Online</td>
-                </tr>
-              </tbody>
-            </table>
+          <Section style={detailsSection}>
+            <div style={detailRow}>
+              <span style={detailLabel}>Ticket Number</span>
+              <span style={detailValue}>{bookingId}</span>
+            </div>
+            <div style={detailRow}>
+              <span style={detailLabel}>Name & Family Name</span>
+              <span style={detailValue}>{bookingData.fullName}</span>
+            </div>
+            <div style={detailRow}>
+              <span style={detailLabel}>Service (Trip)</span>
+              <span style={detailValue}>{bookingData.tripTitle}</span>
+            </div>
+            <div style={detailRow}>
+              <span style={detailLabel}>Number of Persons</span>
+              <span style={detailValue}>{bookingData.numberOfPeople}</span>
+            </div>
+            <div style={detailRow}>
+              <span style={detailLabel}>Trip Price</span>
+              <span style={detailValue}>${bookingData.totalAmount}</span>
+            </div>
+            <div style={detailRow}>
+              <span style={detailLabel}>Payment Method</span>
+              <span style={detailValue}>Online</span>
+            </div>
           </Section>
 
           {/* --- TERMS & CONDITIONS --- */}
@@ -104,7 +97,7 @@ export const BookingEmail = ({
               Terms and Conditions
             </Heading>
             <Text style={termsText}>
-              All orders, pre-bookings, and trips made through www.karimtour.com
+              All orders, pre-bookings, and trips made through www.karimtor.com
               are subject to the International Travel Agencies Law (Law No.
               1254) and the Consumer Protection Law (Law No. 4077), as amended
               to align with the European Union Consumer Rights Law.
@@ -193,40 +186,52 @@ const voucherTitle = {
 };
 
 const contactText: React.CSSProperties = {
-  color: '#333',
   fontSize: '14px',
   marginTop: '4px',
   textAlign: 'center' as const,
 };
 
-const tableSection = {
-  padding: '10px 25px',
+const detailsSection = {
+  padding: '15px',
+  maxWidth: '600px',
+  margin: '0 auto',
 };
 
-const table = {
-  width: '100%',
-  borderCollapse: 'collapse' as const,
-  border: '1px solid #000',
+const detailRow = {
+  display: 'flex',
+  flexDirection: 'row' as const,
+  flexWrap: 'wrap' as const,
+  padding: '12px 0',
+  borderBottom: '1px solid #eee',
+  alignItems: 'center',
+  '@media (max-width: 600px)': {
+    flexDirection: 'column' as const,
+  },
 };
 
-const th = {
-  backgroundColor: '#f2f2f2',
-  border: '1px solid #000',
-  padding: '8px',
-  fontWeight: '700',
-  textAlign: 'left' as const,
-  fontSize: '14px',
+const detailLabel = {
+  flex: '1 1 40%',
+  fontWeight: 'bold',
+  padding: '8px 0',
+  color: '#333',
+  minWidth: '150px',
+  '@media (max-width: 600px)': {
+    flex: '1 1 100%',
+    textAlign: 'left' as const,
+  },
 };
 
-const td = {
-  border: '1px solid #000',
-  padding: '8px',
-  fontSize: '14px',
+const detailValue = {
+  flex: '1 1 60%',
+  padding: '8px 0',
   color: '#000',
+  '@media (max-width: 600px)': {
+    flex: '1 1 100%',
+    textAlign: 'left' as const,
+  },
 };
 
 const termsSection = {
-  padding: '20px 25px',
 };
 
 const termsTitle = {
