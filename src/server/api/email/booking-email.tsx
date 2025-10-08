@@ -48,19 +48,18 @@ export const BookingEmail = ({
           {/* --- HEADER --- */}
           <Section style={headerSection}>
             <Row>
-              <Column style={logoColumn}>
-                <Img
-                  src="https://www.karimtor.com/logo.png"
+              <Column style={{ width: '30%' }}>
+                <img
+                  src="/logo-footer.svg" // Replace with actual Karim Tour logo URL
                   alt="Karim Tour Logo"
-                  width="120"
-                  height="auto"
-                  style={logoStyle}
+                  width="80"
+                  height="80"
                 />
               </Column>
-              <Column style={voucherColumn}>
+              <Column style={{ width: '70%', textAlign: 'right' }}>
                 <Heading style={voucherTitle}>TOURISTS VOUCHER</Heading>
                 <Text style={contactText}>
-                  +201003637624 &nbsp; - &nbsp; +905352699881
+                  <b>+201003637624</b> &nbsp; - &nbsp; <b>+905352699881</b>
                 </Text>
               </Column>
             </Row>
@@ -71,32 +70,33 @@ export const BookingEmail = ({
             <table style={table}>
               <thead>
                 <tr>
-                  <th style={th} colSpan={2}>Booking Details</th>
+                  <th style={th}>Details</th>
+                  <th style={th}>Information</th>
                 </tr>
               </thead>
               <tbody>
-                <tr style={rowStyle}>
-                  <td style={td}><strong>Ticket Number</strong></td>
+                <tr>
+                  <td style={td}>Ticket Number</td>
                   <td style={td}>{bookingId}</td>
                 </tr>
-                <tr style={altRowStyle}>
-                  <td style={td}><strong>Name & Family Name</strong></td>
+                <tr>
+                  <td style={td}>Name & Family Name</td>
                   <td style={td}>{bookingData.fullName}</td>
                 </tr>
-                <tr style={rowStyle}>
-                  <td style={td}><strong>Service (Trip)</strong></td>
+                <tr>
+                  <td style={td}>Service (Trip)</td>
                   <td style={td}>{bookingData.tripTitle}</td>
                 </tr>
-                <tr style={altRowStyle}>
-                  <td style={td}><strong>Number of Persons</strong></td>
+                <tr>
+                  <td style={td}>Number of Persons</td>
                   <td style={td}>{bookingData.numberOfPeople}</td>
                 </tr>
-                <tr style={rowStyle}>
-                  <td style={td}><strong>Trip Price</strong></td>
-                  <td style={td}><strong>${bookingData.totalAmount}</strong></td>
+                <tr>
+                  <td style={td}>Trip Price</td>
+                  <td style={td}>${bookingData.totalAmount}</td>
                 </tr>
-                <tr style={altRowStyle}>
-                  <td style={td}><strong>Payment Method</strong></td>
+                <tr>
+                  <td style={td}>Payment Method</td>
                   <td style={td}>Online</td>
                 </tr>
               </tbody>
@@ -109,7 +109,7 @@ export const BookingEmail = ({
               Terms and Conditions
             </Heading>
             <Text style={termsText}>
-              All orders, pre-bookings, and trips made through www.karimtor.com
+              All orders, pre-bookings, and trips made through www.karimtour.com
               are subject to the International Travel Agencies Law (Law No.
               1254) and the Consumer Protection Law (Law No. 4077), as amended
               to align with the European Union Consumer Rights Law.
@@ -118,23 +118,49 @@ export const BookingEmail = ({
             <Text style={termsSub}>
               <b>Subject of the Agreement</b>
               <br />
-              The travel agency "Karim Tour" (hereinafter referred to as "the
-              Contractor") is obliged to provide services and organize trips.
-              The customer (hereinafter referred to as "the Client") is obliged
+              The travel agency “Karim Tour” (hereinafter referred to as “the
+              Contractor”) is obliged to provide services and organize trips.
+              The customer (hereinafter referred to as “the Client”) is obliged
               to pay the cost of the selected trips and comply with the terms of
               this agreement.
             </Text>
+
+            <ol style={termsList}>
+              <li>
+                <b>Cancellation by the Client:</b> The Client has the right to
+                cancel up to 12 hours before without penalty, except for:
+                <ul>
+                  <li>Flights</li>
+                  <li>Trips to another country</li>
+                  <li>
+                    Trips that include entrance tickets (Aquapark, Dolphin Show,
+                    Cable Car, Hot Air Balloon)
+                  </li>
+                  <li>Private and individual programs</li>
+                </ul>
+              </li>
+              <li>
+                <b>Late Cancellation:</b> If cancellation is made on the same
+                day or less than 12 hours before, no refund is provided.
+              </li>
+              <li>
+                <b>Accuracy of Information:</b> All displayed information is
+                valid, and Karim Tour commits to the exact itinerary listed.
+              </li>
+              <li>
+                <b>Right of Refusal:</b> Karim Tour reserves the right to cancel
+                participation for misconduct or intoxication, harassment, or
+                disrespectful behavior towards staff or drivers.
+              </li>
+            </ol>
           </Section>
 
           {/* --- FOOTER --- */}
-          <Section style={footerSection}>
-            <Text style={{ margin: '0 0 12px 0', fontSize: '16px', fontWeight: 'bold' }}>
-              Thank you for choosing Karim Tour!
-            </Text>
-            <Text style={{ margin: '0', fontSize: '12px', opacity: 0.8 }}>
-              © {new Date().getFullYear()} Karim Tour. All rights reserved.
-            </Text>
-          </Section>
+          <Hr style={hr} />
+          <Text style={footer}>
+            Best regards, <br />
+            <b>Karim Tour Team</b>
+          </Text>
         </Container>
       </Body>
     </Html>
@@ -144,139 +170,107 @@ export const BookingEmail = ({
 // --- STYLES ---
 
 const main = {
-  backgroundColor: '#f4f4f4',
-  fontFamily: 'Arial, sans-serif',
-  padding: '20px 0',
+  backgroundColor: '#ffffff',
+  fontFamily:
+    '"Arial", "Helvetica Neue", Helvetica, sans-serif',
 };
 
 const container = {
   margin: '0 auto',
-  padding: 0,
-  width: '100%',
-  maxWidth: '600px',
-  backgroundColor: '#ffffff',
-  borderRadius: '8px',
-  overflow: 'hidden',
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+  padding: '10px 0 40px',
+  width: '650px',
+  backgroundColor: '#fff',
+  border: '1px solid #ccc',
+  borderRadius: '6px',
 };
 
-const headerSection: React.CSSProperties = {
+const headerSection = {
   padding: '20px',
-  backgroundColor: '#1e3a8a',
-  color: '#ffffff',
-  textAlign: 'center',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  borderBottom: '3px solid #c00000',
+  backgroundColor: '#fff',
 };
 
-const logoColumn: React.CSSProperties = {
-  width: '30%',
-  textAlign: 'left' as const,
-};
-
-const voucherColumn: React.CSSProperties = {
-  width: '70%',
-  textAlign: 'right' as const,
-};
-
-const logoStyle = {
-  maxWidth: '120px',
-  height: 'auto',
-};
-
-const voucherTitle: React.CSSProperties = {
-  fontSize: '24px',
-  fontWeight: 'bold',
-  margin: '0 0 10px 0',
-  color: '#ffffff',
-  textTransform: 'uppercase',
+const voucherTitle = {
+  fontSize: '22px',
+  fontWeight: '700',
+  color: '#000',
+  margin: '0',
 };
 
 const contactText = {
-  margin: '10px 0 0 0',
-  fontSize: '16px',
-  color: '#ffffff',
-  fontWeight: 'bold',
+  color: '#333',
+  fontSize: '14px',
+  marginTop: '4px',
 };
 
 const tableSection = {
-  padding: '20px',
+  padding: '10px 25px',
 };
 
-const table: React.CSSProperties = {
+const table = {
   width: '100%',
-  borderCollapse: 'separate',
-  borderSpacing: '0',
-  margin: '0 auto',
-  borderRadius: '8px',
-  overflow: 'hidden',
-  border: '1px solid #e2e8f0',
+  borderCollapse: 'collapse' as const,
+  border: '1px solid #000',
 };
 
-const th: React.CSSProperties = {
-  backgroundColor: '#1e3a8a',
-  color: '#ffffff',
-  padding: '12px 18px',
-  textAlign: 'left',
-  fontWeight: 'bold',
-  fontSize: '16px',
-};
-
-const rowStyle = {
-  backgroundColor: '#ffffff',
-};
-
-const altRowStyle = {
-  backgroundColor: '#f8f9fa',
+const th = {
+  backgroundColor: '#f2f2f2',
+  border: '1px solid #000',
+  padding: '8px',
+  fontWeight: '700',
+  textAlign: 'left' as const,
+  fontSize: '14px',
 };
 
 const td = {
-  padding: '12px 18px',
-  borderBottom: '1px solid #e2e8f0',
+  border: '1px solid #000',
+  padding: '8px',
   fontSize: '14px',
+  color: '#000',
 };
 
 const termsSection = {
-  padding: '0 20px 20px',
+  padding: '20px 25px',
 };
 
-const termsTitle: React.CSSProperties = {
-  fontSize: '18px',
-  fontWeight: 'bold',
-  margin: '20px 0 12px',
-  color: '#1e3a8a',
-  textAlign: 'center',
-  textTransform: 'uppercase',
-  paddingBottom: '8px',
-  borderBottom: '2px solid #1e3a8a',
+const termsTitle = {
+  fontSize: '16px',
+  fontWeight: '700',
+  color: '#c00000',
+  marginBottom: '10px',
 };
 
-const termsText: React.CSSProperties = {
-  fontSize: '14px',
-  lineHeight: '1.6',
-  color: '#4a5568',
-  margin: '0 0 16px',
-  textAlign: 'justify',
+const termsText = {
+  fontSize: '13px',
+  lineHeight: '1.5',
+  color: '#000',
 };
 
 const termsSub = {
-  fontSize: '14px',
-  lineHeight: '1.6',
-  color: '#4a5568',
-  margin: '16px 0',
-  padding: '12px',
-  backgroundColor: '#f8fafc',
-  borderRadius: '4px',
-  borderLeft: '3px solid #1e3a8a',
+  fontSize: '13px',
+  lineHeight: '1.5',
+  color: '#000',
+  marginTop: '10px',
 };
 
-const footerSection: React.CSSProperties = {
-  padding: '20px',
-  backgroundColor: '#1e3a8a',
-  color: '#ffffff',
-  textAlign: 'center',
-  fontSize: '14px',
-  lineHeight: '1.5',
+const termsList = {
+  fontSize: '13px',
+  color: '#000',
+  marginTop: '8px',
+  paddingLeft: '18px',
 };
+
+const hr = {
+  borderColor: '#ccc',
+  margin: '20px 0',
+};
+
+const footer = {
+  color: '#444',
+  fontSize: '12px',
+  marginTop: '10px',
+  textAlign: 'center' as const,
+};
+
+
 
