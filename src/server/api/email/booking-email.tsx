@@ -38,7 +38,7 @@ export const BookingEmail = ({
   bookingData,
   isAdminCopy = false,
 }: BookingEmailProps) => {
-  const title = t("title");
+  const title = isAdminCopy ? t('adminTitle') : t('title');
   return (
     <Html>
       <Head />
@@ -47,20 +47,22 @@ export const BookingEmail = ({
         <Container style={container}>
           {/* --- HEADER --- */}
           <Section style={headerSection}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <img
-                src="/logo-footer.svg"
-                alt="Karim Tour Logo"
-                width="80"
-                height="80"
-              />
-              <div>
-                <Heading style={{ ...voucherTitle, margin: '0 0 5px 0' }}>{t("voucherTitle")}</Heading>
+            <Row>
+              <Column style={{ width: '30%' }}>
+                <img
+                  src="/logo-footer.svg" // Replace with actual Karim Tour logo URL
+                  alt="Karim Tour Logo"
+                  width="80"
+                  height="80"
+                />
+              </Column>
+              <Column style={{ width: '70%', textAlign: 'right' }}>
+                <Heading style={voucherTitle}>TOURISTS VOUCHER</Heading>
                 <Text style={contactText}>
                   <b>+201003637624</b> &nbsp; - &nbsp; <b>+905352699881</b>
                 </Text>
-              </div>
-            </div>
+              </Column>
+            </Row>
           </Section>
 
           {/* --- TABLE --- */}
@@ -104,42 +106,51 @@ export const BookingEmail = ({
           {/* --- TERMS & CONDITIONS --- */}
           <Section style={termsSection}>
             <Heading as="h3" style={termsTitle}>
-              {t("termsTitle")}
+              Terms and Conditions
             </Heading>
             <Text style={termsText}>
-              {t("termsText")}
+              All orders, pre-bookings, and trips made through www.karimtour.com
               are subject to the International Travel Agencies Law (Law No.
               1254) and the Consumer Protection Law (Law No. 4077), as amended
               to align with the European Union Consumer Rights Law.
             </Text>
 
             <Text style={termsSub}>
-              <b>{t("termsSub")}</b>
+              <b>Subject of the Agreement</b>
               <br />
-              {t("termsSubText")}
-            {t("agreementText")}
+              The travel agency “Karim Tour” (hereinafter referred to as “the
+              Contractor”) is obliged to provide services and organize trips.
+              The customer (hereinafter referred to as “the Client”) is obliged
+              to pay the cost of the selected trips and comply with the terms of
+              this agreement.
             </Text>
 
             <ol style={termsList}>
               <li>
-                <b>{t("termsList1")}</b> {t("termsList1Text")}
+                <b>Cancellation by the Client:</b> The Client has the right to
+                cancel up to 12 hours before without penalty, except for:
                 <ul>
-                  <li>{t("flights")}</li>
-                  <li>{t("internationalTrips")}</li>
+                  <li>Flights</li>
+                  <li>Trips to another country</li>
                   <li>
-                   {t("tripsWithTickets")}
+                    Trips that include entrance tickets (Aquapark, Dolphin Show,
+                    Cable Car, Hot Air Balloon)
                   </li>
-                  <li>{t("privatePrograms")}</li>
+                  <li>Private and individual programs</li>
                 </ul>
               </li>
               <li>
-                <b>{t("termsList2")}</b> {t("termsList2Text")}
+                <b>Late Cancellation:</b> If cancellation is made on the same
+                day or less than 12 hours before, no refund is provided.
               </li>
               <li>
-                <b>{t("termsList3")}</b> {t("termsList3Text")}
+                <b>Accuracy of Information:</b> All displayed information is
+                valid, and Karim Tour commits to the exact itinerary listed.
               </li>
               <li>
-                <b>{t("termsList4")}</b> {t("termsList4Text")}
+                <b>Right of Refusal:</b> Karim Tour reserves the right to cancel
+                participation for misconduct or intoxication, harassment, or
+                disrespectful behavior towards staff or drivers.
               </li>
             </ol>
           </Section>
@@ -147,8 +158,8 @@ export const BookingEmail = ({
           {/* --- FOOTER --- */}
           <Hr style={hr} />
           <Text style={footer}>
-            {t("bestRegards")} <br />
-            <b>{t("teamName")}</b>
+            Best regards, <br />
+            <b>Karim Tour Team</b>
           </Text>
         </Container>
       </Body>
@@ -186,11 +197,10 @@ const voucherTitle = {
   margin: '0',
 };
 
-const contactText: React.CSSProperties = {
-  color: '#0000FF',
+const contactText = {
+  color: '#333',
   fontSize: '14px',
   marginTop: '4px',
-  textAlign: 'center' as const,
 };
 
 const tableSection = {
@@ -217,7 +227,6 @@ const td = {
   padding: '8px',
   fontSize: '14px',
   color: '#000',
-  fontWeight: 'bold',
 };
 
 const termsSection = {
