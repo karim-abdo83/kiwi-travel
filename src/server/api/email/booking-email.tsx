@@ -76,27 +76,27 @@ export const BookingEmail = ({
               <tbody>
                 <tr>
                   <td style={tdBold}>Ticket Number</td>
-                  <td style={td}>{bookingId}</td>
+                  <td style={tdInfo}>{bookingId}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Name & Family Name</td>
-                  <td style={td}>{bookingData.fullName}</td>
+                  <td style={tdInfo}>{bookingData.fullName}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Service (Trip)</td>
-                  <td style={td}>{bookingData.tripTitle}</td>
+                  <td style={tdInfo}>{bookingData.tripTitle}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Number of Persons</td>
-                  <td style={td}>{bookingData.numberOfPeople}</td>
+                  <td style={tdInfo}>{bookingData.numberOfPeople}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Trip Price</td>
-                  <td style={td}>${bookingData.totalAmount}</td>
+                  <td style={tdInfo}>${bookingData.totalAmount}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Payment Method</td>
-                  <td style={td}>Online</td>
+                  <td style={tdInfo}>Online</td>
                 </tr>
               </tbody>
             </table>
@@ -238,6 +238,7 @@ const table = {
   width: '100%',
   borderCollapse: 'collapse' as const,
   border: '1px solid #000',
+  tableLayout: 'fixed' as const,
 };
 
 const th = {
@@ -247,6 +248,12 @@ const th = {
   fontWeight: '700',
   textAlign: 'left' as const,
   fontSize: '14px',
+  '&:first-child': {
+    width: '35%',
+  },
+  '&:last-child': {
+    width: '65%',
+  },
 };
 
 const td = {
@@ -259,6 +266,15 @@ const td = {
 const tdBold = {
   ...td,
   fontWeight: '700',
+  width: '35%',
+  whiteSpace: 'nowrap' as const,
+  overflow: 'hidden' as const,
+  textOverflow: 'ellipsis' as const,
+};
+
+const tdInfo = {
+  ...td,
+  width: '65%',
 };
 
 const termsSection = {
