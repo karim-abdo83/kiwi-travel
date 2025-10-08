@@ -55,75 +55,90 @@ export const BookingEmail = ({
                 height="80"
               />
               <div>
-                <Heading style={{ ...voucherTitle, margin: '0 0 5px 0' }}>{t('bookingEmail.voucherTitle')}</Heading>
+                <Heading style={{ ...voucherTitle, margin: '0 0 5px 0' }}>TOURISTS VOUCHER</Heading>
                 <Text style={contactText}>
-                  <b>{t('bookingEmail.phone1')}</b> &nbsp; - &nbsp; <b>{t('bookingEmail.phone2')}</b>
+                  <b>+201003637624</b> &nbsp; - &nbsp; <b>+905352699881</b>
                 </Text>
               </div>
             </div>
           </Section>
 
-          {/* --- DETAILS SECTION --- */}
+          {/* --- TABLE --- */}
           <Section style={detailsSection}>
-            <div style={detailRow(0)}>
-              <span style={detailLabel}>{t('bookingEmail.ticketNumber')}</span>
+            <div style={detailRow}>
+              <span style={detailLabel}>Ticket Number</span>
               <span style={detailValue}>{bookingId}</span>
             </div>
-            <div style={detailRow(1)}>
-              <span style={detailLabel}>{t('bookingEmail.fullName')}</span>
+            <div style={detailRow}>
+              <span style={detailLabel}>Name & Family Name</span>
               <span style={detailValue}>{bookingData.fullName}</span>
             </div>
-            <div style={detailRow(0)}>
-              <span style={detailLabel}>{t('bookingEmail.service')}</span>
+            <div style={detailRow}>
+              <span style={detailLabel}>Service (Trip)</span>
               <span style={detailValue}>{bookingData.tripTitle}</span>
             </div>
-            <div style={detailRow(1)}>
-              <span style={detailLabel}>{t('bookingEmail.numberOfPersons')}</span>
+            <div style={detailRow}>
+              <span style={detailLabel}>Number of Persons</span>
               <span style={detailValue}>{bookingData.numberOfPeople}</span>
             </div>
-            <div style={detailRow(0)}>
-              <span style={detailLabel}>{t('bookingEmail.tripPrice')}</span>
+            <div style={detailRow}>
+              <span style={detailLabel}>Trip Price</span>
               <span style={detailValue}>${bookingData.totalAmount}</span>
             </div>
-            <div style={detailRow(1)}>
-              <span style={detailLabel}>{t('bookingEmail.paymentMethod')}</span>
-              <span style={detailValue}>{t('bookingEmail.online')}</span>
+            <div style={detailRow}>
+              <span style={detailLabel}>Payment Method</span>
+              <span style={detailValue}>Online</span>
             </div>
           </Section>
 
           {/* --- TERMS & CONDITIONS --- */}
           <Section style={termsSection}>
             <Heading as="h3" style={termsTitle}>
-              {t('bookingEmail.termsAndConditions')}
+              Terms and Conditions
             </Heading>
             <Text style={termsText}>
-              {t('bookingEmail.termsText')}
+              All orders, pre-bookings, and trips made through www.karimtor.com
+              are subject to the International Travel Agencies Law (Law No.
+              1254) and the Consumer Protection Law (Law No. 4077), as amended
+              to align with the European Union Consumer Rights Law.
             </Text>
 
             <Text style={termsSub}>
-              <b>{t('bookingEmail.subjectOfAgreement')}</b>
+              <b>Subject of the Agreement</b>
               <br />
-              {t('bookingEmail.agreementText')}
+              The travel agency “Karim Tour” (hereinafter referred to as “the
+              Contractor”) is obliged to provide services and organize trips.
+              The customer (hereinafter referred to as “the Client”) is obliged
+              to pay the cost of the selected trips and comply with the terms of
+              this agreement.
             </Text>
 
             <ol style={termsList}>
               <li>
-                <b>{t('bookingEmail.cancellationByClient')}:</b> {t('bookingEmail.cancellationPolicy')}
+                <b>Cancellation by the Client:</b> The Client has the right to
+                cancel up to 12 hours before without penalty, except for:
                 <ul>
-                  <li>{t('bookingEmail.flights')}</li>
-                  <li>{t('bookingEmail.internationalTrips')}</li>
-                  <li>{t('bookingEmail.tripsWithTickets')}</li>
-                  <li>{t('bookingEmail.privatePrograms')}</li>
+                  <li>Flights</li>
+                  <li>Trips to another country</li>
+                  <li>
+                    Trips that include entrance tickets (Aquapark, Dolphin Show,
+                    Cable Car, Hot Air Balloon)
+                  </li>
+                  <li>Private and individual programs</li>
                 </ul>
               </li>
               <li>
-                <b>{t('bookingEmail.lateCancellation')}:</b> {t('bookingEmail.lateCancellationPolicy')}
+                <b>Late Cancellation:</b> If cancellation is made on the same
+                day or less than 12 hours before, no refund is provided.
               </li>
               <li>
-                <b>{t('bookingEmail.accuracy')}:</b> {t('bookingEmail.accuracyPolicy')}
+                <b>Accuracy of Information:</b> All displayed information is
+                valid, and Karim Tour commits to the exact itinerary listed.
               </li>
               <li>
-                <b>{t('bookingEmail.rightOfRefusal')}:</b> {t('bookingEmail.refusalPolicy')}
+                <b>Right of Refusal:</b> Karim Tour reserves the right to cancel
+                participation for misconduct or intoxication, harassment, or
+                disrespectful behavior towards staff or drivers.
               </li>
             </ol>
           </Section>
@@ -131,8 +146,8 @@ export const BookingEmail = ({
           {/* --- FOOTER --- */}
           <Hr style={hr} />
           <Text style={footer}>
-            {t('bookingEmail.bestRegards')}, <br />
-            <b>{t('bookingEmail.teamName')}</b>
+            Best regards, <br />
+            <b>Karim Tour Team</b>
           </Text>
         </Container>
       </Body>
@@ -172,7 +187,6 @@ const voucherTitle = {
 
 const contactText: React.CSSProperties = {
   fontSize: '14px',
-  color: '#1a73e8',
   marginTop: '4px',
   textAlign: 'center' as const,
 };
@@ -183,47 +197,36 @@ const detailsSection = {
   margin: '0 auto',
 };
 
-const detailRow = (index: number) => ({
+const detailRow = {
   display: 'flex',
   flexDirection: 'row' as const,
-  flexWrap: 'nowrap' as const,
-  padding: '12px 8px',
-  backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff',
-  borderRadius: '4px',
-  marginBottom: '4px',
+  flexWrap: 'wrap' as const,
+  padding: '12px 0',
+  borderBottom: '1px solid #eee',
+  alignItems: 'center',
   '@media (max-width: 600px)': {
-    flexDirection: 'row' as const,
-    flexWrap: 'nowrap' as const,
-    alignItems: 'flex-start',
-    padding: '10px 8px',
+    flexDirection: 'column' as const,
   },
-});
+};
 
 const detailLabel = {
-  flex: '0 0 150px',
-  fontWeight: 600,
-  padding: '6px 8px',
+  flex: '1 1 40%',
+  fontWeight: 'semi-bold',
+  padding: '8px 0',
   color: '#333',
-  fontSize: '14px',
-  whiteSpace: 'nowrap' as const,
-  overflow: 'hidden' as const,
-  textOverflow: 'ellipsis' as const,
+  
+  minWidth: '150px',
   '@media (max-width: 600px)': {
-    flex: '0 0 120px',
-    padding: '4px 8px',
-    fontSize: '13px',
+    flex: '1 1 100%',
+    textAlign: 'left' as const,
   },
 };
 
 const detailValue = {
-  flex: '1 1 auto',
-  padding: '6px 8px',
+  flex: '1 1 60%',
+  padding: '8px 0',
   color: '#000',
-  fontSize: '14px',
-  wordBreak: 'break-word' as const,
   '@media (max-width: 600px)': {
-    padding: '4px 8px',
-    fontSize: '13px',
     flex: '1 1 100%',
     textAlign: 'left' as const,
   },
