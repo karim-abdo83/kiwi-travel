@@ -63,29 +63,29 @@ export const BookingEmail = ({
             </div>
           </Section>
 
-          {/* --- TABLE --- */}
+          {/* --- DETAILS SECTION --- */}
           <Section style={detailsSection}>
-            <div style={detailRow}>
+            <div style={detailRow(0)}>
               <span style={detailLabel}>{t('bookingEmail.ticketNumber')}</span>
               <span style={detailValue}>{bookingId}</span>
             </div>
-            <div style={detailRow}>
+            <div style={detailRow(1)}>
               <span style={detailLabel}>{t('bookingEmail.fullName')}</span>
               <span style={detailValue}>{bookingData.fullName}</span>
             </div>
-            <div style={detailRow}>
+            <div style={detailRow(0)}>
               <span style={detailLabel}>{t('bookingEmail.service')}</span>
               <span style={detailValue}>{bookingData.tripTitle}</span>
             </div>
-            <div style={detailRow}>
+            <div style={detailRow(1)}>
               <span style={detailLabel}>{t('bookingEmail.numberOfPersons')}</span>
               <span style={detailValue}>{bookingData.numberOfPeople}</span>
             </div>
-            <div style={detailRow}>
+            <div style={detailRow(0)}>
               <span style={detailLabel}>{t('bookingEmail.tripPrice')}</span>
               <span style={detailValue}>${bookingData.totalAmount}</span>
             </div>
-            <div style={detailRow}>
+            <div style={detailRow(1)}>
               <span style={detailLabel}>{t('bookingEmail.paymentMethod')}</span>
               <span style={detailValue}>{t('bookingEmail.online')}</span>
             </div>
@@ -182,36 +182,47 @@ const detailsSection = {
   margin: '0 auto',
 };
 
-const detailRow = {
+const detailRow = (index: number) => ({
   display: 'flex',
   flexDirection: 'row' as const,
-  flexWrap: 'wrap' as const,
-  padding: '12px 0',
-  borderBottom: '1px solid #eee',
-  alignItems: 'center',
+  flexWrap: 'nowrap' as const,
+  padding: '12px 8px',
+  backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff',
+  borderRadius: '4px',
+  marginBottom: '4px',
   '@media (max-width: 600px)': {
-    flexDirection: 'column' as const,
+    flexDirection: 'row' as const,
+    flexWrap: 'nowrap' as const,
+    alignItems: 'flex-start',
+    padding: '10px 8px',
   },
-};
+});
 
 const detailLabel = {
-  flex: '1 1 40%',
-  fontWeight: 'semi-bold',
-  padding: '8px 0',
+  flex: '0 0 150px',
+  fontWeight: 600,
+  padding: '6px 8px',
   color: '#333',
-  
-  minWidth: '150px',
+  fontSize: '14px',
+  whiteSpace: 'nowrap' as const,
+  overflow: 'hidden' as const,
+  textOverflow: 'ellipsis' as const,
   '@media (max-width: 600px)': {
-    flex: '1 1 100%',
-    textAlign: 'left' as const,
+    flex: '0 0 120px',
+    padding: '4px 8px',
+    fontSize: '13px',
   },
 };
 
 const detailValue = {
-  flex: '1 1 60%',
-  padding: '8px 0',
+  flex: '1 1 auto',
+  padding: '6px 8px',
   color: '#000',
+  fontSize: '14px',
+  wordBreak: 'break-word' as const,
   '@media (max-width: 600px)': {
+    padding: '4px 8px',
+    fontSize: '13px',
     flex: '1 1 100%',
     textAlign: 'left' as const,
   },
