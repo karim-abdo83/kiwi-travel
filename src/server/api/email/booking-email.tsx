@@ -55,9 +55,9 @@ export const BookingEmail = ({
                 height="80"
               />
               <div>
-                <Heading style={{ ...voucherTitle, margin: '0 0 5px 0' }}>TOURISTS VOUCHER</Heading>
+                <Heading style={{ ...voucherTitle, margin: '0 0 5px 0' }}>{t('bookingEmail.voucherTitle')}</Heading>
                 <Text style={contactText}>
-                  <b>+201003637624</b> &nbsp; - &nbsp; <b>+905352699881</b>
+                  <b>{t('bookingEmail.phone1')}</b> &nbsp; - &nbsp; <b>{t('bookingEmail.phone2')}</b>
                 </Text>
               </div>
             </div>
@@ -66,79 +66,64 @@ export const BookingEmail = ({
           {/* --- TABLE --- */}
           <Section style={detailsSection}>
             <div style={detailRow}>
-              <span style={detailLabel}>Ticket Number</span>
+              <span style={detailLabel}>{t('bookingEmail.ticketNumber')}</span>
               <span style={detailValue}>{bookingId}</span>
             </div>
             <div style={detailRow}>
-              <span style={detailLabel}>Name & Family Name</span>
+              <span style={detailLabel}>{t('bookingEmail.fullName')}</span>
               <span style={detailValue}>{bookingData.fullName}</span>
             </div>
             <div style={detailRow}>
-              <span style={detailLabel}>Service (Trip)</span>
+              <span style={detailLabel}>{t('bookingEmail.service')}</span>
               <span style={detailValue}>{bookingData.tripTitle}</span>
             </div>
             <div style={detailRow}>
-              <span style={detailLabel}>Number of Persons</span>
+              <span style={detailLabel}>{t('bookingEmail.numberOfPersons')}</span>
               <span style={detailValue}>{bookingData.numberOfPeople}</span>
             </div>
             <div style={detailRow}>
-              <span style={detailLabel}>Trip Price</span>
+              <span style={detailLabel}>{t('bookingEmail.tripPrice')}</span>
               <span style={detailValue}>${bookingData.totalAmount}</span>
             </div>
             <div style={detailRow}>
-              <span style={detailLabel}>Payment Method</span>
-              <span style={detailValue}>Online</span>
+              <span style={detailLabel}>{t('bookingEmail.paymentMethod')}</span>
+              <span style={detailValue}>{t('bookingEmail.online')}</span>
             </div>
           </Section>
 
           {/* --- TERMS & CONDITIONS --- */}
           <Section style={termsSection}>
             <Heading as="h3" style={termsTitle}>
-              Terms and Conditions
+              {t('bookingEmail.termsAndConditions')}
             </Heading>
             <Text style={termsText}>
-              All orders, pre-bookings, and trips made through www.karimtor.com
-              are subject to the International Travel Agencies Law (Law No.
-              1254) and the Consumer Protection Law (Law No. 4077), as amended
-              to align with the European Union Consumer Rights Law.
+              {t('bookingEmail.termsText')}
             </Text>
 
             <Text style={termsSub}>
-              <b>Subject of the Agreement</b>
+              <b>{t('bookingEmail.subjectOfAgreement')}</b>
               <br />
-              The travel agency “Karim Tour” (hereinafter referred to as “the
-              Contractor”) is obliged to provide services and organize trips.
-              The customer (hereinafter referred to as “the Client”) is obliged
-              to pay the cost of the selected trips and comply with the terms of
-              this agreement.
+              {t('bookingEmail.agreementText')}
             </Text>
 
             <ol style={termsList}>
               <li>
-                <b>Cancellation by the Client:</b> The Client has the right to
-                cancel up to 12 hours before without penalty, except for:
+                <b>{t('bookingEmail.cancellationByClient')}:</b> {t('bookingEmail.cancellationPolicy')}
                 <ul>
-                  <li>Flights</li>
-                  <li>Trips to another country</li>
-                  <li>
-                    Trips that include entrance tickets (Aquapark, Dolphin Show,
-                    Cable Car, Hot Air Balloon)
-                  </li>
-                  <li>Private and individual programs</li>
+                  <li>{t('bookingEmail.flights')}</li>
+                  <li>{t('bookingEmail.internationalTrips')}</li>
+                  <li>{t('bookingEmail.tripsWithTickets')}</li>
+                  <li>{t('bookingEmail.privatePrograms')}</li>
                 </ul>
               </li>
               <li>
-                <b>Late Cancellation:</b> If cancellation is made on the same
-                day or less than 12 hours before, no refund is provided.
+                <b>{t('bookingEmail.lateCancellation')}:</b> {t('bookingEmail.lateCancellationPolicy')}
               </li>
               <li>
-                <b>Accuracy of Information:</b> All displayed information is
-                valid, and Karim Tour commits to the exact itinerary listed.
+                <b>{t('bookingEmail.accuracy')}:</b> {t('bookingEmail.accuracyPolicy')}
               </li>
               <li>
-                <b>Right of Refusal:</b> Karim Tour reserves the right to cancel
-                participation for misconduct or intoxication, harassment, or
-                disrespectful behavior towards staff or drivers.
+                <b>{t('bookingEmail.rightOfRefusal')}:</b> {t('bookingEmail.refusalPolicy')}
               </li>
             </ol>
           </Section>
@@ -146,8 +131,8 @@ export const BookingEmail = ({
           {/* --- FOOTER --- */}
           <Hr style={hr} />
           <Text style={footer}>
-            Best regards, <br />
-            <b>Karim Tour Team</b>
+            {t('bookingEmail.bestRegards')}, <br />
+            <b>{t('bookingEmail.teamName')}</b>
           </Text>
         </Container>
       </Body>
@@ -211,9 +196,10 @@ const detailRow = {
 
 const detailLabel = {
   flex: '1 1 40%',
-  fontWeight: 'bold',
+  fontWeight: 'semi-bold',
   padding: '8px 0',
   color: '#333',
+  
   minWidth: '150px',
   '@media (max-width: 600px)': {
     flex: '1 1 100%',
@@ -236,7 +222,7 @@ const termsSection = {
 
 const termsTitle = {
   fontSize: '16px',
-  fontWeight: '700',
+  fontWeight: 'semi-bold',
   color: '#c00000',
   marginBottom: '10px',
 };
