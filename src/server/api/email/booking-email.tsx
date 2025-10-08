@@ -8,10 +8,8 @@ import {
   Preview,
   Section,
   Text,
-  Button,
   Row,
   Column,
-  Img,
 } from '@react-email/components';
 
 interface BookingEmailProps {
@@ -47,16 +45,17 @@ export const BookingEmail = ({
         <Container style={container}>
           {/* --- HEADER --- */}
           <Section style={headerSection}>
-            <Row>
-              <Column style={{ width: '30%' }}>
+            <Row style={rowResponsive}>
+              <Column style={columnLeft}>
                 <img
-                  src="/logo-footer.svg" // Replace with actual Karim Tour logo URL
+                  src="/logo-footer.svg"
                   alt="Karim Tour Logo"
                   width="80"
                   height="80"
+                  style={logoResponsive}
                 />
               </Column>
-              <Column style={{ width: '70%', textAlign: 'right' }}>
+              <Column style={columnRight}>
                 <Heading style={voucherTitle}>TOURISTS VOUCHER</Heading>
                 <Text style={contactText}>
                   <b>+201003637624</b> &nbsp; - &nbsp; <b>+905352699881</b>
@@ -76,27 +75,27 @@ export const BookingEmail = ({
               </thead>
               <tbody>
                 <tr>
-                  <td style={td}>Ticket Number</td>
+                  <td style={tdBold}>Ticket Number</td>
                   <td style={td}>{bookingId}</td>
                 </tr>
                 <tr>
-                  <td style={td}>Name & Family Name</td>
+                  <td style={tdBold}>Name & Family Name</td>
                   <td style={td}>{bookingData.fullName}</td>
                 </tr>
                 <tr>
-                  <td style={td}>Service (Trip)</td>
+                  <td style={tdBold}>Service (Trip)</td>
                   <td style={td}>{bookingData.tripTitle}</td>
                 </tr>
                 <tr>
-                  <td style={td}>Number of Persons</td>
+                  <td style={tdBold}>Number of Persons</td>
                   <td style={td}>{bookingData.numberOfPeople}</td>
                 </tr>
                 <tr>
-                  <td style={td}>Trip Price</td>
+                  <td style={tdBold}>Trip Price</td>
                   <td style={td}>${bookingData.totalAmount}</td>
                 </tr>
                 <tr>
-                  <td style={td}>Payment Method</td>
+                  <td style={tdBold}>Payment Method</td>
                   <td style={td}>Online</td>
                 </tr>
               </tbody>
@@ -109,7 +108,7 @@ export const BookingEmail = ({
               Terms and Conditions
             </Heading>
             <Text style={termsText}>
-              All orders, pre-bookings, and trips made through www.karimtour.com
+              All orders, pre-bookings, and trips made through www.karimtor.com
               are subject to the International Travel Agencies Law (Law No.
               1254) and the Consumer Protection Law (Law No. 4077), as amended
               to align with the European Union Consumer Rights Law.
@@ -157,6 +156,7 @@ export const BookingEmail = ({
 
           {/* --- FOOTER --- */}
           <Hr style={hr} />
+
           <Text style={footer}>
             Best regards, <br />
             <b>Karim Tour Team</b>
@@ -171,14 +171,14 @@ export const BookingEmail = ({
 
 const main = {
   backgroundColor: '#ffffff',
-  fontFamily:
-    '"Arial", "Helvetica Neue", Helvetica, sans-serif',
+  fontFamily: '"Arial", "Helvetica Neue", Helvetica, sans-serif',
 };
 
 const container = {
   margin: '0 auto',
   padding: '10px 0 40px',
-  width: '650px',
+  maxWidth: '650px',
+  width: '100%',
   backgroundColor: '#fff',
   border: '1px solid #ccc',
   borderRadius: '6px',
@@ -190,6 +190,30 @@ const headerSection = {
   backgroundColor: '#fff',
 };
 
+const rowResponsive = {
+  display: 'flex',
+  flexWrap: 'wrap' as const,
+  alignItems: 'center',
+};
+
+const columnLeft = {
+  width: '100%',
+  maxWidth: '150px',
+  textAlign: 'center' as const,
+  marginBottom: '10px',
+};
+
+const columnRight = {
+  flex: 1,
+  textAlign: 'right' as const,
+  width: '100%',
+};
+
+const logoResponsive = {
+  maxWidth: '80px',
+  height: 'auto',
+};
+
 const voucherTitle = {
   fontSize: '22px',
   fontWeight: '700',
@@ -198,13 +222,14 @@ const voucherTitle = {
 };
 
 const contactText = {
-  color: '#333',
+  color: '#1254c2',
   fontSize: '14px',
   marginTop: '4px',
 };
 
 const tableSection = {
   padding: '10px 25px',
+  overflowX: 'auto' as const,
 };
 
 const table = {
@@ -227,6 +252,11 @@ const td = {
   padding: '8px',
   fontSize: '14px',
   color: '#000',
+};
+
+const tdBold = {
+  ...td,
+  fontWeight: '700',
 };
 
 const termsSection = {
@@ -271,6 +301,3 @@ const footer = {
   marginTop: '10px',
   textAlign: 'center' as const,
 };
-
-
-
