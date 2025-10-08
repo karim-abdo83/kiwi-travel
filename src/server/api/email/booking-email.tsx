@@ -156,11 +156,12 @@ export const BookingEmail = ({
 
           {/* --- FOOTER --- */}
           <Hr style={hr} />
-
-          <Text style={footer}>
-            Best regards, <br />
-            <b>Karim Tour Team</b>
-          </Text>
+          <Section>
+            <Text style={footer}>
+              Best regards, <br />
+              <b>Karim Tour Team</b>
+            </Text>
+          </Section>
         </Container>
       </Body>
     </Html>
@@ -192,26 +193,27 @@ const headerSection = {
 
 const rowResponsive = {
   display: 'flex',
-  flexWrap: 'wrap' as const,
+  flexWrap: 'nowrap' as const,
   alignItems: 'center',
+  width: '100%',
 };
 
 const columnLeft = {
-  width: '100%',
-  maxWidth: '150px',
+  width: '30%',
   textAlign: 'center' as const,
-  marginBottom: '10px',
+  padding: '10px',
 };
 
 const columnRight = {
-  flex: 1,
-  textAlign: 'right' as const,
-  width: '100%',
+  width: '70%',
+  textAlign: 'center' as const,
+  padding: '10px',
 };
 
 const logoResponsive = {
-  maxWidth: '80px',
+  maxWidth: '60px',
   height: 'auto',
+  margin: '0 auto',
 };
 
 const voucherTitle = {
