@@ -426,7 +426,8 @@
     "rightOfRefusal": "Right of Refusal",
     "refusalPolicy": "Karim Tour reserves the right to cancel participation for misconduct or intoxication, harassment, or disrespectful behavior towards staff or drivers.",
     "bestRegards": "Best regards",
-    "teamName": "Karim Tour Team"
+    "teamName": "Karim Tour Team",
+    "buttonText": "View Booking"
   },
   "bookingStatus": {
     "error": {
