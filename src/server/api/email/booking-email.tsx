@@ -16,7 +16,7 @@ import {
 interface BookingEmailProps {
   bookingId: number;
   bookingLink: string;
-  translations:   (key: string) => string;
+  translations: (key: string) => string;
   bookingData: {
     fullName: string;
     email: string;
