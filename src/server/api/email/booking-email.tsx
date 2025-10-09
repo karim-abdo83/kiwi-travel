@@ -40,45 +40,20 @@ export const BookingEmail = ({
   return (
     <Html>
       <Head />
+      <Preview>{title}</Preview>
       <Body style={main}>
         <Container style={container}>
           {/* --- HEADER --- */}
           <Section style={headerSection}>
             <Row>
               <Column style={logoColumn}>
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  color: '#000000',
-                  fontFamily: 'Arial, sans-serif',
-                  textAlign: 'left',
-                  width: '100%',
-                  maxWidth: '200px'
-                }}>
-                  <div style={{
-                    fontSize: '24px',
-                    fontWeight: 'bold',
-                    lineHeight: '1',
-                    margin: '0',
-                    padding: '0',
-                    textTransform: 'uppercase'
-                  }}>KIWI</div>
-                  <div style={{
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    lineHeight: '1',
-                    margin: '0',
-                    padding: '0',
-                    textTransform: 'uppercase'
-                  }}>TRAVEL</div>
-                  <div style={{
-                    fontSize: '10px',
-                    fontWeight: 'lighter',
-                    letterSpacing: '1px',
-                    marginTop: '2px',
-                    textTransform: 'uppercase'
-                  }}>YOUR GATEWAY TO THE WORLD</div>
-                </div>
+                <img
+                  src="/logo.svg"
+                  alt="Karim Tour"
+                  width="150"
+                  height="100"
+                  style={logo}
+                />
               </Column>
               <Column style={voucherColumn}>
                 <Heading style={voucherHeading}>TOURISTS VOUCHER</Heading>
