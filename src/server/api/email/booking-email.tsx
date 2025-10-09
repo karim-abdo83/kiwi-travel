@@ -10,12 +10,13 @@ import {
   Text,
   Row,
   Column,
+  Button,
 } from '@react-email/components';
 
 interface BookingEmailProps {
   bookingId: number;
   bookingLink: string;
-  translations: (key: string) => string;
+  translations:   (key: string) => string;
   bookingData: {
     fullName: string;
     email: string;
@@ -36,7 +37,8 @@ export const BookingEmail = ({
   bookingData,
   isAdminCopy = false,
 }: BookingEmailProps) => {
-  const title = isAdminCopy ? t('adminTitle') : t('title');
+  const title = t('title');
+  const buttonText = t("buttonText");
   return (
     <Html>
       <Head />
@@ -48,10 +50,10 @@ export const BookingEmail = ({
             <Row>
               <Column style={logoColumn}>
                 <img
-                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDAgMTAwIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjUwIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMDA3N2I3Ii8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPktBUklNIFRPVVI8L3RleHQ+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyIiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMWVtIj5Zb3VyIHRyYXZlbCBwYXJ0bmVyPC90ZXh0Pgo8L3N2Zz4="
-                  alt="Karim Tour"
+                  src="/logo.svg"
+                  alt="Karim Tour "
                   width="150"
-                  height="50"
+                  height="100"
                   style={logo}
                 />
               </Column>
@@ -155,6 +157,11 @@ export const BookingEmail = ({
               <strong>7- Tour Timing:</strong> The start and end times of the tours are approximate and may vary depending on circumstances.
             </Text>
           </Section>
+          <section>
+          <Button style={button} href={bookingLink}>
+              {buttonText}
+            </Button>
+          </section>
 
           {/* --- FOOTER --- */}
           <Hr style={hr} />
@@ -331,4 +338,13 @@ const footer = {
   fontSize: '12px',
   marginTop: '10px',
   textAlign: 'center' as const,
+};
+const button = {
+  backgroundColor: '#007BFF',
+  color: '#fff',
+  padding: '12px 20px',
+  borderRadius: '4px',
+  display: 'inline-block',
+  textDecoration: 'none',
+  marginTop: '16px',
 };
