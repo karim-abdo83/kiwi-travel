@@ -157,11 +157,23 @@ export const BookingEmail = ({
               <strong>7- Tour Timing:</strong> The start and end times of the tours are approximate and may vary depending on circumstances.
             </Text>
           </Section>
-          <section>
-          <Button style={button} href={bookingLink}>
+          <Section style={{ textAlign: 'center', padding: '0 30px 30px' }}>
+            <Button style={{
+              backgroundColor: '#007BFF',
+              color: '#fff',
+              padding: '12px 30px',
+              borderRadius: '4px',
+              textDecoration: 'none',
+              fontSize: '16px',
+              fontWeight: '600',
+              display: 'inline-block',
+              minWidth: '200px',
+              margin: '20px auto 0',
+              textAlign: 'center' as const
+            }} href={bookingLink}>
               {buttonText}
             </Button>
-          </section>
+          </Section>
 
           {/* --- FOOTER --- */}
           <Hr style={hr} />
@@ -342,9 +354,13 @@ const footer = {
 const button = {
   backgroundColor: '#007BFF',
   color: '#fff',
-  padding: '12px 20px',
+  padding: '12px 30px',
   borderRadius: '4px',
-  display: 'inline-block',
   textDecoration: 'none',
-  marginTop: '16px',
+  fontSize: '16px',
+  fontWeight: '600',
+  display: 'inline-block',
+  minWidth: '200px',
+  margin: '20px auto 0',
+  textAlign: 'center' as const
 };
