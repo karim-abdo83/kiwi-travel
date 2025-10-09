@@ -142,6 +142,27 @@ export const BookingEmail = ({
               <li>Harassment</li>
               <li>Disrespectful behavior towards staff (employees, tour guides, drivers, etc.)</li>
             </ul>
+
+            <Text style={termsParagraph}>
+              <strong>5- Punctuality During the Trip:</strong> In the event that the Client does not return to the bus at the time specified by the tour guide, the tour guide reserves the right to continue the tour without the delayed Client, in order to avoid any inconvenience or delays for the rest of the group.
+            </Text>
+
+            <Text style={termsParagraph}>
+              <strong>6 - Itinerary Adjustments:</strong> All itineraries are approximate and may be changed by the tour guide or driver due to weather conditions, traffic congestion, safety considerations, or other unforeseen circumstances.
+            </Text>
+
+            <Text style={termsParagraph}>
+              <strong>7- Tour Timing:</strong> The start and end times of the tours are approximate and may vary depending on circumstances.
+            </Text>
+          </Section>
+
+          {/* --- FOOTER --- */}
+          <Hr style={hr} />
+          <Section>
+            <Text style={footer}>
+              Best regards, <br />
+              <b>Karim Tour Team</b>
+            </Text>
           </Section>
         </Container>
       </Body>
@@ -294,4 +315,16 @@ const termsList = {
   marginBottom: '10px',
   paddingLeft: '40px',
   lineHeight: '1.6',
+};
+
+const hr = {
+  borderColor: '#ccc',
+  margin: '20px 0',
+};
+
+const footer = {
+  color: '#444',
+  fontSize: '12px',
+  marginTop: '10px',
+  textAlign: 'center' as const,
 };
