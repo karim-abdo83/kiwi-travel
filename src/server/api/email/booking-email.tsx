@@ -50,8 +50,26 @@ export const BookingEmail = ({
             <Row>
               <Column style={logoColumn}>
                 <img
-                  src="/logo.svg"
+                  src="/mobile1.jpg"
                   alt="Karim Tour "
+                  width="150"
+                  height="100"
+                  style={logo}
+                />
+              </Column>
+              <Column style={logoColumn}>
+                <img
+                  src="../../public/logo.svg"
+                  alt="Karim Tour - Public Logo"
+                  width="150"
+                  height="100"
+                  style={logo}
+                />
+              </Column>
+              <Column style={logoColumn}>
+                <img
+                  src="./logo.svg"
+                  alt="Karim Tour - Logo"
                   width="150"
                   height="100"
                   style={logo}
