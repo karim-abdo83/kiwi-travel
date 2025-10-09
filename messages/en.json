@@ -419,7 +419,7 @@
         "description": "A new booking has been made. You can view the booking in the admin dashboard.",
         "buttonText": "View Booking"
       }
- 
+    }
   },
   "Metadata": {
     "title": "Karim Tour",
