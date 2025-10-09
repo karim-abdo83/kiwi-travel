@@ -189,7 +189,7 @@ const container = {
 
 const headerSection = {
   padding: '20px 30px',
-  borderBottom: '2px solid #000000',
+  borderBottom: '3px solid #c00000',
 };
 
 const logoColumn = {
@@ -216,6 +216,7 @@ const voucherHeading = {
   margin: '0 0 8px 0',
   textDecoration: 'underline',
   letterSpacing: '1px',
+  whiteSpace: 'nowrap' as const,
 };
 
 const phoneText = {
@@ -223,10 +224,12 @@ const phoneText = {
   color: '#0066cc',
   fontWeight: '600',
   margin: '0',
+  whiteSpace: 'nowrap' as const,
 };
 
 const tableSection = {
   padding: '20px 30px',
+  maxHeight: 'none' as const,
 };
 
 const mainTable = {
@@ -276,6 +279,7 @@ const tdRight = {
 
 const termsSection = {
   padding: '25px 30px 30px',
+  maxHeight: 'none' as const,
 };
 
 const termsHeading = {
