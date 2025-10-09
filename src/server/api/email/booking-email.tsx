@@ -38,7 +38,7 @@ export const BookingEmail = ({
   isAdminCopy = false,
 }: BookingEmailProps) => {
   const title = t('title');
-  const buttonText = t("bookingStatus.completed.buttonText");
+  const buttonText = t("bookingEmail.buttonText");
   return (
     <Html>
       <Head />
