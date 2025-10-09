@@ -398,55 +398,28 @@
       "discoverTheWorld": "Discover the world with us",
       "copyright": "All rights reserved."
     },
-  "title": "Your Booking Confirmation - Karim Tour",
-  "bookingEmail": {
-    "voucherTitle": "TOURISTS VOUCHER",
-    "phone1": "+201003637624",
-    "phone2": "+905352699881",
-    "ticketNumber": "Ticket Number",
-    "fullName": "Name & Family Name",
-    "service": "Service (Trip)",
-    "numberOfPersons": "Number of Persons",
-    "tripPrice": "Trip Price",
-    "paymentMethod": "Payment Method",
-    "online": "Online",
-    "termsAndConditions": "Terms and Conditions",
-    "termsText": "All orders, pre-bookings, and trips made through www.karimtor.com are subject to the International Travel Agencies Law (Law No. 1254) and the Consumer Protection Law (Law No. 4077), as amended to align with the European Union Consumer Rights Law.",
-    "subjectOfAgreement": "Subject of the Agreement",
-    "agreementText": "The travel agency 'Karim Tour' (hereinafter referred to as 'the Contractor') is obliged to provide services and trips. The customer (hereinafter referred to as 'the Client') is obliged to pay the cost of the selected trips and comply with the terms of this agreement.",
-    "cancellationByClient": "Cancellation by the Client",
-    "cancellationPolicy": "The Client has the right to cancel up to 12 hours before without penalty, except for:",
-    "flights": "Flights",
-    "internationalTrips": "Trips to another country",
-    "tripsWithTickets": "Trips that include entrance tickets (Aquapark, Dolphin Show, Cable Car, Hot Air Balloon)",
-    "privatePrograms": "Private and individual programs",
-    "lateCancellation": "Late Cancellation",
-    "lateCancellationPolicy": "If cancellation is made on the same day or less than 12 hours before, no refund is provided.",
-    "accuracy": "Accuracy of Information",
-    "accuracyPolicy": "All displayed information is valid, and Karim Tour commits to the exact itinerary listed.",
-    "rightOfRefusal": "Right of Refusal",
-    "refusalPolicy": "Karim Tour reserves the right to cancel participation for misconduct or intoxication, harassment, or disrespectful behavior towards staff or drivers.",
-    "bestRegards": "Best regards",
-    "teamName": "Karim Tour Team",
-    "buttonText": "View Booking"
-  },
-  "bookingStatus": {
-    "error": {
-      "title": "Booking Failed",
-      "description": "Unfortunately, your booking could not be processed.",
-      "buttonText": "View Booking"
-    },
-    "completed": {
-      "title": "Your booking is completed!",
-      "description": "Thank you for choosing us.",
-      "buttonText": "View Booking"
-    },
-    "new": {
-      "title": "📩 New Booking",
-      "description": "A new booking has been made. You can view the booking in the admin dashboard.",
-      "buttonText": "View Booking"
-    }
-  }
+    "bookingEmail": {
+      "accepted": {
+        "title": "Your booking has been accepted!",
+        "description": "We're happy to confirm your booking.",
+        "buttonText": "View Booking"
+      },
+      "rejected": {
+        "title": "Your booking has been cancelled.",
+        "description": "Unfortunately, your booking could not be processed.",
+        "buttonText": "View Booking"
+      },
+      "completed": {
+        "title": "Your booking is completed!",
+        "description": "Thank you for choosing us.",
+        "buttonText": "View Booking"
+      },
+      "new": {
+        "title": "📩 New Booking",
+        "description": "A new booking has been made. You can view the booking in the admin dashboard.",
+        "buttonText": "View Booking"
+      }
+ 
   },
   "Metadata": {
     "title": "Karim Tour",
