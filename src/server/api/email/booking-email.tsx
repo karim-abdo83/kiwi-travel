@@ -48,7 +48,7 @@ export const BookingEmail = ({
             <Row style={rowResponsive}>
               <Column style={columnLeft}>
                 <img
-                  src="/logo-footer.svg"
+                  src="https://www.karimtour.com/logo-footer.svg"
                   alt="Karim Tour Logo"
                   width="80"
                   height="80"
@@ -76,27 +76,27 @@ export const BookingEmail = ({
               <tbody>
                 <tr>
                   <td style={tdBold}>Ticket Number</td>
-                  <td style={tdInfo}>{bookingId}</td>
+                  <td style={td}>{bookingId}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Name & Family Name</td>
-                  <td style={tdInfo}>{bookingData.fullName}</td>
+                  <td style={td}>{bookingData.fullName}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Service (Trip)</td>
-                  <td style={tdInfo}>{bookingData.tripTitle}</td>
+                  <td style={td}>{bookingData.tripTitle}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Number of Persons</td>
-                  <td style={tdInfo}>{bookingData.numberOfPeople}</td>
+                  <td style={td}>{bookingData.numberOfPeople}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Trip Price</td>
-                  <td style={tdInfo}>${bookingData.totalAmount}</td>
+                  <td style={td}>${bookingData.totalAmount}</td>
                 </tr>
                 <tr>
                   <td style={tdBold}>Payment Method</td>
-                  <td style={tdInfo}>Online</td>
+                  <td style={td}>Online</td>
                 </tr>
               </tbody>
             </table>
@@ -193,40 +193,60 @@ const headerSection = {
 
 const rowResponsive = {
   display: 'flex',
-  flexWrap: 'nowrap' as const,
+  flexWrap: 'wrap' as const,
   alignItems: 'center',
-  width: '100%',
 };
 
 const columnLeft = {
-  width: '30%',
+  width: '100%',
+  maxWidth: '150px',
   textAlign: 'center' as const,
-  padding: '10px',
+  margin: '0 auto 10px',
+  '@media (min-width: 600px)': {
+    margin: '0 0 0 0',
+    textAlign: 'left' as const,
+  },
 };
 
 const columnRight = {
-  width: '70%',
+  flex: 1,
   textAlign: 'center' as const,
-  padding: '10px',
+  width: '100%',
+  '@media (min-width: 600px)': {
+    textAlign: 'right' as const,
+  },
 };
 
 const logoResponsive = {
-  maxWidth: '60px',
+  width: '100%',
+  maxWidth: '80px',
   height: 'auto',
+  display: 'block',
   margin: '0 auto',
+  '@media (min-width: 600px)': {
+    maxWidth: '100px',
+    margin: '0',
+  },
 };
 
 const voucherTitle = {
-  fontSize: '22px',
+  fontSize: '20px',
   fontWeight: '700',
   color: '#000',
-  margin: '0',
+  margin: '10px 0',
+  '@media (min-width: 600px)': {
+    fontSize: '22px',
+    margin: '0',
+  },
 };
 
 const contactText = {
   color: '#1254c2',
   fontSize: '14px',
-  marginTop: '4px',
+  margin: '10px 0',
+  '@media (min-width: 600px)': {
+    margin: '4px 0 0',
+  },
 };
 
 const tableSection = {
@@ -238,7 +258,6 @@ const table = {
   width: '100%',
   borderCollapse: 'collapse' as const,
   border: '1px solid #000',
-  tableLayout: 'fixed' as const,
 };
 
 const th = {
@@ -248,12 +267,6 @@ const th = {
   fontWeight: '700',
   textAlign: 'left' as const,
   fontSize: '14px',
-  '&:first-child': {
-    width: '35%',
-  },
-  '&:last-child': {
-    width: '65%',
-  },
 };
 
 const td = {
@@ -266,15 +279,6 @@ const td = {
 const tdBold = {
   ...td,
   fontWeight: '700',
-  width: '35%',
-  whiteSpace: 'nowrap' as const,
-  overflow: 'hidden' as const,
-  textOverflow: 'ellipsis' as const,
-};
-
-const tdInfo = {
-  ...td,
-  width: '65%',
 };
 
 const termsSection = {
