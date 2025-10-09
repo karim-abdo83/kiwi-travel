@@ -49,16 +49,15 @@ export const BookingEmail = ({
               <Column style={logoColumn}>
                 <img
                   src="/logo.svg"
-                  alt="Karim Tour"
-                  width="150"
+                  alt={t('companyName') || 'Karim Tour'}
                   height="100"
                   style={logo}
                 />
               </Column>
               <Column style={voucherColumn}>
-                <Heading style={voucherHeading}>TOURISTS VOUCHER</Heading>
+                <Heading style={voucherHeading}>{t('bookingEmail.voucherTitle')}</Heading>
                 <Text style={phoneText}>
-                  +201003637624 - +905352699881
+                  {t('bookingEmail.phone1')} - {t('bookingEmail.phone2')}
                 </Text>
               </Column>
             </Row>
@@ -69,34 +68,34 @@ export const BookingEmail = ({
             <table style={mainTable}>
               <thead>
                 <tr>
-                  <th style={thLeft}>Details</th>
-                  <th style={thRight}>Information</th>
+                  <th style={thLeft}>{t('bookingEmail.details')}</th>
+                  <th style={thRight}>{t('bookingEmail.information')}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style={tdLeft}>Ticket Number</td>
+                  <td style={tdLeft}>{t('bookingEmail.ticketNumber')}</td>
                   <td style={tdRight}>{bookingId}</td>
                 </tr>
                 <tr>
-                  <td style={tdLeft}>Name & Family Name</td>
+                  <td style={tdLeft}>{t('bookingEmail.fullName')}</td>
                   <td style={tdRight}>{bookingData.fullName}</td>
                 </tr>
                 <tr>
-                  <td style={tdLeft}>Service (Trip)</td>
+                  <td style={tdLeft}>{t('bookingEmail.service')}</td>
                   <td style={tdRight}>{bookingData.tripTitle}</td>
                 </tr>
                 <tr>
-                  <td style={tdLeft}>Number of Persons</td>
+                  <td style={tdLeft}>{t('bookingEmail.numberOfPersons')}</td>
                   <td style={tdRight}>{bookingData.numberOfPeople}</td>
                 </tr>
                 <tr>
-                  <td style={tdLeft}>Trip Price</td>
+                  <td style={tdLeft}>{t('bookingEmail.tripPrice')}</td>
                   <td style={tdRight}>${bookingData.totalAmount}</td>
                 </tr>
                 <tr>
-                  <td style={tdLeft}>Payment Method</td>
-                  <td style={tdRight}>Online</td>
+                  <td style={tdLeft}>{t('bookingEmail.paymentMethod')}</td>
+                  <td style={tdRight}>{t('bookingEmail.paymentOnline')}</td>
                 </tr>
               </tbody>
             </table>
@@ -104,55 +103,38 @@ export const BookingEmail = ({
 
           {/* --- TERMS & CONDITIONS --- */}
           <Section style={termsSection}>
-            <Heading style={termsHeading}>Terms and Conditions</Heading>
+            <Heading style={termsHeading}>{t('bookingEmail.termsAndConditions')}</Heading>
             
             <Text style={termsIntro}>
-              All orders, pre-bookings, and trips made through www.karimtor.com are subject to the International Travel Agencies Law (Law No. 1254) and the Consumer Protection Law (Law No. 4077), as substantially amended to align with the European Union Consumer Rights Law.
+              {t('bookingEmail.termsText')}
             </Text>
 
             <Text style={termsSubject}>
-              <strong>Subject of the Agreement</strong>
+              <strong>{t('bookingEmail.subjectOfAgreement')}</strong>
               <br />
-              The travel agency "Karim Tour" (hereinafter referred to as "the Contractor") is obliged to provide services and organize trips. The customer (hereinafter referred to as "the Client") is obliged to pay the cost of the selected trips and comply with the terms of this agreement.
+              {t('bookingEmail.agreementText')}
             </Text>
 
             <Text style={termsParagraph}>
-              <strong>1- Cancellation by the Client:</strong> The Client has the right to cancel the trip up to 12 hours before its start without paying any penalties, except for trips that include:
+              <strong>{t('bookingEmail.cancellationByClient')}:</strong> {t('bookingEmail.cancellationPolicy')}
             </Text>
             <ul style={termsList}>
-              <li>Flights</li>
-              <li>Trips to another country</li>
-              <li>Trips that include entrance tickets (e.g. Aquapark, Dolphin Show, Cable Car, Hot Air Balloon)</li>
-              <li>Private and individual programs</li>
+              <li>{t('bookingEmail.flights')}</li>
+              <li>{t('bookingEmail.internationalTrips')}</li>
+              <li>{t('bookingEmail.tripsWithTickets')}</li>
+              <li>{t('bookingEmail.privatePrograms')}</li>
             </ul>
 
             <Text style={termsParagraph}>
-              <strong>2- Late Cancellation:</strong> If the cancellation is made on the same day of the trip or less than 12 hours before departure, the Client is not entitled to any refund.
+              <strong>{t('bookingEmail.lateCancellation')}:</strong> {t('bookingEmail.lateCancellationPolicy')}
             </Text>
 
             <Text style={termsParagraph}>
-              <strong>3- Accuracy of Information:</strong> All information displayed on our website is valid, and Karim Tour is committed to providing exactly what is stated in the itinerary of each trip.
+              <strong>{t('bookingEmail.accuracy')}:</strong> {t('bookingEmail.accuracyPolicy')}
             </Text>
 
             <Text style={termsParagraph}>
-              <strong>4- Right of Refusal:</strong> Karim Tour reserves the right to cancel a Client's participation in a trip in cases of misconduct or failure to respect others, including but not limited to:
-            </Text>
-            <ul style={termsList}>
-              <li>Intoxication</li>
-              <li>Harassment</li>
-              <li>Disrespectful behavior towards staff (employees, tour guides, drivers, etc.)</li>
-            </ul>
-
-            <Text style={termsParagraph}>
-              <strong>5- Punctuality During the Trip:</strong> In the event that the Client does not return to the bus at the time specified by the tour guide, the tour guide reserves the right to continue the tour without the delayed Client, in order to avoid any inconvenience or delays for the rest of the group.
-            </Text>
-
-            <Text style={termsParagraph}>
-              <strong>6 - Itinerary Adjustments:</strong> All itineraries are approximate and may be changed by the tour guide or driver due to weather conditions, traffic congestion, safety considerations, or other unforeseen circumstances.
-            </Text>
-
-            <Text style={termsParagraph}>
-              <strong>7- Tour Timing:</strong> The start and end times of the tours are approximate and may vary depending on circumstances.
+              <strong>{t('bookingEmail.rightOfRefusal')}:</strong> {t('bookingEmail.refusalPolicy')}
             </Text>
           </Section>
 
@@ -160,15 +142,14 @@ export const BookingEmail = ({
           <Hr style={hr} />
           <Section>
             <Text style={footer}>
-              Best regards, <br />
-              <b>Karim Tour Team</b>
+              {t('bookingEmail.bestRegards')} <br />
+              <b>{t('bookingEmail.teamName')}</b>
             </Text>
           </Section>
         </Container>
       </Body>
     </Html>
-  );
-};
+)};
 
 // --- STYLES ---
 
