@@ -149,7 +149,8 @@ export const BookingEmail = ({
         </Container>
       </Body>
     </Html>
-)};
+  )
+};
 
 // --- STYLES ---
 
