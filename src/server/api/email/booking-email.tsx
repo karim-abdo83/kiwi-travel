@@ -48,10 +48,10 @@ export const BookingEmail = ({
             <Row style={rowResponsive}>
               <Column style={columnLeft}>
                 <img
-                  src="https://www.karimtour.com/logo-footer.svg"
+                  src="https://www.karimtour.com/logo.svg"
                   alt="Karim Tour Logo"
-                  width="80"
-                  height="80"
+                  width="120"
+                  height="40"
                   style={logoResponsive}
                 />
               </Column>
@@ -193,38 +193,50 @@ const headerSection = {
 
 const rowResponsive = {
   display: 'flex',
-  flexWrap: 'wrap' as const,
+  flexDirection: 'column' as const,
   alignItems: 'center',
+  gap: '10px',
+  '@media (min-width: 600px)': {
+    flexDirection: 'row' as const,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: '20px',
+  },
 };
 
 const columnLeft = {
-  width: '100%',
-  maxWidth: '150px',
+  width: 'auto',
   textAlign: 'center' as const,
-  margin: '0 auto 10px',
+  margin: '0',
   '@media (min-width: 600px)': {
-    margin: '0 0 0 0',
-    textAlign: 'left' as const,
+    flexShrink: 0,
+    marginRight: '20px',
   },
 };
 
 const columnRight = {
   flex: 1,
   textAlign: 'center' as const,
-  width: '100%',
+  minWidth: 0, // Prevents flex item from overflowing
   '@media (min-width: 600px)': {
-    textAlign: 'right' as const,
+    textAlign: 'left' as const,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 };
 
-const logoResponsive = {
-  width: '100%',
-  maxWidth: '80px',
+const logoResponsive: React.CSSProperties & {
+  '@media (min-width: 600px)'?: React.CSSProperties;
+} = {
+  width: '120px',
   height: 'auto',
   display: 'block',
-  margin: '0 auto',
+  margin: '0',
+  backgroundColor: '#ffffff',
+  padding: '4px',
+  borderRadius: '4px',
   '@media (min-width: 600px)': {
-    maxWidth: '100px',
     margin: '0',
   },
 };
