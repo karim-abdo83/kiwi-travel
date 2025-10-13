@@ -51,8 +51,8 @@ export const BookingEmail = ({
             <Row>
               <Column style={logoColumn}>
                 <img
-                  src="https://karimtour.com/images/logo.png"
-                  alt="Karim Tour "
+                  src="https://kiwi-travel.com/logo.svg"
+                  alt="Karim Tour"
                   width="150"
                   height="100"
                   style={logo}
