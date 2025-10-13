@@ -39,6 +39,7 @@ export const BookingEmail = ({
 }: BookingEmailProps) => {
   const title = t('title');
   const buttonText = t("buttonText");
+
   return (
     <Html>
       <Head />
@@ -50,8 +51,8 @@ export const BookingEmail = ({
             <Row>
               <Column style={logoColumn}>
                 <img
-                  src="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMy4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyMTA4IDMwNSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjEwOCAzMDU7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI"
-                  alt="Test Image"
+                  src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"
+                  alt="Karim Tour Logo"
                   width="150"
                   height="100"
                   style={logo}
@@ -107,7 +108,6 @@ export const BookingEmail = ({
           {/* --- TERMS & CONDITIONS --- */}
           <Section style={termsSection}>
             <Heading style={termsHeading}>Terms and Conditions</Heading>
-            
             <Text style={termsIntro}>
               All orders, pre-bookings, and trips made through www.karimtor.com are subject to the International Travel Agencies Law (Law No. 1254) and the Consumer Protection Law (Law No. 4077), as substantially amended to align with the European Union Consumer Rights Law.
             </Text>
@@ -157,20 +157,13 @@ export const BookingEmail = ({
               <strong>7- Tour Timing:</strong> The start and end times of the tours are approximate and may vary depending on circumstances.
             </Text>
           </Section>
+
+          {/* --- BUTTON --- */}
           <Section style={{ textAlign: 'center', padding: '0 30px 30px' }}>
-            <Button style={{
-              backgroundColor: '#007BFF',
-              color: '#fff',
-              padding: '12px 30px',
-              borderRadius: '4px',
-              textDecoration: 'none',
-              fontSize: '16px',
-              fontWeight: '600',
-              display: 'inline-block',
-              minWidth: '200px',
-              margin: '20px auto 0',
-              textAlign: 'center' as const
-            }} href={bookingLink}>
+            <Button
+              style={button}
+              href={bookingLink}
+            >
               {buttonText}
             </Button>
           </Section>
@@ -190,7 +183,6 @@ export const BookingEmail = ({
 };
 
 // --- STYLES ---
-
 const main = {
   backgroundColor: '#ffffff',
   fontFamily: '"Arial", "Helvetica Neue", Helvetica, sans-serif',
@@ -351,6 +343,7 @@ const footer = {
   marginTop: '10px',
   textAlign: 'center' as const,
 };
+
 const button = {
   backgroundColor: '#007BFF',
   color: '#fff',
@@ -362,5 +355,5 @@ const button = {
   display: 'inline-block',
   minWidth: '200px',
   margin: '20px auto 0',
-  textAlign: 'center' as const
+  textAlign: 'center' as const,
 };
