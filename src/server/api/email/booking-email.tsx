@@ -51,7 +51,7 @@ export const BookingEmail = ({
             <Row>
               <Column style={logoColumn}>
                 <img
-                  src="https://karimtor.com/logo.svg"
+                  src="https://karimtor.com/emailLogo.png"
                   alt="Karim Tour"
                   width="150"
                   height="100"
