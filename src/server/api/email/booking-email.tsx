@@ -17,6 +17,7 @@ interface BookingEmailProps {
   bookingId: number;
   bookingLink: string;
   translations: (key: string) => string;
+  language: 'en' | 'ru';  // Added language prop for currency switching
   bookingData: {
     fullName: string;
     email: string;
@@ -34,6 +35,7 @@ export const BookingEmail = ({
   bookingId,
   bookingLink,
   translations: t,
+  language,
   bookingData,
   isAdminCopy = false,
 }: BookingEmailProps) => {
@@ -51,7 +53,7 @@ export const BookingEmail = ({
             <Row>
               <Column style={logoColumn}>
                 <img
-                  src="email.png"
+                  src="/email.png"
                   alt="Karim Tour"
                   width="150"
                   height="100"
@@ -95,7 +97,7 @@ export const BookingEmail = ({
                 </tr>
                 <tr>
                   <td style={tdLeft}>Trip Price</td>
-                  <td style={tdRight}>${bookingData.totalAmount}</td>
+                  <td style={tdRight}>{language === 'en' ? `${bookingData.totalAmount} €` : `${bookingData.totalAmount} $`}</td>
                 </tr>
                 <tr>
                   <td style={tdLeft}>Payment Method</td>
