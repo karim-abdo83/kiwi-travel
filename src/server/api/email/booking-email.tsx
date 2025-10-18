@@ -51,7 +51,7 @@ export const BookingEmail = ({
             <Row>
               <Column style={logoColumn}>
                 <img
-                  src="/email.png"
+                  src="/logo.svg"
                   alt="Karim Tour"
                   width="150"
                   height="100"
