@@ -11,8 +11,6 @@ import { count, desc, eq, inArray } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 import nodemailer from "nodemailer";
-import fs from "fs";
-import path from "path";
 import {
   adminProcedure,
   authProtectedProcedure,
@@ -138,7 +136,7 @@ export const tripBookingRouter = createTRPCRouter({
           translations={t}
           bookingData={{
             fullName: "Test Full Name",
-            email: "mr.xbit7@gmail.com",
+            email: "mubashir6028@gmail.com",
             phoneNumber: "1234567890",
             bookingDate: "2025-10-07",
             numberOfPeople: 2,
@@ -154,7 +152,7 @@ export const tripBookingRouter = createTRPCRouter({
         to: "mubashir6028@gmail.com",
         subject: t("title"),
       });
-    } catch (err) {
+    } catch(err) {
       console.log('Error', err)
       throw err;
     }
@@ -236,16 +234,14 @@ export const tripBookingRouter = createTRPCRouter({
           bookingId={0} // или реальный ID, если захочешь получить его из insert
           bookingLink={bookingLink}
           translations={tEmail}
-          bookingData={{
-            fullName: "",
-            email: "",
+          bookingData={{ fullName: "", 
+            email: "", 
             phoneNumber: "",
             bookingDate: "",
-            numberOfPeople: 0,
-            totalAmount: 0,
-            tripTitle: "",
-            additionalNotes: "",
-          }}
+            numberOfPeople: 0, 
+            totalAmount: 0, 
+            tripTitle: "", 
+            additionalNotes: "", }}
         />
       );
 
@@ -717,33 +713,11 @@ async function sendEmail({
   copyToAdmin?: boolean;
 }): Promise<void> {
   try {
-    // Prepare logo attachment (prefer PNG; fall back to SVG variants)
-    const publicDir = path.join(process.cwd(), "public");
-    const candidates = [
-      { file: "logo.png", contentType: "image/png" },
-    ];
-    let logoAttachment: { filename: string; path: string; cid: string; contentType?: string } | undefined;
-    for (const c of candidates) {
-      const p = path.join(publicDir, c.file);
-      if (fs.existsSync(p)) {
-        logoAttachment = {
-          filename: c.file,
-          path: p,
-          cid: "logo",
-          contentType: c.contentType,
-        };
-        break;
-      }
-    }
-
-    const attachments = logoAttachment ? [logoAttachment] : [];
-
     await emailTransporter.sendMail({
       from: env.EMAIL_SENDING_ADDRESS,
       to,
       subject,
       html: email,
-      attachments,
     });
     console.log(`✅ Email sent to ${to}`);
   } catch (err) {
@@ -752,32 +726,11 @@ async function sendEmail({
 
   if (copyToAdmin && env.EMAIL_ADMIN_ADDRESS) {
     try {
-      // Reuse same attachment logic for admin copy
-      const publicDir = path.join(process.cwd(), "public");
-      const candidates = [
-        { file: "logo.png", contentType: "image/png" },
-      ];
-      let logoAttachment: { filename: string; path: string; cid: string; contentType?: string } | undefined;
-      for (const c of candidates) {
-        const p = path.join(publicDir, c.file);
-        if (fs.existsSync(p)) {
-          logoAttachment = {
-            filename: c.file,
-            path: p,
-            cid: "logo",
-            contentType: c.contentType,
-          };
-          break;
-        }
-      }
-      const attachments = logoAttachment ? [logoAttachment] : [];
-
       await emailTransporter.sendMail({
         from: env.EMAIL_SENDING_ADDRESS,
         to: env.EMAIL_ADMIN_ADDRESS,
         subject: `[ADMIN COPY] ${subject}`,
         html: email,
-        attachments,
       });
       console.log(`📬 Admin copy sent to ${env.EMAIL_ADMIN_ADDRESS}`);
     } catch (err) {
