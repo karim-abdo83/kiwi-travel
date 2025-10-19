@@ -207,6 +207,7 @@ const logoImg = {
   display: 'block',
   width: '100%',
   maxWidth: '96px',
+  minWidth: '96px',
   height: 'auto',
 };
 
