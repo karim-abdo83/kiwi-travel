@@ -27,6 +27,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import { Metadata } from "next";
+import { routing } from "@/i18n/routing";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -53,8 +54,15 @@ export async function generateMetadata({
 
   return {
     title,
+    alternates: {
+      canonical: `/${locale}/trips/${slug}`,
+      languages: Object.fromEntries(
+        routing.locales.map((l) => [l, `/${l}/trips/${slug}`])
+      ),
+    },
     openGraph: {
       title,
+      url: `/${locale}/trips/${slug}`,
       images: [
         {
           url: mainImage(trip.assetsUrls),
