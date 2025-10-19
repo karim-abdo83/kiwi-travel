@@ -198,14 +198,15 @@ const headerSection = {
 };
 
 const logoColumn = {
-  width: '180px',
+  width: '108px',
   verticalAlign: 'middle',
-  paddingRight: '20px',
+  paddingRight: '12px',
 };
 
 const logoImg = {
   display: 'block',
-  maxWidth: '150px',
+  width: '100%',
+  maxWidth: '96px',
   height: 'auto',
 };
 
