@@ -126,38 +126,6 @@ export const tripBookingRouter = createTRPCRouter({
         },
       }),
   ),
-  testEmail: publicProcedure.mutation(async () => {
-    try {
-      const t = await getTranslations("General.bookingEmail.new");
-
-      const emailHtml = await render(
-        <BookingEmail
-          bookingId={0}
-          bookingLink={"thisislink"}
-          translations={t}
-          bookingData={{
-            fullName: "Test Full Name",
-            email: "mubashir6028@gmail.com",
-            phoneNumber: "1234567890",
-            bookingDate: "2025-10-07",
-            numberOfPeople: 2,
-            totalAmount: 100,
-            tripTitle: "Test Trip Title",
-            additionalNotes: "Test Additional Notes",
-          }}
-        />,
-      );
-
-      await sendEmail({
-        email: emailHtml,
-        to: "mubashir6028@gmail.com",
-        subject: t("title"),
-      });
-    } catch (err) {
-      console.log('Error', err)
-      throw err;
-    }
-  }),
   create: authProtectedProcedure
     .input(
       tripBookingFormSchema.extend({
