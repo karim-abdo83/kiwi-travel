@@ -197,10 +197,10 @@ export const tripBookingRouter = createTRPCRouter({
         `🧾 <b>Новая бронь</b>\nПользователь: ${input.email}\nТелефон: ${input.phone}\nТур: ${input.tripId}\nДата: ${format(input.date, "yyyy-MM-dd")}\n<a href="${bookingLink}">Открыть в админке</a>\n\n<a href="${tripLink}">${trip.titleRu}</a>`
       );
       const tEmail = await getTranslations("General.bookingEmail.new");
-
+//email
       const emailHtml = await render(
         <BookingEmail
-          bookingId={0} // или реальный ID, если захочешь получить его из insert
+          bookingId={0} 
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
@@ -219,7 +219,7 @@ export const tripBookingRouter = createTRPCRouter({
       await sendEmail({
         email: emailHtml,
         to: user.emailAddresses[0]!.emailAddress,
-        subject: tEmail("title"), // например, "📩 Новая бронь"
+        subject: tEmail("title"), 
       });
 
       return {
@@ -321,7 +321,7 @@ export const tripBookingRouter = createTRPCRouter({
       await sendEmail({
         email: emailHtml,
         to: input.email,
-        subject: tEmail("title"), // например, "📩 Новая бронь"
+        subject: tEmail("title"), 
       });
 
       return {
@@ -538,7 +538,7 @@ export const tripBookingRouter = createTRPCRouter({
             numberOfPeople: 0,
             totalAmount: 0,
             tripTitle: "",
-            additionalNotes: "",
+            additionalNotes: ""
           }}
         />,
       );
