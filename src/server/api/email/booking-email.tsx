@@ -53,7 +53,7 @@ export const BookingEmail = ({
                 <img src="cid:logo" alt="Karim Tour" width="150" height="auto" style={logoImg} />
               </Column>
               <Column style={voucherColumn}>
-                <Heading style={voucherHeading}>Karim Tour</Heading>
+                <Heading style={voucherHeading}>TOURISTS VOUCHER</Heading>
                 <Text style={phoneText}>
                   +201003637624 - +905352699881
                 </Text>
@@ -219,7 +219,7 @@ const voucherColumn = {
 const voucherHeading = {
   fontSize: '24px',
   fontWeight: '700',
-  color: 'rgb(255, 129, 6)',
+  color: '#000000',
   margin: '0 0 8px 0',
   textDecoration: 'underline',
   letterSpacing: '1px',
@@ -228,7 +228,7 @@ const voucherHeading = {
 
 const phoneText = {
   fontSize: '16px',
-  color: 'rgb(18, 84, 194)',
+  color: '#0066cc',
   fontWeight: '600',
   margin: '0',
   whiteSpace: 'nowrap' as const,
