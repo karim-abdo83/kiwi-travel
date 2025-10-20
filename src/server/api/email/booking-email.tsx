@@ -298,12 +298,11 @@ const termsHeading = {
 };
 
 const termsIntro = {
-  fontSize: '1px',
+  fontSize: '13px',
   lineHeight: '1.6',
   color: '#000000',
   marginBottom: '15px',
 };
-
 
 const termsSubject = {
   fontSize: '13px',
