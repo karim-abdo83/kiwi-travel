@@ -217,7 +217,7 @@ const voucherColumn = {
 };
 
 const voucherHeading = {
-  fontSize: '25px',
+  fontSize: '24px',
   fontWeight: '700',
   color: '#000000',
   margin: '0 0 8px 0',
