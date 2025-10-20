@@ -219,7 +219,7 @@ export const tripBookingRouter = createTRPCRouter({
       await sendEmail({
         email: emailHtml,
         to: user.emailAddresses[0]!.emailAddress,
-        subject: tEmail("title"), 
+        subject: tEmail("title"), // например, "📩 Новая бронь"
       });
 
       return {
