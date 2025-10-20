@@ -197,7 +197,7 @@ export const tripBookingRouter = createTRPCRouter({
         `🧾 <b>Новая бронь</b>\nПользователь: ${input.email}\nТелефон: ${input.phone}\nТур: ${input.tripId}\nДата: ${format(input.date, "yyyy-MM-dd")}\n<a href="${bookingLink}">Открыть в админке</a>\n\n<a href="${tripLink}">${trip.titleRu}</a>`
       );
       const tEmail = await getTranslations("General.bookingEmail.new");
-//email
+
       const emailHtml = await render(
         <BookingEmail
           bookingId={0} 
