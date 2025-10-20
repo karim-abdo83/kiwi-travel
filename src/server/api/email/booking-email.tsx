@@ -312,7 +312,7 @@ const termsSubject = {
 };
 
 const termsParagraph = {
-  fontSize: '13px',
+  fontSize: '14px',
   lineHeight: '1.6',
   color: '#000000',
   marginBottom: '10px',
