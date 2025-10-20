@@ -304,6 +304,7 @@ const termsIntro = {
   marginBottom: '15px',
 };
 
+
 const termsSubject = {
   fontSize: '13px',
   lineHeight: '1.6',
