@@ -200,7 +200,7 @@ export const tripBookingRouter = createTRPCRouter({
 
       const emailHtml = await render(
         <BookingEmail
-          bookingId={0} 
+          bookingId={0} // или реальный ID, если захочешь получить его из insert
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
@@ -321,7 +321,7 @@ export const tripBookingRouter = createTRPCRouter({
       await sendEmail({
         email: emailHtml,
         to: input.email,
-        subject: tEmail("title"), 
+        subject: tEmail("title"), // например, "📩 Нова бронь"
       });
 
       return {
