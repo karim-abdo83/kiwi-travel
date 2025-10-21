@@ -216,6 +216,9 @@ export const tripBookingRouter = createTRPCRouter({
             phoneNumber: input.phone,
             bookingDate: format(input.date, "yyyy-MM-dd"),
             numberOfPeople: totalPeople,
+            childrenCount: input.childrenCount,
+            adultsCount: input.adultsCount,
+            infantsCount: input.infantsCount,
             totalAmount: emailTotal,
             tripTitle: trip.titleEn,
             additionalNotes: "",
@@ -325,6 +328,9 @@ export const tripBookingRouter = createTRPCRouter({
             phoneNumber: input.phone,
             bookingDate: format(input.date, "yyyy-MM-dd"),
             numberOfPeople: totalPeople,
+            childrenCount: input.childrenCount,
+            adultsCount: input.adultsCount,
+            infantsCount: input.infantsCount,
             totalAmount: emailTotal,
             tripTitle: trip.titleRu,
             additionalNotes: "",
@@ -472,6 +478,9 @@ export const tripBookingRouter = createTRPCRouter({
             totalAmount: 0,
             tripTitle: "",
             additionalNotes: "",
+            adultsCount: 0,
+            childrenCount: 0,
+            infantsCount: 0,
           }}
         />,
       );
@@ -552,7 +561,10 @@ export const tripBookingRouter = createTRPCRouter({
             numberOfPeople: 0,
             totalAmount: 0,
             tripTitle: "",
-            additionalNotes: ""
+            additionalNotes: "",
+            adultsCount: 0,
+            childrenCount: 0,
+            infantsCount: 0,
           }}
         />,
       );
@@ -626,6 +638,9 @@ export const tripBookingRouter = createTRPCRouter({
             totalAmount: 0,
             tripTitle: "",
             additionalNotes: "",
+            adultsCount: 0,
+            childrenCount: 0,
+            infantsCount: 0,
           }}
         />,
       );

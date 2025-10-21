@@ -23,6 +23,9 @@ interface BookingEmailProps {
     phoneNumber: string;
     bookingDate: string;
     numberOfPeople: number;
+    childrenCount: number;
+    adultsCount: number;
+    infantsCount: number;
     totalAmount: number;
     tripTitle: string;
     additionalNotes?: string;
@@ -72,10 +75,6 @@ export const BookingEmail = ({
               </thead>
               <tbody>
                 <tr>
-                  <td style={tdLeft}>Ticket Number</td>
-                  <td style={tdRight}>{bookingId}</td>
-                </tr>
-                <tr>
                   <td style={tdLeft}>Name & Family Name</td>
                   <td style={tdRight}>{bookingData.fullName}</td>
                 </tr>
@@ -83,9 +82,13 @@ export const BookingEmail = ({
                   <td style={tdLeft}>Service (Trip)</td>
                   <td style={tdRight}>{bookingData.tripTitle}</td>
                 </tr>
+                 <tr>
+                  <td style={tdLeft}>Children Count</td>
+                  <td style={tdRight}>{bookingData.childrenCount}</td>
+                </tr>
                 <tr>
-                  <td style={tdLeft}>Number of Persons</td>
-                  <td style={tdRight}>{bookingData.numberOfPeople}</td>
+                  <td style={tdLeft}>Number of Adults</td>
+                  <td style={tdRight}>{bookingData.adultsCount}</td>
                 </tr>
                 <tr>
                   <td style={tdLeft}>Trip Price</td>
