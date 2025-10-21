@@ -126,38 +126,6 @@ export const tripBookingRouter = createTRPCRouter({
         },
       }),
   ),
-  testEmail: publicProcedure.mutation(async () => {
-    try {
-      const t = await getTranslations("General.bookingEmail.new");
-
-      const emailHtml = await render(
-        <BookingEmail
-          bookingId={0}
-          bookingLink={"thisislink"}
-          translations={t}
-          bookingData={{
-            fullName: "Test Full Name",
-            email: "mubashir6028@gmail.com",
-            phoneNumber: "1234567890",
-            bookingDate: "2025-10-07",
-            numberOfPeople: 2,
-            totalAmount: 100,
-            tripTitle: "Test Trip Title",
-            additionalNotes: "Test Additional Notes",
-          }}
-        />,
-      );
-
-      await sendEmail({
-        email: emailHtml,
-        to: "mubashir6028@gmail.com",
-        subject: t("title"),
-      });
-    } catch (err) {
-      console.log('Error', err)
-      throw err;
-    }
-  }),
   create: authProtectedProcedure
     .input(
       tripBookingFormSchema.extend({
@@ -230,6 +198,12 @@ export const tripBookingRouter = createTRPCRouter({
       );
       const tEmail = await getTranslations("General.bookingEmail.new");
 
+      // Calculate totals for email
+      const totalPeople = input.adultsCount + input.childrenCount + input.infantsCount;
+      const adultTotal = (trip.adultTripPriceInCents / 100) * input.adultsCount;
+      const childTotal = trip.childTripPriceInCents ? (trip.childTripPriceInCents / 100) * input.childrenCount : 0;
+      const emailTotal = adultTotal + childTotal;
+
       const emailHtml = await render(
         <BookingEmail
           bookingId={0} // или реальный ID, если захочешь получить его из insert
@@ -237,12 +211,12 @@ export const tripBookingRouter = createTRPCRouter({
           translations={tEmail}
           bookingData={{
             fullName: "",
-            email: "",
-            phoneNumber: "",
-            bookingDate: "",
-            numberOfPeople: 0,
-            totalAmount: 0,
-            tripTitle: "",
+            email: user.emailAddresses[0]!.emailAddress,
+            phoneNumber: input.phone,
+            bookingDate: format(input.date, "yyyy-MM-dd"),
+            numberOfPeople: totalPeople,
+            totalAmount: emailTotal,
+            tripTitle: trip.titleRu,
             additionalNotes: "",
           }}
         />
@@ -332,6 +306,12 @@ export const tripBookingRouter = createTRPCRouter({
 
       const tEmail = await getTranslations("General.bookingEmail.new");
 
+      // Calculate totals for email
+      const totalPeople = input.adultsCount + input.childrenCount + input.infantsCount;
+      const adultTotal = (trip.adultTripPriceInCents / 100) * input.adultsCount;
+      const childTotal = trip.childTripPriceInCents ? (trip.childTripPriceInCents / 100) * input.childrenCount : 0;
+      const emailTotal = adultTotal + childTotal;
+
       const emailHtml = await render(
         <BookingEmail
           bookingId={0} // или реальный ID, если захочешь получить его из insert
@@ -339,12 +319,12 @@ export const tripBookingRouter = createTRPCRouter({
           translations={tEmail}
           bookingData={{
             fullName: "",
-            email: "",
-            phoneNumber: "",
-            bookingDate: "",
-            numberOfPeople: 0,
-            totalAmount: 0,
-            tripTitle: "",
+            email: input.email,
+            phoneNumber: input.phone,
+            bookingDate: format(input.date, "yyyy-MM-dd"),
+            numberOfPeople: totalPeople,
+            totalAmount: emailTotal,
+            tripTitle: trip.titleRu,
             additionalNotes: "",
           }}
         />
