@@ -1,14 +1,43 @@
-import { Html, Body, Head, Heading, Hr, Container, Preview, Section, Text, Button } from '@react-email/components';
+import {
+  Html,
+  Body,
+  Head,
+  Heading,
+  Hr,
+  Container,
+  Preview,
+  Section,
+  Text,
+  Row,
+  Column,
+  Button,
+} from '@react-email/components';
 
 interface BookingEmailProps {
   bookingId: number;
   bookingLink: string;
   translations: (key: string) => string;
+  bookingData: {
+    fullName: string;
+    email: string;
+    phoneNumber: string;
+    bookingDate: string;
+    numberOfPeople: number;
+    totalAmount: number;
+    tripTitle: string;
+    additionalNotes?: string;
+  };
+  isAdminCopy?: boolean;
 }
 
-export const BookingEmail = ({ bookingId, bookingLink, translations: t }: BookingEmailProps) => {
-  const title = t("title");
-  const description = t("description");
+export const BookingEmail = ({
+  bookingId,
+  bookingLink,
+  translations: t,
+  bookingData,
+  isAdminCopy = false,
+}: BookingEmailProps) => {
+  const title = t('title');
   const buttonText = t("buttonText");
 
   return (
@@ -17,73 +46,310 @@ export const BookingEmail = ({ bookingId, bookingLink, translations: t }: Bookin
       <Preview>{title}</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Heading style={heading}>{title}</Heading>
+          {/* --- HEADER --- */}
+          <Section style={headerSection}>
+            <Row>
+              <Column style={logoColumn}>
+                <img src="cid:logo" alt="Karim Tour" width="150" height="auto" style={logoImg} />
+              </Column>
+              <Column style={voucherColumn}>
+                <Heading style={voucherHeading}>TOURISTS VOUCHER</Heading>
+                <Text style={phoneText}>
+                  +201003637624 - +905352699881
+                </Text>
+              </Column>
+            </Row>
+          </Section>
 
-          <Section style={section}>
-            <Text style={text}>{description}</Text>
-            <Text style={text}>Booking ID: {bookingId}</Text>
-            <Button style={button} href={bookingLink}>
+          {/* --- TABLE --- */}
+          <Section style={tableSection}>
+            <table style={mainTable}>
+              <thead>
+                <tr>
+                  <th style={thLeft}>Details</th>
+                  <th style={thRight}>Information</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={tdLeft}>Ticket Number</td>
+                  <td style={tdRight}>{bookingId}</td>
+                </tr>
+                <tr>
+                  <td style={tdLeft}>Name & Family Name</td>
+                  <td style={tdRight}>{bookingData.fullName}</td>
+                </tr>
+                <tr>
+                  <td style={tdLeft}>Service (Trip)</td>
+                  <td style={tdRight}>{bookingData.tripTitle}</td>
+                </tr>
+                <tr>
+                  <td style={tdLeft}>Number of Persons</td>
+                  <td style={tdRight}>{bookingData.numberOfPeople}</td>
+                </tr>
+                <tr>
+                  <td style={tdLeft}>Trip Price</td>
+                  <td style={tdRight}>${bookingData.totalAmount}</td>
+                </tr>
+                <tr>
+                  <td style={tdLeft}>Payment Method</td>
+                  <td style={tdRight}>Online</td>
+                </tr>
+              </tbody>
+            </table>
+          </Section>
+
+          {/* --- TERMS & CONDITIONS --- */}
+          <Section style={termsSection}>
+            <Heading style={termsHeading}>Terms and Conditions</Heading>
+            <Text style={termsIntro}>
+              All orders, pre-bookings, and trips made through www.karimtor.com are subject to the International Travel Agencies Law (Law No. 1254) and the Consumer Protection Law (Law No. 4077), as substantially amended to align with the European Union Consumer Rights Law.
+            </Text>
+
+            <Text style={termsSubject}>
+              <strong>Subject of the Agreement</strong>
+              <br />
+              The travel agency "Karim Tour" (hereinafter referred to as "the Contractor") is obliged to provide services and organize trips. The customer (hereinafter referred to as "the Client") is obliged to pay the cost of the selected trips and comply with the terms of this agreement.
+            </Text>
+
+            <Text style={termsParagraph}>
+              <strong>1- Cancellation by the Client:</strong> The Client has the right to cancel the trip up to 12 hours before its start without paying any penalties, except for trips that include:
+            </Text>
+            <ul style={termsList}>
+              <li>Flights</li>
+              <li>Trips to another country</li>
+              <li>Trips that include entrance tickets (e.g. Aquapark, Dolphin Show, Cable Car, Hot Air Balloon)</li>
+              <li>Private and individual programs</li>
+            </ul>
+
+            <Text style={termsParagraph}>
+              <strong>2- Late Cancellation:</strong> If the cancellation is made on the same day of the trip or less than 12 hours before departure, the Client is not entitled to any refund.
+            </Text>
+
+            <Text style={termsParagraph}>
+              <strong>3- Accuracy of Information:</strong> All information displayed on our website is valid, and Karim Tour is committed to providing exactly what is stated in the itinerary of each trip.
+            </Text>
+
+            <Text style={termsParagraph}>
+              <strong>4- Right of Refusal:</strong> Karim Tour reserves the right to cancel a Client's participation in a trip in cases of misconduct or failure to respect others, including but not limited to:
+            </Text>
+            <ul style={termsList}>
+              <li>Intoxication</li>
+              <li>Harassment</li>
+              <li>Disrespectful behavior towards staff (employees, tour guides, drivers, etc.)</li>
+            </ul>
+
+            <Text style={termsParagraph}>
+              <strong>5- Punctuality During the Trip:</strong> In the event that the Client does not return to the bus at the time specified by the tour guide, the tour guide reserves the right to continue the tour without the delayed Client, in order to avoid any inconvenience or delays for the rest of the group.
+            </Text>
+
+            <Text style={termsParagraph}>
+              <strong>6 - Itinerary Adjustments:</strong> All itineraries are approximate and may be changed by the tour guide or driver due to weather conditions, traffic congestion, safety considerations, or other unforeseen circumstances.
+            </Text>
+
+            <Text style={termsParagraph}>
+              <strong>7- Tour Timing:</strong> The start and end times of the tours are approximate and may vary depending on circumstances.
+            </Text>
+          </Section>
+
+          {/* --- BUTTON --- */}
+          <Section style={{ textAlign: 'center', padding: '0 30px 30px' }}>
+            <Button
+              style={button}
+              href={bookingLink}
+            >
               {buttonText}
             </Button>
           </Section>
 
+          {/* --- FOOTER --- */}
           <Hr style={hr} />
-          <Text style={footer}>Best regards, Karim Tour</Text>
+          <Section>
+            <Text style={footer}>
+              Best regards, <br />
+              <b>Karim Tour Team</b>
+            </Text>
+          </Section>
         </Container>
       </Body>
     </Html>
   );
 };
 
-// Styles
+// --- STYLES ---
 const main = {
   backgroundColor: '#ffffff',
-  fontFamily:
-    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+  fontFamily: '"Arial", "Helvetica Neue", Helvetica, sans-serif',
+  padding: '20px 10px',
 };
 
 const container = {
   margin: '0 auto',
-  padding: '20px 0 48px',
-  width: '580px',
+  padding: '0',
+  maxWidth: '650px',
+  width: '100%',
+  backgroundColor: '#fff',
+  border: '2px solid #000000',
 };
 
-const heading = {
+const headerSection = {
+  padding: '20px 30px',
+  borderBottom: '3px solid #c00000',
+};
+
+const logoColumn = {
+  width: '108px',
+  verticalAlign: 'middle',
+  paddingRight: '12px',
+};
+
+const logoImg = {
+  display: 'block',
+  width: '100%',
+  maxWidth: '96px',
+  minWidth: '96px',
+  height: 'auto',
+};
+
+const voucherColumn = {
+  verticalAlign: 'middle',
+  textAlign: 'center' as const,
+};
+
+const voucherHeading = {
   fontSize: '24px',
-  lineHeight: '1.5',
-  fontWeight: '600',
-  color: '#333',
+  fontWeight: '700',
+  color: '#000000',
+  margin: '0 0 8px 0',
+  textDecoration: 'underline',
+  letterSpacing: '1px',
+  whiteSpace: 'nowrap' as const,
 };
 
-const section = {
-  padding: '24px',
-  border: '1px solid #eaeaea',
-  borderRadius: '8px',
-  marginTop: '20px',
-};
-
-const text = {
+const phoneText = {
   fontSize: '16px',
-  lineHeight: '24px',
-  color: '#333',
+  color: '#0066cc',
+  fontWeight: '600',
+  margin: '0',
+  whiteSpace: 'nowrap' as const,
+};
+
+const tableSection = {
+  padding: '20px 30px',
+  maxHeight: 'none' as const,
+};
+
+const mainTable = {
+  width: '100%',
+  borderCollapse: 'collapse' as const,
+  border: '2px solid #000000',
+};
+
+const thLeft = {
+  backgroundColor: '#f2f2f2',
+  border: '1px solid #000000',
+  padding: '12px 15px',
+  fontWeight: '700',
+  textAlign: 'center' as const,
+  fontSize: '15px',
+  color: '#000000',
+  width: '40%',
+};
+
+const thRight = {
+  backgroundColor: '#f2f2f2',
+  border: '1px solid #000000',
+  padding: '12px 15px',
+  fontWeight: '700',
+  textAlign: 'center' as const,
+  fontSize: '15px',
+  color: '#000000',
+  width: '60%',
+};
+
+const tdLeft = {
+  border: '1px solid #000000',
+  padding: '10px 15px',
+  fontSize: '14px',
+  color: '#000000',
+  fontWeight: '600',
+  backgroundColor: '#ffffff',
+};
+
+const tdRight = {
+  border: '1px solid #000000',
+  padding: '10px 15px',
+  fontSize: '14px',
+  color: '#000000',
+  backgroundColor: '#ffffff',
+};
+
+const termsSection = {
+  padding: '25px 30px 30px',
+  maxHeight: 'none' as const,
+};
+
+const termsHeading = {
+  fontSize: '18px',
+  fontWeight: '700',
+  color: '#cc0000',
+  marginBottom: '15px',
+  textDecoration: 'underline',
+};
+
+const termsIntro = {
+  fontSize: '13px',
+  lineHeight: '1.6',
+  color: '#000000',
+  marginBottom: '15px',
+};
+
+const termsSubject = {
+  fontSize: '13px',
+  lineHeight: '1.6',
+  color: '#000000',
+  marginBottom: '15px',
+};
+
+const termsParagraph = {
+  fontSize: '13px',
+  lineHeight: '1.6',
+  color: '#000000',
+  marginBottom: '10px',
+  marginTop: '10px',
+};
+
+const termsList = {
+  fontSize: '13px',
+  color: '#000000',
+  marginTop: '5px',
+  marginBottom: '10px',
+  paddingLeft: '40px',
+  lineHeight: '1.6',
+};
+
+const hr = {
+  borderColor: '#ccc',
+  margin: '20px 0',
+};
+
+const footer = {
+  color: '#444',
+  fontSize: '12px',
+  marginTop: '10px',
+  textAlign: 'center' as const,
 };
 
 const button = {
   backgroundColor: '#007BFF',
   color: '#fff',
-  padding: '12px 20px',
+  padding: '12px 30px',
   borderRadius: '4px',
-  display: 'inline-block',
   textDecoration: 'none',
-  marginTop: '16px',
-};
-
-const hr = {
-  borderColor: '#eaeaea',
-  margin: '20px 0',
-};
-
-const footer = {
-  color: '#8898aa',
-  fontSize: '12px',
+  fontSize: '16px',
+  fontWeight: '600',
+  display: 'inline-block',
+  minWidth: '200px',
+  margin: '20px auto 0',
+  textAlign: 'center' as const,
 };

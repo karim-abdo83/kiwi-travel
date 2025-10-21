@@ -14,6 +14,7 @@ import { PageParams } from "@/types/page-params";
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "./providers";
 import Script from "next/script";
+import { env } from "@/env";
 import {
   firstDataLayerScript,
   googleTagManagerScript,
@@ -24,6 +25,33 @@ import {
 export const metadata: Metadata = {
   title: "Karim Tour",
   description: "Awesome website for booking your next travel",
+  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL || "https://karimtor.com"),
+  icons: {
+    icon: "/logo-icon.svg",
+    apple: "/logo-icon.svg",
+    shortcut: "/logo-icon.svg",
+  },
+  openGraph: {
+    title: "Karim Tour",
+    description: "Awesome website for booking your next travel",
+    url: "/",
+    siteName: "Karim Tour",
+    images: [
+      {
+        url: "/logo-icon.svg",
+        width: 343,
+        height: 350,
+        alt: "Karim Tour",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Karim Tour",
+    description: "Awesome website for booking your next travel",
+    images: ["/logo-icon.svg"],
+  },
 };
 
 async function UTSSR() {
@@ -74,6 +102,40 @@ export default async function RootLayout({
             />
           </div>
         </noscript>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Karim Tour",
+              url: env.NEXT_PUBLIC_APP_URL || "https://karimtor.com",
+              logo: "/logo.png",
+              sameAs: [
+                "https://www.instagram.com/kiwitraveleg?igsh=MXJzZjFwY2Fzc2E2Zw==",
+                "https://www.facebook.com/share/16NjtcXwqN/?mibextid=wwXIfr",
+                "https://vk.com/kiwitravelseg",
+                "https://t.me/karimkiwi",
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Karim Tour",
+              url: env.NEXT_PUBLIC_APP_URL || "https://karimtor.com",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: `${env.NEXT_PUBLIC_APP_URL || "https://karimtor.com"}/search?q={search_term_string}`,
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
       </head>
       <body suppressHydrationWarning={true}>
         <noscript>

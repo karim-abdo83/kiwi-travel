@@ -21,6 +21,13 @@ const isAPIRoute = createRouteMatcher([
   "/api(.*)",
 ])
 
+const isSeoStaticRoute = createRouteMatcher([
+  "/robots.txt",
+  "/sitemap.xml",
+  "/favicon.ico",
+  "/manifest.webmanifest",
+]);
+
 const isBookingsRoute = createRouteMatcher([
   "/en/bookings(.*)",
   "/ru/bookings(.*)",
@@ -40,6 +47,9 @@ export default clerkMiddleware(async (auth, req) => {
   // prevent locale handling for api endpoints
   if (isAPIRoute(req)) return;
 
+  // bypass i18n for SEO/static root files
+  if (isSeoStaticRoute(req)) return NextResponse.next();
+
   const ip = ipAddress(req) ?? "127.0.0.1";
 
   const { success } = await ratelimit.limit(ip);
@@ -52,7 +62,7 @@ export default clerkMiddleware(async (auth, req) => {
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|xml|txt)).*)",
     // Always run for API routes
     "/(api|trpc)(.*)",
     // for internationalized pathnames

@@ -11,6 +11,7 @@ import { count, desc, eq, inArray } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 import nodemailer from "nodemailer";
+import path from "path";
 import {
   adminProcedure,
   authProtectedProcedure,
@@ -202,6 +203,16 @@ export const tripBookingRouter = createTRPCRouter({
           bookingId={0} // или реальный ID, если захочешь получить его из insert
           bookingLink={bookingLink}
           translations={tEmail}
+          bookingData={{
+            fullName: "",
+            email: "",
+            phoneNumber: "",
+            bookingDate: "",
+            numberOfPeople: 0,
+            totalAmount: 0,
+            tripTitle: "",
+            additionalNotes: "",
+          }}
         />
       );
 
@@ -294,13 +305,23 @@ export const tripBookingRouter = createTRPCRouter({
           bookingId={0} // или реальный ID, если захочешь получить его из insert
           bookingLink={bookingLink}
           translations={tEmail}
+          bookingData={{
+            fullName: "",
+            email: "",
+            phoneNumber: "",
+            bookingDate: "",
+            numberOfPeople: 0,
+            totalAmount: 0,
+            tripTitle: "",
+            additionalNotes: "",
+          }}
         />
       );
 
       await sendEmail({
         email: emailHtml,
         to: input.email,
-        subject: tEmail("title"), // например, "📩 Новая бронь"
+        subject: tEmail("title"), // например, "📩 Нова бронь"
       });
 
       return {
@@ -428,6 +449,16 @@ export const tripBookingRouter = createTRPCRouter({
           bookingId={input}
           bookingLink={`${env.NEXT_PUBLIC_APP_URL}/bookings/${input}`}
           translations={t}
+          bookingData={{
+            fullName: "",
+            email: "",
+            phoneNumber: "",
+            bookingDate: "",
+            numberOfPeople: 0,
+            totalAmount: 0,
+            tripTitle: "",
+            additionalNotes: "",
+          }}
         />,
       );
 
@@ -499,6 +530,16 @@ export const tripBookingRouter = createTRPCRouter({
           bookingId={input}
           bookingLink={`${env.NEXT_PUBLIC_APP_URL}/bookings/${input}`}
           translations={t}
+          bookingData={{
+            fullName: "",
+            email: "",
+            phoneNumber: "",
+            bookingDate: "",
+            numberOfPeople: 0,
+            totalAmount: 0,
+            tripTitle: "",
+            additionalNotes: ""
+          }}
         />,
       );
 
@@ -562,6 +603,16 @@ export const tripBookingRouter = createTRPCRouter({
           bookingId={input}
           bookingLink={`${env.NEXT_PUBLIC_APP_URL}/bookings/${input}`}
           translations={t}
+          bookingData={{
+            fullName: "",
+            email: "",
+            phoneNumber: "",
+            bookingDate: "",
+            numberOfPeople: 0,
+            totalAmount: 0,
+            tripTitle: "",
+            additionalNotes: "",
+          }}
         />,
       );
 
@@ -632,12 +683,19 @@ async function sendEmail({
   subject: string;
   copyToAdmin?: boolean;
 }): Promise<void> {
+  const publicDir = path.join(process.cwd(), "public");
+  const emailLogoPath = path.join(publicDir, "email-logo.png");
+  const attachments = [
+    { filename: "email-logo.png", path: emailLogoPath, cid: "logo", contentType: "image/png" },
+  ];
+
   try {
     await emailTransporter.sendMail({
       from: env.EMAIL_SENDING_ADDRESS,
       to,
       subject,
       html: email,
+      attachments,
     });
     console.log(`✅ Email sent to ${to}`);
   } catch (err) {
@@ -651,6 +709,7 @@ async function sendEmail({
         to: env.EMAIL_ADMIN_ADDRESS,
         subject: `[ADMIN COPY] ${subject}`,
         html: email,
+        attachments,
       });
       console.log(`📬 Admin copy sent to ${env.EMAIL_ADMIN_ADDRESS}`);
     } catch (err) {
