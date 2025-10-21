@@ -95,6 +95,10 @@ export const BookingEmail = ({
                   <td style={tdLeft}>Payment Method</td>
                   <td style={tdRight}>Online</td>
                 </tr>
+                 <tr>
+                  <td style={tdLeft}>Phone Number</td>
+                  <td style={tdRight}>{bookingData.phoneNumber}</td>
+                </tr>
               </tbody>
             </table>
           </Section>

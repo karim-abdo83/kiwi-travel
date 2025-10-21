@@ -76,14 +76,14 @@ const BookingForm = ({
   // ["Tuesday"] ======> [2]
   const mappedDays = availableDays.map((item) => days.indexOf(item));
 
-  // const {mutate: testMutate} = api.tripBooking.testEmail.useMutation({
-  //   onSuccess: () => {
-  //     console.log('===>>> Sent');
-  //   },
-  //   onError: (err) => {
-  //     console.log('==>> Failed', err?.message);
-  //   },
-  // });
+// const {mutate: testMutate} = api.tripBooking.testEmail.useMutation({
+//   onSuccess: () => {
+//     console.log('===>>> Sent');
+//   },
+//   onError: (err) => {
+//     console.log('==>> Failed', err?.message);
+//   },
+// });
 
 
   return (
