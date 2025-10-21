@@ -140,6 +140,7 @@ export const tripBookingRouter = createTRPCRouter({
           id: true,
           slug: true,
           titleRu: true,
+          titleEn: true,
           adultTripPriceInCents: true,
           childTripPriceInCents: true,
           isConfirmationRequired: true,
@@ -210,13 +211,13 @@ export const tripBookingRouter = createTRPCRouter({
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
-            fullName: "",
+            fullName: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName || "Guest User",
             email: user.emailAddresses[0]!.emailAddress,
             phoneNumber: input.phone,
             bookingDate: format(input.date, "yyyy-MM-dd"),
             numberOfPeople: totalPeople,
             totalAmount: emailTotal,
-            tripTitle: trip.titleRu,
+            tripTitle: trip.titleEn,
             additionalNotes: "",
           }}
         />
@@ -249,6 +250,7 @@ export const tripBookingRouter = createTRPCRouter({
           id: true,
           slug: true,
           titleRu: true,
+          titleEn: true,
           adultTripPriceInCents: true,
           childTripPriceInCents: true,
           isConfirmationRequired: true,
@@ -318,7 +320,7 @@ export const tripBookingRouter = createTRPCRouter({
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
-            fullName: "",
+            fullName: "Guest User", // Anonymous users don't provide name
             email: input.email,
             phoneNumber: input.phone,
             bookingDate: format(input.date, "yyyy-MM-dd"),
