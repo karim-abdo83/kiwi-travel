@@ -179,6 +179,7 @@ export const tripBookingRouter = createTRPCRouter({
 
       await ctx.db.insert(tripBooking).values({
         userId: ctx.userId,
+        userName: input.name || (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName || null),
         userPhone: input.phone,
         userEmail: user.emailAddresses[0]!.emailAddress,
         adultPriceInCents: trip.adultTripPriceInCents,
@@ -211,7 +212,7 @@ export const tripBookingRouter = createTRPCRouter({
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
-            fullName: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName || "Guest User",
+            fullName: input.name || (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName || "Guest User"),
             email: user.emailAddresses[0]!.emailAddress,
             phoneNumber: input.phone,
             bookingDate: format(input.date, "yyyy-MM-dd"),
@@ -290,6 +291,7 @@ export const tripBookingRouter = createTRPCRouter({
 
       await ctx.db.insert(tripBooking).values({
         userId: input.email,
+        userName: input.name || null,
         userPhone: input.phone,
         userEmail: input.email,
         adultPriceInCents: trip.adultTripPriceInCents,
@@ -323,7 +325,7 @@ export const tripBookingRouter = createTRPCRouter({
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
-            fullName: "Guest User", // Anonymous users don't provide name
+            fullName: input.name || "Guest User",
             email: input.email,
             phoneNumber: input.phone,
             bookingDate: format(input.date, "yyyy-MM-dd"),
@@ -436,6 +438,7 @@ export const tripBookingRouter = createTRPCRouter({
             tripId: true,
             userId: true,
             userEmail: true,
+            userName: true,
           },
         });
 
@@ -506,6 +509,7 @@ export const tripBookingRouter = createTRPCRouter({
             tripId: true,
             userId: true,
             userEmail: true,
+            userName: true,
           },
         });
 
@@ -597,6 +601,7 @@ export const tripBookingRouter = createTRPCRouter({
             tripId: true,
             userId: true,
             userEmail: true,
+            userName: true,
           },
         });
 
