@@ -169,6 +169,7 @@
       "details": "Детали и особенности"
     },
     "bookingForm": {
+      "name": "Полное имя",
       "perPerson": "Взрослые",
       "perChild": "Дети",
       "perInfant": "Младенцы",

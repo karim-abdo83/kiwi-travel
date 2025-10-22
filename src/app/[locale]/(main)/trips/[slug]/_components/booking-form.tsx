@@ -42,7 +42,7 @@ import { BookLock, CalendarIcon, FileText, Loader2, MessageCircleQuestion, Shiel
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { useLocale } from "next-intl";
 interface BookingFormProps {
   duration: string;
   availableDays: (typeof days)[number][];
@@ -67,13 +67,8 @@ const BookingForm = ({
   infantAge,
 }: BookingFormProps) => {
   const t = useTranslations("TripDetailsPage.bookingForm");
-
+  const locale = useLocale();
   const { isSignedIn, isLoaded } = useAuth();
-
-  // array of day indexes of the current trip's `availableDays`
-  // e.g.
-  // ["Monday", "Friday"] ======> [1, 5]
-  // ["Tuesday"] ======> [2]
   const mappedDays = availableDays.map((item) => days.indexOf(item));
 
 // const {mutate: testMutate} = api.tripBooking.testEmail.useMutation({
@@ -84,8 +79,6 @@ const BookingForm = ({
 //     console.log('==>> Failed', err?.message);
 //   },
 // });
-
-
   return (
     <Card className="w-full max-w-sm mx-auto bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
       <CardContent className="space-y-0 p-0">
@@ -97,9 +90,10 @@ const BookingForm = ({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-md font-semibold text-gray-500">{t("perPerson")}</span>
-                <span className="text-lg font-semibold text-primary">${adultPrice}</span>
+                <span className="text-lg font-semibold text-primary">
+                        {locale === 'en' ? '€' : '$'}{adultPrice}
+                      </span>
               </div>
-
               {/* Child Price - only show if not null */}
               {childPrice !== null && (
                 <div className="flex items-center justify-between">
@@ -107,7 +101,9 @@ const BookingForm = ({
                     {t("perChild")}{" "}
                     ({childAge})
                   </span>
-                  <span className="text-lg font-semibold text-primary">${childPrice}</span>
+                  <span className="text-lg font-semibold text-primary">
+                        {locale === 'en' ? '€' : '$'}{childPrice}
+                      </span>
                 </div>
               )}
 
@@ -146,10 +142,8 @@ const BookingForm = ({
             ) : null}
           </div>
         </div>
-
         {/* Action Buttons */}
         <div className="px-6 space-y-3">
-          {/* {isSignedIn ? ( */}
           <BookingSubmitDialog
             mappedDays={mappedDays}
             adultPrice={adultPrice}
@@ -158,6 +152,7 @@ const BookingForm = ({
             infantAge={infantAge}
             tripId={tripId}
             isSignedIn={isSignedIn}
+            locale={locale}
           />
           {/* ) : (
         <SignInButton>
@@ -186,10 +181,8 @@ const BookingForm = ({
            {t("contactViaWhatsApp")}
           </Link>
         </div>
-
         {/* Features Section */}
         <div className="px-6 py-2 space-y-2 border-t border-gray-50 ">
-
           {/* Safe Payment */}
           <div className="flex flex-col items-center text-center">
             <div className="w-16 h-16 flex items-center justify-center">
@@ -244,6 +237,7 @@ interface BookingSubmitDialog {
   infantAge: string;
   childPrice: number | null;
   isSignedIn: boolean | undefined;
+  locale: string;
 }
 
 const BookingSubmitDialog = ({
@@ -254,6 +248,7 @@ const BookingSubmitDialog = ({
   childAge,
   infantAge,
   isSignedIn,
+  locale,
 }: BookingSubmitDialog) => {
   const t = useTranslations("TripDetailsPage.bookingForm");
 
@@ -273,6 +268,7 @@ const BookingSubmitDialog = ({
 
         // Reset form and close dialog
         form.reset({
+          name: "",
           adultsCount: 1,   
           childrenCount: 0,
           infantsCount: 0,
@@ -295,6 +291,7 @@ const BookingSubmitDialog = ({
   const form = useForm<TripBookingFormValues>({
     resolver: zodResolver(tripBookingFormSchema),
     defaultValues: {
+      name: "",
       adultsCount: 1,
       childrenCount: 0,
       infantsCount: 0,
@@ -374,17 +371,6 @@ const BookingSubmitDialog = ({
             <FormField
               control={form.control}
               name="date"
-              // rules={{
-              //   required: "Please select a date",
-              //   validate: (value) => {
-              //     if (!value) return "Please select a date";
-              //     if (value < new Date()) return "Date must be in the future";
-              //     if (!mappedDays.includes(value.getDay())) {
-              //       return `Tour is only available on: ${mappedDays.join(", ")}`;
-              //     }
-              //     return true;
-              //   }
-              // }}
               render={({ field, fieldState }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>{t("bookingDate")}</FormLabel>
@@ -430,13 +416,6 @@ const BookingSubmitDialog = ({
             <FormField
               control={form.control}
               name="phone"
-              // rules={{
-              //   required: "Phone number is required",
-              //   pattern: {
-              //     value: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
-              //     message: "Please enter a valid phone number"
-              //   }
-              // }}
               render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>{t("phoneNumber")}</FormLabel>
@@ -444,6 +423,24 @@ const BookingSubmitDialog = ({
                     <Input 
                       placeholder="+1 (555) 123-4567" 
                       {...field} 
+                      className={fieldState.invalid ? 'border-red-500' : ''}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>{t("name")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your full name"
+                      {...field}
                       className={fieldState.invalid ? 'border-red-500' : ''}
                     />
                   </FormControl>
@@ -644,17 +641,17 @@ const BookingSubmitDialog = ({
                 {adults > 0 && (
                   <div className="flex items-center justify-between">
                     <span>
-                      {t("adults")} ({adults}) &times; ${adultPrice}
+                      {t("adults")} ({adults}) &times; {locale === 'en' ? '€' : '$'}{adultPrice}
                     </span>
-                    <span>${adultTotal.toFixed(2)}</span>
+                    <span>{locale === 'en' ? '€' : '$'}{adultTotal.toFixed(2)}</span>
                   </div>
                 )}
                 {children > 0 && (
                   <div className="flex items-center justify-between">
                     <span>
-                      {t("children")} ({children}) &times; ${childPrice}
+                      {t("children")} ({children}) &times; {locale === 'en' ? '€' : '$'}{childPrice}
                     </span>
-                    <span>${childTotal.toFixed(2)}</span>
+                    <span>{locale === 'en' ? '€' : '$'}{childTotal.toFixed(2)}</span>
                   </div>
                 )}
                 {infants > 0 && (
@@ -668,7 +665,7 @@ const BookingSubmitDialog = ({
               </div>
               <div className="flex items-center justify-between border-t pt-2">
                 <span className="font-bold">{t("total")}</span>
-                <span className="font-bold">${totalPrice}</span>
+                <span className="font-bold">{locale === 'en' ? '€' : '$'}{totalPrice}</span>
               </div>
             </Card>
 
