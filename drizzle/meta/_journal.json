@@ -281,6 +281,13 @@
       "when": 1758451709268,
       "tag": "0039_cloudy_silver_centurion",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1761133668242,
+      "tag": "0040_small_hardball",
+      "breakpoints": true
     }
   ]
 }
