@@ -133,7 +133,7 @@ export default async function DestinationTripsPage({
                   </p>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="text-lg font-bold">
-                      ${Math.floor(trip.adultTripPriceInCents / 100)}
+                      {locale === 'en' ? '€' : '$'}{Math.floor(trip.adultTripPriceInCents / 100)}
                     </span>
                     <Button>{t("bookNow")}</Button>
                   </div>

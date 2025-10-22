@@ -2,6 +2,10 @@ import { z } from "zod";
 
 
 export const tripBookingFormSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .min(2, "Name must be at least 2 characters"),
   date: z.date({
     required_error: "Please select a date",
   }),
