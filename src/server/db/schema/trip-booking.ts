@@ -8,6 +8,7 @@ export const tripBooking = pgTable(
   (c) => ({
     id: c.integer("id").primaryKey().generatedByDefaultAsIdentity(),
     userId: c.text("user_id").notNull(),
+    userName: c.text("user_name"),
     userPhone: c.text("user_phone").notNull(),
     userEmail: c.text("user_email").notNull(),
     adultPriceInCents: c.integer("adult_price_in_cents").notNull(),
