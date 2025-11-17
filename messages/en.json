@@ -83,7 +83,9 @@
       "anonymous": "Anonymous",
       "rating": "Rating",
       "reply": "Reply",
-      "writeReply":"write Reply"
+      "writeReply":"write Reply",
+      "seeMore":"See More",
+      "seeLess":"See Less"
     }
   },
   "FAQsPage": {

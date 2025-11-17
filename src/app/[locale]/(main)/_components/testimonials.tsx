@@ -36,6 +36,7 @@ export default function Testimonials({ tripId }: { tripId?: number }) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [localAdminReply, setLocalAdminReply] = useState("");
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({});
 
   const { data, refetch, isLoading: isLoadingReviews } =
     tripId
@@ -49,7 +50,7 @@ export default function Testimonials({ tripId }: { tripId?: number }) {
   const localeAttribute = localeAttributeFactory(locale);
 
   return (
-    <section className="py-14 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+    <section className="pt-14 pb-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="mb-10 text-center text-3xl font-bold sm:text-4xl bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
           {t("sectionTitle")}
@@ -64,7 +65,7 @@ export default function Testimonials({ tripId }: { tripId?: number }) {
             }}
             className="w-full relative"
           >
-            <CarouselContent className="-ml-3 sm:-ml-4 py-5">
+            <CarouselContent className="-ml-3 sm:-ml-4 py-2">
               {isLoadingReviews ? (
                 [1, 2, 3].map((item) => (
                   <CarouselItem
@@ -84,7 +85,7 @@ export default function Testimonials({ tripId }: { tripId?: number }) {
                     key={`review-${review.id}`}
                     className="pl-3 sm:pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
                   >
-                    <Card className="h-[420px] flex flex-col justify-between border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 bg-white transition-all duration-300 rounded-2xl overflow-hidden">
+                    <Card className="flex flex-col border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 bg-white transition-all duration-300 rounded-2xl">
                       <CardHeader className="pb-1 pt-4">
                         <div className="flex items-start gap-4">
                           {review.userImageUrl ? (
@@ -126,7 +127,7 @@ export default function Testimonials({ tripId }: { tripId?: number }) {
                           </div>
                         </div>
                       </CardHeader>
-                      <CardContent className="px-5 flex-grow overflow-hidden">
+                      <CardContent className="px-5">
                         {review?.trip && !tripId && (
                           <Link
                             className="text-blue-500 text-xs mb-2 inline-block hover:underline"
@@ -136,13 +137,33 @@ export default function Testimonials({ tripId }: { tripId?: number }) {
                           </Link>
                         )}
                         <p
-                          className={`text-gray-700 text-sm leading-relaxed line-clamp-5 ${review.message.length < 60
-                              ? "text-center italic text-gray-500 mt-6"
+                          className={`text-gray-700 text-sm leading-relaxed ${!expanded[review.id] ? "line-clamp-5" : ""} ${review.message.length < 60
+                              ? "text-center italic text-gray-500"
                               : ""
                             }`}
                         >
                           {review.message}
                         </p>
+                        {review.message.length > 180 && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="mt-1 px-0 h-auto text-xs text-blue-600 hover:text-blue-800"
+                            onClick={() =>
+                              setExpanded((prev) => {
+                                const isOpening = !prev[review.id];
+                                if (!isOpening) {
+                                  return {};
+                                }
+                                return { [review.id]: true } as Record<number, boolean>;
+                              })
+                            }
+                          >
+                            {expanded[review.id]
+                              ? t("seeLess") || "See less"
+                              : t("seeMore") || "See more"}
+                          </Button>
+                        )}
 
                         {review.image && (
                           <div className="mt-4 flex justify-center">
@@ -270,7 +291,7 @@ export default function Testimonials({ tripId }: { tripId?: number }) {
             </CarouselContent>
 
             {/* FIXED BUTTON POSITION */}
-            <div className="absolute top-1/2 -translate-y-1/2 inset-x-0 flex justify-between pointer-events-none">
+            <div className="absolute top-[42%] sm:top-1/2 -translate-y-1/2 inset-x-0 flex justify-between pointer-events-none">
               <CarouselPrevious className="pointer-events-auto relative left-1 sm:left-2 h-8 w-8 sm:h-9 sm:w-9 bg-white/90 shadow-md hover:bg-white/100 rounded-full z-10" />
               <CarouselNext className="pointer-events-auto relative right-1 sm:right-2 h-8 w-8 sm:h-9 sm:w-9 bg-white/90 shadow-md hover:bg-white/100 rounded-full z-10" />
             </div>
