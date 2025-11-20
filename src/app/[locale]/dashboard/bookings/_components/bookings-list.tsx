@@ -26,6 +26,7 @@ export const BookingsList = () => {
   const [selectedOperation, setSelectedOperation] = useState<
     "confirm" | "cancel" | "delete"
   >("confirm");
+  const [openBulkDelete, setOpenBulkDelete] = useState(false);
 
   const response = useCommonMutationResponse(undefined, refetch);
 
@@ -37,6 +38,8 @@ export const BookingsList = () => {
     api.tripBooking.adminMarkAsDoneBooking.useMutation(response);
   const { mutate: deleteBooking } =
     api.tripBooking.adminDelete.useMutation(response);
+  const { mutate: deleteAcceptedBulk } =
+    api.tripBooking.adminDeleteAcceptedBulk.useMutation(response);
 
   const handleOperation = () => {
     if (selectedBooking) {
@@ -168,6 +171,15 @@ export const BookingsList = () => {
 
   return (
     <>
+      <div className="flex justify-end mb-3">
+        <Button
+          variant="destructive"
+          onClick={() => setOpenBulkDelete(true)}
+          disabled={!data?.some((b) => b.status === "accepted")}
+        >
+          Delete all accepted
+        </Button>
+      </div>
       <DataTable columns={columns} data={data ?? []} />
       <Dialog
         open={selectedBooking !== null}
@@ -203,6 +215,30 @@ export const BookingsList = () => {
               onClick={handleOperation}
             >
               {selectedOperation}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openBulkDelete} onOpenChange={setOpenBulkDelete}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete all accepted bookings</DialogTitle>
+            <DialogDescription>
+              This will permanently delete all bookings with status "accepted". This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setOpenBulkDelete(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                deleteAcceptedBulk();
+                setOpenBulkDelete(false);
+              }}
+            >
+              Delete all
             </Button>
           </DialogFooter>
         </DialogContent>
