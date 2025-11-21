@@ -34,8 +34,10 @@ export default async function EditTripPage({
           tripTypes: trip.tripTypes.map((t) => t.tripTypeId),
           pickupPointEn: trip?.pickupPointEn || "",
           pickupPointRu: trip?.pickupPointRu || "",
+          pickupPointTr: trip?.pickupPointTr || "",
           placeOfReturnEn: trip?.placeOfReturnEn || "",
           placeOfReturnRu: trip?.placeOfReturnRu || "",
+          placeOfReturnTr: trip?.placeOfReturnTr || "",
         }}
       />
     </div>
