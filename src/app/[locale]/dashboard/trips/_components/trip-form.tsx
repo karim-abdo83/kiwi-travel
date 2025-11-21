@@ -163,10 +163,13 @@ export function TripForm({ initialData, id }: TripFormProps) {
       slug: initialData?.slug || "",
       titleEn: initialData?.titleEn || "",
       titleRu: initialData?.titleRu || "",
+      titleTr: initialData?.titleTr || "",
       descriptionEn: initialData?.descriptionEn || "",
       descriptionRu: initialData?.descriptionRu || "",
+      descriptionTr: initialData?.descriptionTr || "",
       longDescriptionEn: initialData?.longDescriptionEn || "",
       longDescriptionRu: initialData?.longDescriptionRu || "",
+      longDescriptionTr: initialData?.longDescriptionTr || "",
       features: initialData?.features || [],
       travelTime: initialData?.travelTime || "00:00",
       destinationId: initialData?.destinationId || ("" as any),
@@ -187,12 +190,14 @@ export function TripForm({ initialData, id }: TripFormProps) {
       isAvailable: initialData?.isAvailable || true,
       isFeatured: initialData?.isFeatured || false,
       isConfirmationRequired: initialData?.isConfirmationRequired || false,
-      tripTypes: initialData?.tripTypes,
+      tripTypes: initialData?.tripTypes || [],
       // pickup and place of return
       pickupPointEn: initialData?.pickupPointEn || "",
       pickupPointRu: initialData?.pickupPointRu || "",
+      pickupPointTr: initialData?.pickupPointTr || "",
       placeOfReturnEn: initialData?.placeOfReturnEn || "",
       placeOfReturnRu: initialData?.placeOfReturnRu || "",
+      placeOfReturnTr: initialData?.placeOfReturnTr || "",
       // size of trip
       sizeOfTrip: initialData?.sizeOfTrip || "",
     },
@@ -347,6 +352,20 @@ export function TripForm({ initialData, id }: TripFormProps) {
               </FormItem>
             )}
           />
+          {/* turkish Title */}
+           <FormField
+            control={form.control}
+            name="titleTr"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Turkish Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Turkish title" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* English Description */}
           <FormField
@@ -376,6 +395,23 @@ export function TripForm({ initialData, id }: TripFormProps) {
                 <FormControl>
                   <Textarea
                     placeholder="Enter Russian description"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           {/* Turkish Description */}
+          <FormField
+            control={form.control}
+            name="descriptionTr"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Turkish Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Enter Turkish description"
                     {...field}
                   />
                 </FormControl>
@@ -413,6 +449,24 @@ export function TripForm({ initialData, id }: TripFormProps) {
                 <FormControl>
                   <RichTextEditor
                     placeholder="Enter detailed Russian description"
+                    content={field.value}
+                    setContent={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Turkish Long Description */}
+          <FormField
+            control={form.control}
+            name="longDescriptionTr"
+            render={({ field }) => (
+              <FormItem className="col-span-1 md:col-span-2">
+                <FormLabel>Turkish Long Description</FormLabel>
+                <FormControl>
+                  <RichTextEditor
+                    placeholder="Enter detailed Turkish description"
                     content={field.value}
                     setContent={field.onChange}
                   />
@@ -631,6 +685,20 @@ export function TripForm({ initialData, id }: TripFormProps) {
               </FormItem>
             )}
           />
+           {/* Turkish Pickup Point */}
+          <FormField
+            control={form.control}
+            name="pickupPointTr"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Turkish Pickup Point</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Enter Turkish pickup point" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* English Place of Return */}
           <FormField
@@ -656,6 +724,20 @@ export function TripForm({ initialData, id }: TripFormProps) {
                 <FormLabel>Russian Place of Return</FormLabel>
                 <FormControl>
                   <Input type="text" placeholder="Enter Russian place of return" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Turkish Place of Return */}
+          <FormField
+            control={form.control}
+            name="placeOfReturnTr"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Turkish Place of Return</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Enter Turkish place of return" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

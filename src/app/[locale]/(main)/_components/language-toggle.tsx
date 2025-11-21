@@ -47,6 +47,9 @@ const LanguageToggle = () => {
         <DropdownMenuItem onClick={() => changeLang("ru")}>
           Русский
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => changeLang("tr")}>
+          Türkçe
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

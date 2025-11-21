@@ -1,0 +1,443 @@
+{
+  "HomePage": {
+    "weProvide": {
+      "sectionTitle": "Ne sunuyoruz",
+      "bookNowPayLater": "Şimdi rezervasyon yapın, sonra ödeyin – peşin ödeme yok",
+      "freeCancellations": "Turunuzdan 12 saat öncesine kadar ücretsiz iptal",
+      "unbeatablePrices": "Rakipsiz fiyatlar ve üstün hizmet",
+      "expertGuides": "Uzman İngilizce konuşan rehberler",
+      "privateGroupTours": "Özel ve grup turları size göre uyarlanır",
+      "transferServices": "Düzenlenen transfer hizmetleri",
+      "quickBooking": "Tek bir hızlı arama – ve maceranız rezervasyon edildi!",
+      "transparentPricing": "Şeffaf fiyatlandırma, gizli ücret yok",
+      "tourGuide": {
+        "title": "Tur Rehberi",
+        "description": "En iyi İngilizce tur rehberlerini sağlıyoruz"
+      }
+    },
+    "hero": {
+      "headline": "Bir Sonraki Maceranızı Keşfedin",
+      "subheadline": "Dünyanın dört bir yanında harika turları bulun ve rezervasyon yapın",
+      "trips": "{count, plural, one {tur} other {tur}}",
+      "cardTitle": "Bir Sonraki Seyahatinizi Bulun",
+      "advancedFilters": "Gelişmiş Filtreler",
+      "searchPlaceholder": "Destinasyon veya turları arayın...",
+      "search": "Bir sonraki turunuzu arayın",
+      "notFound": "Sonuç bulunamadı.",
+      "suggestions": "Öneriler",
+      "tripsCount": "{count} tur",
+      "destination": "Destinasyon",
+      "trip": "Tur"
+    },
+    "featuredTrips": {
+      "sectionTitle": "Öne Çıkan Turlar",
+      "buttonLabel": "Hemen Rezervasyon"
+    },
+    "popularDestinations": {
+      "sectionTitle": "Popüler Destinasyonlar",
+      "showAll": "Tümünü Gör"
+    },
+    "whyChooseUs": {
+      "sectionTitle": "Neden Bizi Seçmelisiniz",
+      "reason1Title": "Güvenli ve Emniyetli",
+      "reason1Description": "Güvenilir iş ortakları ve 7/24 destek ile güvenliğinizi önceliklendiriyoruz.",
+      "reason2Title": "En İyi Fiyat Garantisi",
+      "reason2Description": "Daha düşük fiyat mı buldunuz? Eşleştirir ve ek indirim yaparız.",
+      "reason3Title": "Üstün Müşteri Hizmeti",
+      "reason3Description": "Adanmış ekibimiz seyahatiniz öncesinde, sırasında ve sonrasında yanınızda."
+    },
+    "testimonials": {
+      "sectionTitle": "Gezginlerimiz Ne Diyor",
+      "message": "Müşterilerimizin deneyimleri hakkında söylediklerini okuyun.",
+      "sectionSubtitle": "Mutlu gezginler topluluğumuzdan dinleyin ve kendi deneyiminizi paylaşın",
+      "success": "Başarılı",
+      "error": "Hata",
+      "reviewSubmitted": "Değerlendirmeniz için teşekkürler!",
+      "noBookingError": "Rezervasyon bulunamadı. Lütfen önce bir rezervasyon tamamlayın.",
+      "validationError": "Doğrulama Hatası",
+      "writeReview": "Deneyiminizi Paylaşın",
+      "yourName": "Adınız",
+      "yourEmail": "E-postanız",
+      "email": "E-posta",
+      "yourRating": "Puanınız",
+      "yourReview": "Değerlendirmeniz",
+      "namePlaceholder": "Ad",
+      "emailPlaceholder": "your@email.com",
+      "reviewPlaceholder": "Deneyiminizi bizimle paylaşın...",
+      "messagePlaceholder": "Mesajınızı buraya yazın...",
+      "submitReview": "Gönder",
+      "cancel": "İptal",
+      "submitting": "Gönderiliyor...",
+      "fillAllFields": "Lütfen gerekli alanları doldurun",
+      "adminReply": "Yönetici Yanıtı",
+      "noReviews": "İlk deneyimi paylaşan siz olun!",
+      "beFirstToReview": "İlk deneyimi paylaşan siz olun!",
+      "image": "Görsel",
+      "maxImages": "En fazla 5 görsel yükleyebilirsiniz",
+      "uploadPhotos": "Görsel yükle",
+      "max5Photos": "En fazla 5 görsel",
+      "orDragAndDrop": "veya sürükleyip bırakın",
+      "imageFormats": "PNG, JPG, JPEG 5MB’a kadar",
+      "customerReviews": "Müşteri Değerlendirmeleri",
+      "optional": "isteğe bağlı",
+      "anonymous": "Anonim",
+      "rating": "Puan",
+      "reply": "Yanıtla",
+      "writeReply":"Yanıt yazın",
+      "seeMore":"Daha Fazla Göster",
+      "seeLess":"Daha Az Göster"
+    }
+  },
+  "FAQsPage": {
+    "title": "Sıkça Sorulan Sorular",
+    "description": "Hizmetlerimizle ilgili en yaygın soruların yanıtlarını bulun."
+  },
+  "PrivacyPolicyPage": {
+    "title": "Gizlilik Politikası",
+    "description": "Kişisel bilgilerinizi nasıl topladığımızı, kullandığımızı ve koruduğumuzu öğrenin.",
+    "lastUpdated": "Son Güncelleme: 22 Nisan 2025",
+    "section1Title": "Topladığımız Bilgiler",
+    "section1Content": "Hesap oluşturduğunuzda, rezervasyon yaptığınızda veya müşteri hizmetlerimizle iletişime geçtiğinizde adınız, e-posta adresiniz, telefon numaranız ve ödeme bilgileriniz gibi doğrudan sağladığınız kişisel bilgileri toplarız.",
+    "section2Title": "Bilgilerinizi Nasıl Kullanıyoruz",
+    "section2Content": "Bilgilerinizi rezervasyonlarınızı işlemek, müşteri desteği sağlamak, (onay vermeniz halinde) promosyon teklifleri göndermek, hizmetlerimizi geliştirmek ve yasal yükümlülüklere uymak için kullanırız.",
+    "section3Title": "Bilgi Paylaşımı",
+    "section3Content": "Bilgilerinizi, rezervasyonunuzu tamamlamak için gerekli tur/seyahat sağlayıcılarıyla, bizim adımıza hizmet veren hizmet sağlayıcılarla ve kanunen gerektiğinde paylaşırız.",
+    "section4Title": "Veri Güvenliği",
+    "section4Content": "Kişisel bilgilerinizi yetkisiz erişim, değişiklik veya ifşaya karşı korumak için uygun güvenlik önlemleri uygularız.",
+    "section5Title": "Haklarınız",
+    "section5Content": "Konumunuza bağlı olarak kişisel bilgilerinize erişme, düzeltme veya silme haklarına sahip olabilirsiniz. Bu hakları kullanmak için bizimle iletişime geçin.",
+    "section6Title": "Çerezler",
+    "section6Content": "Web sitemizde deneyiminizi geliştirmek, kullanım alışkanlıklarını analiz etmek ve kişiselleştirilmiş içerik sunmak için çerezler ve benzeri teknolojiler kullanırız."
+  },
+  "TermsOfServicePage": {
+    "title": "Hizmet Şartları",
+    "description": "Lütfen hizmetlerimizi kullanmadan önce bu şartları dikkatle okuyun.",
+    "lastUpdated": "Son Güncelleme: 22 Nisan 2025",
+    "section1Title": "Şartların Kabulü",
+    "section1Content": "Hizmetlerimize erişerek veya kullanarak bu Hizmet Şartları ve yürürlükteki tüm yasa ve yönetmeliklere tabi olmayı kabul edersiniz.",
+    "section2Title": "Kullanıcı Hesapları",
+    "section2Content": "Hesap bilgilerinizin gizliliğini korumaktan ve hesabınız altında gerçekleşen tüm faaliyetlerden siz sorumlusunuz.",
+    "section3Title": "Rezervasyon ve Ödemeler",
+    "section3Content": "Tüm rezervasyonlar uygunluk ve onaya tabidir. Fiyatlar, rezervasyonunuz onaylanana kadar bildirim yapılmaksızın değişebilir.",
+    "section4Title": "İptaller ve İadeler",
+    "section4Content": "İptal ve iade politikaları, rezervasyon türüne ve sağlayıcı şartlarına göre değişiklik gösterir. Rezervasyon yapmadan önce ilgili şartları inceleyiniz.",
+    "section5Title": "Sorumluluk Sınırlaması",
+    "section5Content": "Hizmetlerimizin kullanımından veya kullanılamamasından kaynaklanan doğrudan, dolaylı, arızi, özel veya sonuç olarak ortaya çıkan zararlardan sorumlu değiliz.",
+    "section6Title": "Uygulanacak Hukuk",
+    "section6Content": "Bu Şartlar, şirketimizin kayıtlı olduğu yargı alanının yasalarına tabi olacak ve onlara göre yorumlanacaktır."
+  },
+  "TripsPage": {
+    "destinationLabel": "Nereye gitmek istiyorsunuz?",
+    "destinationPlaceholder": "Destinasyonları, şehirleri veya simge yapıları arayın",
+    "dateLabel": "Ne zaman seyahat etmek istiyorsunuz?",
+    "datePlaceholder": "Tarih seçin",
+    "travelersLabel": "Seyahat Edenler",
+    "budgetLabel": "Kişi başı bütçe",
+    "budgetPlaceholder": "Bütçenizi girin",
+    "filtersToggleShow": "Daha Fazla Filtre Göster",
+    "filtersToggleHide": "Filtreleri Gizle",
+    "priceRangeLabel": "Fiyat Aralığı (kişi başı $)",
+    "popularDestinationsLabel": "Popüler Destinasyonlar",
+    "countriesLabel": "Ülkeler",
+    "tripTypesLabel": "Tur Tipi",
+    "searchButton": "Turları Ara",
+    "tripsFoundHeader": "{count} tur bulundu",
+    "gridViewTab": "Izgara Görünümü",
+    "listViewTab": "Liste Görünümü",
+    "tripCardPricePerPerson": "kişi başı",
+    "viewDetailsButton": "Detayları Gör",
+    "loadMoreResultsButton": "Daha Fazla Sonuç Yükle",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "featured": "Öne Çıkan"
+  },
+  "TripDetailsPage": {
+    "tripFeatures": "Tur Özellikleri",
+    "amenities": "Olanaklar",
+    "tripInformation": "Tur Bilgileri",
+    "sizeOfTrip": "Grup Büyüklüğü",
+    "persons": "kişi",
+    "notSpecified": "Belirtilmemiş",
+    "country": "Ülke:",
+    "destination": "Destinasyon:",
+    "duration": "Süre:",
+    "type": "Tür:",
+    "travelTime": "Seyahat süresi:",
+    "askQuestion": "Soru Sor",
+    "reviews": "Değerlendirmeler",
+    "bookNow": "Hemen Rezervasyon",
+    "pickupPoint": "Alınış Noktası",
+    "placeOfReturn": "Dönüş Yeri",
+    "availableDays": "Uygun Günler",
+    "youMayLike": "Hoşunuza gidebilecek diğer turlar ",
+    "tabs": {
+      "description": "Açıklama",
+      "details": "Detaylar ve Özellikler"
+    },
+    "bookingForm": {
+      "name": "Ad Soyad",
+      "perPerson": "kişi başı",
+      "perChild": "çocuk başı",
+      "perInfant": "bebek başı",
+      "free": "Ücretsiz",
+      "adults": "Yetişkin",
+      "children": "Çocuk",
+      "infants": "Bebek",
+      "bookingDate": "Rezervasyon Tarihi",
+      "selectDate": "Tarih seçin",
+      "travelersCount": "Seyahat eden sayısı",
+      "basePrice": "Taban fiyat",
+      "total": "Toplam",
+      "bookNow": "Hemen Rezervasyon",
+      "noCharge": "Rezervasyon için ücret yok. Sonra ödeyin.",
+      "reviews": "değerlendirme",
+      "loading": "Yükleniyor...",
+      "signInFirstly": "Rezervasyon öncesi giriş yapın",
+      "phoneNumber": "Telefon Numarası",
+      "completeBooking": "Rezervasyonu Tamamla",
+      "dialogTitle": "Seyahatinizi Rezerve Edin",
+      "dialogDescription": "Rezervasyonu tamamlamak için detayları doldurun",
+      "success": "Başarılı",
+      "error": "Hata",
+      "successMessage": "Tur başarıyla rezerve edildi",
+      "successMessageWithConfirm": "Rezervasyon başarıyla oluşturuldu, onay bekleniyor",
+      "existingBookingError": "Aynı tarihli bir turunuzu zaten rezerve ettiniz, mevcut olanı güncellemeyi düşünün.",
+      "bookingEmail": "Rezervasyon E-postası",
+      "emailRequired": "E-posta zorunludur",
+      "emailInvalid": "Geçersiz e-posta",
+      "contactViaWhatsApp": "WhatsApp ile iletişime geçin",
+      "safePayment": "Güvenli Ödeme",
+      "safePaymentDescription": "Basit, kullanışlı ve güvenilir!",
+      "noHiddenFees": "Gizli ücret yok",
+      "noHiddenFeesDescription": "Gördüğünüz fiyat, ödediğiniz fiyattır!",
+      "officialPartner": "Resmi İş Ortağı",
+      "officialPartnerDescription": "Onaylı bilet sağlayıcı!",
+      "trustedHelpCenter": "Güvenilir Destek Merkezi",
+      "trustedHelpCenterDescription": "Resmi müşteri desteği!",
+      "priceFrom": "Başlangıç fiyatı"
+    }
+  },
+  "BookingsPage": {
+    "title": "Rezervasyonlar",
+    "tabs": {
+      "all": "Tümü",
+      "pending": "Beklemede",
+      "accepted": "Kabul Edildi",
+      "done": "Tamamlandı",
+      "cancelled": "İptal Edildi",
+      "missed": "Kaçırıldı"
+    },
+    "noTripsFound": "{status} tur bulunamadı.",
+    "viewDetails": "Detayları Gör",
+    "traveler": "seyahat eden",
+    "travelers": "seyahat eden"
+  },
+  "BookingDetails": {
+    "backToAllBookings": "Tüm rezervasyonlara dön",
+    "tripDetails": "Tur Detayları",
+    "bookingSummary": "Rezervasyon Özeti",
+    "bookingId": "Rezervasyon No",
+    "status": "Durum",
+    "totalPrice": "Toplam Fiyat",
+    "pricePerPerson": "Kişi Başı Fiyat",
+    "travelers": "Seyahat Edenler",
+    "bookingDate": "Rezervasyon Tarihi",
+    "destination": "Destinasyon",
+    "contactPhone": "İletişim Telefonu",
+    "review": "Değerlendirme",
+    "leaveAReview": "Değerlendirme Bırak",
+    "cancelBooking": "Rezervasyonu İptal Et",
+    "delete": "Sil",
+    "person": "kişi",
+    "people": "kişi",
+    "adults": "Yetişkin",
+    "children": "Çocuk",
+    "infants": "Bebek",
+    "free": "Ücretsiz",
+    "statuses": {
+      "all": "Tümü",
+      "pending": "Beklemede",
+      "accepted": "Kabul Edildi",
+      "done": "Tamamlandı",
+      "cancelled": "İptal Edildi",
+      "missed": "Kaçırıldı"
+    }
+  },
+  "DestinationsPage": {
+    "destinations": "Destinasyonlar"
+  },
+  "DestinationTripsPage": {
+    "backToDestinations": "Destinasyonlara geri dön",
+    "tripsAvailable": "{count} tur mevcut",
+    "noTripsAvailable": "Bu destinasyon için henüz tur mevcut değil.",
+    "availableTrips": "Mevcut Turlar",
+    "bookNow": "Hemen Rezervasyon"
+  },
+  "ConfirmFeedback": {
+    "bookingCancelled": "Rezervasyon İptal Edildi",
+    "bookingConfirmed": "Rezervasyon Onaylandı",
+    "cancelledMessage": "Maalesef {tripTitle} turuna ait rezervasyon organizasyonel sebeplerle iptal edildi. Rezervasyon detaylarına devam edebilirsiniz.",
+    "confirmedMessage": "Tebrikler! {tripTitle} turuna ait rezervasyon kabul edildi. Rezervasyon detaylarına devam edebilirsiniz.",
+    "cancel": "İptal",
+    "viewBookingDetails": "Rezervasyon Detaylarını Gör"
+  },
+  "Admin": {
+    "Settings": {
+      "title": "Yönetici Ayarları",
+      "description": "Uygulama ayarlarınızı ve yapılandırmalarınızı yönetin",
+      "popularDestinationsTitle": "Popüler Destinasyonlar Başlığı",
+      "popularDestinationsDescription": "Bu başlık ana sayfadaki popüler destinasyonlar bölümünde gösterilecektir.",
+      "settingsUpdated": "Ayarlar başarıyla güncellendi!",
+      "updateError": "Ayarlar güncellenemedi. Lütfen tekrar deneyin.",
+      "saveChanges": "Değişiklikleri Kaydet",
+      "saving": "Kaydediliyor..."
+    }
+  },
+  "ReviewDialog": {
+    "reviewYourTrip": "{title} turunuz için değerlendirme yapın",
+    "shareExperience": "Diğer gezginlere yardımcı olmak için deneyiminizi paylaşın.",
+    "ratingLabel": "Puan",
+    "yourRating": "Puanınız",
+    "rateStars": "{star} yıldız verin",
+    "yourReviewLabel": "Değerlendirmeniz",
+    "writeYourReview": "Değerlendirmenizi yazın",
+    "reviewPlaceholder": "Deneyiminizin ayrıntılarını paylaşın...",
+    "submit": "Değerlendirmeyi Gönder",
+    "submitReview": "Değerlendirmeyi Gönder",
+    "submitting": "Gönderiliyor...",
+    "successTitle": "Teşekkürler!",
+    "successMessage": "Değerlendirmeniz başarıyla gönderildi.",
+    "errorTitle": "Hata",
+    "errorMessage": "Değerlendirmeniz gönderilemedi. Lütfen daha sonra tekrar deneyin.",
+    "requiredField": "Bu alan zorunludur",
+    "minLength": "Değerlendirme en az 10 karakter olmalıdır",
+    "maxLength": "Değerlendirme 1000 karakteri aşamaz",
+    "images": "Fotoğraf Yükleyin (İsteğe Bağlı)",
+    "uploadPhotos": "Görsel yükle",
+    "max5Photos": "En fazla 5 görsel",
+    "orDragAndDrop": "veya sürükleyip bırakın",
+    "maxImages": "En fazla 5 görsel yükleyebilirsiniz",
+    "imageFormats": "JPG, PNG veya WebP, 5MB’a kadar",
+    "cancel": "İptal",
+    "email": "E-posta",
+    "fullName": "Ad Soyad",
+    "emailRequired": "E-posta zorunludur",
+    "emailInvalid": "Geçersiz e-posta",
+    "fullNameRequired": "Ad soyad zorunludur",
+    "confirmCancellation": "İptali Onayla",
+    "cancelling": "İptal ediliyor..."
+  },
+  "CancelBookingDialog": {
+    "cancelBookingTitle": "{title} rezervasyonunuzu iptal edin",
+    "cancelBookingDescription": "Bu rezervasyonu iptal etmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
+    "keepBooking": "Rezervasyonu Tut",
+    "confirmCancellation": "İptali Onayla",
+    "cancelling": "İptal ediliyor..."
+  },
+  "DeleteReviewDialog": {
+    "deleteReviewTitle": "Değerlendirmenizi silin",
+    "deleteReviewDescription": "Bu değerlendirmeyi silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
+    "cancel": "İptal",
+    "confirmDeletion": "Evet",
+    "deleting": "Siliniyor...",
+    "editReview": "Değerlendirmeyi Düzenle"
+  },
+  "Auth": {
+    "signIn": "Giriş Yapın",
+    "signUp": "Kayıt Olun",
+    "emailAddress": "E-posta Adresi",
+    "password": "Şifre",
+    "forgotPassword": "Şifrenizi mi unuttunuz?",
+    "dontHaveAccount": "Hesabınız yok mu?",
+    "alreadyHaveAccount": "Zaten bir hesabınız var mı?",
+    "orContinueWith": "Veya şununla devam edin",
+    "signInWithGoogle": "Google ile giriş yapın",
+    "signInWithFacebook": "Facebook ile giriş yapın",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "confirmPassword": "Şifreyi Onaylayın"
+  },
+  "General": {
+    "amenities": {
+      "transfer": "Otelden/otele transfer",
+      "guide": "Profesyonel tur rehberi",
+      "free_cancel": "Ücretsiz iptal",
+      "online_payment": "Çevrimiçi ödeme mevcut"
+    },
+    "timeUnits": {
+      "hour": "saat",
+      "hours": "saat",
+      "day": "gün",
+      "days": "gün"
+    },
+    "header": {
+      "signIn": "Giriş Yap",
+      "signUp": "Kayıt Ol",
+      "signOut": "Çıkış Yap",
+      "dashboard": "Kontrol Paneli",
+      "openProfile": "Profili Aç",
+      "sidenavDescription": "Ayarlar için yan menü",
+      "changeLanguage": "Dili Değiştir",
+      "bookings": "Rezervasyonlar"
+    },
+    "footer": {
+      "contactUs": "Bize Ulaşın",
+      "quickLinksTitle": "Hızlı Bağlantılar",
+      "quickLinks": {
+        "home": "Ana Sayfa",
+        "destinations": "Destinasyonlar",
+        "trips": "Turlar"
+      },
+      "supportTitle": "Destek",
+      "supportLinks": {
+        "faqs": "SSS",
+        "privacyPolicy": "Gizlilik Politikası",
+        "termsOfService": "Hizmet Şartları"
+      },
+      "followUsTitle": "Bizi Takip Edin",
+      "discoverTheWorld": "Bizimle dünyayı keşfedin",
+      "copyright": "Tüm hakları saklıdır."
+    },
+    "bookingEmail": {
+      "accepted": {
+        "title": "Rezervasyonunuz onaylandı!",
+        "description": "Rezervasyonunuzu onaylamaktan mutluluk duyuyoruz.",
+        "buttonText": "Rezervasyonu Görüntüle"
+      },
+      "rejected": {
+        "title": "Rezervasyonunuz iptal edildi.",
+        "description": "Maalesef rezervasyonunuz işleme alınamadı.",
+        "buttonText": "Rezervasyonu Görüntüle"
+      },
+      "completed": {
+        "title": "Rezervasyonunuz tamamlandı!",
+        "description": "Bizi tercih ettiğiniz için teşekkür ederiz.",
+        "buttonText": "Rezervasyonu Görüntüle"
+      },
+      "new": {
+        "title": "📩 Yeni Rezervasyon",
+        "description": "Yeni bir rezervasyon oluşturuldu. Yönetim panelinden görüntüleyebilirsiniz.",
+        "buttonText": "Rezervasyonu Görüntüle"
+      }
+    }
+  },
+  "ToastMessages": {
+    "SuccessTitle": "Başarılı",
+    "ErrorTitle": "Hata",
+    "AddReview": "Değerlendirme başarıyla eklendi",
+    "DeleteReview": "Değerlendirme başarıyla silindi",
+    "CancelBooking": "Rezervasyon başarıyla iptal edildi"
+  },
+  "Metadata": {
+    "title": "Karim Tour",
+    "description": "Bir sonraki seyahatinizi kolayca rezerve edebileceğiniz harika bir platform",
+    "keywords": "seyahat rezervasyonu, tur rezervasyonu, uçak bileti, otel rezervasyonu, tatil paketleri, uygun fiyatlı uçuşlar, seyahat fırsatları, çevrimiçi seyahat ajansı, macera seyahati, aile tatilleri, iş seyahati, son dakika fırsatları, seyahat indirimleri, tatil rezervasyonu, destinasyon rehberleri"
+  },
+  "ReviewPage": {
+    "title": "Değerlendirmeler",
+    "description": "Değerlendirmeler",
+    "addReview": "Değerlendirme Ekle",
+    "newReview": "Yeni Değerlendirme",
+    "editReview": "Değerlendirmeyi Düzenle"
+  }
+}

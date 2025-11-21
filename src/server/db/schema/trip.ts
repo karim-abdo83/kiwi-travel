@@ -10,10 +10,13 @@ export const trip = pgTable("trips", (c) => ({
   slug: c.text("slug").notNull(),
   titleEn: c.text("title_en").notNull(),
   titleRu: c.text("title_ru").notNull(),
+  titleTr: c.text("title_tr").notNull().default(''),
   descriptionEn: c.text("description_en").notNull(),
   descriptionRu: c.text("description_ru").notNull(),
+  descriptionTr: c.text("description_tr").notNull().default(''),
   longDescriptionEn: c.text("long_description_en").notNull(),
   longDescriptionRu: c.text("long_description_ru").notNull(),
+  longDescriptionTr: c.text("long_description_tr").notNull().default(''),
   /**
    * each asset consists of this format:
    * `{url}?type=video` if video
@@ -40,8 +43,10 @@ export const trip = pgTable("trips", (c) => ({
   // tour information
   pickupPointEn: c.text("pickup_point_en"),
   pickupPointRu: c.text("pickup_point_ru"),
+  pickupPointTr: c.text("pickup_point_tr"),
   placeOfReturnEn: c.text("place_of_return_en"),
   placeOfReturnRu: c.text("place_of_return_ru"),
+  placeOfReturnTr: c.text("place_of_return_tr"),
   // 
   availableDays: c
     .text("available_days", {
