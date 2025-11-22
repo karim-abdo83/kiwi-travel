@@ -13,6 +13,7 @@ export const destination = pgTable("destinations", (c) => ({
   slug: c.text("slug").notNull(),
   nameEn: c.text("name_en").notNull(),
   nameRu: c.text("name_ru").notNull(),
+  nameTr: c.text("name_tr").notNull().default(""),
   imageUrl: c.text("image_url").notNull(),
   isPopular: c.boolean("is_popular").notNull(),
   countryId: c.integer("country_id")

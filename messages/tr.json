@@ -283,13 +283,13 @@
   },
   "Admin": {
     "Settings": {
-      "title": "Yönetici Ayarları",
+      "title": "Admin Settings",
       "description": "Uygulama ayarlarınızı ve yapılandırmalarınızı yönetin",
       "popularDestinationsTitle": "Popüler Destinasyonlar Başlığı",
       "popularDestinationsDescription": "Bu başlık ana sayfadaki popüler destinasyonlar bölümünde gösterilecektir.",
       "settingsUpdated": "Ayarlar başarıyla güncellendi!",
       "updateError": "Ayarlar güncellenemedi. Lütfen tekrar deneyin.",
-      "saveChanges": "Değişiklikleri Kaydet",
+      "saveChanges": "Save Changes",
       "saving": "Kaydediliyor..."
     }
   },

@@ -302,6 +302,34 @@
       "when": 1763664884748,
       "tag": "0042_powerful_polaris",
       "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1763742049295,
+      "tag": "0043_silky_meltdown",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1763824287670,
+      "tag": "0044_happy_mauler",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1763824486640,
+      "tag": "0045_legal_shriek",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1763824590978,
+      "tag": "0046_spooky_amazoness",
+      "breakpoints": true
     }
   ]
 }

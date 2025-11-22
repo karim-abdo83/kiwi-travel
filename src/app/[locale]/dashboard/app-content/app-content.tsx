@@ -28,6 +28,9 @@ const formSchema = z.object({
   popularDestinationRu: z.string().min(1, {
     message: "Title is required",
   }),
+  popularDestinationTr: z.string().min(1, {
+    message: "Title is required",
+  }),
 });
 
 export default function AppContent() {
@@ -41,6 +44,7 @@ export default function AppContent() {
     defaultValues: {
       popularDestinationEn: data?.popularDestinationEn  || '',
       popularDestinationRu: data?.popularDestinationRu  || '',
+      popularDestinationTr: data?.popularDestinationTr  || '',
     },
   });
 
@@ -49,6 +53,7 @@ export default function AppContent() {
       form.reset({
         popularDestinationEn: data.popularDestinationEn,
         popularDestinationRu: data.popularDestinationRu,
+        popularDestinationTr: data.popularDestinationTr,
       });
     }
   }, [data]);
@@ -58,6 +63,7 @@ export default function AppContent() {
       await updateSetting({
         en: values.popularDestinationEn,
         ru: values.popularDestinationRu,
+        tr: values.popularDestinationTr,
       });
 
       toast({
@@ -117,7 +123,23 @@ export default function AppContent() {
               </FormItem>
             )}
           />
-          
+
+           <FormField
+            control={form.control}
+            name="popularDestinationTr"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Popular Destination Title (Tr)</FormLabel>
+                <FormControl>
+                  <Input disabled={isUpdatingSetting} placeholder="Enter Popular Destination Title (Tr)" {...field} />
+                </FormControl>
+                {/* <FormDescription>
+                  {t("popularDestinationsDescription")}
+                </FormDescription> */}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit" disabled={isUpdatingSetting}>
             {isUpdatingSetting ? t("saving") : t("saveChanges")}
           </Button>

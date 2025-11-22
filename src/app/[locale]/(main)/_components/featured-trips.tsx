@@ -112,6 +112,9 @@ export default function FeaturedTrips() {
                         alt={localeAttribute(trip, "title")}
                         width={300}
                         height={200}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        loading="lazy"
+                        decoding="async"
                         className="h-48 w-full object-cover"
                       />
                     </CardHeader>
