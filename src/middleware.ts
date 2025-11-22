@@ -15,6 +15,7 @@ const ratelimit = new Ratelimit({
 const isAdminRoute = createRouteMatcher([
   "/en/dashboard(.*)",
   "/ru/dashboard(.*)",
+  "/tr/dashboard(.*)",
 ])
 
 const isAPIRoute = createRouteMatcher([
@@ -31,6 +32,7 @@ const isSeoStaticRoute = createRouteMatcher([
 const isBookingsRoute = createRouteMatcher([
   "/en/bookings(.*)",
   "/ru/bookings(.*)",
+  "/tr/bookings(.*)",
 ])
 
 export default clerkMiddleware(async (auth, req) => {
@@ -67,6 +69,6 @@ export const config = {
     "/(api|trpc)(.*)",
     // for internationalized pathnames
     "/",
-    "/(en|ru)/:path*",
+    "/(en|ru|tr)/:path*",
   ],
 };

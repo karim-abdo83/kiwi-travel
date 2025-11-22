@@ -103,7 +103,7 @@ export default function Hero() {
       </div>
 
       <div className="relative h-full flex flex-col items-center justify-center text-center px-4 pt-20 pb-32">
-        <div className={`max-w-4xl space-y-6 mt-48 ${styles.animateFadeInUp}`}>
+        <div className="max-w-4xl space-y-6 mt-48">
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
             {headline}
           </h1>
@@ -115,7 +115,7 @@ export default function Hero() {
 
       <div className="relative w-full mt-16">
         <div className="absolute left-1/2 -translate-x-1/2 -bottom-1/2 w-full max-w-4xl px-4 z-50">
-          <div className="transform transition-all duration-500 hover:scale-105">
+          <div>
             <SearchCard />
           </div>
         </div>

@@ -15,6 +15,7 @@ export const appContentRouter = createTRPCRouter({
         const newSetting = await ctx.db.insert(appContentTableSchema).values({
           popularDestinationEn: "Popular Destinations",
           popularDestinationRu: "Популярные направления",
+          popularDestinationTr: "Popüler Destinasyonlar",
           createdAt: new Date(),
           updatedAt: new Date(),
         }).returning();
@@ -27,7 +28,7 @@ export const appContentRouter = createTRPCRouter({
 
   // Update setting by ID
   update: adminProcedure
-    .input(z.object({ en: z.string(), ru: z.string() }))
+    .input(z.object({ en: z.string(), ru: z.string(), tr: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const existingSetting = await ctx.db.query.appContent.findFirst();
 
@@ -41,6 +42,7 @@ export const appContentRouter = createTRPCRouter({
       await ctx.db.update(appContentTableSchema).set({
         popularDestinationEn: input.en,
         popularDestinationRu: input.ru,
+        popularDestinationTr: input.tr,
         updatedAt: new Date(),
       }).where(eq(appContentTableSchema.id, existingSetting.id));
 

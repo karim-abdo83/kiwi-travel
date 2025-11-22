@@ -25,9 +25,12 @@ export default function PopularDestinations() {
 
   const { data: appContent } = api.appContent.get.useQuery();  
 
-  const sectionTitle = locale === 'ru' 
-    ? appContent?.popularDestinationRu || t("sectionTitle")
-    : appContent?.popularDestinationEn || t("sectionTitle");
+  const sectionTitle =
+    locale === 'ru'
+      ? appContent?.popularDestinationRu || t("sectionTitle")
+      : locale === 'tr'
+        ? appContent?.popularDestinationTr || t("sectionTitle")
+        : appContent?.popularDestinationEn || t("sectionTitle");
 
   return (
     <section className="py-16 px-4 lg:px-6">
@@ -61,6 +64,9 @@ export default function PopularDestinations() {
                     alt={localeAttribute(destination, "name")}
                     width={300}
                     height={200}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">

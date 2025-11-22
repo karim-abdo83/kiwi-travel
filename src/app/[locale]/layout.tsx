@@ -76,13 +76,9 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* ✅ Preload hero images so background slideshow doesn’t lazy load */}
-        {/* <link rel="preload" as="image" href="/hero1.jpg" />
-        <link rel="preload" as="image" href="/hero2.jpg" />
-        <link rel="preload" as="image" href="/hero3.jpg" />
+        {/* ✅ Preload primary hero images to improve LCP */}
+        <link rel="preload" as="image" href="/hero1.jpg" />
         <link rel="preload" as="image" href="/mobile1.jpg" />
-        <link rel="preload" as="image" href="/mobile2.jpg" />
-        <link rel="preload" as="image" href="/mobile3.jpg" /> */}
 
         <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-17215052073" />
         <Script>{firstDataLayerScript}</Script>

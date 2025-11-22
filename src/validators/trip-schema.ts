@@ -14,10 +14,13 @@ export const tripFormSchema = z.object({
   slug: z.string().min  (1, "Slug is required"),
   titleEn: z.string().min(1, "English title is required"),
   titleRu: z.string().min(1, "Russian title is required"),
+  titleTr: z.string().min(1, "Turkish title is required"),
   descriptionEn: z.string().min(1, "English description is required"),
   descriptionRu: z.string().min(1, "Russian description is required"),
+  descriptionTr: z.string().min(1, "Turkish description is required"),
   longDescriptionEn: z.string().min(1, "English long description is required"),
   longDescriptionRu: z.string().min(1, "Russian long description is required"),
+  longDescriptionTr: z.string().min(1, "Turkish long description is required"),
   features: z
     .array(z.number().int())
     .min(1, "At least one feature is required"),
@@ -53,9 +56,11 @@ export const tripFormSchema = z.object({
   // 
   pickupPointEn: z.string().optional(),
   pickupPointRu: z.string().optional(),
+  pickupPointTr: z.string().optional(),
   placeOfReturnEn: z.string().optional(),
   placeOfReturnRu: z.string().optional(),
-});
+  placeOfReturnTr: z.string().optional(),
+}); 
 
 export const tripSearchFormSchema = z.object({
   search: z.string().optional(),

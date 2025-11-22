@@ -17,11 +17,8 @@ import {
   FacebookIcon,
   InstagramIcon,
   MapPin,
-  MessageCircle,
   MessageSquare,
-  Star,
   Send,
-  User,
   Clock,
   Calendar,
   UsersIcon,
@@ -110,14 +107,14 @@ export default async function TripDetailsPage({
 
 
   // Day name translations
-  const dayTranslations: Record<string, { en: string; ru: string }> = {
-    Sunday: { en: "Sunday", ru: "Вс" },
-    Monday: { en: "Monday", ru: "Пн" },
-    Tuesday: { en: "Tuesday", ru: "Вт" },
-    Wednesday: { en: "Wednesday", ru: "Ср" },
-    Thursday: { en: "Thursday", ru: "Чт" },
-    Friday: { en: "Friday", ru: "Пт" },
-    Saturday: { en: "Saturday", ru: "Сб" },
+  const dayTranslations: Record<string, { en: string; ru: string; tr: string }> = {
+    Sunday: { en: "Sunday", ru: "Вс", tr: "Pazar" },
+    Monday: { en: "Monday", ru: "Пн", tr: "Pazartesi" },
+    Tuesday: { en: "Tuesday", ru: "Вт", tr: "Salı" },
+    Wednesday: { en: "Wednesday", ru: "Ср", tr: "Çarşamba" },
+    Thursday: { en: "Thursday", ru: "Чт", tr: "Perşembe" },
+    Friday: { en: "Friday", ru: "Пт", tr: "Cuma" },
+    Saturday: { en: "Saturday", ru: "Сб", tr: "Cumartesi" },
   };
 
   const _avarage =
@@ -297,10 +294,10 @@ export default async function TripDetailsPage({
                   </p>
                   <div className="flex flex-wrap justify-center gap-1">
                     {trip.availableDays.map((day, index) => {
-                      const translation = dayTranslations[day] || { en: day, ru: day };
+                      const translation = dayTranslations[day] || { en: day, ru: day, tr: day };
                       return (
                         <span key={index} className="inline-block rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
-                          {locale === 'ru' ? translation.ru : translation.en}
+                          {locale === 'ru' ? translation.ru : locale === 'tr' ? translation.tr : translation.en}
                         </span>
                       );
                     })}
@@ -501,6 +498,9 @@ export default async function TripDetailsPage({
                     src={mainImage(trip.assetsUrls)}
                     alt={localeAttribute(trip, "title")}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    loading="lazy"
+                    decoding="async"
                     className="object-cover"
                   />
                 </CardHeader>

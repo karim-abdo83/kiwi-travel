@@ -704,6 +704,17 @@ export const tripBookingRouter = createTRPCRouter({
         message: "Deleted Successfully",
       };
     }),
+  adminDeleteAcceptedBulk: adminProcedure
+    .mutation(async ({ ctx }) => {
+      const deleted = await ctx.db
+        .delete(tripBooking)
+        .where(eq(tripBooking.status, "accepted" as const));
+
+      return {
+        message: "All accepted bookings deleted successfully",
+        count: (deleted as unknown as { rowCount?: number }).rowCount ?? undefined,
+      };
+    }),
 });
 
 async function sendEmail({

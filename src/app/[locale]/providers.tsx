@@ -3,7 +3,7 @@
 import { TRPCReactProvider } from "@/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import React, { type PropsWithChildren } from "react";
-import { ruRU } from "@clerk/localizations";
+import { ruRU, trTR } from "@clerk/localizations";
 
 const Providers = ({
   children,
@@ -12,7 +12,7 @@ const Providers = ({
   locale: string;
 }>) => {
   return (
-    <ClerkProvider localization={locale === "ru" ? ruRU : undefined}>
+    <ClerkProvider localization={locale === "ru" ? ruRU : locale === "tr" ? trTR : undefined}>
       <TRPCReactProvider>
         {children}
       </TRPCReactProvider>
