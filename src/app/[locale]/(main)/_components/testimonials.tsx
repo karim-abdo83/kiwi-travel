@@ -168,10 +168,12 @@ export default function Testimonials({ tripId }: { tripId?: number }) {
                         {review.image && (
                           <div className="mt-4 flex justify-center">
                             <div className="relative w-full h-40 rounded-lg overflow-hidden">
-                              <img
+                              <Image
                                 src={review.image}
                                 alt="Review"
-                                className="absolute inset-0 w-full h-full object-contain rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
+                                fill
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                className="object-contain rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
                                 onClick={() => setSelectedImage(review.image!)}
                               />
                             </div>

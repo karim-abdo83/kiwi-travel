@@ -2,29 +2,26 @@
 
 import { useTranslations } from "next-intl";
 import SearchCard from "./search-card";
+import Image from "next/image";
 
 export default function Hero() {
   const t = useTranslations("HomePage.hero");
 
   const headline = t("headline") || "";
 
-  const backgroundStyle = {
-    backgroundImage: `url(/mobile3.jpg)`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundBlendMode: "overlay",
-    backgroundAttachment: "scroll",
-  } as const;
-
   return (
     <div className="relative h-screen w-full">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 transition-opacity duration-1000"
-        style={backgroundStyle}
-      >
-      </div>
+      {/* Background Image (optimized) */}
+      <Image
+        src="/mobile3.jpg"
+        alt="Hero background"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/20" />
 
       <div className="relative h-full flex flex-col items-center justify-center text-center px-4 pt-20 pb-32">
         <div className="max-w-4xl space-y-6 mt-48">

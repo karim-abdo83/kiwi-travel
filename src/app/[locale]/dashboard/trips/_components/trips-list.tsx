@@ -18,6 +18,7 @@ import { api } from "@/trpc/react";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslations } from "next-intl";
 import { PLACEHOLDER_IMAGE } from "@/constants";
+import Image from "next/image";
 
 
 export function TripsList() {
@@ -79,9 +80,11 @@ export function TripsList() {
         return (
           <div className="flex items-center gap-3">
             <div className="overflow-hidden rounded-md">
-              <img
+              <Image
                 src={trip.assetsUrls[0] || PLACEHOLDER_IMAGE}
                 alt={trip.titleEn}
+                width={40}
+                height={40}
                 className="size-10 object-cover"
               />
             </div>

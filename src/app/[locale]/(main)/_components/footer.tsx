@@ -55,7 +55,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div>
             <Link href="/" className="flex items-center space-x-2">
-              <img className="-mt-2 w-48" src="/logo-footer.svg" alt="Karim Tour" />
+              <Image className="-mt-2 w-48 h-auto" src="/logo-footer.svg" alt="Karim Tour" width={192} height={40} priority />
             </Link>
             <p className="mt-2 text-sm">{t("discoverTheWorld")}</p>
 
