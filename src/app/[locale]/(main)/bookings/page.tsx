@@ -1,5 +1,6 @@
 import { CalendarDays, MapPin, Star, Users } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -80,10 +81,12 @@ export default async function BookingsPage() {
                   .map((booking) => (
                     <Card key={booking.id} className="overflow-hidden">
                       <div className="relative h-48 w-full">
-                        <img
+                        <Image
                           src={booking.image}
                           alt={localeAttribute(booking, "title")}
-                          className="h-full w-full object-cover"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover"
                         />
                         <Badge
                           className={`absolute right-3 top-3 ${getStatusColor(booking.status)}`}

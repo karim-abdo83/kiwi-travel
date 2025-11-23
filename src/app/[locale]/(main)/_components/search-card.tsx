@@ -24,6 +24,7 @@ import { ChevronsUpDown, Search, Sliders, MapPin, Plane } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 
 type Destination = {
   id: number;
@@ -147,9 +148,11 @@ export default function SearchCard() {
                             <div className="flex items-center gap-3">
                               <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">
                                 {destination.image ? (
-                                  <img 
+                                  <Image 
                                     src={destination.image} 
                                     alt={`${getLocalizedValue(locale, { nameEn: destination.locationEn, nameRu: destination.locationRu }, 'name')} image`}
+                                    width={40}
+                                    height={40}
                                     className="h-full w-full object-cover"
                                   />
                                 ) : (

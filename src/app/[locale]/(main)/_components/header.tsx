@@ -13,6 +13,7 @@ import { Suspense } from "react";
 import DashboardButton from "./dashboard-button";
 import DrawerButton from "./drawer-button";
 import LanguageToggle from "./language-toggle";
+import Image from "next/image";
 export const Header = () => {
   const t = useTranslations("General.header");
 
@@ -21,10 +22,13 @@ export const Header = () => {
       <div className="relative h-full w-full px-4">
         <nav className="mx-auto h-full w-full max-w-[1440px] flex items-center justify-between">
         <Link className="flex items-center gap-2" href="/">
-          <img
-            className="-mt-1 block w-48 sm:w-56"
+          <Image
+            className="-mt-1 block w-48 sm:w-56 h-auto"
             src="/logo.svg"
             alt="Karim Tour"
+            width={224}
+            height={48}
+            priority
           />
         </Link>
         <div className="hidden gap-4 md:flex">
