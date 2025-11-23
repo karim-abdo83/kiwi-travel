@@ -21,7 +21,7 @@ export default function Hero() {
         className="object-cover"
       />
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/20" />
 
       <div className="relative h-full flex flex-col items-center justify-center text-center px-4 pt-20 pb-32">
         <div className="max-w-4xl space-y-6 mt-48">
