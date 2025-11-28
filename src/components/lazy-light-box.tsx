@@ -61,10 +61,11 @@ export function NextJsImage({ slide, offset, rect }: RenderSlideProps<Slide>) {
         alt=""
         // @ts-expect-error ignore the slide error
         src={slide}
-        loading="eager"
+        loading="lazy"
         draggable={false}
         // @ts-expect-error ignore the placeholder error
-        placeholder={slide.blurDataURL ? "blur" : undefined}
+        placeholder={slide.blurDataURL ? "blur" : "blur"}
+        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
         style={{
           objectFit: cover ? "cover" : "contain",
           cursor: click ? "pointer" : undefined,
