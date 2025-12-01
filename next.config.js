@@ -86,6 +86,19 @@ const config = {
             chunks: 'all',
             priority: 20,
           },
+          // Split heavy UI libraries
+          radix: {
+            test: /[\\/]node_modules[\\/]@radix-ui[\\/]/,
+            name: 'radix',
+            chunks: 'all',
+            priority: 20,
+          },
+          motion: {
+            test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+            name: 'motion',
+            chunks: 'all',
+            priority: 20,
+          },
         },
       };
       

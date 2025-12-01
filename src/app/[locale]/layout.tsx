@@ -80,15 +80,15 @@ export default async function RootLayout({
         <link rel="preload" as="image" href="/hero1.jpg" />
         <link rel="preload" as="image" href="/mobile1.jpg" />
 
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-17215052073" />
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-17215052073" strategy="lazyOnload" />
         <Script
           src={googleTagManagerScript}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="gtm-data-layer" strategy="afterInteractive">
+        <Script id="gtm-data-layer" strategy="lazyOnload">
           {firstDataLayerScript}
         </Script>
-        <Script id="gtm-data-layer-2" strategy="afterInteractive">
+        <Script id="gtm-data-layer-2" strategy="lazyOnload">
           {secondDataLayerScript}
         </Script>
         <Script id="yandex-metrica" strategy="lazyOnload">
