@@ -115,10 +115,12 @@ export const destinationRouter = createTRPCRouter({
         .select({
           id: destination.id,
           slug: destination.slug,
-          destinationEn: destination.nameEn,
-          destinationRu: destination.nameRu,
+          locationEn: destination.nameEn,
+          locationRu: destination.nameRu,
+          locationTr: destination.nameTr,
           countryEn: country.nameEn,
           countryRu: country.nameRu,
+          countryTr: country.nameTr,
           image: destination.imageUrl,
           tripsCount: count(trip.id),
         })
@@ -130,8 +132,10 @@ export const destinationRouter = createTRPCRouter({
             ? or(
                 ilike(destination.nameEn, `%${input}%`),
                 ilike(destination.nameRu, `%${input}%`),
+                ilike(destination.nameTr, `%${input}%`),
                 ilike(country.nameEn, `%${input}%`),
                 ilike(country.nameRu, `%${input}%`),
+                ilike(country.nameTr, `%${input}%`),
               )
             : undefined,
         )
@@ -140,16 +144,19 @@ export const destinationRouter = createTRPCRouter({
           destination.slug,
           destination.nameEn,
           destination.nameRu,
+          destination.nameTr,
           destination.imageUrl,
           country.nameEn,
           country.nameRu,
+          country.nameTr,
         )
         .then((res) =>
           res.map((item) => ({
             id: item.id,
             slug: item.slug,
-            locationEn: `${item.countryEn}, ${item.destinationEn}`,
-            locationRu: `${item.countryRu}, ${item.destinationRu}`,
+            locationEn: item.locationEn,
+            locationRu: item.locationRu,
+            locationTr: item.locationTr,
             image: item.image,
             tripsCount: item.tripsCount,
           })),

@@ -330,6 +330,13 @@
       "when": 1763824590978,
       "tag": "0046_spooky_amazoness",
       "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1765276549902,
+      "tag": "0047_tan_red_skull",
+      "breakpoints": true
     }
   ]
 }
