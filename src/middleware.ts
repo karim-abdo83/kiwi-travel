@@ -1,5 +1,5 @@
 import createIntlMiddleware from "next-intl/middleware";
-import { clerkMiddleware, createRouteMatcher, currentUser } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { ipAddress } from "@vercel/functions";
@@ -37,6 +37,7 @@ const isBookingsRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
+  const { pathname } = req.nextUrl;
   
   if (isAdminRoute(req) && !sessionClaims?.metadata.isAdmin) {
     await auth.protect();
@@ -51,6 +52,18 @@ export default clerkMiddleware(async (auth, req) => {
 
   // bypass i18n for SEO/static root files
   if (isSeoStaticRoute(req)) return NextResponse.next();
+
+  // REDIRECT 301 for url without locate
+    const hasLocale = routing.locales.some(
+      (l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`)
+    );
+
+    if (!hasLocale) {
+      const url = req.nextUrl.clone();
+      url.pathname = `/${routing.defaultLocale}${pathname}`;
+      return NextResponse.redirect(url, 301); 
+    }
+
 
   const ip = ipAddress(req) ?? "127.0.0.1";
 

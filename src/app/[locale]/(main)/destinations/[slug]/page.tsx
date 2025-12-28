@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Link } from "@/i18n/routing";
+import { Link, routing } from "@/i18n/routing";
 import { localeAttributeFactory, mainImage } from "@/lib/utils";
 import { api } from "@/trpc/server";
 import { PageParams } from "@/types/page-params";
@@ -10,34 +10,60 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import CompactWeProvide from "../_components/CompactWeProvide";
+import { env } from "@/env";
+import { getSeoDescription } from "./helperDescription";
 
-export async function generateMetadata({
-  params,
-}: PageParams<{ slug: string }>): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: PageParams<{ slug: string }>
+): Promise<Metadata> {
   const { slug } = await params;
 
   const locale = await getLocale();
   const localeAttribute = localeAttributeFactory(locale);
 
   const destination = await api.trip.listByDestination(slug);
-
   if (!destination) return {};
 
-  const title = `${localeAttribute(destination, "name")} | Karim Tour`;
+  const baseUrl = (env.NEXT_PUBLIC_APP_URL || "https://karimtor.com").replace(/\/$/, "");
+  const url = `${baseUrl}/${locale}/destinations/${slug}`;
+
+  const name = localeAttribute(destination, "name");
+
+  const title = `${name} | Karim Tour | Best Trips & Tours`;
+
+ const description = getSeoDescription({
+    locale,
+    name,
+    tripsCount: destination.trips?.length,
+  });
 
   return {
     title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: Object.fromEntries(
+        routing.locales.map((l) => [
+          l,
+          `${baseUrl}/${l}/destinations/${slug}`,
+        ])
+      ),
+    },
     openGraph: {
       title,
+      description,
+      url,
+      type: "website",
       images: [
         {
           url: destination.imageUrl,
-          alt: localeAttribute(destination, "name"),
+          alt: name,
         },
       ],
     },
   };
 }
+
 
 export default async function DestinationTripsPage({
   params,
