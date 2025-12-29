@@ -202,7 +202,7 @@ export default async function TripDetailsPage({
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <h1 className="line-clamp-2 text-xl font-bold md:line-clamp-none md:text-3xl">
-                {localeAttribute(trip, "title") || localeAttributeFactory('en')(trip, "title")}
+                {localeAttribute(trip, "title")}
               </h1>
               <div className="mt-3 flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
