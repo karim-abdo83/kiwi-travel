@@ -17,62 +17,28 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageParams<{ locale: string }>): Promise<Metadata> {
-  const { locale } = await params;
   const t = await getTranslations("Metadata");
 
   return {
-    title: t("title"),
+    metadataBase: new URL(env.NEXT_PUBLIC_APP_URL || "https://karimtor.com"),
+    title: {
+      default: t("title"),
+      template: "%s | Karim Tour",
+    },
     description: t("description"),
     keywords: t("keywords"),
-    metadataBase: new URL(env.NEXT_PUBLIC_APP_URL || 'https://karimtor.com'),
-    manifest: '/manifest.webmanifest',
+    manifest: "/manifest.webmanifest",
     appleWebApp: {
       title: "Karim Tour",
-    },
-    alternates: {
-      canonical: '/',
-      languages: {
-        'en': '/en',
-        'ru': '/ru'
-      },
-      types: {
-        'application/rss+xml': `${env.NEXT_PUBLIC_APP_URL}/api/feed-${locale}`.replaceAll('//', '/'),
-      },
-    },
-    openGraph: {
-      title: t("title"),
-      description: t("description"),
-      url: '/',
-      siteName: t("title"),
-      images: [
-        {
-          url: '/logo-icon.svg',
-          width: 343,
-          height: 350,
-          alt: t("title"),
-        },
-      ],
-      locale,
-      type: 'website',
-    },
-    twitter: {
-      title: t("title"),
-      description: t("description"),
-      images: ['/logo-icon.svg'],
-      card: 'summary_large_image',
     },
     robots: {
       index: true,
       follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
     },
   };
 }
+
+
 
 export default async function MainLayout({
   children,
