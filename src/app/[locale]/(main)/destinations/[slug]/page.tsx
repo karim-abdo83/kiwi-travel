@@ -21,7 +21,7 @@ type SafeContent = PageExtraRuContent | null;
 export async function generateMetadata(
   { params }: PageParams<{ slug: string }>
 ): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
 
   const locale = await getLocale();
   const intro = getPageIntro({ locale, slug });
@@ -61,7 +61,7 @@ export async function generateMetadata(
 }
 
 export default async function DestinationTripsPage({ params }: PageParams<{ slug: string }>) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const locale = await getLocale();
   const localeAttribute = localeAttributeFactory(locale);
