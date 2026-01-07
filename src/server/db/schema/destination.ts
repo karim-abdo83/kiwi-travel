@@ -6,6 +6,7 @@ export const country = pgTable("contries", (c) => ({
   id: c.integer("id").primaryKey().generatedByDefaultAsIdentity(),
   nameEn: c.text("name_en").notNull(),
   nameRu: c.text("name_ru").notNull(),
+  nameTr: c.text("name_tr").notNull().default(""),
 }));
 
 export const destination = pgTable("destinations", (c) => ({

@@ -38,6 +38,7 @@ export function CountryForm({ initialData, id }: CountryFormProps) {
     defaultValues: {
       nameEn: initialData?.nameEn || "",
       nameRu: initialData?.nameRu || "",
+      nameTr:initialData?.nameTr || "",
     },
   });
 
@@ -80,6 +81,20 @@ export function CountryForm({ initialData, id }: CountryFormProps) {
                 <FormLabel>Russian Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Russian name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Turkish Name */}
+          <FormField
+            control={form.control}
+            name="nameTr"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Turkish Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Turkish name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

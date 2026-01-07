@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "@/i18n/routing";
 import { api } from "@/trpc/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Edit, Trash } from "lucide-react";
+import { Edit, Trash, Loader2 } from "lucide-react";
 import { useState } from "react";
 
 export function CountriesList() {
@@ -16,7 +17,7 @@ export function CountriesList() {
   const [countryToDelete, setCountryToDelete] = useState<number | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { data, refetch } = api.country.list.useQuery();
+  const { data, refetch, isLoading } = api.country.list.useQuery();
   const { mutate: deleteCountry } = api.country.adminDelete.useMutation({
     onError: (error) => {
       toast({
@@ -54,6 +55,10 @@ export function CountriesList() {
       header: "Russian Name",
     },
     {
+      accessorKey: "nameTr",
+      header: "Turkish Name",
+    },
+    {
       id: "actions",
       cell: ({ row }) => {
         const country = row.original;
@@ -82,9 +87,20 @@ export function CountriesList() {
     },
   ];
 
+  if (isLoading) {
+    return (
+      <div  className="space-y-4">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <>
-      <DataTable columns={columns} data={data ?? []} />
+      <DataTable 
+        columns={columns} 
+        data={data ?? []} 
+      />
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>

@@ -31,6 +31,7 @@ type Destination = {
   slug: string;
   locationEn: string;
   locationRu: string;
+  
   image: string;
   tripsCount: number;
 };
@@ -40,15 +41,24 @@ const getLocalizedValue = (locale: string, obj: any, key: string): string => {
   
   const enKey = `${key}En`;
   const ruKey = `${key}Ru`;
+  const trKey = `${key}Tr`;  // Add Turkish key
   
+  // Check for Turkish first
+  if (locale === 'tr' && obj[trKey]) {
+    return obj[trKey] || '';
+  }
+  
+  // Then check for Russian
   if (locale === 'ru' && obj[ruKey]) {
     return obj[ruKey] || '';
   }
   
+  // Fall back to English
   if (obj[enKey]) {
     return obj[enKey] || '';
   }
   
+  // Last resort: try direct key
   return obj[key] || '';
 };
 
@@ -206,19 +216,34 @@ export default function SearchCard() {
                               <div className="flex-1">
                                 <div className="font-medium">
                                   {item.type === "trip"
-                                    ? getLocalizedValue(locale, item, "title")
-                                    : getLocalizedValue(locale, item, "name")}
+                                    ? getLocalizedValue(locale, {
+                                        nameEn: item.titleEn,
+                                        nameRu: item.titleRu,
+                                        nameTr: item.titleTr
+                                      }, 'name')
+                                    : getLocalizedValue(locale, {
+                                        nameEn: item.nameEn,
+                                        nameRu: item.nameRu,
+                                        nameTr: item.nameTr
+                                      }, 'name')}
                                 </div>
                           
                                 {/* Secondary info */}
                                 <div className="text-xs text-muted-foreground">
                                   {item.type === "trip" ? (
                                     <>
-                                      {getLocalizedValue(locale, item, "destinationNameEn") ??
-                                        getLocalizedValue(locale, item, "destinationNameRu")}
+                                      {getLocalizedValue(locale, {
+                                        nameEn: item.destinationNameEn,
+                                        nameRu: item.destinationNameRu,
+                                        nameTr: item.destinationNameTr
+                                      }, 'name')}
                                       {item.countryNameEn && (
                                         <span className="text-orange-600 font-medium">
-                                          , {getLocalizedValue(locale, item, "countryNameEn")}
+                                          , {getLocalizedValue(locale, {
+                                            nameEn: item.countryNameEn,
+                                            nameRu: item.countryNameRu,
+                                            nameTr: item.countryNameTr
+                                          }, 'name')}
                                         </span>
                                       )}
                                     </>
@@ -226,7 +251,11 @@ export default function SearchCard() {
                                     <>
                                       {item.countryNameEn && (
                                         <span className="text-orange-600 font-medium">
-                                          {getLocalizedValue(locale, item, "countryNameEn")}
+                                          {getLocalizedValue(locale, {
+                                            nameEn: item.countryNameEn,
+                                            nameRu: item.countryNameRu,
+                                            nameTr: item.countryNameTr
+                                          }, 'name')}
                                         </span>
                                       )}
                                     </>

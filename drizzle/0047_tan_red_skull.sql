@@ -1,0 +1,1 @@
+ALTER TABLE "contries" ADD COLUMN "name_tr" text DEFAULT '' NOT NULL;
