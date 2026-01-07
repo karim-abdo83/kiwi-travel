@@ -13,8 +13,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/${locale}/trips`, lastModified: now, changeFrequency: 'daily' as const, priority: 0.8 },
     { url: `${base}/${locale}/destinations`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.7 },
     { url: `${base}/${locale}/faqs`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
-    { url: `${base}/${locale}/terms`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
-    { url: `${base}/${locale}/privacy`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
+    // { url: `${base}/${locale}/terms`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
+    // { url: `${base}/${locale}/privacy`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
   ]);
 
   // Dynamic: trips (use listStaticParams for id/slug/updatedAt)

@@ -17,7 +17,11 @@ export async function generateMetadata({ params }: PageParams<{ id: string }>): 
   if (!booking) return {};
 
   return {
-    title: `${localeAttribute(booking.trip, "title")} | Karim Tour`
+    title: `${localeAttribute(booking.trip, "title")} | Karim Tour`,
+    robots: {
+      index: false,
+      follow: false,
+    }
   }
 }
 

@@ -34,41 +34,80 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ReviewWriteForm } from "../../_components/reviewWrite-form";
 import Testimonials from "../../_components/testimonials";
+import { ensureLengthRange } from "../helperSEO";
 
 export async function generateMetadata({
   params,
 }: PageParams<{ slug: string }>): Promise<Metadata> {
   const { slug } = await params;
-
   const locale = await getLocale();
   const localeAttribute = localeAttributeFactory(locale);
 
   const trip = await api.trip.viewBySlug(slug);
-
   if (!trip) return {};
 
-  const title = `${localeAttribute(trip, "title")} | Karim Tour`;
+  const rawTitle = localeAttribute(trip, "title");
+
+  const title = ensureLengthRange(
+    rawTitle,
+    50,
+    65,
+    "Karim Tour",
+  );
+
+  const baseDescription =
+    locale === "en"
+      ? `Discover ${rawTitle} in ${localeAttribute(
+          trip.destination,
+          "name",
+        )}. Prices, duration, itinerary and instant booking.`
+      : locale === "ru"
+      ? `Откройте тур "${rawTitle}" в ${localeAttribute(
+          trip.destination,
+          "name",
+        )}. Программа, цены и онлайн-бронирование.`
+      : `${rawTitle} turunu ${localeAttribute(
+          trip.destination,
+          "name",
+        )} bölgesinde keşfedin. Program, fiyatlar ve online rezervasyon.`;
+
+  const description = ensureLengthRange(
+    baseDescription,
+    140,
+    165,
+    locale === "en"
+      ? "Travel with confidence and local expertise from Karim Tour."
+      : locale === "ru"
+      ? "Путешествуйте с уверенностью и местной экспертизой от Karim Tour."
+      : "Karim Tour ile güvenle ve yerel uzmanlıkla seyahat edin.",
+  );
 
   return {
-    title,
+     title: {
+    absolute: title, 
+  },
+    description,
     alternates: {
       canonical: `/${locale}/trips/${slug}`,
       languages: Object.fromEntries(
-        routing.locales.map((l) => [l, `/${l}/trips/${slug}`])
+        routing.locales.map((l) => [l, `/${l}/trips/${slug}`]),
       ),
     },
     openGraph: {
       title,
+      description,
       url: `/${locale}/trips/${slug}`,
       images: [
         {
           url: mainImage(trip.assetsUrls),
-          alt: localeAttribute(trip, "title"),
+          alt: title,
         },
       ],
     },
   };
 }
+
+
 
 export default async function TripDetailsPage({
   params,
