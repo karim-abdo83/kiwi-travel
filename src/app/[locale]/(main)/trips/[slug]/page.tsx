@@ -76,17 +76,29 @@ export async function generateMetadata({
     140,
     165,
     locale === "en"
-      ? "Travel with confidence and local expertise from Karim Tour."
+      ? "Travel with Karim Tour."
       : locale === "ru"
-      ? "Путешествуйте с уверенностью и местной экспертизой от Karim Tour."
-      : "Karim Tour ile güvenle ve yerel uzmanlıkla seyahat edin.",
+      ? "Путешествуйте с Karim Tour." 
+      : "Karim Tour ile seyahat edin."
   );
+
+
+let seoDescription =
+  locale === "en"
+    ? trip.descriptionEn
+    : locale === "ru"
+    ? trip.descriptionRu
+    : trip.descriptionTr;
+
+if (!seoDescription || seoDescription.length < 130 || seoDescription.length > 165) {
+  seoDescription = description;
+}
 
   return {
      title: {
     absolute: title, 
   },
-    description,
+    description: seoDescription,
     alternates: {
       canonical: `/${locale}/trips/${slug}`,
       languages: Object.fromEntries(
@@ -95,7 +107,7 @@ export async function generateMetadata({
     },
     openGraph: {
       title,
-      description,
+      description: seoDescription,
       url: `/${locale}/trips/${slug}`,
       images: [
         {
