@@ -81,10 +81,9 @@ export default async function RootLayout({
         <link rel="preload" as="image" href="/mobile1.jpg" />
 
         <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-17215052073" />
-        <Script
-          src={googleTagManagerScript}
-          strategy="afterInteractive"
-        />
+           <Script id="gtm" strategy="afterInteractive">
+            {googleTagManagerScript}
+          </Script>
         <Script id="gtm-data-layer" strategy="afterInteractive">
           {firstDataLayerScript}
         </Script>
