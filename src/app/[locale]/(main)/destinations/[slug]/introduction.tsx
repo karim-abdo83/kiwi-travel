@@ -1,347 +1,228 @@
-type Locale = "en" | "tr" | "ru";
+export type Locale = "en" | "tr" | "ru";
 
-type PageSlug =
+export type PageSlug =
   | "sharm-el-sheikh-day-tours"
   | "hurghada-day-tours"
   | "cairo-day-tours"
   | "marsa-alam-day-tours";
 
-type ContentSection = {
+export type ContentSection = {
   title: string;
   items: string[];
 };
 
-type FaqItem = {
+export type FaqItem = {
   question: string;
   answer: string;
 };
 
-export type PageExtraRuContent = {
+export type PageExtraContent = {
   sections: ContentSection[];
   faq: FaqItem[];
 };
 
-type PageExtraRuMap = Partial<
-  Record<PageSlug, PageExtraRuContent>
->;
-
-type IntroByLocale = Record<Locale, string>;
-
-type IntroMap = Record<PageSlug, IntroByLocale>;
-
-const PAGE_INTROS: IntroMap = {
+export const PAGE_INTROS: Record<PageSlug, Record<Locale, string>> = {
   "sharm-el-sheikh-day-tours": {
-    ru: `Экскурсии из Шарм-эль-Шейха — это лучший способ открыть для себя Египет ярко, комфортно и без лишних забот. Мы предлагаем морские прогулки по Красному морю, сафари по Синаю, дайвинг, аквапарки и исторические экскурсии в Каир, Луксор, Иерусалим и Петру.
-
-Наши туры особенно популярны среди туристов из Турции благодаря высокому уровню сервиса, профессиональным гидам и надёжной организации.
-
-Выберите экскурсию из Шарм-эль-Шейха и наслаждайтесь отдыхом — обо всём остальном позаботимся мы.`,
-
-    en: `Sharm El Sheikh Day Tours are the perfect way to explore Egypt in comfort and safety. Enjoy Red Sea cruises, diving experiences, Sinai desert safaris, and cultural trips to Cairo, Luxor, Jerusalem, and Petra.
-
-Our tours are especially popular among Turkish travelers thanks to our high service standards, professional guides, and reliable organization.
-
-Choose your Sharm El Sheikh tour and relax — we take care of everything.`,
-
-    tr: `Şarm El-Şeyh çıkışlı turlar, Mısır’ı konforlu ve güvenli şekilde keşfetmenin en iyi yoludur. Kızıldeniz tekne turları, dalış deneyimleri, Sina Çölü safarileri ve Kahire, Luksor, Kudüs ile Petra’ya uzanan kültürel geziler sunuyoruz.
-
-Turlarımız özellikle Türk misafirler tarafından yüksek hizmet kalitesi ve profesyonel organizasyon nedeniyle tercih edilmektedir.
-
-Şarm El-Şeyh’te tatilin keyfini çıkarın, gerisini bize bırakın.`
+    ru: `Экскурсии из Шарм-эль-Шейха — это лучший способ открыть для себя Египет ярко и комфортно. Мы предлагаем морские прогулки по Красному морю, сафари по Синаю, дайвинг и исторические поездки в Каир, Луксор, Иерусалим и Петру.`,
+    en: `Sharm El Sheikh Day Tours are the perfect way to explore Egypt in comfort. Enjoy Red Sea cruises, diving, Sinai desert safaris, and cultural trips to Cairo, Luxor, Jerusalem, and Petra.`,
+    tr: `Şarm El-Şeyh turları, Mısır’ı konforlu keşfetmenin yoludur. Kızıldeniz tekne turları, dalış, Sina safarileri ve Kahire, Luksor, Kudüs ile Petra gezileri sunuyoruz.`
   },
-
   "hurghada-day-tours": {
-    ru: `Экскурсии из Хургады — это уникальная возможность увидеть Египет во всём его многообразии: от кристально чистых вод Красного моря до древних храмов и бескрайних пустынных пейзажей.
-
-Вас ждут морские прогулки к райским островам, дайвинг и снорклинг, сафари по пустыне, семейные развлечения и насыщенные экскурсии в Луксор и Каир. Для ценителей комфорта доступны VIP-туры и аренда яхт.
-
-Выбирайте экскурсии из Хургады и наслаждайтесь отдыхом без забот — профессиональная организация сделает ваше путешествие незабываемым.`,
-
-    en: `Hurghada Day Tours offer the perfect mix of Red Sea relaxation, desert adventure, and ancient Egyptian history. From crystal-clear islands and vibrant coral reefs to desert safaris and cultural excursions.
-
-Enjoy snorkeling, diving, island cruises, family-friendly activities, and unforgettable trips to Luxor and Cairo. For those seeking comfort and exclusivity, VIP tours and private yacht rentals are available.
-
-Choose Hurghada excursions and experience Egypt with ease, comfort, and professional service.`,
-
-    tr: `Hurghada çıkışlı turlar, Kızıldeniz’in eşsiz güzelliklerini, çöl maceralarını ve Antik Mısır’ın zengin tarihini bir araya getirir.
-
-Ada turları, dalış ve şnorkelle yüzme, çöl safarileri, aile dostu aktiviteler ve Luksor ile Kahire’ye kültürel geziler sizleri bekliyor. Konfor arayanlar için VIP turlar ve özel yat kiralama seçenekleri sunulmaktadır.
-
-Hurghada turlarını seçin, Mısır’ı güvenli ve keyifli bir şekilde keşfedin.`
+    ru: `Экскурсии из Хургады — это возможность увидеть Египет во всём многообразии: от коралловых рифов до древних храмов Луксора и Каира. Вас ждут морские прогулки, сафари и VIP-отдых.`,
+    en: `Hurghada Day Tours offer a mix of Red Sea relaxation and ancient history. Enjoy snorkeling, desert adventures, and unforgettable trips to Luxor and Cairo.`,
+    tr: `Hurghada turları, Kızıldeniz ve Antik Mısır tarihini birleştirir. Şnorkel, çöl maceraları ve Luksor ile Kahire'ye unutulmaz geziler sizi bekliyor.`
   },
-
   "cairo-day-tours": {
-    ru: `Экскурсии из Каира — это путешествие в самое сердце истории Египта. Великие пирамиды Гизы, Сфинкс, музеи, древние кварталы и современная жизнь столицы создают уникальное сочетание прошлого и настоящего.
-
-Из Каира доступны экскурсии к пирамидам, в Гранд Египетский музей, Исламский и Коптский Каир, вечерние круизы по Нилу, а также поездки в Александрию, Луксор и оазисы.
-
-Экскурсии из Каира подойдут тем, кто хочет глубоко познакомиться с культурой, историей и атмосферой настоящего Египта.`,
-
-    en: `Cairo Day Tours take you to the heart of Egypt’s ancient and modern history. From the Great Pyramids of Giza and the Sphinx to museums, mosques, and vibrant city streets.
-
-Explore Islamic and Coptic Cairo, enjoy Nile dinner cruises, visit the Grand Egyptian Museum, or travel to Alexandria, Luxor, and desert oases.
-
-Cairo excursions are perfect for travelers seeking culture, history, and unforgettable experiences in Egypt’s legendary capital.`,
-
-    tr: `Kahire çıkışlı turlar, Mısır’ın binlerce yıllık tarihi ile modern yaşamını bir arada keşfetme fırsatı sunar. Giza Piramitleri, Sfenks, müzeler ve tarihi mahalleler sizi geçmişe götürür.
-
-İslami ve Kıpti Kahire, Nil üzerinde akşam yemekli turlar, Büyük Mısır Müzesi, ayrıca İskenderiye ve Luksor gezileri bu turların öne çıkan seçenekleridir.
-
-Kahire turları, Mısır’ın kültürünü ve tarihini derinlemesine keşfetmek isteyenler için idealdir.`
+    ru: `Экскурсии из Каира — это путешествие в сердце истории. Пирамиды Гизы, Сфинкс, музеи и вечерние круизы по Нилу откроют вам настоящий Египет.`,
+    en: `Cairo Day Tours take you to the heart of history. The Pyramids of Giza, the Sphinx, museums, and Nile cruises reveal the real Egypt.`,
+    tr: `Kahire turları sizi tarihin kalbine götürür. Giza Piramitleri, Sfenks, müzeler ve Nil turları ile gerçek Mısır'ı keşfedin.`
   },
-
   "marsa-alam-day-tours": {
-    ru: `Экскурсии из Марса-Алама — идеальный выбор для любителей природы, спокойствия и подводного мира. Этот регион известен нетронутыми коралловыми рифами и богатой морской фауной.
-
-Вас ждут морские прогулки к дельфинам и черепахам, батискафы, сафари по пустыне и экскурсии в Луксор и Каир с посещением пирамид и музеев.
-
-Экскурсии из Марса-Алама подарят гармонию моря, пустыни и истории в одном путешествии.`,
-
-    en: `Marsa Alam Day Tours are perfect for travelers seeking pristine nature, marine life, and authentic adventures. The region is famous for untouched coral reefs and a peaceful atmosphere.
-
-Enjoy dolphin and turtle excursions, glass-bottom boat trips, desert safaris, and cultural journeys to Luxor and Cairo, including the pyramids and museums.
-
-Marsa Alam excursions combine nature, sea, and history for a truly unforgettable experience.`,
-
-    tr: `Marsa Alam çıkışlı turlar, doğa, deniz ve huzur arayan gezginler için mükemmel bir seçenektir. Bölge, el değmemiş mercan resifleri ve zengin deniz yaşamıyla ünlüdür.
-
-Yunus ve kaplumbağa turları, batiskaf gezileri, çöl safarileri ve Luksor ile Kahire’ye kültürel geziler sunulmaktadır.
-
-Marsa Alam turları, deniz, çöl ve tarihi bir arada yaşamak isteyenler için eşsiz bir deneyim sunar.`
+    ru: `Экскурсии из Марса-Алама — выбор для любителей нетронутой природы. Регион славится лучшими рифами, морскими коровами и дельфинами.`,
+    en: `Marsa Alam Day Tours are for nature lovers. The region is famous for pristine reefs, dugongs, and dolphins in their natural habitat.`,
+    tr: `Marsa Alam turları doğa severler içindir. Bölge, el değmemiş resifleri, deniz inekleri ve yunusları ile ünlüdür.`
   }
 };
 
-const PAGE_EXTRA_RU_CONTENT: PageExtraRuMap = {
+export const GLOBAL_EXTRA_CONTENT: Record<PageSlug, Record<Locale, PageExtraContent>> = {
   "sharm-el-sheikh-day-tours": {
-    sections: [
-      {
-        title: "Почему стоит выбрать экскурсии из Шарм-эль-Шейха?",
-        items: [
-          "Огромный выбор экскурсий: море, пустыня, история и развлечения",
-          "Идеальная отправная точка для поездок в Каир, Луксор, Петру и Иерусалим",
-          "Профессиональные русскоговорящие гиды",
-          "Современный транспорт и высокий уровень безопасности",
-          "Подходит для семей, пар и любителей активного отдыха"
-        ]
-      },
-      {
-        title: "Что включают экскурсии из Шарм-эль-Шейха",
-        items: [
-          "Морские прогулки к островам Тиран и Белый остров",
-          "Дайвинг и снорклинг в Красном море с коралловыми рифами",
-          "Сафари на квадроциклах, багги и джипах по Синайской пустыне",
-          "Экскурсии в Каир и Луксор с посещением пирамид и храмов",
-          "Развлечения для всей семьи: аквапарки, батискаф, шоу дельфинов"
-        ]
-      },
-      {
-        title: "Комфорт и организация туров",
-        items: [
-          "Групповые и индивидуальные экскурсии",
-          "VIP-туры и аренда частных яхт",
-          "Трансфер из отеля и обратно",
-          "Поддержка туристов 24/7 на русском языке"
-        ]
-      }
-    ],
-
-    faq: [
-      {
-        question: "Безопасны ли экскурсии из Шарм-эль-Шейха?",
-        answer:
-          "Да, все экскурсии проводятся официально, с лицензированными гидами, современным транспортом и соблюдением всех мер безопасности."
-      },
-      {
-        question: "Подходят ли экскурсии для отдыха с детьми?",
-        answer:
-          "Да, в Шарм-эль-Шейхе есть множество экскурсий для семей с детьми, включая аквапарки, морские прогулки и развлекательные шоу."
-      },
-      {
-        question: "Можно ли заказать индивидуальную экскурсию?",
-        answer:
-          "Да, доступны индивидуальные и VIP-экскурсии, а также аренда яхт и персональные маршруты."
-      },
-      {
-        question: "Нужно ли бронировать экскурсии заранее?",
-        answer:
-          "Рекомендуется бронировать заранее, особенно в высокий туристический сезон, чтобы гарантировать наличие мест."
-      }
-    ]
+    ru: {
+      sections: [
+        { title: "Почему выбирают наши туры в Шарме?", items: ["Лицензированные гиды", "Страховка включена во все поездки", "Трансфер из любого отеля города", "Групповые и VIP форматы"] }
+      ],
+      faq: [
+        { question: "Нужна ли виза для экскурсий из Шарм-эль-Шейха?", answer: "Для большинства морских прогулок и сафари достаточно бесплатного Синайского штампа. Для поездок в Каир или Луксор требуется полноценная египетская виза ($25), которую мы поможем оформить по приезде или в аэропорту." },
+        { question: "Безопасно ли ехать в Иерусалим или Петру из Шарма?", answer: "Да, это одни из самых популярных маршрутов. Мы работаем с официальными перевозчиками, обеспечиваем полное сопровождение на границе и страховку на протяжении всего пути." },
+        { question: "Как забронировать экскурсию и нужно ли платить заранее?", answer: "Вы можете забронировать тур онлайн через наш сайт или WhatsApp. Для большинства групповых экскурсий предоплата не требуется — вы платите гиду при посадке в трансфер." },
+        { question: "Какая погода в Шарм-эль-Шейхе лучше для экскурсий?", answer: "Морские прогулки актуальны круглый год. Для поездок в Каир или Луксор идеальное время — с октября по май, когда нет сильной жары." },
+        { question: "Включен ли трансфер из отелей Набк или Хадаба?", answer: "Да, мы предоставляем бесплатный трансфер из всех районов Шарм-эль-Шейха, включая Набк, Наама Бей и Хадабу." }
+      ]
+    },
+    en: {
+      sections: [
+        { title: "Why book with us in Sharm?", items: ["Licensed multilingual guides", "Insurance included", "Door-to-door hotel transfers", "Best price guarantee"] }
+      ],
+      faq: [
+        { question: "Do I need a visa for Sharm El Sheikh excursions?", answer: "For sea trips and desert safaris, the 'Sinai Only' stamp is free and sufficient. For Cairo or Luxor tours, a standard Egyptian visa is required, which we can assist you with." },
+        { question: "Is it safe to visit Jerusalem or Petra from Sharm?", answer: "Yes, these are highly regulated daily tours. We handle all border formalities and provide professional guides and secure transportation." },
+        { question: "How can I book a tour and what are the payment options?", answer: "Booking is easy via our website. We accept cash (USD, EUR, GBP, EGP) on the day of the tour or online payments for private VIP bookings." },
+        { question: "Are airport transfers and hotel pickups included?", answer: "All our day tours include round-trip transfers from any hotel in Sharm El Sheikh at no extra cost." },
+        { question: "What is the best time for diving and snorkeling?", answer: "The Red Sea is great year-round, but water visibility is best from April to October. Wetsuits are provided during winter months." }
+      ]
+    },
+    tr: {
+      sections: [
+        { title: "Neden Şarm El-Şeyh turlarımızı seçmelisiniz?", items: ["Lisanslı rehberler", "Sigortalı turlar", "Otelden transfer", "Türkçe destek"] }
+      ],
+      faq: [
+        { question: "Şarm El-Şeyh turları için vize gerekiyor mu?", answer: "Deniz turları ve safari turları için ücretsiz 'Sinai Only' damgası yeterlidir. Kahire turları için Mısır vizesi gereklidir." },
+        { question: "Ödeme yöntemleri nelerdir? Ön ödeme gerekiyor mu?", answer: "Online rezervasyon yapabilirsiniz. Çoğu turumuzda ön ödeme gerekmez, ödemeyi tur günü araçta yapabilirsiniz." },
+        { question: "Kudüs veya Petra turları güvenli mi?", answer: "Evet, her gün düzenlenen resmi turlardır. Tüm sınır geçiş işlemleriniz rehberlerimiz tarafından yönetilir." },
+        { question: "Transferler fiyata dahil mi?", answer: "Evet, tüm Şarm El-Şeyh otellerinden gidiş-dönüş transfer fiyata dahildir." },
+        { question: "Çocuklar için indirim var mı?", answer: "Evet, 6-12 yaş arası çocuklar için %50 indirim uygulanmaktadır, 0-5 yaş arası ise ücretsizdir." }
+      ]
+    }
   },
-    "hurghada-day-tours": {
-    sections: [
-      {
-        title: "Лучшие впечатления от Хургады",
-        items: [
-          "Снорклинг и дайвинг в кристально чистых водах Красного моря",
-          "Прогулки на яхтах и круизы по заливам и островам",
-          "Сафари на джипах и квадроциклах в пустыне Хургады",
-          "Визиты к историческим достопримечательностям: Луксор и Каир",
-          "Семейные развлечения: аквапарки, шоу дельфинов и морских звёзд",
-          "VIP-туры и частные трансферы для максимального комфорта"
-        ]
-      },
-      {
-        title: "Советы для путешественников",
-        items: [
-          "Бронируйте экскурсии заранее, чтобы гарантировать место",
-          "Берите солнцезащитный крем и головной убор",
-          "Не забудьте купальник, маску и ласты для дайвинга",
-          "Для сафари и джип-туров удобная обувь и лёгкая одежда",
-          "Следите за гидом и соблюдайте правила безопасности"
-        ]
-      }
-    ],
-    faq: [
-      {
-        question: "Можно ли плавать с дельфинами в Хургаде?",
-        answer: "Да, у нас есть несколько программ плавания с дельфинами, включая посещение 'Дома дельфинов' и морские экскурсии к рифам."
-      },
-      {
-        question: "Есть ли семейные экскурсии для детей?",
-        answer: "Да, мы предлагаем семейные туры с аквапарками, сафари на квадроциклах и мягкие морские прогулки."
-      },
-      {
-        question: "Можно ли заказать VIP-тур или частную яхту?",
-        answer: "Да, доступны VIP-туры и аренда яхт с персональным гидом и экипажем."
-      },
-      {
-        question: "Сколько длится экскурсия в Луксор из Хургады?",
-        answer: "Экскурсия в Луксор обычно занимает полный день и включает посещение храмов и Долины царей."
-      },
-      {
-        question: "Можно ли сочетать морские прогулки и сафари?",
-        answer: "Да, мы предлагаем комбинированные туры: день на море и сафари в пустыне в один день."
-      }
-    ]
+  "hurghada-day-tours": {
+    ru: {
+      sections: [
+        { title: "Особенности отдыха в Хургаде", items: ["Лучшие цены на дайвинг", "Близость к Луксору (всего 4 часа)", "Песчаные острова и лагуны"] }
+      ],
+      faq: [
+        { question: "Сколько длится дорога из Хургады в Луксор?", answer: "Поездка в Луксор занимает около 4 часов в одну сторону. Мы выезжаем рано утром на комфортабельных автобусах с кондиционером, чтобы успеть до жары." },
+        { question: "Можно ли поплавать с дельфинами в открытом море?", answer: "Да, мы предлагаем экскурсию в 'Дом Дельфинов', где вероятность встретить их в естественной среде составляет более 90%." },
+        { question: "Включено ли снаряжение для снорклинга в стоимость?", answer: "Да, маски, ласты и спасательные жилеты всегда включены в стоимость морских прогулок. Наш персонал поможет правильно их подобрать." },
+        { question: "Какая валюта принимается для оплаты?", answer: "Вы можете платить в долларах, евро или египетских фунтах. Также возможна оплата переводом на карту." },
+        { question: "Какие экскурсии из Хургады подходят для детей?", answer: "Самые популярные семейные туры — это аквариум, прогулка на батискафе (Submarine) и шоу дельфинов." }
+      ]
+    },
+    en: {
+      sections: [
+        { title: "Why visit Hurghada?", items: ["Best diving spots", "Closest access to Luxor", "Family-friendly water activities"] }
+      ],
+      faq: [
+        { question: "How long is the trip from Hurghada to Luxor?", answer: "The drive takes approximately 4 hours. We use modern, air-conditioned vans and buses to ensure a comfortable journey." },
+        { question: "Is lunch provided during full-day tours?", answer: "Yes, all our full-day trips (Luxor, Cairo, and Sea Trips) include a buffet lunch. Drinks are also provided on boat tours." },
+        { question: "Do you offer private boat rentals or VIP tours?", answer: "Yes, we specialize in private yacht rentals for families and VIP excursions to Luxor or Cairo with private guides." },
+        { question: "What is the cancellation policy?", answer: "You can cancel free of charge up to 24 hours before the tour start time." },
+        { question: "Can I pay with credit card?", answer: "Online payments are available via our website, or you can pay cash on the day of the trip." }
+      ]
+    },
+    tr: {
+      sections: [
+        { title: "Hurghada Tur Avantajları", items: ["En iyi dalış noktaları", "Luksor'a en yakın konum", "Uygun fiyatlı grup turları"] }
+      ],
+      faq: [
+        { question: "Hurghada'dan Luksor ne kadar sürüyor?", answer: "Yolculuk yaklaşık 4 saat sürmektedir. Konforlu ve klimalı araçlarla ulaşım sağlıyoruz." },
+        { question: "Yunuslarla yüzme turu var mı?", answer: "Evet, 'Dolphin House' turumuzla yunusları doğal ortamlarında görebilir ve onlarla yüzebilirsiniz." },
+        { question: "Şnorkel ekipmanları için ek ücret ödenir mi?", answer: "Hayır, tüm deniz turlarımızda maske, palet ve can yeleği fiyata dahildir." },
+        { question: "Otel transferi dahil mi?", answer: "Evet, Hurghada içindeki tüm bölgelerden (Sahl Hasheesh, Makadi dahil) transfer sağlıyoruz." },
+        { question: "Tur fiyatları ne kadar?", answer: "Fiyatlarımız tura göre değişmekle birlikte piyasadaki en rekabetçi fiyat garantisini sunuyoruz." }
+      ]
+    }
   },
-
   "cairo-day-tours": {
-    sections: [
-      {
-        title: "Культурные и исторические экскурсии",
-        items: [
-          "Визит к Великим пирамидам Гизы и Сфинксу",
-          "Обзорная экскурсия по Исламскому и Коптскому Каиру",
-          "Посещение Гранд Египетского музея",
-          "Вечерние круизы по Нилу с ужином и шоу",
-          "Однодневные и экспресс-туры по столице"
-        ]
-      },
-      {
-        title: "Практические советы для экскурсий в Каире",
-        items: [
-          "Рекомендуется взять удобную обувь для прогулок",
-          "Берите воду и головной убор в летнее время",
-          "Старайтесь планировать экскурсии на утро для комфортной температуры",
-          "Обязательно наличие камеры и блокнота для заметок о достопримечательностях"
-        ]
-      }
-    ],
-    faq: [
-      {
-        question: "Можно ли посетить все пирамиды за один день?",
-        answer: "Да, есть экскурсии «Гиза, Саккара и Дахшур» за один день, но это насыщенный график."
-      },
-      {
-        question: "Включены ли трансферы в экскурсии из Каира?",
-        answer: "Да, большинство экскурсий включают трансфер из/до вашего отеля или аэропорта."
-      },
-      {
-        question: "Можно ли заказать вечерний круиз по Нилу?",
-        answer: "Да, есть программы вечернего круиза с ужином и шоу-программой."
-      },
-      {
-        question: "Есть ли экскурсии в Александрию?",
-        answer: "Да, доступны однодневные туры в Александрию из Каира с гидом."
-      },
-      {
-        question: "Можно ли заказать VIP-трансфер?",
-        answer: "Да, доступны VIP-трансферы с комфортными автомобилями и персональным водителем."
-      }
-    ]
+    ru: {
+      sections: [
+        { title: "Ваш идеальный день в Каире", items: ["Пирамиды без очередей", "Трансфер из аэропорта или отеля", "Опытные египтологи"] }
+      ],
+      faq: [
+        { question: "В какое время лучше посещать Пирамиды Гизы?", answer: "Мы рекомендуем начинать экскурсию в 8:00-9:00 утра. Это позволит избежать полуденного зноя и больших туристических групп." },
+        { question: "Нужно ли покупать билеты в музеи отдельно?", answer: "В стоимость наших туров 'все включено' билеты в Каирский музей и на территорию Пирамид уже входят." },
+        { question: "Можно ли заказать экскурсию в Каир из аэропорта?", answer: "Да, мы организуем туры для транзитных пассажиров с подачей машины прямо к выходу из терминала аэропорта Каира." },
+        { question: "Есть ли женские гиды для индивидуальных туров?", answer: "Да, по запросу мы можем предоставить профессионального гида-женщину для вашего комфорта." },
+        { question: "Входит ли прогулка по Нилу в программу?", answer: "В стандартный тур входит обед в ресторане с видом на Нил. По желанию можно добавить прогулку на фелюге (традиционной лодке)." }
+      ]
+    },
+    en: {
+      sections: [
+        { title: "Cairo Tour Benefits", items: ["Skip-the-line pyramid access", "Expert Egyptologist guides", "Private or group options"] }
+      ],
+      faq: [
+        { question: "Can we go inside the Great Pyramid?", answer: "Yes, you can buy an extra ticket at the entrance to explore the interior of the Great Pyramid of Khufu." },
+        { question: "Is Cairo safe for tourists?", answer: "Cairo is very safe for international travelers. Our guides stay with you throughout the tour to ensure a smooth experience." },
+        { question: "What should I wear for a Cairo day tour?", answer: "We recommend comfortable walking shoes and modest clothing. In summer, light cotton fabrics and hats are essential." },
+        { question: "Is the Grand Egyptian Museum (GEM) open?", answer: "The GEM is partially open for limited tours. We can include it in your itinerary depending on current availability." },
+        { question: "Do you offer airport layover tours?", answer: "Yes, we specialize in 4 to 8-hour tours starting and ending at Cairo International Airport." }
+      ]
+    },
+    tr: {
+      sections: [
+        { title: "Kahire Turu Detayları", items: ["Piramitlere hızlı giriş", "Uzman rehberler", "Havaalanı transferi"] }
+      ],
+      faq: [
+        { question: "Piramitlerin içine girmek mümkün mü?", answer: "Evet, piramitlerin içine girmek için giriş kapısında ekstra bilet almanız gerekmektedir." },
+        { question: "Kahire turu ne kadar sürer?", answer: "Tam günlük bir Kahire turu genellikle 8-10 saat sürmektedir." },
+        { question: "Havaalanından karşılama yapıyor musunuz?", answer: "Evet, Kahire Havalimanı'ndan transfer ve günübirlik turlarımız mevcuttur." },
+        { question: "Rehberleriniz hangi dilleri konuşuyor?", answer: "İngilizce, Rusça ve talep üzerine Türkçe konuşan uzman rehberlerimiz bulunmaktadır." },
+        { question: "Nil Nehri'nde akşam yemeği turu var mı?", answer: "Evet, canlı müzik ve dans gösterileri eşliğinde Nil Nehri akşam yemeği turları düzenliyoruz." }
+      ]
+    }
   },
-
   "marsa-alam-day-tours": {
-    sections: [
-      {
-        title: "Лучшие впечатления из Марса-Алама",
-        items: [
-          "Морские прогулки к коралловым рифам и Дом дельфинов",
-          "Батискаф Sea Scope — подводный мир без дайвинга",
-          "Сафари на квадроциклах и джипах по пустыне",
-          "Посещение Луксора и Каира — исторические экскурсии",
-          "Райские острова Хамата — отдых на Красном море",
-          "VIP-трансферы и премиум-программы для максимального комфорта"
-        ]
-      },
-      {
-        title: "Советы для путешественников",
-        items: [
-          "Берите купальник, маску и ласты для морских экскурсий",
-          "Для сафари и джип-туров — удобная одежда и обувь",
-          "Солнцезащитный крем и головной убор обязательны",
-          "Следуйте инструкциям гида для безопасности и комфортного отдыха"
-        ]
-      }
-    ],
-    faq: [
-      {
-        question: "Можно ли плавать с дельфинами из Марса-Алама?",
-        answer: "Да, экскурсии включают морские прогулки к рифу Сатайя и Дом дельфинов."
-      },
-      {
-        question: "Есть ли семейные экскурсии?",
-        answer: "Да, доступны сафари для всей семьи, морские прогулки и батискафные туры."
-      },
-      {
-        question: "Можно ли заказать VIP-тур?",
-        answer: "Да, предлагаются VIP-туры с персональным гидом и трансфером."
-      },
-      {
-        question: "Какие морские активности доступны?",
-        answer: "Дайвинг, снорклинг, морские прогулки, батискаф Sea Scope и посещение островов Хамата."
-      },
-      {
-        question: "Можно ли совместить экскурсии на море и в пустыне?",
-        answer: "Да, комбинированные туры позволяют за один день насладиться и морем, и пустыней."
-      }
-    ]
+    ru: {
+      sections: [
+        { title: "Марса-Алам: Рай для дайверов", items: ["Встреча с морской коровой (Дюгонь)", "Бухта Абу Даббаб", "Нетронутые кораллы"] }
+      ],
+      faq: [
+        { question: "Где 100% можно увидеть больших черепах?", answer: "Бухта Абу Даббаб — лучшее место. Черепахи здесь живут постоянно, их можно увидеть даже на мелководье." },
+        { question: "Как увидеть морскую корову (дюгоня)?", answer: "Мы организуем специальные морские прогулки в бухту Марса-Мубарак, где дюгони чаще всего выходят на кормление." },
+        { question: "Далеко ли ехать из Марса-Алама в Луксор?", answer: "Дорога занимает около 5 часов. Это длинный путь, поэтому мы используем только индивидуальные трансферы или минивэны повышенной комфортности." },
+        { question: "Есть ли в Марса-Аламе шопинг и рынки?", answer: "Марса-Алам — это тихий курорт. За покупками и сувенирами лучше всего отправиться в Порт-Галиб." },
+        { question: "Подходит ли Марса-Алам для новичков в снорклинге?", answer: "Да, во многих бухтах пологий песчаный вход, что идеально подходит для детей и тех, кто не умеет плавать." }
+      ]
+    },
+    en: {
+      sections: [
+        { title: "Marsa Alam Highlights", items: ["Dugong (Sea Cow) spotting", "Abu Dabbab turtles", "Pristine snorkeling spots"] }
+      ],
+      faq: [
+        { question: "Where is the best spot to see Dugongs?", answer: "The best chance to see the Dugong (Sea Cow) is at Marsa Mubarak bay on our specialized boat trips." },
+        { question: "Can I do a day trip to Luxor from Marsa Alam?", answer: "Yes, but it's a 5-hour drive each way. We recommend a private tour to make the journey faster and more flexible." },
+        { question: "Are the reefs in Marsa Alam better than Sharm?", answer: "Many divers believe so! The reefs here are less crowded and better preserved, with more marine life diversity." },
+        { question: "Is snorkeling equipment provided?", answer: "Yes, all our sea excursions include free use of masks, snorkels, and life jackets." },
+        { question: "Is there an airport in Marsa Alam?", answer: "Yes, Marsa Alam has its own international airport (RMF), and we provide transfers to all surrounding hotels." }
+      ]
+    },
+    tr: {
+      sections: [
+        { title: "Marsa Alam Keşif Turları", items: ["Deniz ineği gözlemi", "Abu Dabbab kaplumbağaları", "Sakin atmosfer"] }
+      ],
+      faq: [
+        { question: "Deniz kaplumbağalarını nerede görebiliriz?", answer: "Abu Dabbab koyu, dev deniz kaplumbağalarını görmek için dünyanın en iyi yerlerinden biridir." },
+        { question: "Marsa Alam'dan Luksor turu yapılıyor mu?", answer: "Evet, Marsa Alam'dan Luksor'a özel transferli günlük turlar düzenliyoruz." },
+        { question: "Dalış yapmak için lisans gerekiyor mu?", answer: "Deneme dalışları (Intro Dive) için lisans gerekmez; profesyonel eğitmenlerimiz size eşlik eder." },
+        { question: "Bölgede gece hayatı var mı?", answer: "Marsa Alam daha çok doğa ve huzur odaklıdır, ancak Port Ghalib bölgesinde restoran ve kafeler bulabilirsiniz." },
+        { question: "Dolphin House turu Marsa Alam'da var mı?", answer: "Evet, Samadai Resifi (Dolphin House) turu ile onlarca yunusla birlikte yüzme şansınız var." }
+      ]
+    }
   }
 };
 
-
-export const getPageIntro = ({
-  locale,
-  slug,
-}: {
-  locale: string;
-  slug: string;
-}): string => {
+export const getPageIntro = ({ locale, slug }: { locale: string; slug: string }): string => {
   const page = PAGE_INTROS[slug as PageSlug];
-
   if (!page) return "";
-
-  return page[locale as keyof typeof page] ?? page.en;
+  return page[locale as Locale] || page.en;
 };
 
-export const getPageExtraRuContent = ({
-  locale,
-  slug,
-}: {
-  locale: string;
-  slug: string;
-}): PageExtraRuContent | null => {
-  if (locale !== "ru") return null;
-
-  const page = PAGE_EXTRA_RU_CONTENT[slug as PageSlug];
+export const getPageExtraContent = ({ locale, slug }: { locale: string; slug: string }): PageExtraContent | null => {
+  const page = GLOBAL_EXTRA_CONTENT[slug as PageSlug];
   if (!page) return null;
-
-  return page;
+  return page[locale as Locale] || page.en;
 };
 
-
-
-
-
-
+export const getFaqSchema = (content: PageExtraContent) => {
+  if (!content.faq || content.faq.length === 0) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": content.faq.map((item) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer,
+      },
+    })),
+  };
+};

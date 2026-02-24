@@ -9,24 +9,22 @@ import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import CompactWeProvide from "../_components/CompactWeProvide";
 import { env } from "@/env";
 import { getSeoDescription } from "./helperDescription";
-import { getPageExtraRuContent, getPageIntro, PageExtraRuContent } from "./introduction";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
-// --- Tipado seguro para PageExtraRuContent
-type SafeContent = PageExtraRuContent | null;
+import { 
+  getPageExtraContent, 
+  getPageIntro, 
+  getFaqSchema, 
+  PageExtraContent, 
+  PageSlug 
+} from "./introduction";
 
 export async function generateMetadata(
   { params }: PageParams<{ slug: string }>
 ): Promise<Metadata> {
   const { slug } = await params;
-
   const locale = await getLocale();
-  const intro = getPageIntro({ locale, slug });
-  const content: SafeContent = getPageExtraRuContent({ locale, slug });
-
+  
   const destination = await api.trip.listByDestination(slug);
   if (!destination) return {};
 
@@ -62,7 +60,6 @@ export async function generateMetadata(
 
 export default async function DestinationTripsPage({ params }: PageParams<{ slug: string }>) {
   const { slug } = await params;
-
   const locale = await getLocale();
   const localeAttribute = localeAttributeFactory(locale);
 
@@ -72,8 +69,17 @@ export default async function DestinationTripsPage({ params }: PageParams<{ slug
   const t = await getTranslations("DestinationTripsPage");
   const t_TimeUnits = await getTranslations("General.timeUnits");
 
+  // --- Nuevo contenido multidioma y Schema ---
   const intro = getPageIntro({ locale, slug });
-  const content: SafeContent = getPageExtraRuContent({ locale, slug });
+  const content = getPageExtraContent({ locale, slug: slug as PageSlug });
+  const faqSchema = content ? getFaqSchema(content) : null;
+
+  // Títulos dinámicos para las FAQ según el idioma
+  const faqTitles: Record<string, string> = {
+    ru: "Часто задаваемые вопросы",
+    tr: "Sıkça Sorulan Sorular",
+    en: "Frequently Asked Questions"
+  };
 
   const getLocaleDuration = (duration: string) => {
     return duration
@@ -85,6 +91,14 @@ export default async function DestinationTripsPage({ params }: PageParams<{ slug
 
   return (
     <main className="container mx-auto md:mt-20 mt-12 lg:mt-20 px-4 py-8 lg:px-6">
+      {/* 1. Inyección de Datos Estructurados (Schema.org) */}
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+
       {/* Back Button */}
       <Link href="/destinations" className="mb-10 md:mb-0 lg:mb-0">
         <Button variant="link">
@@ -113,7 +127,9 @@ export default async function DestinationTripsPage({ params }: PageParams<{ slug
       </div>
 
       {/* Intro */}
-      <p className="text-center p-2 mb-6">{intro}</p>
+      <p className="text-center p-2 mb-6 text-lg text-gray-700 leading-relaxed">
+        {intro}
+      </p>
 
       {/* Available Trips */}
       <h2 className="mb-6 text-2xl font-semibold">{t("availableTrips")}</h2>
@@ -156,12 +172,12 @@ export default async function DestinationTripsPage({ params }: PageParams<{ slug
         </div>
       )}
 
-      {/* Contenido Extra + FAQ */}
+      {/* Contenido Extra + FAQ Dinámico */}
       {content && (
         <div className="space-y-12 mb-12">
           {content.sections.map((section) => (
-            <section key={section.title} className="bg-gray-50 p-6 rounded-lg shadow-sm">
-              <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
+            <section key={section.title} className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-100">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-900">{section.title}</h2>
               <ul className="list-disc list-inside space-y-2 text-gray-700">
                 {section.items.map((item) => (
                   <li key={item}>{item}</li>
@@ -170,19 +186,21 @@ export default async function DestinationTripsPage({ params }: PageParams<{ slug
             </section>
           ))}
 
-     {content.faq.length > 0 && (
-      <section className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
-        <h2 className="text-2xl font-semibold mb-6">Часто задаваемые вопросы</h2>
-        <div className="space-y-6">
-          {content.faq.map((item, idx) => (
-            <div key={idx} className="p-4 rounded-lg bg-gray-50 shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.question}</h3>
-              <p className="text-gray-700">{item.answer}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
+          {content.faq.length > 0 && (
+            <section className="bg-white p-6 rounded-lg shadow-md border border-primary/10">
+              <h2 className="text-2xl font-semibold mb-6">
+                {faqTitles[locale] || faqTitles.en}
+              </h2>
+              <div className="space-y-6">
+                {content.faq.map((item, idx) => (
+                  <div key={idx} className="p-4 rounded-lg bg-gray-50/50 border border-gray-100 shadow-sm transition-colors hover:bg-gray-50">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.question}</h3>
+                    <p className="text-gray-700 leading-relaxed">{item.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       )}
     </main>
