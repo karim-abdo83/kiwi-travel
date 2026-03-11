@@ -32,12 +32,22 @@ export default function PopularDestinations() {
         ? appContent?.popularDestinationTr || t("sectionTitle")
         : appContent?.popularDestinationEn || t("sectionTitle");
 
+  const sectionDescription =
+    locale === 'ru'
+      ? "Забудьте о холодах и насладитесь золотым египетским солнцем. Наша зимняя коллекция включает лучшие места для снорклинга на Красном море и приключения в пустыне, идеально подходящие для тех, кто ищет тепло и яркие впечатления."
+      : locale === 'tr'
+        ? "Soğuktan kaçın ve altın rengi Mısır güneşinin tadını çıkarın. Kış koleksiyonumuz, kış mevsiminde sıcaklık ve unutulmaz anılar arayanlar için en iyi Kızıldeniz şnorkel noktalarını ve çöl maceralarını sunuyor."
+        : "Escape the cold and bask in the golden Egyptian sun. Our curated winter collection features the best Red Sea snorkeling spots and desert adventures, perfect for those seeking warmth and unforgettable memories during the winter season."
+
   return (
     <section className="py-16 px-4 lg:px-6">
       <div className="container mx-auto px-4 md:px-0">
         <h2 className="mb-8 text-center text-2xl lg:text-3xl md:text-3xl font-bold">
           {sectionTitle}
         </h2>
+         <p className="mb-8 text-center ">
+          {sectionDescription}
+        </p>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {isLoading &&
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (

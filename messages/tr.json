@@ -86,7 +86,27 @@
       "writeReply":"Yanıt yazın",
       "seeMore":"Daha Fazla Göster",
       "seeLess":"Daha Az Göster"
-    }
+    },
+    "intro": {
+  "title": "Mısır'ın Harikalarına Açılan Kapınız",
+  "description": "Kızıldeniz'in büyülü manzaralarını ve Antik Mısır'ın zamansız tarihini keşfetmek için öncü ortağınız RimTour'a hoş geldiniz. Marsa Alam'ın turkuaz sularından Gize Piramitleri'ne kadar, konfor ve güvenlik odaklı deneyimler sunuyoruz."
+},
+"aboutUs": {
+  "title": "Mısır'ı Yerel Uzmanlarla Deneyimleyin",
+  "description1": "Tutku ve misafirperverlik üzerine kurulan RimTour, sizi Mısır'ın kalbiyle buluşturur. Seyahatin sorunsuz olması gerektiğine inanıyoruz, bu nedenle 24/7 destek ve profesyonel rehberler sunuyoruz.",
+  "description2": "Adrenalin dolu bir çöl safarisi, Nil'de özel bir gezi veya ailece şnorkel günü; yerel uzmanlığımız en yüksek hizmet standartlarını ve en rekabetçi fiyatları garanti eder."
+},
+"faq": {
+  "title": "Sıkça Sorulan Sorular",
+  "q1": "Nasıl rezervasyon yapabilirim?",
+  "a1": "Web sitemizden doğrudan rezervasyon yapabilirsiniz. Ön ödeme gerekmez; şimdi rezerve edin, vardığınızda ödeyin!",
+  "q2": "Otel transferi dahil mi?",
+  "a2": "Evet, faaliyet gösterdiğimiz bölgelerdeki tüm ana otellerden ve havalimanlarından transfer hizmeti sağlıyoruz.",
+  "q3": "İptal politikanız nedir?",
+  "a3": "Çoğu turumuz için başlangıçtan 12 saat öncesine kadar ücretsiz iptal imkanı sunuyoruz.",
+  "q4": "Rehberleriniz profesyonel mi?",
+  "a4": "Kesinlikle. Tüm kültürel turlarımız lisanslı Mısırbilimciler tarafından, safari ve deniz turlarımız ise profesyonel eğitmenler eşliğinde yapılır."
+}
   },
   "FAQsPage": {
     "title": "Sıkça Sorulan Sorular",
@@ -429,8 +449,8 @@
     "CancelBooking": "Rezervasyon başarıyla iptal edildi"
   },
   "Metadata": {
-    "title": "Karim Tour",
-    "description": "Bir sonraki seyahatinizi kolayca rezerve edebileceğiniz harika bir platform",
+    "title": "KarimTour | Mısır'daki En İyi Günlük Turlar ve Geziler",
+    "description": "KarimTour ile Mısır'ın büyüsünü keşfedin. Marsa Alam, Hurgada, Lüksor ve Kahire'deki en iyi geziler için rezervasyon yapın. Macera, kültür ve profesyonel rehberler.",
     "keywords": "seyahat rezervasyonu, tur rezervasyonu, uçak bileti, otel rezervasyonu, tatil paketleri, uygun fiyatlı uçuşlar, seyahat fırsatları, çevrimiçi seyahat ajansı, macera seyahati, aile tatilleri, iş seyahati, son dakika fırsatları, seyahat indirimleri, tatil rezervasyonu, destinasyon rehberleri"
   },
   "ReviewPage": {
