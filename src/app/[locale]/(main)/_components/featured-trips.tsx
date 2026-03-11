@@ -42,6 +42,9 @@ export default function FeaturedTrips() {
         <h2 className="mb-8 text-center text-2xl font-bold sm:text-3xl md:text-4xl text-white">
           {t("sectionTitle")}
         </h2>
+         <p className="mb-8 text-center text-white">
+          {t("description")}
+        </p>
         <div className="relative">
           <Carousel 
             opts={{

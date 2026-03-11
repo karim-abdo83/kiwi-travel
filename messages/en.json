@@ -31,7 +31,8 @@
     },
     "featuredTrips": {
       "sectionTitle": "Featured Trips",
-      "buttonLabel": "Book Now"
+      "buttonLabel": "Book Now",
+      "description": "Hand-picked by our local experts, these are the top-rated experiences our travelers love most. From iconic historical landmarks to hidden coastal gems, explore the very best of Egypt with guaranteed quality and comfort."
     },
     "popularDestinations": {
       "sectionTitle": "Popular Destinations",
@@ -86,6 +87,26 @@
       "writeReply":"write Reply",
       "seeMore":"See More",
       "seeLess":"See Less"
+    },
+    "intro": {
+      "title": "Your Gateway to Egypt's Wonders",
+      "description": "Welcome to Karimtour, your premier partner for exploring the magical landscapes of the Red Sea and the timeless history of Ancient Egypt. From the turquoise waters of Marsa Alam to the majestic Pyramids of Giza, we provide hand-picked experiences designed for comfort, safety, and authentic discovery. Join thousands of happy travelers and let us make your Egyptian dream a reality."
+    },
+    "aboutUs": {
+      "title": "Experience Egypt with the Local Experts",
+      "description1": "Founded on a passion for storytelling and hospitality, KarimTour connects you with the heart of Egypt. We believe that travel should be seamless, which is why we offer 24/7 support and professional guides who speak your language.",
+      "description2": "Whether you are seeking an adrenaline-filled desert safari, a private luxury cruise on the Nile, or a family-friendly snorkeling day, our local expertise ensures the highest standards of service and the most competitive prices in the market."
+    },
+    "faq": {
+      "title": "Traveler's FAQ",
+      "q1": "How do I book a tour?",
+      "a1": "You can book directly on our website. No upfront payment is required—book now and pay later upon arrival!",
+      "q2": "Are airport transfers included?",
+      "a2": "Yes, we provide organized transfer services from major hotels and airports in our operating areas.",
+      "q3": "What is your cancellation policy?",
+      "a3": "We offer free cancellations up to 12 hours before the start of your tour for most of our activities.",
+      "q4": "Are the tours guided?",
+      "a4": "Absolutely. All our cultural tours are led by licensed Egyptologists, and safari/sea trips include professional instructors."
     }
   },
   "FAQsPage": {
@@ -425,8 +446,8 @@
     }
   },
   "Metadata": {
-    "title": "Karim Tour",
-    "description": "Awesome website for booking your next travel",
+    "title": "KarimTour | Best Day Tours & Excursions in Egypt",
+    "description": "Discover the magic of Egypt with KarimTour. Book the best excursions in Marsa Alam, Hurghada, Luxor, and Cairo. Adventure, culture, and professional guides.",
     "keywords": "book travel, trip booking, flight booking, hotel reservation, vacation packages, cheap flights, travel deals, online travel agency, adventure travel, family vacations, business travel, last minute deals, travel discounts, holiday booking, destination guides"
   },
   "ToastMessages": {
