@@ -1,6 +1,5 @@
 "use client";
 import { useTranslations } from "next-intl";
-import AboutImage from "../../../../../public/Karimtour.jpg";
 import Image from "next/image";
 
 
