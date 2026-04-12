@@ -31,7 +31,30 @@ export const Header = () => {
             priority
           />
         </Link>
+          <div className="hidden md:flex items-center gap-6">
+            <Link
+              href="/destinations"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
+              {t("destination")}
+            </Link>
+
+            <Link
+              href="/trips"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
+              {t("trip")}
+            </Link>
+             <Link
+              href="/blog"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
+              {t("blog")}
+            </Link>
+          </div>
         <div className="hidden gap-4 md:flex">
+          
+        
           <SignedOut>
             <SignInButton>
               <Button id="sign-in-button-1" variant="outline">

@@ -88,8 +88,8 @@
       "seeLess":"Daha Az Göster"
     },
     "intro": {
-  "title": "Mısır'ın Harikalarına Açılan Kapınız",
-  "description": "Kızıldeniz'in büyülü manzaralarını ve Antik Mısır'ın zamansız tarihini keşfetmek için öncü ortağınız RimTour'a hoş geldiniz. Marsa Alam'ın turkuaz sularından Gize Piramitleri'ne kadar, konfor ve güvenlik odaklı deneyimler sunuyoruz."
+  "title": "Türkiye ve Mısır’ın Harikalarına Açılan Kapınız",
+  "description": "Akdeniz’in büyüleyici doğasını ve Antik Dünya’nın zamansız tarihini keşfetmek için en güvenilir ortağınız Karimtour’a hoş geldiniz. İster Türkiye’nin canlı pazarlarını ister Mısır’ın görkemli Piramitlerini keşfediyor olun; konfor, güvenlik ve otantik keşifler için özenle seçilmiş deneyimler sunuyoruz. Binlerce mutlu gezgine katılın ve hayalinizdeki yolculuğu gerçeğe dönüştürelim."
 },
 "aboutUs": {
   "title": "Mısır'ı Yerel Uzmanlarla Deneyimleyin",
@@ -398,7 +398,10 @@
       "openProfile": "Profili Aç",
       "sidenavDescription": "Ayarlar için yan menü",
       "changeLanguage": "Dili Değiştir",
-      "bookings": "Rezervasyonlar"
+      "bookings": "Rezervasyonlar",
+       "destination": "Varış noktası",
+      "trip": "Seyahat",
+      "blog":"Blog"
     },
     "footer": {
       "contactUs": "Bize Ulaşın",
@@ -406,7 +409,10 @@
       "quickLinks": {
         "home": "Ana Sayfa",
         "destinations": "Destinasyonlar",
-        "trips": "Turlar"
+        "trips": "Turlar",
+        "article1": "Sahl Hasheesh'ten En İyi Geziler",
+ "article2": "Geziler İçin Neden El Gouna'yı Seçmelisiniz?",
+ "article3": "Şarm El-Şeyh Havalimanı'ndan Otele Transfer"
       },
       "supportTitle": "Destek",
       "supportLinks": {
@@ -459,5 +465,219 @@
     "addReview": "Değerlendirme Ekle",
     "newReview": "Yeni Değerlendirme",
     "editReview": "Değerlendirmeyi Düzenle"
+  },
+  
+  "Blog": {
+    "title": "Mısır Gezi Rehberi: Uzman İpuçları ve Özel Geziler",
+    "subtitle": "Şarm El-Şeyh ve ötesinin en iyilerini keşfedin. Özel balık tutma turlarından sorunsuz havaalanı transferlerine kadar mükemmel maceranızı planlamanıza yardımcı oluyoruz.",
+    "cta": {
+      "title": "Bir sonraki maceranıza hazır mısınız?",
+      "description": "Özel turunuzu şimdi ayırtın ve sonra ödeyin – ön ödeme maliyeti sıfır.",
+      "button": "Tüm Turları Görüntüle"
+    },
+
+    "sahl-hasheesh-excursions": {
+      "seoTitle": "Sahl Hasheesh'ten En İyi Geziler: Mısır'daki En İyi 10 Tur",
+      "metaDescription": "Lükser, Orange Bay, şnorkel gezileri, çöl safarisi, Kahire piramitleri ve daha fazlasını içeren Sahl Hasheesh'ten en iyi gezileri keşfedin.",
+
+      "title": "Sahl Hasheesh'ten En İyi Geziler: Kaçırmamanız Gereken En İyi 10 Tur",
+
+      "intro": "Sahl Hasheesh, hem dinlenmek hem de ülkeyi keşfetmek için mükemmel bir konuma sahip, Mısır'ın en modern ve konforlu tatil yerlerinden biridir. Hurghada'ya yakınlığı sayesinde çok çeşitli unutulmaz deneyimler için ideal bir başlangıç noktasıdır. Bu rehberde, Mısır'ı her açıdan — antik tarih, çöl maceraları ve muhteşem Kızıldeniz — keşfetmenize yardımcı olmak için Sahl Hasheesh'ten en iyi gezileri seçtik.",
+
+      "sections": [
+        {
+          "title": "Sahl Hasheesh'ten En İyi 10 Gezi",
+          "type": "intro_block"
+        },
+
+        {
+          "title": "Lüksor – Antik Mısır'ı Keşfedin",
+          "text": "Yapabileceğiniz en etkileyici ve zenginleştirici gezilerden biri. Bu tam günlük gezi sizi Mısır'ın antik geçmişinin derinliklerine götürür ve burada ülkenin en ikonik arkeolojik alanlarından bazılarını ziyaret edersiniz. Birçok tur Nil üzerinde kısa bir tekne gezisini de içerir. Önemli yerler: Karnak Tapınak kompleksi, Krallar Vadisi, Hatşepsut Tapınağı. Tarih ve kültürle ilgilenen gezginler için mükemmeldir.",
+          "link": "https://karimtor.com/tr/trips/luxor-overday-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Orange Bay – Tropikal Bir Ada Deneyimi",
+          "text": "Bölgedeki en popüler deniz gezilerinden biri. Orange Bay, beyaz kumlu plajları ve kristal berraklığındaki sularıyla bilinir; dinlenmek ve fotoğraf çekmek için ideal, rahatlatıcı, tropikal bir atmosfer sunar. Tipik deneyim: Yüzme molaları, şnorkel fırsatları, adada serbest zaman. Rahat bir plaj günü için harika bir seçim.",
+          "link": "https://karimtor.com/tr/trips/orange-bay-island-tour-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Şnorkel Tekne Gezisi",
+          "text": "Kızıldeniz, canlı deniz yaşamıyla ünlüdür ve bu geziyi bir zorunluluk haline getirir. Renkli balıklar ve mercanlarla dolu su altı ekosistemlerini keşfedebileceğiniz mercan resifi noktalarına yelken açacaksınız. Ne beklenmeli: Çok sayıda şnorkel durağı, yeni başlayanlar için rehberlik, teknede dinlenme zamanı. Daha önce hiç şnorkel yapmamış olsanız bile uygundur.",
+          "link": "https://karimtor.com/tr/trips/nemo-island-sea-trip-from-sal-hasheesh"
+        },
+
+        {
+          "title": "Çöl Safarisi Macerası",
+          "text": "Heyecan arayanlar ve macera severler için mükemmel bir seçenek. Bu gezi sizi genellikle ATV veya buggy araçlarla Mısır çölüne götürür, adrenalini kültürel deneyimlerle birleştirir. Genellikle şunları içerir: Çöl manzaraları arasında sürüş, bir Bedevi köyü ziyareti, kültürel bilgiler ve yerel gelenekler. Mısır'ın tamamen farklı bir yüzü.",
+          "link": "https://karimtor.com/tr/trips/family-safari-tour-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Kahire ve Gize Piramitleri",
+          "text": "Ülkedeki en ikonik gezilerden biri. Bu, Mısır'ın en ünlü simge yapılarını görmek ve antik uygarlığına dalmak için şansınızdır. Ana noktalar: Gize Piramitleri, Sfenks, Mısır Müzesi. Temel yerleri kaçırmak istemeyen gezginler için idealdir.",
+          "link": "https://karimtor.com/tr/trips/cairo-by-bus-0verday-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Yunus İzleme ve Yüzme",
+          "text": "Özellikle aileler ve doğa severler için unutulmaz bir deneyim. Yunusların genellikle doğal ortamlarında görüldüğü açık denize çıkacaksınız. Deneyim şunları içerir: Yunus izleme, yakınlarda yüzme imkanı, rahatlatıcı tekne gezisi. Eşsiz ve duygusal bir deneyim.",
+          "link": "https://karimtor.com/tr/trips/dolphin-show-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Paradise Island",
+          "text": "Daha kalabalık ada turlarına göre daha sakin bir alternatif. Bu destinasyon, kalabalık yerlerden uzakta dinlenmek isteyenler için mükemmel, daha huzurlu bir atmosfer sunar. Onu özel kılan nedir: Berrak sular, konforlu plaj alanları, sakin ortam.",
+          "link": "https://karimtor.com/tr/trips/paradise-island-hula-hula-beach-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Giriş Seviyesi Dalış Deneyimi",
+          "text": "Kızıldeniz, dünyada ilk kez tüplü dalış denemek için en iyi yerlerden biridir. Yeni başlayanlar bile profesyonel rehberlik eşliğinde bu aktivitenin tadını çıkarabilir. Neler dahil: Temel eğitim, eğitmen gözetimi, rehberli dalış. Su altı dünyasını keşfetmek için mükemmel.",
+          "link": "https://karimtor.com/tr/trips/diving-tour-from-elgouna"
+        },
+
+        {
+          "title": "Özel Yat Gezisi",
+          "text": "Konfor, mahremiyet ve esnekliği tercih edenler için. Özel bir yat, denizde gününüzü özelleştirmenize, kendi rotanızı ve temponuzu seçmenize olanak tanır. Avantajları: Kişiselleştirilmiş deneyim, esnek güzergah, çiftler veya küçük gruplar için ideal.",
+          "link": "https://karimtor.com/tr/trips/vip-private-boat-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Süper Safari Deneyimi",
+          "text": "Klasik çöl safarisinin genişletilmiş bir versiyonu. Bu seçenek daha fazla aktivite ve daha uzun bir güzergah içererek daha sürükleyici bir çöl deneyimi sunar. Genellikle şunları içerir: Deve gezintileri, ek duraklar, akşam eğlencesi. Tam bir macera isteyenler için en iyisi.",
+          "link": "https://karimtor.com/tr/trips/all-in-one-excursion-from-sal-hasheesh"
+        }
+      ],
+
+      "readMore": "Devamını Oku"
+    },
+
+    "el-gouna-excursions-guide": {
+      "seoTitle": "El Gouna Gezi Rehberi: Mısır'daki En İyi Turlar ve Deneyimler",
+      "metaDescription": "Lükser turları, şnorkel, çöl safarileri, Kahire piramitleri ve özel tekne gezileri dahil olmak üzere El Gouna'dan en iyi gezileri keşfedin.",
+
+      "title": "Geziler İçin Neden El Gouna'yı Seçmelisiniz?",
+      "intro": "Diğer Kızıldeniz tatil yerlerine kıyasla El Gouna daha düzenli ve daha az kalabalık bir ortam sunar. Temel avantajlar: Hurghada'ya ve ana gezi rotalarına kolay erişim, Daha sakin kalkış noktaları, Yüksek kaliteli hizmet standartları, Hem dinlenme hem de keşif için ideal. Bu, maceradan mahrum kalmadan konfor isteyen gezginler için burayı mükemmel kılar.",
+
+      "sections": [
+        {
+          "title": "El Gouna'dan En İyi Geziler ve Deneyimler",
+          "type": "intro_block"
+        },
+
+        {
+          "title": "Lükser’in Antik Harikalarını Keşfedin",
+          "text": "Mevcut en sürükleyici kültürel deneyimlerden biri. Bu yolculuk sizi kıyının çok ötesine, antik tapınakların ve mezarların firavunların ve tanrıların tarihini ortaya çıkardığı Yukarı Mısır'a götürür. Onu özel kılan nedir: Devasa tapınak kompleksleri, Uzman rehberlerle tarihi hikaye anlatımı, Kızıldeniz'den tamamen farklı bir manzara. Kültür odaklı gezginler için en iyisi.",
+          "link": "https://karimtor.com/tr/trips/nile-cruise-luxor-aswan-from-el-gouna"
+        },
+
+        {
+          "title": "Kızıldeniz Resiflerini Keşfedin",
+          "text": "El Gouna, en canlı deniz ekosistemlerinden bazılarına açılan bir kapıdır. Tekne gezileri sizi görünürlüğün mükemmel ve deniz yaşamının bol olduğu korunan resif alanlarına götürür. Deneyim şunları içerir: Açık deniz alanlarında şnorkel, Mercan oluşumlarını keşfetme, Duraklar arasında güvertede dinlenme.",
+          "link": "https://karimtor.com/tr/trips/nemo-island-sea-trip-from-elgouna"
+        },
+
+        {
+          "title": "El Gouna Yakınındaki Ada Kaçamakları",
+          "text": "Yakındaki birkaç ada, ana karadan tamamen farklı bir atmosfer sunar. Bu geziler, bağlantıyı kesmek ve daha yavaş bir temponun tadını çıkarmak istiyorsanız mükemmeldir. Nelerin tadını çıkaracaksınız: Sığ turkuaz sular, Yumuşak kumlu plajlar, Kalabalıktan uzakta dinlenme zamanı.",
+          "link": "https://karimtor.com/tr/trips/paradise-island-hula-hula-beach-from-el-gouna"
+        },
+
+        {
+          "title": "Kıyı Ötesinde Çöl Maceraları",
+          "text": "Kıyı şeridinden ayrılmak Mısır'ın tamamen farklı bir yönünü ortaya çıkarır. El Gouna'dan yapılan çöl gezileri, adrenalin ve kültürü birleştirerek sizi uçsuz bucaksız açık manzaralardan geçirir. Tipik özellikler: Çöl arazisinde sürüş, Bedevi topluluklarını ziyaret, Geleneksel yaşam tarzları hakkında bilgi edinme.",
+          "link": "https://karimtor.com/tr/trips/abu-dabbab-nature-reserve-from-el-gouna"
+        },
+
+        {
+          "title": "Kahire ve Piramitleri Ziyaret Edin",
+          "text": "Mısır'ın en ikonik simge yapılarına yapılan uzun ama unutulmaz bir yolculuk. Bu gezi sizi ülkenin antik uygarlığı ve dünyaca ünlü anıtlarıyla buluşturur. Şunları deneyimleyeceksiniz: Piramitlerin ölçeği, Tarihi eserler ve müzeler, Modern Kahire ile antik tarih arasındaki zıtlık.",
+          "link": "https://karimtor.com/tr/trips/cairo-grand-museum-pyramids-tour-from-hurghada"
+        },
+
+        {
+          "title": "Deniz Yaban Hayatı Karşılaşmaları",
+          "text": "El Gouna çevresindeki sular ara sıra görülen yunuslarıyla bilinir. Tekne gezileri genellikle bu hayvanların doğal olarak bulunduğu alanları keşfeder. Onu benzersiz kılan nedir: Açık denizde yaban hayatını gözlemlemek, Huzurlu seyir deneyimi, Doğa ile bağlantı.",
+          "link": "https://karimtor.com/tr/trips/boat-trip-to-dolphin-house-from-elgouna"
+        },
+
+        {
+          "title": "İlk Kez Tüplü Dalış Deneyin",
+          "text": "El Gouna, dalış yolculuğunuza başlamak için mükemmel bir yerdir. Sakin suları ve profesyonel eğitmenleri ile yeni başlayanlar suyun altını güvenle keşfedebilirler. Ne beklenmeli: Giriş seansı, Kontrollü dalış deneyimi, Deniz yaşamı ile yakın karşılaşmalar.",
+          "link": "https://karimtor.com/tr/trips/diving-tour-from-elgouna"
+        },
+
+        {
+          "title": "Özel Deniz Deneyimleri",
+          "text": "Daha özel bir gün için özel geziler esneklik ve konfor sunar. Kendi rotanızı planlayabilir, duraklarınızı seçebilir ve denizin tadını kendi temponuzda çıkarabilirsiniz. Şunlar için en iyisi: Çiftler, Aileler, Küçük gruplar.",
+          "link": "https://karimtor.com/tr/trips/vip-private-boat-in-hurghada"
+        },
+
+        {
+          "title": "Gün Batımı ve Keyif Turları",
+          "text": "Tüm gezilerin aktif olması gerekmez. Gün batımında daha yavaş tempolu bir tekne gezisi Kızıldeniz'in farklı bir perspektifini sunar. Deneyim: Sakin atmosfer, Manzaralı görünümler, Rahat ortam. Aktif günlerden sonra dinlenmek için ideal.",
+          "link": "https://karimtor.com/tr/trips/super-elgouna-and-the-valley-of-the-dolphins-sea-trip-from-hurghada"
+        },
+
+        {
+          "title": "Genişletilmiş Çöl Deneyimleri",
+          "text": "Kısa bir maceradan daha fazlasını isteyenler için daha uzun çöl turları daha derin bir daldırma sağlar. Bu deneyimler temel aktivitelerin ötesine geçer ve ek duraklar ile kültürel öğeler içerir.",
+          "link": "https://karimtor.com/tr/trips/all-in-one-excursion-in-hurghada"
+        }
+      ],
+
+      "readMore": "Devamını Oku"
+    },
+
+    "sharm-airport-transfer": {
+      "seoTitle": "Şarm El-Şeyh Havalimanı Transferi: Özel Otel Transfer Rehberi",
+      "metaDescription": "Şarm El-Şeyh Havalimanı'ndan otelinize özel havalimanı transferi rezerve edin. 7/24 güvenli, hızlı, konforlu kapıdan kapıya ulaşım.",
+
+      "title": "Şarm El-Şeyh Havalimanı'ndan Otele Transfer: Özel, Güvenli ve Sorunsuz Ulaşım",
+
+      "intro": "Şarm El-Şeyh Uluslararası Havalimanı'na varmak, özellikle uzun bir uçuştan sonra bunaltıcı olabilir. Otelinize ulaşmanın en hızlı ve en konforlu yolu, önceden ayarlanmış özel bir havalimanı transferi rezerve etmektir. Bu hizmet, havalimanından Şarm El-Şeyh'in herhangi bir yerindeki konaklama yerinize doğrudan sorunsuz ve stressiz bir yolculuk sağlar.",
+
+      "sections": [
+        {
+          "title": "Şarm El-Şeyh Havalimanı Transferi Nedir?",
+          "text": "Havalimanı transferi, sizi doğrudan Şarm El-Şeyh Havalimanı'ndan otelinize (ve tersi) götüren önceden rezerve edilmiş bir ulaşım hizmetidir. Varışta sizi bekleyen profesyonel bir şoförle şunlardan kaçınırsınız: taksi pazarlıkları, kuyruklarda bekleme, dil engelleri, fiyatlar konusundaki belirsizlik. Mısır'daki seyahatinize başlamanın en güvenilir yoludur."
+        },
+
+        {
+          "title": "Özel Transfer Hizmeti Özellikleri",
+          "text": "Şarm El-Şeyh'te özel bir transfer rezervasyonu yaptığınızda, genellikle konfor ve güvenlik için tasarlanmış birinci sınıf kapıdan kapıya hizmet alırsınız. \n ✔ Karşılama Hizmeti \n ✔ Uçuş Takibi \n ✔ Bagaj Yardımı \n ✔ Konforlu Araçlar"
+        },
+
+        {
+          "title": "Mevcut Transfer Seçenekleri Türleri",
+          "text": "Özel Transfer, Minivan Transferleri, Paylaşımlı Transferler"
+        },
+
+        {
+          "title": "Şarm El-Şeyh Havalimanı'ndan Seyahat Süresi",
+          "text": "Naama Bay: 15–25 dakika, Sharks Bay: 10–15 dakika, Nabq Bay: 15–20 dakika, Diğer bölgeler: 40 dakikaya kadar"
+        },
+
+        {
+          "title": "Neden Özel Havalimanı Transferini Seçmelisiniz?",
+          "text": "Sabit fiyatlandırma (sürpriz yok), Profesyonel lisanslı sürücüler, 7/24 müsaitlik, Kapıdan kapıya hizmet, Varışta yardım"
+        },
+
+        {
+          "title": "Varışta Ne Olur?",
+          "text": "Pasaport kontrolü, Bagaj alımı, Varış salonuna çıkış, Elinde tabela tutan şoförünüzle buluşma, Otelinize doğrudan transfer"
+        },
+
+        {
+          "title": "Son Düşünceler",
+          "text": "Şarm El-Şeyh havalimanından otele transfer, Mısır seyahatinize başlamanın en kolay ve en güvenilir yoludur. Profesyonel sürücüler, modern araçlar, uçuş takibi ve karşılama hizmeti ile stresten kaçınabilir ve doğrudan otelinize konforlu ve güvenli bir şekilde gidebilirsiniz."
+        }
+      ],
+
+      "readMore": "Devamını Oku"
+    }
   }
+
 }

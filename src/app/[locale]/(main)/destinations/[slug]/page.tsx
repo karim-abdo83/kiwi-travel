@@ -18,6 +18,7 @@ import {
   PageExtraContent, 
   PageSlug 
 } from "./introduction";
+import { cleanSchema, generateBreadcrumb, generateDestinationSchema } from "../../lib/seo/schemas";
 
 export async function generateMetadata(
   { params }: PageParams<{ slug: string }>
@@ -40,6 +41,10 @@ export async function generateMetadata(
     name,
     tripsCount: destination.trips?.length,
   });
+
+
+
+
 
   return {
     title,
@@ -68,11 +73,42 @@ export default async function DestinationTripsPage({ params }: PageParams<{ slug
 
   const t = await getTranslations("DestinationTripsPage");
   const t_TimeUnits = await getTranslations("General.timeUnits");
+  const baseUrl = (env.NEXT_PUBLIC_APP_URL || "https://karimtor.com").replace(/\/$/, "");
+
 
   // --- Nuevo contenido multidioma y Schema ---
   const intro = getPageIntro({ locale, slug });
   const content = getPageExtraContent({ locale, slug: slug as PageSlug });
   const faqSchema = content ? getFaqSchema(content) : null;
+
+
+  const destinationSchema = cleanSchema(
+  generateDestinationSchema({
+    destination: {
+      name: localeAttribute(destination, "name"),
+      description: intro,
+      image: destination.imageUrl,
+      slug,
+      trips: destination.trips.map(trip => ({
+        title: localeAttribute(trip, "title"),
+        slug: trip.slug,
+      })),
+    },
+    locale,
+    baseUrl,
+  })
+);
+
+const breadcrumbSchema = cleanSchema(
+  generateBreadcrumb([
+    { name: "Home", url: `${baseUrl}/${locale}` },
+    { name: "Destinations", url: `${baseUrl}/${locale}/destinations` },
+    {
+      name: localeAttribute(destination, "name"),
+      url: `${baseUrl}/${locale}/destinations/${slug}`,
+    },
+  ])
+);
 
   // Títulos dinámicos para las FAQ según el idioma
   const faqTitles: Record<string, string> = {
@@ -98,6 +134,18 @@ export default async function DestinationTripsPage({ params }: PageParams<{ slug
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
+      <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify(destinationSchema).replace(/</g, "\\u003c"),
+  }}
+/>
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
+  }}
+/>
 
       {/* Back Button */}
       <Link href="/destinations" className="mb-10 md:mb-0 lg:mb-0">

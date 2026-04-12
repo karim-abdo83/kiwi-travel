@@ -76,6 +76,28 @@ export const DrawerButton = () => {
           </div>
         </div>
         <DrawerFooter>
+<div className="flex flex-col items-center gap-4 text-center">                      <Link
+                        href="/destinations"
+                        className="text-sm font-medium hover:text-primary transition-colors"
+                      >
+                        {t("destination")}
+                      </Link>
+          
+                      <Link
+                        href="/trips"
+                        className="text-sm font-medium hover:text-primary transition-colors"
+                      >
+                        {t("trip")}
+                        
+                      </Link>
+                        <Link
+                        href="/blog"
+                        className="text-sm font-medium hover:text-primary transition-colors"
+                      >
+                        {t("blog")}
+                      </Link>
+                    </div>
+                  <div className="hidden gap-4 md:flex"></div>
           <SignedOut>
             <SignInButton>
               <Button id="sign-in-button-2" variant="outline">
