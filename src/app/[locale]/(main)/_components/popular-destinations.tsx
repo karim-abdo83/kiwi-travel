@@ -40,7 +40,7 @@ export default function PopularDestinations() {
         : "Escape the cold and bask in the golden Egyptian sun. Our curated winter collection features the best Red Sea snorkeling spots and desert adventures, perfect for those seeking warmth and unforgettable memories during the winter season."
 
   return (
-    <section className="py-16 px-4 lg:px-6">
+    <section className="py-16 px-4 lg:px-6" id='destinations'>
       <div className="container mx-auto px-4 md:px-0">
         <h2 className="mb-8 text-center text-2xl lg:text-3xl md:text-3xl font-bold">
           {sectionTitle}

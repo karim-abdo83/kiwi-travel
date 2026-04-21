@@ -131,6 +131,22 @@ export default function Footer() {
                   {t("quickLinks.trips")}
                 </Link>
               </li>
+               <li>
+                <Link href="/blog/sahl-hasheesh-excursions" className="hover:underline">
+                  {t("quickLinks.article1")}
+                </Link>
+              </li>
+               <li>
+                <Link href="/blog/el-gouna-excursions-guide" className="hover:underline">
+                  {t("quickLinks.article2")}
+                </Link>
+              </li>
+              
+               <li>
+                <Link href="/blog/sharm-airport-transfer" className="hover:underline">
+                  {t("quickLinks.article3")}
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
@@ -140,6 +156,7 @@ export default function Footer() {
                 <Link href="/faqs" className="hover:underline">
                   {t("supportLinks.faqs")}
                 </Link>
+                
               </li>
               <li>
                 <Link href="/privacy" className="hover:underline">

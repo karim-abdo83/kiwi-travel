@@ -4,6 +4,10 @@ import { api } from "@/trpc/server"
 import { getLocale, getTranslations } from "next-intl/server"
 import { localeAttributeFactory } from "@/lib/utils"
 import { Link } from "@/i18n/routing"
+import { cleanSchema, generateListSchema } from "../lib/seo/schemas"
+
+
+const baseUrl = "https://karimtor.com";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("DestinationsPage")
@@ -14,35 +18,95 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DestinationsPage() {
-  const locale = await getLocale();
-  const localeAttribute = localeAttributeFactory(locale);
-
+  const locale = await getLocale()
+  const localeAttribute = localeAttributeFactory(locale)
   const t = await getTranslations("DestinationsPage")
 
-  const destinations = await api.destination.list({});
+  const destinations = await api.destination.list({})
+
+  const priorityDestinations = [
+    "sharm-el-sheikh-day-tours",
+    "hurghada-day-tours",
+    "cairo-day-tours",
+    "marsa-alam-day-tours"
+  ]
+
+  const sortedDestinations = [
+    ...destinations.filter(d => priorityDestinations.includes(d.slug)),
+    ...destinations.filter(d => !priorityDestinations.includes(d.slug)),
+  ]
+
+  const schema = cleanSchema(
+  generateListSchema({
+    destinations: sortedDestinations.map(d => ({
+      name: localeAttribute(d, "name"),
+      slug: d.slug,
+    })),
+    locale,
+    baseUrl,
+  })
+);
+
 
   return (
-    <main className="container mx-auto mt-20 px-4 py-8 lg:grid lg:px-6">
-      <h1 className="text-3xl font-bold mb-8 text-center">{t("destinations")}</h1>
+    <main className="container mx-auto mt-20 px-4 py-8 lg:px-6">
+      <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+  }}
+/>
+      
+      <h1 className="text-3xl font-bold mb-8 text-center">
+        {t("destinations")}
+      </h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {destinations.map((destination) => (
-          <Link key={destination.slug} href={`/destinations/${destination.slug}`} className="group">
-            <article id={`destination-details-id-${destination.id}`} className="bg-muted text-card-foreground rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 h-full">
-              <div className="relative h-48 w-full">
-                <Image
-                  src={destination.imageUrl}
-                  alt={localeAttribute(destination, "name")}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-4">
-                <h2 className="text-xl text-center font-semibold">{localeAttribute(destination, "name")}</h2>
-              </div>
-            </article>
-          </Link>
-        ))}
+
+        {sortedDestinations.map((destination) => {
+          const isPriority = priorityDestinations.includes(destination.slug)
+
+          return (
+            <Link
+              key={destination.slug}
+              href={`/destinations/${destination.slug}`}
+              className="group"
+            >
+              <article
+                id={`destination-details-id-${destination.id}`}
+                className="relative bg-muted text-card-foreground rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 h-full"
+              >
+
+                {/* IMAGE */}
+                <div className="relative h-48 w-full">
+                  <Image
+                    src={destination.imageUrl}
+                    alt={localeAttribute(destination, "name")}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+
+                {/* BADGE */}
+                {isPriority && (
+                  <span className="absolute top-2 left-2 z-10 bg-primary text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+                    ⭐ Popular
+                  </span>
+                )}
+
+                {/* TITLE */}
+                <div className="p-4">
+                  <h2 className="text-xl text-center font-semibold">
+                    {localeAttribute(destination, "name")}
+                  </h2>
+                </div>
+
+              </article>
+            </Link>
+          )
+        })}
+
       </div>
     </main>
   )

@@ -89,8 +89,8 @@
       "seeLess":"See Less"
     },
     "intro": {
-      "title": "Your Gateway to Egypt's Wonders",
-      "description": "Welcome to Karimtour, your premier partner for exploring the magical landscapes of the Red Sea and the timeless history of Ancient Egypt. From the turquoise waters of Marsa Alam to the majestic Pyramids of Giza, we provide hand-picked experiences designed for comfort, safety, and authentic discovery. Join thousands of happy travelers and let us make your Egyptian dream a reality."
+      "title": "Your Gateway to the Wonders of Türkiye and Egypt",
+      "description": "Welcome to Karimtour, your premier partner for exploring the magical landscapes of the Mediterranean and the timeless history of the Ancient World. Whether you're discovering the vibrant markets of Türkiye or the majestic Pyramids of Egypt, we provide hand-picked experiences designed for comfort, safety, and authentic discovery. Join thousands of happy travelers and let us make your dream journey a reality."
     },
     "aboutUs": {
       "title": "Experience Egypt with the Local Experts",
@@ -402,7 +402,10 @@
       "openProfile": "Open Profile",
       "sidenavDescription": "Sidenav for settings",
       "changeLanguage": "Change Language",
-      "bookings": "Bookings"
+      "bookings": "Bookings",
+      "destination": "Destinations",
+      "trip":"Trips",
+      "blog":"Blog"
     },
     "footer": {
       "contactUs": "Contact Us",
@@ -410,7 +413,10 @@
       "quickLinks": {
         "home": "Home",
         "destinations": "Destinations",
-        "trips": "Trips"
+        "trips": "Trips",
+        "article1": "Best Excursions from Sahl Hasheesh",
+        "article2": "Why Choose El Gouna for Excursions?",
+        "article3":"Sharm El Sheikh Airport Transfer to Hotel"
       },
       "supportTitle": "Support",
       "supportLinks": {
@@ -463,5 +469,220 @@
     "addReview": "Add Review",
     "newReview": "New Review",
     "editReview": "Edit Review"
+  },
+  
+
+  "Blog": {
+    "title": "Egypt Travel Guide: Expert Tips & Private Excursions",
+    "subtitle": "Discover the best of Sharm El Sheikh and beyond. From private fishing tours to seamless airport transfers, we help you plan the perfect adventure.",
+    "cta": {
+      "title": "Ready for your next adventure?",
+      "description": "Book your private tour now and pay later – zero upfront cost.",
+      "button": "View All Tours"
+    },
+
+    "sahl-hasheesh-excursions": {
+      "seoTitle": "Best Excursions from Sahl Hasheesh: Top 10 Tours in Egypt",
+      "metaDescription": "Discover the best excursions from Sahl Hasheesh including Luxor, Orange Bay, snorkeling trips, desert safari, Cairo pyramids and more.",
+
+      "title": "Best Excursions from Sahl Hasheesh: Top 10 Tours You Shouldn’t Miss",
+
+      "intro": "Sahl Hasheesh is one of the most modern and comfortable resorts in Egypt, perfectly located for both relaxation and exploring the country. Thanks to its proximity to Hurghada, it’s an ideal starting point for a wide range of unforgettable experiences. In this guide, we’ve selected the best excursions from Sahl Hasheesh to help you discover Egypt from every angle — ancient history, desert adventures, and the stunning Red Sea.",
+
+      "sections": [
+        {
+          "title": "Top 10 Best Excursions from Sahl Hasheesh",
+          "type": "intro_block"
+        },
+
+        {
+          "title": "Luxor – Explore Ancient Egypt",
+          "text": "One of the most impressive and enriching excursions you can take. This full-day trip takes you deep into Egypt’s ancient past, where you’ll visit some of the country’s most iconic archaeological sites. Many tours also include a short boat ride on the Nile. Highlights: Karnak Temple complex, Valley of the Kings, Temple of Hatshepsut. Perfect for travelers interested in history and culture.",
+          "link": "https://karimtor.com/en/trips/luxor-overday-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Orange Bay – A Tropical Island Experience",
+          "text": "One of the most popular sea excursions in the region. Orange Bay is known for its white sandy beaches and crystal-clear waters, offering a relaxing, tropical atmosphere ideal for unwinding and taking photos. Typical experience: Swimming stops, snorkeling opportunities, free time on the island. Great choice for a laid-back beach day.",
+          "link": "https://karimtor.com/en/trips/orange-bay-island-tour-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Snorkeling Boat Trip",
+          "text": "The Red Sea is famous for its vibrant marine life, making this excursion a must. You’ll sail to coral reef spots where you can explore underwater ecosystems filled with colorful fish and corals. What to expect: Multiple snorkeling stops, guidance for beginners, time to relax on the boat. Suitable even if you’ve never snorkeled before.",
+          "link": "https://karimtor.com/en/trips/nemo-island-sea-trip-from-sal-hasheesh"
+        },
+
+        {
+          "title": "Desert Safari Adventure",
+          "text": "A perfect option for thrill-seekers and adventure lovers. This excursion takes you into the Egyptian desert, often on quad bikes or buggies, combining adrenaline with cultural experiences. Usually includes: Riding through desert landscapes, visit to a Bedouin village, cultural insights and local traditions. A completely different side of Egypt.",
+          "link": "https://karimtor.com/en/trips/family-safari-tour-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Cairo & the Pyramids of Giza",
+          "text": "One of the most iconic excursions in the country. This is your chance to see Egypt’s most famous landmarks and dive into its ancient civilization. Main highlights: The Pyramids of Giza, The Sphinx, Egyptian Museum. Ideal for travelers who don’t want to miss the essentials.",
+          "link": "https://karimtor.com/en/trips/cairo-by-bus-0verday-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Dolphin Watching & Swimming",
+          "text": "A memorable experience, especially for families and nature lovers. You’ll head out into the open sea where dolphins are often spotted in their natural habitat. Experience includes: Dolphin watching, possibility to swim nearby, relaxing boat trip. A unique and emotional experience.",
+          "link": "https://karimtor.com/en/trips/dolphin-show-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Paradise Island",
+          "text": "A quieter alternative to more crowded island tours. This destination offers a more peaceful atmosphere, perfect for those looking to relax away from busy spots. What makes it special: Clear waters, comfortable beach areas, calm environment.",
+          "link": "https://karimtor.com/en/trips/paradise-island-hula-hula-beach-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Intro Diving Experience",
+          "text": "The Red Sea is one of the best places in the world to try scuba diving for the first time. Even beginners can enjoy this activity with professional guidance. What’s included: Basic training, instructor supervision, guided dive. Perfect for discovering the underwater world.",
+          "link": "https://karimtor.com/en/trips/diving-tour-from-elgouna"
+        },
+
+        {
+          "title": "Private Yacht Trip",
+          "text": "For those who prefer comfort, privacy, and flexibility. A private yacht allows you to customize your day at sea, choosing your own route and pace. Benefits: Personalized experience, flexible itinerary, ideal for couples or small groups.",
+          "link": "https://karimtor.com/en/trips/vip-private-boat-from-sahl-hasheesh"
+        },
+
+        {
+          "title": "Super Safari Experience",
+          "text": "An extended version of the classic desert safari. This option includes more activities and a longer itinerary, offering a more immersive desert experience. Often includes: Camel rides, additional stops, evening entertainment. Best for those who want a full adventure.",
+          "link": "https://karimtor.com/en/trips/all-in-one-excursion-from-sal-hasheesh"
+        }
+      ],
+
+      "readMore": "Read More"
+    },
+
+    "el-gouna-excursions-guide": {
+      "seoTitle": "El Gouna Excursions Guide: Best Tours & Experiences in Egypt",
+      "metaDescription": "Explore the best excursions from El Gouna including Luxor tours, snorkeling, desert safaris, Cairo pyramids and private boat trips.",
+
+      "title": "Why Choose El Gouna for Excursions?",
+      "intro": "Compared to other Red Sea resorts, El Gouna offers a more organized and less crowded environment. Key advantages: Easy access to Hurghada and major excursion routes, Quieter departure points, High-quality service standards, Ideal for both relaxation and exploration. This makes it perfect for travelers who want comfort without missing out on adventure.",
+
+      "sections": [
+        {
+          "title": "Top Excursions and Experiences from El Gouna",
+          "type": "intro_block"
+        },
+
+        {
+          "title": "Discover Luxor’s Ancient Wonders",
+          "text": "One of the most immersive cultural experiences available. This journey takes you far beyond the coast into Upper Egypt, where ancient temples and tombs reveal the history of pharaohs and gods. What makes it special: Massive temple complexes, Historical storytelling with expert guides, A completely different landscape from the Red Sea. Best for culture-focused travelers.",
+          "link": "https://karimtor.com/en/trips/nile-cruise-luxor-aswan-from-el-gouna"
+        },
+
+        {
+          "title": "Explore the Red Sea Reefs",
+          "text": "El Gouna is a gateway to some of the most vibrant marine ecosystems. Boat excursions take you to protected reef areas where visibility is excellent and marine life is abundant. Experience includes: Snorkeling in open sea locations, Discovering coral formations, Relaxing on deck between stops.",
+          "link": "https://karimtor.com/en/trips/nemo-island-sea-trip-from-elgouna"
+        },
+
+        {
+          "title": "Island Escapes Near El Gouna",
+          "text": "Several nearby islands offer a completely different atmosphere from the mainland. These excursions are perfect if you want to disconnect and enjoy a slower pace. What you’ll enjoy: Shallow turquoise waters, Soft sandy beaches, Time to unwind away from crowds.",
+          "link": "https://karimtor.com/en/trips/paradise-island-hula-hula-beach-from-el-gouna"
+        },
+
+        {
+          "title": "Desert Adventures Beyond the Coast",
+          "text": "Leaving the coastline reveals a totally different side of Egypt. Desert excursions from El Gouna combine adrenaline and culture, taking you through wide open landscapes. Typical highlights: Driving through desert terrain, Visiting Bedouin communities, Learning about traditional lifestyles.",
+          "link": "https://karimtor.com/en/trips/abu-dabbab-nature-reserve-from-el-gouna"
+        },
+
+        {
+          "title": "Visit Cairo and the Pyramids",
+          "text": "A long but unforgettable journey into Egypt’s most iconic landmarks. This excursion connects you with the country’s ancient civilization and world-famous monuments. You’ll experience: The scale of the pyramids, Historical artifacts and museums, A contrast between modern Cairo and ancient history.",
+          "link": "https://karimtor.com/en/trips/cairo-grand-museum-pyramids-tour-from-hurghada"
+        },
+
+        {
+          "title": "Marine Wildlife Encounters",
+          "text": "The waters around El Gouna are known for occasional dolphin sightings. Boat trips often explore areas where these animals are naturally present. What makes it unique: Observing wildlife in open sea, Peaceful cruising experience, Connection with nature.",
+          "link": "https://karimtor.com/en/trips/boat-trip-to-dolphin-house-from-elgouna"
+        },
+
+        {
+          "title": "Try Scuba Diving for the First Time",
+          "text": "El Gouna is an excellent place to begin your diving journey. With calm waters and professional instructors, beginners can safely explore below the surface. What to expect: Introduction session, Controlled dive experience, Close encounters with marine life.",
+          "link": "https://karimtor.com/en/trips/diving-tour-from-elgouna"
+        },
+
+        {
+          "title": "Private Sea Experiences",
+          "text": "For a more exclusive day, private trips offer flexibility and comfort. You can plan your own route, choose your stops, and enjoy the sea at your own pace. Best for: Couples, Families, Small groups.",
+          "link": "https://karimtor.com/en/trips/vip-private-boat-in-hurghada"
+        },
+
+        {
+          "title": "Sunset & Leisure Cruises",
+          "text": "Not all excursions need to be active. A slower-paced boat trip at sunset offers a different perspective of the Red Sea. Experience: Calm atmosphere, Scenic views, Relaxed environment. Ideal for unwinding after active days.",
+          "link": "https://karimtor.com/en/trips/super-elgouna-and-the-valley-of-the-dolphins-sea-trip-from-hurghada"
+        },
+
+        {
+          "title": "Extended Desert Experiences",
+          "text": "For those who want more than a short adventure, longer desert tours provide deeper immersion. These experiences go beyond basic activities and include additional stops and cultural elements.",
+          "link": "https://karimtor.com/en/trips/all-in-one-excursion-in-hurghada"
+        }
+      ],
+
+      "readMore": "Read More"
+    },
+
+    "sharm-airport-transfer": {
+      "seoTitle": "Sharm El Sheikh Airport Transfer: Private Hotel Transfer Guide",
+      "metaDescription": "Book a private airport transfer from Sharm El Sheikh to your hotel. Safe, fast, comfortable door-to-door transportation 24/7.",
+
+      "title": "Sharm El Sheikh Airport Transfer to Hotel: Private, Safe and Hassle-Free Transportation",
+
+      "intro": "Arriving at Sharm El Sheikh International Airport can be overwhelming, especially after a long flight. The fastest and most comfortable way to reach your hotel is by booking a pre-arranged private airport transfer. This service ensures a smooth, stress-free journey directly from the airport to your accommodation anywhere in Sharm El Sheikh.",
+
+      "sections": [
+        {
+          "title": "What is a Sharm El Sheikh Airport Transfer?",
+          "text": "An airport transfer is a pre-booked transportation service that takes you directly from Sharm El Sheikh Airport to your hotel (and vice versa). With a professional driver waiting for you on arrival, you avoid: taxi negotiations, waiting in queues, language barriers, uncertainty about prices.  It is the most reliable way to start your trip in Egypt."
+        },
+
+        {
+          "title": "Private Transfer Service Features",
+          "text": "When booking a private transfer in Sharm El Sheikh, you typically receive a premium door-to-door service designed for comfort and safety.  \n ✔ Meet & Greet Service  \n ✔ Flight Tracking  \n ✔ Luggage Assistance  \n ✔ Comfortable Vehicles"
+        },
+
+        {
+          "title": "Types of Transfer Options Available",
+          "text": "Private Transfer, Minivan Transfers, Shared Transfers"
+        },
+
+        {
+          "title": "Travel Time from Sharm El Sheikh Airport",
+          "text": "Naama Bay: 15–25 minutes, Sharks Bay: 10–15 minutes, Nabq Bay: 15–20 minutes, Other areas: up to 40 minutes"
+        },
+
+        {
+          "title": "Why Choose a Private Airport Transfer?",
+          "text": "Fixed pricing (no surprises), Professional licensed drivers, 24/7 availability, Door-to-door service, Assistance upon arrival"
+        },
+
+        {
+          "title": "What Happens on Arrival",
+          "text": "Passport control, Baggage claim, Exit to arrivals hall, Meet your driver holding a sign, Direct transfer to your hotel"
+        },
+
+        {
+          "title": "Final Thoughts",
+          "text": "A Sharm El Sheikh airport to hotel transfer is the easiest and most reliable way to start your trip in Egypt. With professional drivers, modern vehicles, flight tracking, and meet & greet service, you can avoid stress and go directly to your hotel comfortably and safely."
+        }
+      ],
+
+      "readMore": "Read More"
+    }
   }
+
 }

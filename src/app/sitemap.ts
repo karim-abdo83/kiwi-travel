@@ -13,8 +13,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/${locale}/trips`, lastModified: now, changeFrequency: 'daily' as const, priority: 0.8 },
     { url: `${base}/${locale}/destinations`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.7 },
     { url: `${base}/${locale}/faqs`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
-    // { url: `${base}/${locale}/terms`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
-    // { url: `${base}/${locale}/privacy`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
   ]);
 
   // Dynamic: trips (use listStaticParams for id/slug/updatedAt)
@@ -45,13 +43,43 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.6,
       }))
     );
+
+  
   } catch {
     // no-op
   }
+  let blogLocalized: MetadataRoute.Sitemap = [];
+  try {
+     const blogLocalized = routing.locales.flatMap((locale) => [
+    { url: `${base}/${locale}/blog`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.8 },
+  ]);
+  } catch (error) {
+    
+  }
+
+    let blogArticles: MetadataRoute.Sitemap = [];
+
+  try {
+     const blogArticles = ["article1", "article2", "article3"].flatMap((slug) =>
+    routing.locales.map((locale) => ({
+      url: `${base}/${locale}/blog/${slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }))
+  );
+  } catch (error) {
+    
+  }
+ 
+
+ 
 
   return [
     { url: `${base}/`, lastModified: now, changeFrequency: 'daily', priority: 1 },
     ...staticLocalized,
+    ...blogLocalized, 
+    ...blogArticles,
     ...tripEntries,
     ...destinationEntries,
   ];

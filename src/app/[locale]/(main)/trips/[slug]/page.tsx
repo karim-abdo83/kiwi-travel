@@ -35,6 +35,7 @@ import { Button } from "@/components/ui/button";
 import { ReviewWriteForm } from "../../_components/reviewWrite-form";
 import Testimonials from "../../_components/testimonials";
 import { ensureLengthRange } from "../helperSEO";
+import { cleanSchema, generateBreadcrumb, generateTripSchema } from "../../lib/seo/schemas";
 
 export async function generateMetadata({
   params,
@@ -200,12 +201,52 @@ export default async function TripDetailsPage({
       .replaceAll("hour", t_TimeUnits("hour"));
   };
 
+  const baseUrl = (env.NEXT_PUBLIC_APP_URL || "https://karimtor.com").replace(/\/$/, "");
+  
+
+  const tripSchema = cleanSchema(
+    generateTripSchema({
+      trip: {
+        title: localeAttribute(trip, "title"),
+        description: localeAttribute(trip, "description"),
+        image: mainImage(trip.assetsUrls),
+        slug: trip.slug,
+        price: trip.adultTripPriceInCents,
+        reviews: trip.reviews,
+      },
+      locale,
+      baseUrl,
+    })
+  );
+  
+  const breadcrumbSchema = cleanSchema(
+    generateBreadcrumb([
+      { name: "Home", url: `${baseUrl}/${locale}` },
+      { name: "Destinations", url: `${baseUrl}/${locale}/destinations` },
+      {
+        name: localeAttribute(trip.destination, "name"),
+        url: `${baseUrl}/${locale}/destinations/${trip.destination.slug}`,
+      },
+      {
+        name: localeAttribute(trip, "title"),
+        url: `${baseUrl}/${locale}/trips/${trip.slug}`,
+      },
+    ])
+  );
+
   return (
     <>
+          <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(tripSchema).replace(/</g, "\\u003c"),
+        }}
+      />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
         }}
       />
       <main className="container mx-auto mt-14 space-y-8 px-4 py-8 md:px-6 lg:px-6">
