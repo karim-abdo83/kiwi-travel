@@ -4,7 +4,7 @@ const ContactsSidebar = () => {
   return (
     <ul className="fixed bottom-28 right-0 z-40 grid gap-4 p-4 bg-accent rounded-l-lg border-t-2 border-b-2 border-l-2 border-primary/50 shadow-lg" style={{ boxSizing: 'border-box' }}>
       <li>
-        <a target="_blank" href="https://wa.me/201003637624">
+        <a target="_blank" href="https://wa.me/79645056936">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-8 fill-green-500"
@@ -15,7 +15,7 @@ const ContactsSidebar = () => {
         </a>
       </li>
       <li>
-        <a target="_blank" href="https://t.me/Karimtor_kiwitravel">
+        <a target="_blank" href="https://t.me/karimtours">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-8 fill-blue-500"
