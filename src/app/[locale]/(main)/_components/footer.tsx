@@ -7,7 +7,7 @@ import { useState } from 'react';wa.me/79645056936wa.me/79645056936wa.me/7964505
     },
     {
       icon: <Send className="w-5 h-5" />,
-      link: "https://t.me/karimtours",
+      link: "https://t.me/karimtor_kiwitravel",
       name: "Telegram"
     },
     {
