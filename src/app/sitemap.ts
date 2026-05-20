@@ -15,6 +15,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/${locale}/faqs`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
   ]);
 
+  //country pages
+    const countries = ['egypt', 'turkey'];
+  const countryEntries = countries.flatMap((country) =>
+    routing.locales.map((locale) => ({
+      url: `${base}/${locale}/destinations/country/${country}`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }))
+  );
+
   // Dynamic: trips (use listStaticParams for id/slug/updatedAt)
   let tripEntries: MetadataRoute.Sitemap = [];
   try {
@@ -48,28 +59,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   } catch {
     // no-op
   }
-  let blogLocalized: MetadataRoute.Sitemap = [];
+ let blogLocalized: MetadataRoute.Sitemap = [];
   try {
-     const blogLocalized = routing.locales.flatMap((locale) => [
-    { url: `${base}/${locale}/blog`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.8 },
-  ]);
+    blogLocalized = routing.locales.flatMap((locale) => [
+      { url: `${base}/${locale}/blog`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.8 },
+    ]);
   } catch (error) {
-    
+    // no-op
   }
 
-    let blogArticles: MetadataRoute.Sitemap = [];
-
+  // 6. Dynamic: Blog Articles (CORREGIDO: Se quitó el 'const' e integramos el nuevo artículo 'top-places-to-visit-egypt')
+  let blogArticles: MetadataRoute.Sitemap = [];
   try {
-     const blogArticles = ["article1", "article2", "article3"].flatMap((slug) =>
-    routing.locales.map((locale) => ({
-      url: `${base}/${locale}/blog/${slug}`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }))
-  );
+    blogArticles = ["article1", "article2", "article3", "top-places-to-visit-egypt"].flatMap((slug) =>
+      routing.locales.map((locale) => ({
+        url: `${base}/${locale}/blog/${slug}`,
+        lastModified: now,
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+      }))
+    );
   } catch (error) {
-    
+    // no-op
   }
  
 
@@ -79,6 +90,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/`, lastModified: now, changeFrequency: 'daily', priority: 1 },
     ...staticLocalized,
     ...blogLocalized, 
+    ...countryEntries,
     ...blogArticles,
     ...tripEntries,
     ...destinationEntries,

@@ -283,8 +283,46 @@
       "missed": "Kaçırıldı"
     }
   },
-  "DestinationsPage": {
-    "destinations": "Destinasyonlar"
+ "DestinationsPage": {
+    "destinations": "Destinasyonlar",
+    "exploreByCountry": "Ülkeye Göre Keşfet",
+    "egypt": "Mısır",
+    "egyptDestinations": "Mısır'daki Destinasyonlar",
+    "viewEgyptDestinations": "Tüm Mısır destinasyonlarını gör",
+    "turkey": "Türkiye",
+    "turkeyDestinations": "Türkiye'deki Destinasyonlar",
+    "viewTurkeyDestinations": "Tüm Türkiye destinasyonlarını gör",
+    "allDestinations": "Tüm Destinasyonlar",
+    "backToAll": "Tüm destinasyonlara geri dön",
+    "noDestinationsFound": "Destinasyon bulunamadı",
+    "egyptTitle": "Mısır Turları ve Gezileri",
+    "egyptSeoTextRich": "<h2>Mısır Tatilinizin Keyfini Çıkarın</h2><p>Mısır, dünyanın en büyüleyici seyahat rotalarından biridir; tarih, kültür ve huzur dolu bir deniz tatili arayan gezginler için mükemmel bir seçimdir. Turlarımız; antik mirasları, eşsiz doğa manzaralarını ve yüksek hizmet kalitesini bir araya getirerek dengeli ve keyifli bir tatil deneyimi sunmak üzere tasarlanmıştır.</p><p>Mısır'da bir tatil planlıyorsanız, farklı seyahat tarzlarına hitap eden, özenle hazırlanmış tur ve gezi seçeneklerimizi keşfedebilirsiniz. Profesyonel rehberler eşliğinde gerçekleştirilen kültürel grup turlarından konfor ve kişiye özel hizmet odaklı butik seçeneklere kadar her detay, Mısır'ı otantik ve stressiz bir şekilde keşfetmeniz için düşünülmüştür.</p><h3>Mısır'da Tatil Yapılacak En İyi Yerler</h3><p>Mısır, farklı ilgi alanlarına ve seyahat tercihlerine sahip misafirlerine geniş bir destinasyon yelpazesi sunar. Uluslararası gezginler arasında en popüler olan bölgeler şunlardır:</p><h4>Kahire ve Gize</h4><p>Mısır'ın kültürel ve tarihi kalbidir. Gize Piramitleri, Sfenks ve görkemli müzelere yönelik uzman rehberli gezilerin yanı sıra şehir içi turlar için vazgeçilmez bir başlangıç noktasıdır.</p><p><cairoLink>Kahire turları</cairoLink> - <gizaLink>Gize Piramitleri gezileri</gizaLink></p><h4>Hurgada</h4><p>Kızıldeniz'i keşfetmek için en ideal merkezdir. Şnorkelle dalış turlarından tekne gezilerine, ada turlarından çöl safarilerine kadar geniş su sporları ve açık hava aktiviteleri sunar. Deniz altı yaşamının büyüleyici dünyasını ve doğa sporlarını bir arada yaşamak isteyen seyahat severler için harika bir tercihtir.</p><p><hurghadaLink>Hurgada günlük turları</hurghadaLink> <redSeaLink>Hurgada Kızıldeniz gezileri</redSeaLink></p><h4>Şarm El-Şeyh</h4><p>Bu destinasyon, şnorkelli yüzme gezileri, tüplü dalış turları ve çöl safarilerini içeren heyecan dolu aktiviteleriyle ünlüdür. Profesyonel rehberler eşliğinde günübirlik maceralara katılmak isteyen gezginler için son derece uygundur.</p><p><sharmLink>Şarm El-Şeyh Günlük Turları</sharmLink></p><h4>Marsa Alam</h4><p>Doğayla baş başa kalmak, mercan resiflerini gözlemlemek ve deniz canlılarıyla yakın temas kurmak isteyen tatilciler için biçilmiş kaftandır. Kızıldeniz'in daha sakin, kalabalıktan uzak bölgelerinde dinlendirici ve huzurlu turlar planlamak isteyenler için benzersiz bir alternatiftir.</p><p><marsaLink>Marsa Alam Günlük Turları</marsaLink></p><h3>Tatil Paketleri ve Grup Turları</h3><p>Tatil paketlerimiz; titizlikle planlanmış gezileri, konforlu ulaşım araçlarını, profesyonel yerel rehberleri ve seyahatiniz boyunca kesintisiz desteği içerir. Tek başınıza, çift olarak, ailenizle veya bir grup arkadaşınızla seyahat ediyor olun, programınıza ve bütçenize uyum sağlayabilecek esnek seçenekler sunuyoruz.</p><p>Günübirlik turlarımız ve organize gezilerimiz, güvenliği ve konforu ön planda tutan dengeli rotalarıyla, Mısır'ın en güzel yanlarını hiçbir stres yaşamadan keşfetmenizi sağlar.</p>",
+    "turkeyTitle": "Türkiye Turları ve Gezileri",
+    "turkeySeoTextRich": "<h2>Uzman Rehberli Turlar ve Deneyimlerle Türkiye'yi Keşfedin</h2><p>Türkiye; zengin tarihi, göz kamaştırıcı doğası ve eşsiz kültürel sentezi ile ziyaretçilerine unutulmaz anlar sunan büyüleyici bir ülkedir. Akdeniz kıyısında yer alan Antalya, Belek, Kemer ve Alanya gibi bölgeler, ülkenin saklı güzelliklerini ve tarihi dokusunu organize turlar eşliğinde keşfetmek için en popüler merkezlerin başında gelir.</p><p>Türkiye turlarımız, misafirlerimizin ülkeyi en konforlu ve verimli şekilde keşfetmelerini sağlamak amacıyla tasarlanmıştır. Kültürel gezilerden doğa sporlarına ve huzurlu tekne turlarına kadar her etkinlik, yerel bilgi birikimi ve profesyonel rehberlik eşliğinde özenle hazırlanmış rotaları içerir.</p><p>Eğer Türkiye'de bir tatil planlıyorsanız, konakladığınız otellerden kolaylıkla katılabileceğiniz geniş bir günübirlik tur yelpazesi bulacaksınız. Bu geziler, antik kalıntıları, şelaleleri ve yerel kültür noktalarını zahmetsiz, akıcı ve güvenli bir seyahat konforuyla keşfetmenize olanak tanır.</p><h3>Türkiye'de Ziyaret Edilecek En Popüler Yerler</h3><p>Türkiye her bölgesinde farklı bir güzellik barındırır, ancak Akdeniz bölgesi özellikle tatil ile geziyi birleştirmek isteyen gezginler için popülerdir:</p><h4>Antalya</h4><p>Günübirlik ve rehberli gezilerin ana merkezidir. Antik kentlere, çağlayan şelalere, kıyı turlarına ve kültürel anıtlara kolay ulaşım imkanı sağlar. Güney Türkiye'yi keşfetmek için harika bir başlangıç noktasıdır.</p><p><antalyaLink>Antalya Günlük Turları</antalyaLink></p><h4>Belek</h4><p>Belek, tarihi kalıntılara ve büyüleyici doğa manzaralarına düzenlenen planlı turlar için mükemmel bir üstür; konforlu ve rehberli bir gezi temposunu tercih eden gezginler için idealdir.</p><p><belekLink>Belek Günlük Turları</belekLink></p><h4>Kemer</h4><p>Toros Dağları ve berrak Akdeniz ile çevrili Kemer; tekne turları, panoramik manzaralar ve yakındaki tarihi ören yerlerini kapsayan doğa odaklı geziler için son derece uygundur.</p><p><kemerLink>Kemer Günlük Turları</kemerLink></p><h4>Alanya</h4><p>Alanya, tarihi kalelerden sahil gezilerine ve dağlık alanlardaki macera turlarına kadar uzanan çok geniş bir etkinlik yelpazesi sunarak her zevkten gezgin için çeşitlilik sağlar.</p><p><alanyaLink>Alanya Günlük Turları</alanyaLink></p><h3>Günübirlik Turlar ve Grup Gezileri</h3><p>Türkiye'deki günübirlik turlarımız, zamanınızı en iyi şekilde değerlendirmenizi sağlamak amacıyla konforlu araçlar ve uzman yerel rehberler eşliğinde sunulur. Karim Tour güvencesiyle, uzun ve karmaşık planlama süreçleriyle uğraşmak zorunda kalmadan, ülkenin en ikonik noktalarını kolayca keşfedebilirsiniz.</p><p>Yalnız, çift, ailece veya grup halinde seyahat ediyor olmanız fark etmeksizin, günlük turlarımız tatil programınıza kolayca entegre olur. Kültürel zenginliklere, büyüleyici doğaya ve yerel yaşama odaklanan bu rehberli geziler, Türkiye seyahatinizi tamamen stressiz, eğlenceli ve akıcı bir maceraya dönüştürür.</p>",
+    "faqTitle": "Sıkça Sorulan Sorular – Mısır Seyahati",
+    "egyptFaqs": [
+      {
+        "q": "Mısır tatil için iyi bir destinasyon mu?",
+        "a": "Evet, Mısır tarih, kültür, deniz tatili ve konforu bir arada sunan çok yönlü bir destinasyondur. Antik eserleri, eşsiz doğal manzaraları ve farklı bütçelere hitap eden konaklama seçenekleri sayesinde hem keşif hem de dinlenme odaklı seyahatler için idealdir."
+      },
+      {
+        "q": "Mısır’da tatil için nereye gidilmeli?",
+        "a": "Tarih ve kültürle ilgilenenler için Kahire ve Luksor mutlaka görülmesi gereken şehirlerdir. Deniz tatili ve dinlenme arayanlar ise Hurghada, Sharm El Sheikh ve Marsa Alam gibi Kızıldeniz kıyılarını tercih edebilir."
+      },
+      {
+        "q": "Mısır’da deniz tatili için en iyi yer neresi?",
+        "a": "Hurghada ve Sharm El Sheikh, plajları ve su sporları olanaklarıyla en popüler seçeneklerdir. Daha sakin ve doğayla iç içe bir deneyim arayanlar için Marsa Alam öne çıkar."
+      },
+      {
+        "q": "Mısır’a gitmek için en iyi zaman hangisi?",
+        "a": "Mısır’ı ziyaret etmek için en uygun dönem genellikle Ekim ile Nisan ayları arasıdır. Bu aylarda hava daha ılımandır ve kültürel geziler için daha konforlu bir ortam sunar. Yaz aylarında ise özellikle Kızıldeniz bölgeleri deniz tatili için tercih edilebilir."
+      },
+      {
+        "q": "Mısır’a seyahat etmek için vizeye ihtiyacım var mı?",
+        "a": "Türkiye Cumhuriyeti vatandaşlarının Mısır’a seyahat etmek için vize alması gerekmektedir. Vize genellikle seyahat öncesinde veya belirli koşullarda varışta temin edilebilir. Güncel vize prosedürleri seyahat tarihine göre değişebileceğinden, yola çıkmadan önce resmi kaynaklardan kontrol edilmesi önerilir."
+      }
+    ],
+    "turkeyFaqs": []
   },
   "DestinationTripsPage": {
     "backToDestinations": "Destinasyonlara geri dön",
@@ -677,7 +715,44 @@
       ],
 
       "readMore": "Devamını Oku"
-    }
+    },
+    
+  
+  "top-places-to-visit-egypt": {
+    "seoTitle": "Mısır’da Gezilecek En İyi Yerler: Kapsamlı Seyahat Rehberi",
+    "metaDescription": "Giza, Kahire, Luksor, Hurghada, Sharm El Sheikh ve Marsa Alam dahil olmak üzere Mısır’da gezilecek en iyi yerleri keşfedin. Karim Tour ile turlarınızı planlayın.",
+    "title": "Mısır’da Gezilecek En İyi Yerler: Firavunlar Ülkesinin Harikalarını Keşfedin",
+    "intro": "Mısır, antik tarih, kültürel zenginlikler ve büyüleyici doğal manzaraların olağanüstü bir birleşimini sunan benzersiz bir ülkedir. İkonik arkeolojik alanlardan dünyaca ünlü sahil destinasyonlarına kadar her tür gezgin için unutulmaz deneyimler sunar. İster ilk seyahatinizi planlıyor olun ister daha fazlasını keşfetmek için geri dönüyor olun, işte Mısır’da gezilecek en iyi yerler.",
+    "sections": [
+      {
+        "title": "Kahire ve Giza",
+        "text": "Kahire ve Giza, ülkenin kültürel ve tarihi kalbini oluşturur. Burada dünyaca ünlü Giza Piramitleri, Büyük Sfenks ve Orta Doğu’nun en önemli müzelerinden bazıları bulunmaktadır. Kahire’yi ziyaret etmek, gezginlere antik harikaları modern yaşam, geleneksel pazarlar ve zengin yerel kültür ile birlikte deneyimleme fırsatı sunar. <cairoLink>Şehir turları</cairoLink> ve <gizaLink>piramit gezileri</gizaLink>, Mısır’daki en popüler aktiviteler arasındadır."
+      },
+      {
+        "title": "Luksor",
+        "text": "Genellikle dünyanın en büyük açık hava müzesi olarak tanımlanan Luksor, tarih severler için Mısır’daki en etkileyici destinasyonlardan biridir. Şehir, firavunların hikâyesini anlatan görkemli tapınaklara, kraliyet mezarlarına ve antik anıtlara ev sahipliği yapmaktadır. Luksor ziyareti, iyi korunmuş arkeolojik alanlar ve <luxorLink>rehberli tarihi turlar</luxorLink> sayesinde Antik Mısır uygarlığını derinlemesine keşfetme imkânı sunar."
+      },
+      {
+        "title": "Hurghada",
+        "text": "Hurghada, Kızıldeniz deneyimleri için Mısır’da ziyaret edilmesi gereken en popüler yerlerden biridir. Kristal berraklığındaki suları, canlı mercan resifleri ve geniş deniz turu seçenekleriyle ünlüdür. Şnorkelle dalış ve tüplü dalış gezilerinden ada turlarına ve çöl safarilerine kadar Hurghada, doğa ve açık hava aktivitelerine odaklanan <hurghadaLink>günlük turlar</hurghadaLink> için mükemmel bir başlangıç noktasıdır."
+      },
+      {
+        "title": "Sharm El Sheikh",
+        "text": "Sina Yarımadası’nda bulunan Sharm El Sheikh, Kızıldeniz gezileri için en iyi destinasyonlardan biridir. Bölge, zengin su altı yaşamıyla ünlüdür ve bu da onu şnorkelle dalış ve tüplü dalış günlük gezileri için ideal hale getirir. Deniz aktivitelerine ek olarak gezginler, çöl safarilerinin ve <sharmLink>rehberli doğa gezilerinin</sharmLink> keyfini çıkarabilir."
+      },
+      {
+        "title": "Marsa Alam",
+        "text": "Marsa Alam, Mısır’da daha sakin ve daha az kalabalık yerler arayan gezginler için mükemmeldir. Bozulmamış mercan resifleri ve eşsiz deniz yaşamıyla tanınan bu bölge, doğa severler ve dalış tutkunları için favori bir destinasyondur. Buradaki <marsaLink>günlük turlar</marsaLink>, çevre dostu geziler, şnorkelle dalış ve benzersiz deniz canlılarıyla karşılaşmalara odaklanır."
+      },
+      {
+        "title": "Karim Tour ile Mısır’ı Keşfedin",
+        "text": "Karim Tour ile Mısır’ın en ikonik yerlerini keşfetmek kolay ve iyi organize edilmiş bir deneyime dönüşür. Kahire, Giza ve Luksor’un antik anıtlarından Hurghada, Sharm El Sheikh ve Marsa Alam’ın Kızıldeniz destinasyonlarına kadar uzanan turlarımız, gezginlerin her bölgeyi yerel uzmanların desteğiyle güvenle keşfetmesine yardımcı olmak için tasarlanmıştır.\n\nÖzenle seçilmiş günlük turlarımız ve rehberli deneyimlerimiz sayesinde, lojistik planlama stresi yaşamadan Mısır’ın önemli noktalarını kendi hızınızda keşfedebilirsiniz. Tarihi alanlar, kültürel deneyimler veya Kızıldeniz gezileriyle ilgileniyorsanız, Karim Tour bu rehberde yer alan tüm önemli destinasyonları birbirine bağlayan esnek seçenekler sunar.\n\nProfesyoneller eşliğinde Mısır yolculuğunuzu planlayın ve turlarımızın ülkenin en büyüleyici yerlerini nasıl kusursuz ve otantik bir macerada bir araya getirdiğini keşfedin."
+      }
+    ],
+    "readMore": "Devamını oku"
+  }
+
+
   }
 
 }

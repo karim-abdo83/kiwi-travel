@@ -95,7 +95,7 @@ export function ReviewWriteForm({ onReviewSubmitted, tripId }: { onReviewSubmitt
 
             if (formData.image) {
                 const res = await startUpload([formData.image]);
-                imageUrl = res!.at(0)!.ufsUrl!;
+                imageUrl = res!.at(0)!.url!;
             }
 
             // Validate the form data

@@ -228,7 +228,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
     return assets.map((asset) =>
       asset.isInitialData
         ? asset.preview
-        : `${res[currentResultIndex++]!.ufsUrl}?type=${asset.isVideo ? "video" : "image"}`,
+        : `${res[currentResultIndex++]!.url}?type=${asset.isVideo ? "video" : "image"}`,
     );
   };
 

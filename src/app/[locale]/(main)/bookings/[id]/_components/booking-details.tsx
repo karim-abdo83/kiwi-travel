@@ -94,6 +94,10 @@ export function BookingDetails({ booking }: { booking: Booking }) {
   const adultTotal = adults * adultPrice;
   const childTotal = children * childPrice;
 
+  const localeMap = {
+  ru,
+};
+
   return (
     <main className="container mx-auto mt-14 px-4 py-8 lg:px-0">
       <div className="mb-6">
@@ -248,11 +252,16 @@ export function BookingDetails({ booking }: { booking: Booking }) {
                   <CardTitle>
                     {t("review")}{" "}
                     <span className="text-xs font-normal text-muted-foreground">
-                      (
-                      {format(data.review!.createdAt, "yyyy-MM-dd hh:mm a", {
-                        locale: locale === "ru" ? ru : undefined,
-                      })}
-                      )
+                     (
+                        {data.review?.createdAt &&
+                          format(
+                            new Date(data.review.createdAt),
+                            "yyyy-MM-dd hh:mm a",
+                            {
+                              locale: locale === "ru" ? ru : undefined,
+                            }
+                          )}
+                        )
                     </span>
                   </CardTitle>
                   <div className="flex">

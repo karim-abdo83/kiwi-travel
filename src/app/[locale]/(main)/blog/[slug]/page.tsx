@@ -23,6 +23,40 @@ export default async function BlogPage({ params }: PageParams<{ slug: string }>)
     type?: string;
   }>;
 
+
+  const richTextElements = {
+    cairoLink: (chunks: React.ReactNode) => (
+      <Link href="/destinations/cairo-day-tours" className="text-primary hover:underline font-semibold">
+        {chunks}
+      </Link>
+    ),
+    gizaLink: (chunks: React.ReactNode) => (
+      <Link href="/destinations/cairo-day-tours" className="text-primary hover:underline font-semibold">
+        {chunks}
+      </Link>
+    ),
+    luxorLink: (chunks: React.ReactNode) => (
+      <Link href="/destinations/luxor-day-tours" className="text-primary hover:underline font-semibold">
+        {chunks}
+      </Link>
+    ),
+    hurghadaLink: (chunks: React.ReactNode) => (
+      <Link href="/destinations/hurghada-day-tours" className="text-primary hover:underline font-semibold">
+        {chunks}
+      </Link>
+    ),
+    sharmLink: (chunks: React.ReactNode) => (
+      <Link href="/destinations/sharm-el-sheikh-day-tours" className="text-primary hover:underline font-semibold">
+        {chunks}
+      </Link>
+    ),
+    marsaLink: (chunks: React.ReactNode) => (
+      <Link href="/destinations/marsa-alam-day-tours" className="text-primary hover:underline font-semibold">
+        {chunks}
+      </Link>
+    ),
+  };
+
   return (
     <main className="container mx-auto md:mt-20 mt-12 px-4 py-8 max-w-4xl">
       {/* Back */}
@@ -40,9 +74,9 @@ export default async function BlogPage({ params }: PageParams<{ slug: string }>)
           {t(`${slug}.title`)}
         </h1>
 
-        {/* INTRO */}
+        {/* INTRO - Con soporte para Texto Enriquecido */}
         <p className="text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed italic border-l-4 border-primary pl-4">
-          {t(`${slug}.intro`)}
+          {t.rich(`${slug}.intro`, richTextElements)}
         </p>
 
         <div className="space-y-12">
@@ -58,30 +92,30 @@ export default async function BlogPage({ params }: PageParams<{ slug: string }>)
               );
             }
 
-                return (
-                <section key={idx} className="space-y-3">
-                    
-                    {section.link ? (
-                    <Link
-                        href={section.link}
-                        className="inline-flex items-center text-2xl font-bold text-gray-900 dark:text-white hover:text-primary transition-colors"
-                    >
-                        {section.title}
-                        <ExternalLink className="ml-2 h-4 w-4" />
-                    </Link>
-                    ) : (
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                        {section.title}
-                    </h2>
-                    )}
+            return (
+              <section key={idx} className="space-y-3">
+                {section.link ? (
+                  <Link
+                    href={section.link}
+                    className="inline-flex items-center text-2xl font-bold text-gray-900 dark:text-white hover:text-primary transition-colors"
+                  >
+                    {section.title}
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </Link>
+                ) : (
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {section.title}
+                  </h2>
+                )}
 
-                    {section.text && (
-                    <p className="text-gray-700 dark:text-gray-400 leading-relaxed whitespace-pre-line">
-                        {section.text}
-                    </p>
-                    )}
-                </section>
-                );
+                {/* TEXT - Renderizado utilizando t.rich con apuntado de ruta dinámica de i18n */}
+                {section.text && (
+                  <p className="text-gray-700 dark:text-gray-400 leading-relaxed whitespace-pre-line">
+                    {t.rich(`${slug}.sections.${idx}.text`, richTextElements)}
+                  </p>
+                )}
+              </section>
+            );
           })}
         </div>
 
