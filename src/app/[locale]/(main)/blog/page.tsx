@@ -9,7 +9,7 @@ export default async function BlogListPage() {
   const t = await getTranslations("Blog");
   const locale = await getLocale();
   
-  const articleSlugs = ["sahl-hasheesh-excursions", "el-gouna-excursions-guide", "sharm-airport-transfer"];
+  const articleSlugs = ["sahl-hasheesh-excursions", "el-gouna-excursions-guide", "sharm-airport-transfer", "top-places-to-visit-egypt"];
 
   return (
     <main className="container mx-auto md:mt-24 mt-16 px-4 py-12 max-w-6xl">

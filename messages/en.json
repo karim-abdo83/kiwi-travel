@@ -285,8 +285,52 @@
       "missed": "Missed"
     }
   },
+  
+
   "DestinationsPage": {
-    "destinations": "Destinations"
+    "destinations": "Destinations",
+    "exploreByCountry": "Explore by Country",
+    "egypt": "Egypt",
+    "egyptDestinations": "Destinations in Egypt",
+    "viewEgyptDestinations": "View all Egypt destinations",
+    "turkey": "Turkey",
+    "turkeyDestinations": "Destinations in Turkey",
+    "viewTurkeyDestinations": "View all Turkey destinations",
+    "allDestinations": "All Destinations",
+    "backToAll": "Back to all destinations",
+    "noDestinationsFound": "No destinations found",
+    "egyptTitle": "Excursions in Egypt",
+    "egyptSeoTextRich": "<h2>Enjoy your holidays to Egypt</h2><p>Egypt is one of the most fascinating destinations in the world and an ideal choice for travelers seeking history, culture, and relaxing beach experiences. Our trips are designed to offer a well-balanced holiday, combining ancient heritage, unique landscapes, and high-quality service.</p><p>If you are planning a holiday in Egypt, you will find a carefully curated selection of tours and travel experiences suited to different travel styles. From guided cultural journeys and group tours to more exclusive options focused on comfort and personalized service, everything is designed to help you enjoy Egypt in an authentic and stress-free way.</p><h3>Best places in Egypt for holiday</h3><p>Egypt offers a wide variety of destinations that cater to different interests and travel preferences. Among the most popular choices for international travelers are:</p><h4>Cairo and Giza</h4><p>The cultural and historical center of Egypt, offering guided visits to the Pyramids, the Sphinx, and major museums, along with well-organized city tours led by expert guides.</p><p><cairoLink>Cairo tours</cairoLink> - <gizaLink>Giza Pyramids excursions</gizaLink></p><h4>Hurghada</h4><p>The ideal base for exploring the Red Sea, offering a wide range of water sports, from snorkelling and diving trips to island cruises and desert adventures. It is an excellent base for travellers wishing to enjoy both marine life and guided outdoor activities.</p><p><hurghadaLink>Hurghada day tours</hurghadaLink> <redSeaLink>Red Sea excursions in Hurghada</redSeaLink></p><h4>Sharm El Sheikh</h4><p>This destination is famous for its excursions, which include snorkelling trips, diving excursions and desert safaris. It is ideal for travellers looking for day trips led by professional guides.</p><p><sharmLink>Sharm El Sheikh Day Tours</sharmLink></p><h4>Marsa Alam</h4><p>The perfect destination for travellers looking to connect with nature, with a focus on coral reefs and encounters with marine life. It’s a fantastic choice for those interested in peaceful, leisurely excursions in less crowded parts of the Red Sea.</p><p><marsaLink>Marsa Alam Day Tours</marsaLink></p><h3>Holiday packages and group tours</h3><p>Our holiday packages include carefully planned excursions, comfortable transportation, professional guides, and full assistance throughout your journey. Whether you are traveling solo, as a couple, with family, or in a group, we offer flexible options that adapt to different travel needs and schedules.</p><p>Day tours and organized trips allow you to explore the best of Egypt without stress, following well-paced itineraries focused on safety, comfort, and an enjoyable travel experience.</p>",
+    "turkeyTitle": "Excursions in Turkey",
+    "turkeySeoTextRich": "<h2>Explore Turkey with Expert-Guided Tours and Experiences</h2><p>Turkey is a diverse and captivating destination that offers a unique mix of history, culture, nature, and unforgettable travel experiences. Along its Mediterranean coast, destinations such as Antalya, Belek, Kemer, and Alanya stand out as some of the most popular bases for exploring the country through well-organized tours and excursions.</p><p>Our Turkey tours are designed to help travelers discover the country in a comfortable and meaningful way. From cultural sightseeing and nature-focused activities to relaxing coastal excursions, each Turkey trip combines carefully planned itineraries with professional guidance and local expertise.</p><p>If you are planning holidays to Turkey, you will find a wide selection of guided tours and day trips starting from the main resort areas. These experiences allow you to explore historical sites, natural landmarks, and authentic local environments while enjoying a smooth and well-structured travel experience.</p><h3>Best Places to Visit in Turkey</h3><p>Turkey offers a wide variety of destinations, but the Mediterranean region is especially popular for travelers looking to combine sightseeing with memorable excursions.</p><h4>Antalya</h4><p>A major hub for guided tours, Antalya offers easy access to ancient cities, waterfalls, coastal boat trips, and cultural landmarks. It is one of the best starting points for discovering southern Turkey through day excursions.</p><p><antalyaLink>Antalya Day Tours</antalyaLink></p><h4>Belek</h4><p>Belek is an excellent base for organized excursions to historical sites, scenic landscapes, and cultural attractions, ideal for travelers who prefer well-paced and guided experiences.</p><p><belekLink>Belek Day Tours</belekLink></p><h4>Kemer</h4><p>Surrounded by mountains and the Mediterranean Sea, Kemer is perfect for nature-focused excursions, including boat trips, panoramic viewpoints, and nearby archaeological sites.</p><p><kemerLink>Kemer Day Tours</kemerLink></p><h4>Alanya</h4><p>Alanya offers a wide range of excursions, from historical sightseeing and coastal cruises to inland adventures, making it a popular choice for travelers looking for variety.</p><p><alanyaLink>Alanya Day Tours</alanyaLink></p><h3>Day Tours and Group Excursions</h3><p>Our day tours in Turkey are designed to help you make the most of your time, with carefully planned excursions, comfortable transportation, and professional local guides. With Karim Tour, you can enjoy well-organized experiences that allow you to explore key sights and landscapes without the need for long itineraries or complex planning.</p><p>Whether you are traveling solo, as a couple, with family, or in a group, our daily excursions offer flexible options that fit easily into your holiday schedule. These guided day trips focus on cultural highlights, natural scenery, and authentic local experiences, ensuring a smooth, enjoyable, and stress-free way to discover Turkey.</p>",
+    "faqTitle": "Frequently Asked Questions",
+    "egyptFaqs": [
+      {
+        "q": "Is it safe to holiday in Egypt?",
+        "a": "Yes, Egypt is a safe destination for tourism. Tourist areas have high security standards, and tours are operated by authorized companies with professional guides."
+      },
+      {
+        "q": "Is Egypt a good holiday destination?",
+        "a": "Definitely yes. Egypt combines history, beaches, luxury experiences, and competitive prices, making it one of the most well-rounded holiday destinations in the world."
+      },
+      {
+        "q": "Where to go in Egypt for a beach holiday?",
+        "a": "Hurghada and Sharm El Sheikh are the most popular destinations, while Marsa Alam is perfect for travelers seeking quieter beaches and excellent diving."
+      },
+      {
+        "q": "Can you go on holiday to Egypt?",
+        "a": "Yes, travelers from many countries can visit Egypt easily, either with a visa on arrival or an e-Visa, depending on their nationality."
+      },
+      {
+        "q": "Where to holiday in Egypt?",
+        "a": "It depends on the type of trip. For culture and history, Cairo and Luxor are ideal. For relaxation and beach holidays, Hurghada, Sharm El Sheikh, and Marsa Alam are the best options."
+      },
+      {
+        "q": "Where is the best place in Egypt to go on holiday?",
+        "a": "There is no single best answer, but many travelers agree that combining Cairo or Luxor with a few days on the Red Sea is the best way to enjoy a complete Egypt holiday."
+      }
+    ],
+    "turkeyFaqs": []
   },
   "DestinationTripsPage": {
     "backToDestinations": "Back to destinations",
@@ -682,7 +726,66 @@
       ],
 
       "readMore": "Read More"
-    }
+    },
+   
+
+  "top-places-to-visit-egypt": {
+    "seoTitle": "Top Places to Visit in Egypt: Complete Travel Guide",
+    "metaDescription": "Discover the best places to visit in Egypt, including Giza, Cairo, Luxor, Hurghada, Sharm El Sheikh, and Marsa Alam. Plan your tours with Karim Tour.",
+    "title": "Top Places to Visit in Egypt: Discover the Wonders of the Land of the Pharaohs",
+    "intro": "Egypt is a unique country, offering an extraordinary blend of ancient history, cultural attractions, and stunning natural landscapes. From iconic archaeological sites to world-famous coastal destinations, it offers unforgettable experiences for every type of traveler. Whether you are planning your first trip or returning to discover more, here are the top places to visit in Egypt.",
+    "sections": [
+      {
+        "title": "Cairo and Giza",
+        "text": "Cairo and Giza form the cultural and historical heart of the country. This region is home to the world-famous Pyramids of Giza, the Great Sphinx, and some of the most important museums in the Middle East. Visiting Cairo allows travelers to experience ancient wonders alongside vibrant modern life, traditional markets, and rich local culture. <cairoLink>City tours</cairoLink> and <gizaLink>pyramid excursions</gizaLink> are among the most popular experiences in Egypt."
+      },
+      {
+        "title": "Luxor",
+        "text": "Often described as the world’s largest open-air museum, Luxor is one of the most impressive destinations in Egypt for history lovers. The city is home to magnificent temples, royal tombs, and ancient monuments that tell the story of the pharaohs. Visiting Luxor offers deep insight into Ancient Egyptian civilization through well-preserved archaeological sites and <luxorLink>guided historical tours</luxorLink>."
+      },
+      {
+        "title": "Hurghada",
+        "text": "Hurghada is one of the most popular places to visit in Egypt for Red Sea experiences. It is famous for its crystal-clear waters, vibrant coral reefs, and wide variety of marine excursions. From snorkeling and diving trips to island cruises and desert safaris, Hurghada is an excellent base for <hurghadaLink>day tours</hurghadaLink> focused on nature and outdoor activities."
+      },
+      {
+        "title": "Sharm El Sheikh",
+        "text": "Located on the Sinai Peninsula, Sharm El Sheikh is one of the top destinations for Red Sea excursions. The area is renowned for its rich underwater life, making it ideal for snorkeling and diving day trips. In addition to marine activities, travelers can enjoy desert safaris and <sharmLink>guided nature excursions</sharmLink> easily accessible from this coastal hub."
+      },
+      {
+        "title": "Marsa Alam",
+        "text": "Marsa Alam is perfect for travelers seeking quieter and less crowded destinations in Egypt. Known for its untouched coral reefs and unique marine life, it is a favorite destination for nature lovers and diving enthusiasts. <marsaLink>Day tours</marsaLink> here focus on eco-friendly excursions, snorkeling, and encounters with extraordinary marine wildlife."
+      },
+      {
+        "title": "Explore Egypt with Karim Tour",
+        "text": "With Karim Tour, discovering Egypt’s most iconic destinations becomes a smooth and well-organized experience. From the ancient landmarks of Cairo, Giza, and Luxor to the Red Sea resorts of Hurghada, Sharm El Sheikh, and Marsa Alam, our excursions are designed to help travelers explore each destination confidently with the support of local experts.\n\nThrough our carefully selected day tours and guided experiences, you can discover Egypt’s highlights at your own pace without the stress of planning logistics. Whether you are interested in historical sites, cultural experiences, or Red Sea excursions, Karim Tour offers flexible options that connect all the key destinations featured in this guide.\n\nPlan your journey through Egypt with professionals and discover how our tours bring together the country’s most remarkable places in one seamless and authentic adventure."
+      }
+    ],
+    "readMore": "Read more"
   }
+
+
+  },
+  
+  "Destinations": {
+    "egyptTitle": "Egypt Destinations",
+    "egyptDescription": "Manage tours, cities, and local details for Egypt.",
+    "turkeyTitle": "Turkey Destinations",
+    "turkeyDescription": "Manage tours, cities, and local details for Turkey.",
+    "tableTitle": "All Destinations",
+    "tableDescription": "Overview of every destination across all countries.",
+    "searchPlaceholder": "Search destinations...",
+    "columnDestination": "Destination",
+    "columnRussianName": "Russian name",
+    "columnCountry": "Country",
+    "columnPopular": "Popular",
+    "btnEdit": "Edit",
+    "btnDelete": "Delete",
+    "btnCancel": "Cancel",
+    "errorTitle": "Error",
+    "successTitle": "Success",
+    "dialogTitle": "Confirm Deletion",
+    "dialogDescription": "Are you sure you want to delete this destination? This action cannot be undone."
+  }
+
 
 }

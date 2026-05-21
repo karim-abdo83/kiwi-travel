@@ -77,7 +77,7 @@ export function DestinationForm({ initialData, id }: DestinationFormProps) {
     if (image) {
       const res = await startUpload([image]);
 
-      imageUrl = res!.at(0)!.ufsUrl!;
+      imageUrl = res!.at(0)!.url!;
     }
 
     if (initialData && id) {
