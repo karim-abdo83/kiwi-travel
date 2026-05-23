@@ -1,8 +1,40 @@
 "use client";
-import { useState } from 'react';wa.me/79645056936wa.me/79645056936wa.me/79645056936wa.me/79645056936wa.me/79645056936wa.me/79645056936wa.me/79645056936wa.me/79645056936wa.me/79645056936wa.me/79645056936wa.me/79645nm,,,,,,,,,,,,,,,,,, Œ
+import { useState } from 'react';
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { Instagram, Facebook, MessageSquare, MessageCircle, Send, Phone, FacebookIcon, X } from "lucide-react";
+interface Social {
+  icon: React.ReactNode;
+  link: string;
+  name: string;
+}
+
+export default function Footer() {
+  const [showModal, setShowModal] = useState(false);
+  const t = useTranslations("General.footer");
+
+  const phones = ["+201003637624", "+905352699881", "+79645056936"];
+
+  const socials: Social[] = [
+    {
+      icon: <Instagram className="w-5 h-5" />,
+      link: "https://www.instagram.com/kiwitraveleg?igsh=MXJzZjFwY2Fzc2E2Zw==",
+      name: "Instagram"
+    },
+    {
+      icon: <FacebookIcon className="w-5 h-5" />,
+      link: "https://www.facebook.com/share/16NjtcXwqN/?mibextid=wwXIfr",
+      name: "Facebook"
+    },
+    {
+      icon: <MessageSquare className="w-5 h-5" />,
+      link: "https://vk.com/kiwitravelseg",
+      name: "VK"
+    },
     {
       icon: <MessageCircle className="w-5 h-5" />,
-      link: "https://wa.me/79645056936",
+      link: "https://chat.whatsapp.com/CPsj1lzPPb8A5VtdaVOZ20",
       name: "WhatsApp"
     },
     {
@@ -149,7 +181,7 @@ import { useState } from 'react';wa.me/79645056936wa.me/79645056936wa.me/7964505
                   rel="noopener noreferrer"
                   className="group flex items-center space-x-2 p-2 rounded-lg transition-colors"
                 >
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-[#0b3275] flex-shrink-0 group-hover:bg-transparent group-hover:text-[#ff8106] transition-colors">Íء
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-[#0b3275] flex-shrink-0 group-hover:bg-transparent group-hover:text-[#ff8106] transition-colors">
                     {social.icon}
                   </span>
                   <span className="text-sm whitespace-nowrap group-hover:text-[#ff8106] transition-colors">{social.name}</span>
