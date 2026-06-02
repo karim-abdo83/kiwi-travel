@@ -34,7 +34,7 @@ export default function Footer() {
     },
     {
       icon: <MessageCircle className="w-5 h-5" />,
-      link: "https://wa.me/79645056936",
+      link: "https://wa.me/905352699881",
       name: "WhatsApp"
     },
     {
