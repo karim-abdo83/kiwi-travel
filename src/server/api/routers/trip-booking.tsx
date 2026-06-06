@@ -335,8 +335,8 @@ const tEmail = await getTranslations("General.bookingEmail.new");
 await sendTelegramNotification(
 `🧾 <b>Новая бронь</b>
 🆔 <b>Trip ID:</b> ${input.tripId}
-👤 <b>Клиент:</b> ${input.name || user.firstName || "Guest"}
-📧 <b>Email:</b> ${user.emailAddresses[0]?.emailAddress || "Не указан"}
+👤 <b>Клиент:</b> ${input.name || "Guest"}
+📧 <b>Email:</b> ${input.email || "Не указан"}
 📞 <b>Телефон:</b> ${input.phone}
 🎫 <b>Тур:</b> ${trip.titleRu || trip.titleEn}
 📅 <b>Дата:</b> ${format(input.date, "yyyy-MM-dd")}
