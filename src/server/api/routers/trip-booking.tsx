@@ -207,6 +207,8 @@ await sendTelegramNotification(
 👤 <b>Клиент:</b> ${input.name || user.firstName || "Guest"}
 📧 <b>Email:</b> ${user.emailAddresses[0]?.emailAddress || "Не указан"}
 📞 <b>Телефон:</b> ${input.phone}
+🏨 <b>Отель:</b> ${input.hotelNameAddress || "Не указан"}
+🚪 <b>Номер комнаты:</b> ${input.roomNumberOrSpecialRequests || "Не указан"}
 🎫 <b>Тур:</b> ${trip.titleRu || trip.titleEn}
 📅 <b>Дата:</b> ${format(input.date, "yyyy-MM-dd")}
 👨 <b>Взрослые:</b> ${input.adultsCount}
