@@ -297,6 +297,8 @@ const BookingSubmitDialog = ({
       infantsCount: 0,
       phone: "",
       email: "",
+      hotelNameAddress: "",
+      roomNumberOrSpecialRequests: "",
     },
   });
 
@@ -472,6 +474,33 @@ const BookingSubmitDialog = ({
             />}
 
             <div>
+              <FormField
+  control={form.control}
+  name="hotelNameAddress"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Hotel name - address / Название отеля - адрес</FormLabel>
+      <FormControl>
+        <Input placeholder="Hotel name - address" {...field} />
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+<FormField
+  control={form.control}
+  name="roomNumberOrSpecialRequests"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Room number - Special Requests / Номер комнаты - Особые пожелания</FormLabel>
+      <FormControl>
+        <Input placeholder="Room number or special requests" {...field} />
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
               <Label className="block mb-2 text-sm font-medium">{t("travelersCount")}</Label>
               <Card className="p-3 space-y-3">
                 <FormField
