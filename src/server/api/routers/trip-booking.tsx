@@ -326,9 +326,28 @@ const tEmail = await getTranslations("General.bookingEmail.new");
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
       const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
 
-      await sendTelegramNotification(
-        `🧾 <b>Новая бронь</b>\nПользователь: ${input.email}\nТелефон: ${input.phone}\nТур: ${input.tripId}\nДата: ${format(input.date, "yyyy-MM-dd")}\n<a href="${bookingLink}">Открыть в админке</a>\n\n<a href="${tripLink}">${trip.titleRu}</a>`
-      );
+      const telegramTotal =
+  (trip.adultTripPriceInCents / 100) * input.adultsCount +
+  (trip.childTripPriceInCents
+    ? (trip.childTripPriceInCents / 100) * input.childrenCount
+    : 0);
+
+await sendTelegramNotification(
+`🧾 <b>Новая бронь</b>
+🆔 <b>Trip ID:</b> ${input.tripId}
+👤 <b>Клиент:</b> ${input.name || user.firstName || "Guest"}
+📧 <b>Email:</b> ${user.emailAddresses[0]?.emailAddress || "Не указан"}
+📞 <b>Телефон:</b> ${input.phone}
+🎫 <b>Тур:</b> ${trip.titleRu || trip.titleEn}
+📅 <b>Дата:</b> ${format(input.date, "yyyy-MM-dd")}
+👨 <b>Взрослые:</b> ${input.adultsCount}
+👧 <b>Дети:</b> ${input.childrenCount}
+👶 <b>Младенцы:</b> ${input.infantsCount}
+💰 <b>Сумма:</b> $${telegramTotal}
+💳 <b>Оплата:</b> Наличные
+🔗 <a href="${bookingLink}">Открыть в админке</a>
+🌍 <a href="${tripLink}">Ссылка на тур</a>`
+);
 
       const tEmail = await getTranslations("General.bookingEmail.new");
 
