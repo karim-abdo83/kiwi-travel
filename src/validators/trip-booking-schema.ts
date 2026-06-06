@@ -24,6 +24,8 @@ export const tripBookingFormSchema = z.object({
       "Please enter a valid phone number",
     ),
   email: z.string().optional(),
+  hotelNameAddress: z.string().optional(),
+roomNumberOrSpecialRequests: z.string().optional(),
 });
 
 export type TripBookingFormValues = z.infer<typeof tripBookingFormSchema>
