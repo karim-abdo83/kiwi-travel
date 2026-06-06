@@ -481,7 +481,7 @@ const BookingSubmitDialog = ({
     <FormItem>
       <FormLabel>Название отеля / Адрес</FormLabel>
       <FormControl>
-        <Input placeholder="Название отеля или адрес"
+        <Input placeholder="Название отеля или адрес" {...field} />
       </FormControl>
       <FormMessage />
     </FormItem>
