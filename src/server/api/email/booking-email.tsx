@@ -28,6 +28,8 @@ interface BookingEmailProps {
     infantsCount: number;
     totalAmount: number;
     tripTitle: string;
+    hotelNameAddress?: string;
+    roomNumberOrSpecialRequests?: string;
     additionalNotes?: string;
   };
   isAdminCopy?: boolean;
@@ -84,12 +86,12 @@ export const BookingEmail = ({
                 </tr>
                    <tr>
   <td style={tdLeft}>Hotel Name</td>
-  <td style={tdRight}>{bookingData.hotelNameAddress}</td>
+  <td style={tdRight}>{bookingData.hotelNameAddress || "-"}</td>
 </tr>
 
 <tr>
   <td style={tdLeft}>Room Number / Special Requests</td>
-  <td style={tdRight}>{bookingData.roomNumberOrSpecialRequests}</td>
+  <td style={tdRight}>{bookingData.roomNumberOrSpecialRequests || "-"}</td>
 </tr>
                 <tr>
                   <td style={tdLeft}>Children Count</td>
