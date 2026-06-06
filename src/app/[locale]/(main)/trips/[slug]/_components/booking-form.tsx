@@ -479,9 +479,9 @@ const BookingSubmitDialog = ({
   name="hotelNameAddress"
   render={({ field }) => (
     <FormItem>
-      <FormLabel>Название отеля / Адрес</FormLabel>
+      <FormLabel>{locale === "ru" ? "Название отеля / Адрес" : "Hotel name / Address"}</FormLabel>
       <FormControl>
-        <Input placeholder="Название отеля или адрес" {...field} />
+        <Input placeholder={locale === "ru" ? "Название отеля или адрес" : "Hotel name or address"} {...field} />
       </FormControl>
       <FormMessage />
     </FormItem>
@@ -493,9 +493,9 @@ const BookingSubmitDialog = ({
   name="roomNumberOrSpecialRequests"
   render={({ field }) => (
     <FormItem>
-      <FormLabel>Номер комнаты / Особые пожелания</FormLabel>
+      <FormLabel>{locale === "ru" ? "Номер комнаты / Особые пожелания" : "Room number / Special requests"}</FormLabel>
       <FormControl>
-        <Input placeholder="Номер комнаты или особые пожелания" {...field} />
+        <Input placeholder={locale === "ru" ? "Номер комнаты или особые пожелания" : "Room number or special requests"} {...field} />
       </FormControl>
       <FormMessage />
     </FormItem>
