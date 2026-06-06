@@ -58,7 +58,7 @@ export const BookingEmail = ({
               <Column style={voucherColumn}>
                 <Heading style={voucherHeading}>TOURISTS VOUCHER</Heading>
                 <Text style={phoneText}>
-                  +201003637624 - +905352699881
+                  +201003637624 - +905352699881 - +79645056936
                 </Text>
               </Column>
             </Row>
@@ -82,7 +82,16 @@ export const BookingEmail = ({
                   <td style={tdLeft}>Service (Trip)</td>
                   <td style={tdRight}>{bookingData.tripTitle}</td>
                 </tr>
-                 <tr>
+                   <tr>
+  <td style={tdLeft}>Hotel Name</td>
+  <td style={tdRight}>{bookingData.hotelNameAddress}</td>
+</tr>
+
+<tr>
+  <td style={tdLeft}>Room Number / Special Requests</td>
+  <td style={tdRight}>{bookingData.roomNumberOrSpecialRequests}</td>
+</tr>
+                <tr>
                   <td style={tdLeft}>Children Count</td>
                   <td style={tdRight}>{bookingData.childrenCount}</td>
                 </tr>
@@ -96,7 +105,7 @@ export const BookingEmail = ({
                 </tr>
                 <tr>
                   <td style={tdLeft}>Payment Method</td>
-                  <td style={tdRight}>Online</td>
+                  <td style={tdRight}>Pay on Arrival</td>
                 </tr>
                  <tr>
                   <td style={tdLeft}>Phone Number</td>
