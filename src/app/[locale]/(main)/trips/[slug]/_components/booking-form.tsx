@@ -479,9 +479,9 @@ const BookingSubmitDialog = ({
   name="hotelNameAddress"
   render={({ field }) => (
     <FormItem>
-      <FormLabel>Hotel name - address / Название отеля - адрес</FormLabel>
+      <FormLabel>{t("hotelNameAddress")}</FormLabel>
       <FormControl>
-        <Input placeholder="Hotel name - address" {...field} />
+        <Input placeholder={t("hotelNameAddressPlaceholder")} {...field} />
       </FormControl>
       <FormMessage />
     </FormItem>
@@ -493,9 +493,9 @@ const BookingSubmitDialog = ({
   name="roomNumberOrSpecialRequests"
   render={({ field }) => (
     <FormItem>
-      <FormLabel>Room number - Special Requests / Номер комнаты - Особые пожелания</FormLabel>
+      <FormLabel>{t("roomNumberOrSpecialRequests")}</FormLabel>
       <FormControl>
-        <Input placeholder="Room number or special requests" {...field} />
+        <Input placeholder={t("roomNumberOrSpecialRequestsPlaceholder")} {...field} />
       </FormControl>
       <FormMessage />
     </FormItem>
