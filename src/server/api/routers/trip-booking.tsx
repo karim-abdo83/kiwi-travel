@@ -243,6 +243,8 @@ const tEmail = await getTranslations("General.bookingEmail.new");
             infantsCount: input.infantsCount,
             totalAmount: emailTotal,
             tripTitle: trip.titleEn,
+            hotelNameAddress: input.hotelNameAddress,
+            roomNumberOrSpecialRequests: input.roomNumberOrSpecialRequests,
             additionalNotes: "",
           }}
         />
