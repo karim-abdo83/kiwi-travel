@@ -379,6 +379,8 @@ await sendTelegramNotification(
             infantsCount: input.infantsCount,
             totalAmount: emailTotal,
             tripTitle: trip.titleRu,
+            hotelNameAddress: input.hotelNameAddress,
+            roomNumberOrSpecialRequests: input.roomNumberOrSpecialRequests,
             additionalNotes: "",
           }}
         />
