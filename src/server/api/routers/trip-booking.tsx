@@ -522,6 +522,8 @@ await sendTelegramNotification(
             numberOfPeople: 0,
             totalAmount: 0,
             tripTitle: "",
+            hotelNameAddress: "",
+            roomNumberOrSpecialRequests: "",
             additionalNotes: "",
             adultsCount: 0,
             childrenCount: 0,
