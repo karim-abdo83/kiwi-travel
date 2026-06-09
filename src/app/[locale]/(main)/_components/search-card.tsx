@@ -151,7 +151,7 @@ export default function SearchCard() {
                             key={`dest-${destination.id}`}
                             value={`dest-${destination.id}`}
                             onSelect={() => {
-                              router.push(`/destinations/${destination.slug}`);
+                              router.push(`/${locale}/destinations/${destination.slug}`);
                               setOpen(false);
                             }}
                           >
@@ -195,9 +195,9 @@ export default function SearchCard() {
                             value={`${item.type}-${item.id}`}
                             onSelect={() => {
                               if (item.type === "trip") {
-                                router.push(`/trips/${item.slug}`);
+                                router.push(`/${locale}/trips/${item.slug}`);
                               } else if (item.type === "destination") {
-                                router.push(`/destinations/${item.slug}`);
+                                router.push(`/${locale}/destinations/${item.slug}`);
                               }
                               setOpen(false);
                             }}
