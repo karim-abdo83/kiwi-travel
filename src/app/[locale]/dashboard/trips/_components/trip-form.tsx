@@ -32,7 +32,7 @@ import { useCommonMutationResponse } from "@/hooks/use-common-mutation-response"
 import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/hooks/use-upload-thing";
 import { api } from "@/trpc/react";
-import { days, tripFormBaseSchema } from "@/validators/trip-schema";
+import { days, tripClientFormSchema } from "@/validators/trip-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -45,7 +45,7 @@ import {
   type FileWithProgress,
 } from "./upload-progress-dialog";
 
-const clientFormSchema = tripFormBaseSchema.omit({ assets: true });
+const clientFormSchema = tripClientFormSchema;
 
 type TripFormValues = z.infer<typeof clientFormSchema>;
 
@@ -262,7 +262,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
         ...formattedValue,
       };
 
-      if (initialData?.ticketTypes === undefined) {
+      if (initialData?.ticketTypes === undefined && (submitValue.ticketTypes?.length ?? 0) === 0) {
         delete submitValue.ticketTypes;
       }
 

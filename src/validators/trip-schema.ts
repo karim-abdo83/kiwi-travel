@@ -112,6 +112,10 @@ export const tripFormUpdateSchema = tripFormBaseSchema
   .extend({ id: z.number().int() })
   .superRefine(validateLegacyPrices);
 
+export const tripClientFormSchema = tripFormBaseSchema
+  .omit({ assets: true })
+  .superRefine(validateLegacyPrices);
+
 export const tripSearchFormSchema = z.object({
   search: z.string().optional(),
   date: z.date().min(new Date()).optional(),
