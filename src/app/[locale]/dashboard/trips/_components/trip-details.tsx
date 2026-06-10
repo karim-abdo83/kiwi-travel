@@ -256,9 +256,21 @@ export function TripDetails({ trip }: { trip: Trip }) {
                             {request.userEmail}
                           </TableCell>
                           <TableCell>
-                            {request.adultsCount}
-                            {request.childrenCount !== 0 && ` + ${request.childrenCount} children`}
-                            {request.infantsCount !== 0 && ` + ${request.infantsCount} infants`}
+                            {request.ticketTypes.length > 0 ? (
+                              <div className="space-y-1">
+                                {request.ticketTypes.map((ticket) => (
+                                  <div key={ticket.id}>
+                                    {ticket.ticketNameEn} x {ticket.quantity} = ${ticket.totalPriceInCents / 100}
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <>
+                                {request.adultsCount}
+                                {request.childrenCount !== 0 && ` + ${request.childrenCount} children`}
+                                {request.infantsCount !== 0 && ` + ${request.infantsCount} infants`}
+                              </>
+                            )}
                           </TableCell>
                           <TableCell>
                             {request.createdAt.toLocaleDateString("en-Us", {

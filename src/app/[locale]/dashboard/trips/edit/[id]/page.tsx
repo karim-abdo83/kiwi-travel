@@ -28,6 +28,7 @@ export default async function EditTripPage({
         initialData={{
           ...trip,
           assets: trip.assetsUrls,
+          displayFromPrice: trip.displayFromPriceInCents === null ? undefined : trip.displayFromPriceInCents / 100,
           adultPrice: trip.adultTripPriceInCents / 100,
           childPrice: trip.childTripPriceInCents / 100,
           features: trip.features.map((f) => f.featureId),
@@ -38,6 +39,15 @@ export default async function EditTripPage({
           placeOfReturnEn: trip?.placeOfReturnEn || "",
           placeOfReturnRu: trip?.placeOfReturnRu || "",
           placeOfReturnTr: trip?.placeOfReturnTr || "",
+          ticketTypes: "ticketTypes" in trip
+            ? trip.ticketTypes.map((ticketType) => ({
+                nameEn: ticketType.nameEn,
+                nameRu: ticketType.nameRu,
+                price: ticketType.priceInCents / 100,
+                sortOrder: ticketType.sortOrder,
+                isActive: ticketType.isActive,
+              }))
+            : undefined,
         }}
       />
     </div>

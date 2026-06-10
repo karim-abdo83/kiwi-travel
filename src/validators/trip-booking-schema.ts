@@ -16,6 +16,14 @@ export const tripBookingFormSchema = z.object({
     .min(1, "At least 1 adult is required"),
   childrenCount: z.number(),
   infantsCount: z.number(),
+  ticketItems: z
+    .array(
+      z.object({
+        ticketTypeId: z.number().int().positive(),
+        quantity: z.number().int().min(0),
+      }),
+    )
+    .optional(),
   phone: z
     .string()
     .min(1, "Phone number is required")
