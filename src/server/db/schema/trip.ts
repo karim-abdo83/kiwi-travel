@@ -105,11 +105,32 @@ export const tripToTripType = pgTable(
   (t) => [primaryKey({ columns: [t.tripId, t.tripTypeId] })],
 );
 
+export const tripTicketType = pgTable("trip_ticket_types", (c) => ({
+  id: c.integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  tripId: c
+    .integer("trip_id")
+    .notNull()
+    .references(() => trip.id, { onDelete: "cascade" }),
+  nameEn: c.text("name_en").notNull(),
+  nameRu: c.text("name_ru").notNull(),
+  priceInCents: c.integer("price_in_cents").notNull(),
+  sortOrder: c.integer("sort_order").notNull().default(0),
+  isActive: c.boolean("is_active").notNull().default(true),
+  createdAt: c
+    .timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: c
+    .timestamp("updated_at", { withTimezone: true })
+    .$onUpdate(() => new Date()),
+}));
+
 // ======================== relations ========================
 export const tripRelations = relations(trip, ({ many, one }) => ({
   bookings: many(tripBooking),
   features: many(tripToFeature),
   tripTypes: many(tripToTripType),
+  ticketTypes: many(tripTicketType),
   reviews: many(review),
   destination: one(destination, {
     fields: [trip.destinationId],
@@ -137,4 +158,11 @@ export const tripToTripTypeRelations = relations(tripToTripType, ({ one }) => ({
     fields: [tripToTripType.tripId],
     references: [trip.id],
   }),
-}))
+}));
+
+export const tripTicketTypeRelations = relations(tripTicketType, ({ one }) => ({
+  trip: one(trip, {
+    fields: [tripTicketType.tripId],
+    references: [trip.id],
+  }),
+}));

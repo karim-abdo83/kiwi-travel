@@ -38,6 +38,13 @@ export default async function EditTripPage({
           placeOfReturnEn: trip?.placeOfReturnEn || "",
           placeOfReturnRu: trip?.placeOfReturnRu || "",
           placeOfReturnTr: trip?.placeOfReturnTr || "",
+          ticketTypes: trip.ticketTypes.map((ticketType) => ({
+            nameEn: ticketType.nameEn,
+            nameRu: ticketType.nameRu,
+            price: ticketType.priceInCents / 100,
+            sortOrder: ticketType.sortOrder,
+            isActive: ticketType.isActive,
+          })),
         }}
       />
     </div>
