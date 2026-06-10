@@ -64,9 +64,6 @@ export const tripRouter = createTRPCRouter({
           destination: true,
           features: true,
           tripTypes: true,
-          ticketTypes: {
-            orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
-          },
         },
       }),
   ),
