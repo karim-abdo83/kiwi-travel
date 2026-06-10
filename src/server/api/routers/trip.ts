@@ -9,6 +9,7 @@ import {
   country,
   destination,
   trip,
+  tripTicketType,
   tripToFeature,
   tripToTripType
 } from "@/server/db/schema";
@@ -63,6 +64,9 @@ export const tripRouter = createTRPCRouter({
           destination: true,
           features: true,
           tripTypes: true,
+          ticketTypes: {
+            orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
+          },
         },
       }),
   ),
@@ -104,31 +108,45 @@ export const tripRouter = createTRPCRouter({
     .input(tripFormSchema)
     .mutation(async ({ input, ctx }) => {
       await ctx.db.transaction(async (tx) => {
+        const { ticketTypes, ...tripInput } = input;
         const result = await tx
           .insert(trip)
           .values({
-            ...input,
-            assetsUrls: input.assets,
-            adultTripPriceInCents: Math.floor(input.adultPrice * 100),
-            childTripPriceInCents: Math.floor(input.childPrice * 100),
+            ...tripInput,
+            assetsUrls: tripInput.assets,
+            adultTripPriceInCents: Math.floor(tripInput.adultPrice * 100),
+            childTripPriceInCents: Math.floor(tripInput.childPrice * 100),
           })
           .returning({ id: trip.id });
 
         const tripId = result[0]!.id;
 
         await tx.insert(tripToFeature).values(
-          input.features.map((featureId) => ({
+          tripInput.features.map((featureId) => ({
             tripId,
             featureId,
           })),
         );
 
         await tx.insert(tripToTripType).values(
-          input.tripTypes.map(tripTypeId => ({
+          tripInput.tripTypes.map(tripTypeId => ({
             tripId,
             tripTypeId,
           }))
         );
+
+        if (ticketTypes !== undefined && ticketTypes.length > 0) {
+          await tx.insert(tripTicketType).values(
+            ticketTypes.map((ticketType) => ({
+              tripId,
+              nameEn: ticketType.nameEn,
+              nameRu: ticketType.nameRu,
+              priceInCents: Math.floor(ticketType.price * 100),
+              sortOrder: ticketType.sortOrder,
+              isActive: ticketType.isActive,
+            })),
+          );
+        }
       });
 
       return {
@@ -139,37 +157,57 @@ export const tripRouter = createTRPCRouter({
     .input(tripFormSchema.extend({ id: z.number().int() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.transaction(async (tx) => {
+        const { ticketTypes, ...tripInput } = input;
         await tx
           .update(trip)
           .set({
-            ...input,
-            assetsUrls: input.assets,
-            adultTripPriceInCents: Math.floor(input.adultPrice * 100),
-            childTripPriceInCents: Math.floor(input.childPrice * 100),
+            ...tripInput,
+            assetsUrls: tripInput.assets,
+            adultTripPriceInCents: Math.floor(tripInput.adultPrice * 100),
+            childTripPriceInCents: Math.floor(tripInput.childPrice * 100),
           })
-          .where(eq(trip.id, input.id));
+          .where(eq(trip.id, tripInput.id));
 
         await tx
           .delete(tripToFeature)
-          .where(eq(tripToFeature.tripId, input.id));
+          .where(eq(tripToFeature.tripId, tripInput.id));
 
         await tx
           .delete(tripToTripType)
-          .where(eq(tripToTripType.tripId, input.id));
+          .where(eq(tripToTripType.tripId, tripInput.id));
 
         await tx.insert(tripToFeature).values(
-          input.features.map((featureId) => ({
-            tripId: input.id,
+          tripInput.features.map((featureId) => ({
+            tripId: tripInput.id,
             featureId,
           })),
         );
 
         await tx.insert(tripToTripType).values(
-          input.tripTypes.map(tripTypeId => ({
-            tripId: input.id,
+          tripInput.tripTypes.map(tripTypeId => ({
+            tripId: tripInput.id,
             tripTypeId,
           }))
         );
+
+        if (ticketTypes !== undefined) {
+          await tx
+            .delete(tripTicketType)
+            .where(eq(tripTicketType.tripId, tripInput.id));
+
+          if (ticketTypes.length > 0) {
+            await tx.insert(tripTicketType).values(
+              ticketTypes.map((ticketType) => ({
+                tripId: tripInput.id,
+                nameEn: ticketType.nameEn,
+                nameRu: ticketType.nameRu,
+                priceInCents: Math.floor(ticketType.price * 100),
+                sortOrder: ticketType.sortOrder,
+                isActive: ticketType.isActive,
+              })),
+            );
+          }
+        }
       });
 
       return {

@@ -3,6 +3,12 @@
 import { MultiSelect } from "@/components/multi-select";
 import { Button } from "@/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   Form,
   FormControl,
   FormDescription,
@@ -28,8 +34,9 @@ import { useUploadThing } from "@/hooks/use-upload-thing";
 import { api } from "@/trpc/react";
 import { days, tripFormSchema } from "@/validators/trip-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { RichTextEditor } from "./rich-text-editor";
 import UploadFilesField, { AssetFile } from "./upload-files-field";
@@ -191,6 +198,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
       isFeatured: initialData?.isFeatured || false,
       isConfirmationRequired: initialData?.isConfirmationRequired || false,
       tripTypes: initialData?.tripTypes || [],
+      ticketTypes: initialData?.ticketTypes ?? [],
       // pickup and place of return
       pickupPointEn: initialData?.pickupPointEn || "",
       pickupPointRu: initialData?.pickupPointRu || "",
@@ -201,6 +209,15 @@ export function TripForm({ initialData, id }: TripFormProps) {
       // size of trip
       sizeOfTrip: initialData?.sizeOfTrip || "",
     },
+  });
+
+  const {
+    fields: ticketTypeFields,
+    append: appendTicketType,
+    remove: removeTicketType,
+  } = useFieldArray({
+    control: form.control,
+    name: "ticketTypes",
   });
 
   const getAssets = async () => {
@@ -240,6 +257,13 @@ export function TripForm({ initialData, id }: TripFormProps) {
         // Ensure slug is trimmed and in lowercase with hyphens
         slug: value.slug.trim().toLowerCase().replace(/\s+/g, '-'),
       };
+      const submitValue = {
+        ...formattedValue,
+      };
+
+      if (initialData?.ticketTypes === undefined) {
+        delete submitValue.ticketTypes;
+      }
 
       const assets = await getAssets();
 
@@ -254,13 +278,13 @@ export function TripForm({ initialData, id }: TripFormProps) {
 
       if (initialData && id) {
         await update({
-          ...formattedValue,
+          ...submitValue,
           id,
           assets,
         });
       } else {
         await create({
-          ...formattedValue,
+          ...submitValue,
           assets,
         });
       }
@@ -823,6 +847,152 @@ export function TripForm({ initialData, id }: TripFormProps) {
               </FormItem>
             )}
           />
+
+          {id && (
+            <Card className="col-span-1 md:col-span-2">
+              <CardHeader>
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <CardTitle>Ticket Types</CardTitle>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Manage dynamic ticket types for this trip. The old Adult, Child and Infant prices remain unchanged.
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() =>
+                      appendTicketType({
+                        nameEn: "",
+                        nameRu: "",
+                        price: 0,
+                        sortOrder: ticketTypeFields.length,
+                        isActive: true,
+                      })
+                    }
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add Ticket
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {ticketTypeFields.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">
+                    No ticket types yet. Add tickets here when you are ready to manage dynamic pricing.
+                  </p>
+                ) : (
+                  ticketTypeFields.map((ticketTypeField, index) => (
+                    <div
+                      key={ticketTypeField.id}
+                      className="grid gap-4 rounded-lg border p-4 md:grid-cols-12"
+                    >
+                      <FormField
+                        control={form.control}
+                        name={`ticketTypes.${index}.nameEn`}
+                        render={({ field }) => (
+                          <FormItem className="md:col-span-3">
+                            <FormLabel>Name EN</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Adult" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`ticketTypes.${index}.nameRu`}
+                        render={({ field }) => (
+                          <FormItem className="md:col-span-3">
+                            <FormLabel>Name RU</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Adult" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`ticketTypes.${index}.price`}
+                        render={({ field }) => (
+                          <FormItem className="md:col-span-2">
+                            <FormLabel>Price</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                step="0.01"
+                                placeholder="0.00"
+                                {...field}
+                                onChange={(e) => field.onChange(Number(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`ticketTypes.${index}.sortOrder`}
+                        render={({ field }) => (
+                          <FormItem className="md:col-span-2">
+                            <FormLabel>Sort Order</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                step="1"
+                                placeholder="0"
+                                {...field}
+                                onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className="flex items-end gap-3 md:col-span-2">
+                        <FormField
+                          control={form.control}
+                          name={`ticketTypes.${index}.isActive`}
+                          render={({ field }) => (
+                            <FormItem className="flex items-center gap-2 pb-2">
+                              <FormControl>
+                                <Switch
+                                  className="mt-2"
+                                  name={field.name}
+                                  ref={field.ref}
+                                  disabled={field.disabled}
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                              <FormLabel>Active</FormLabel>
+                            </FormItem>
+                          )}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          className="mb-1"
+                          onClick={() => removeTicketType(index)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          )}
 
           {/* Is it available */}
           <FormField
