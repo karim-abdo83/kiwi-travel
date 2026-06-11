@@ -18,7 +18,36 @@ export const tripTicketTypeFormSchema = z.object({
   isActive: z.boolean().default(true),
 });
 
-export const tripFormSchema = z.object({
+const validateLegacyPrices = (
+  value: {
+    adultPrice?: number;
+    childPrice?: number;
+    ticketTypes?: { isActive: boolean }[];
+  },
+  ctx: z.RefinementCtx,
+) => {
+  const hasActiveTicketTypes = value.ticketTypes?.some((ticketType) => ticketType.isActive) ?? false;
+
+  if (hasActiveTicketTypes) return;
+
+  if (value.adultPrice === undefined) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Adult price is required when active ticket types are not used",
+      path: ["adultPrice"],
+    });
+  }
+
+  if (value.childPrice === undefined) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Child price is required when active ticket types are not used",
+      path: ["childPrice"],
+    });
+  }
+};
+
+export const tripFormBaseSchema = z.object({
   slug: z.string().min  (1, "Slug is required"),
   titleEn: z.string().min(1, "English title is required"),
   titleRu: z.string().min(1, "Russian title is required"),
@@ -53,12 +82,18 @@ export const tripFormSchema = z.object({
     .number({ message: "Destination is required" })
     .int()
     .positive("Destination ID must be a positive integer"),
+  displayFromPrice: z
+    .number({ message: "Display from price must be a number" })
+    .min(0, "Display from price cannot be negative")
+    .optional(),
   adultPrice: z
-    .number({ message: "Adult price is required" })
-    .positive("Adult price must be a positive number"),
+    .number({ message: "Adult price must be a number" })
+    .positive("Adult price must be a positive number")
+    .optional(),
   childPrice: z
-    .number({ message: "Child price is required" })
-    .positive("Child price must be a positive number"),
+    .number({ message: "Child price must be a number" })
+    .min(0, "Child price cannot be negative")
+    .optional(),
   childAge: z.string(),
   infantAge: z.string(),
   ticketTypes: z.array(tripTicketTypeFormSchema).optional(),
@@ -70,6 +105,16 @@ export const tripFormSchema = z.object({
   placeOfReturnRu: z.string().optional(),
   placeOfReturnTr: z.string().optional(),
 }); 
+
+export const tripFormSchema = tripFormBaseSchema.superRefine(validateLegacyPrices);
+
+export const tripFormUpdateSchema = tripFormBaseSchema
+  .extend({ id: z.number().int() })
+  .superRefine(validateLegacyPrices);
+
+export const tripClientFormSchema = tripFormBaseSchema
+  .omit({ assets: true })
+  .superRefine(validateLegacyPrices);
 
 export const tripSearchFormSchema = z.object({
   search: z.string().optional(),

@@ -94,13 +94,23 @@ export const BookingsList = () => {
       id: "travelersCount",
       header: "Travelers Count",
       cell: ({ row }) => (
-        <>
-          {row.original.adultsCount}
-          {row.original.childrenCount !== 0 &&
-            ` + ${row.original.childrenCount} children`}
-          {row.original.infantsCount !== 0 &&
-            ` + ${row.original.infantsCount} infants`}
-        </>
+        row.original.ticketTypes.length > 0 ? (
+          <div className="space-y-1">
+            {row.original.ticketTypes.map((ticket) => (
+              <div key={ticket.id}>
+                {ticket.ticketNameEn} x {ticket.quantity} = ${ticket.totalPriceInCents / 100}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <>
+            {row.original.adultsCount}
+            {row.original.childrenCount !== 0 &&
+              ` + ${row.original.childrenCount} children`}
+            {row.original.infantsCount !== 0 &&
+              ` + ${row.original.infantsCount} infants`}
+          </>
+        )
       ),
     },
     {

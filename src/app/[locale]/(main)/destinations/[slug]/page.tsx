@@ -209,7 +209,7 @@ const breadcrumbSchema = cleanSchema(
                   <p className="mt-2 line-clamp-2 text-gray-700">{localeAttribute(trip, "description")}</p>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="text-lg font-bold">
-                      {locale === "en" ? "€" : "$"}{Math.floor(trip.adultTripPriceInCents / 100)}
+                      {locale === "en" ? "€" : "$"}{Math.floor((trip.displayFromPriceInCents ?? trip.adultTripPriceInCents) / 100)}
                     </span>
                     <Button>{t("bookNow")}</Button>
                   </div>

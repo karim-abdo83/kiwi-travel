@@ -43,6 +43,16 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocale } from "next-intl";
+
+type ActiveTicketType = {
+  id: number;
+  nameEn: string;
+  nameRu: string;
+  priceInCents: number;
+  sortOrder: number;
+  isActive: boolean;
+};
+
 interface BookingFormProps {
   duration: string;
   availableDays: (typeof days)[number][];
@@ -53,6 +63,8 @@ interface BookingFormProps {
   childAge: string;
   infantAge: string;
   childPrice: number | null;
+  displayFromPrice: number;
+  ticketTypes?: ActiveTicketType[];
 }
 
 const BookingForm = ({
@@ -65,11 +77,17 @@ const BookingForm = ({
   childPrice,
   childAge,
   infantAge,
+  displayFromPrice,
+  ticketTypes = [],
 }: BookingFormProps) => {
   const t = useTranslations("TripDetailsPage.bookingForm");
   const locale = useLocale();
   const { isSignedIn, isLoaded } = useAuth();
   const mappedDays = availableDays.map((item) => days.indexOf(item));
+  const activeTicketTypes = ticketTypes
+    .filter((ticketType) => ticketType.isActive)
+    .sort((a, b) => a.sortOrder - b.sortOrder);
+  const usesTicketTypes = activeTicketTypes.length > 0;
 
 // const {mutate: testMutate} = api.tripBooking.testEmail.useMutation({
 //   onSuccess: () => {
@@ -91,11 +109,21 @@ const BookingForm = ({
               <div className="flex items-center justify-between">
                 <span className="text-md font-semibold text-gray-500">{t("perPerson")}</span>
                 <span className="text-lg font-semibold text-primary">
-                        {locale === 'en' ? '€' : '$'}{adultPrice}
+                        {locale === 'en' ? '€' : '$'}{displayFromPrice}
                       </span>
               </div>
+              {usesTicketTypes && activeTicketTypes.map((ticketType) => (
+                <div key={ticketType.id} className="flex items-center justify-between">
+                  <span className="text-md font-semibold text-gray-500">
+                    {locale === "ru" ? ticketType.nameRu : ticketType.nameEn}
+                  </span>
+                  <span className="text-lg font-semibold text-primary">
+                    {locale === 'en' ? '€' : '$'}{ticketType.priceInCents / 100}
+                  </span>
+                </div>
+              ))}
               {/* Child Price - only show if not null */}
-              {childPrice !== null && (
+              {!usesTicketTypes && childPrice !== null && (
                 <div className="flex items-center justify-between">
                   <span className="text-md font-semibold text-gray-500">
                     {t("perChild")}{" "}
@@ -108,7 +136,7 @@ const BookingForm = ({
               )}
 
               {/* Infant Price - only show if not null */}
-              {!!infantAge.trim() && (
+              {!usesTicketTypes && !!infantAge.trim() && (
                 <div className="flex items-center justify-between">
                   <span className="text-md font-semibold text-green-600">{t("free")}</span>
                   <span className="text-md font-semibold text-gray-500">
@@ -150,6 +178,7 @@ const BookingForm = ({
             childPrice={childPrice}
             childAge={childAge}
             infantAge={infantAge}
+            ticketTypes={activeTicketTypes}
             tripId={tripId}
             isSignedIn={isSignedIn}
             locale={locale}
@@ -236,6 +265,7 @@ interface BookingSubmitDialog {
   childAge: string;
   infantAge: string;
   childPrice: number | null;
+  ticketTypes: ActiveTicketType[];
   isSignedIn: boolean | undefined;
   locale: string;
 }
@@ -247,6 +277,7 @@ const BookingSubmitDialog = ({
   childPrice,
   childAge,
   infantAge,
+  ticketTypes,
   isSignedIn,
   locale,
 }: BookingSubmitDialog) => {
@@ -256,6 +287,7 @@ const BookingSubmitDialog = ({
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const { toast } = useToast();
+  const usesTicketTypes = ticketTypes.length > 0;
 
   const createBookingMutation = isSignedIn ? api.tripBooking.create.useMutation : api.tripBooking.createAnonymously.useMutation;
   
@@ -275,6 +307,10 @@ const BookingSubmitDialog = ({
           phone: "",
           email: "",
           date: undefined,
+          ticketItems: ticketTypes.map((ticketType) => ({
+            ticketTypeId: ticketType.id,
+            quantity: 0,
+          })),
         });
         setOpen(false);
       },
@@ -295,6 +331,10 @@ const BookingSubmitDialog = ({
       adultsCount: 1,
       childrenCount: 0,
       infantsCount: 0,
+      ticketItems: ticketTypes.map((ticketType) => ({
+        ticketTypeId: ticketType.id,
+        quantity: 0,
+      })),
       phone: "",
       email: "",
       hotelNameAddress: "",
@@ -306,11 +346,17 @@ const BookingSubmitDialog = ({
   const adults = form.watch("adultsCount") || 1
   const children = form.watch("childrenCount") || 0
   const infants = form.watch("infantsCount") || 0
+  const ticketItems = form.watch("ticketItems") ?? []
 
   // Calculate total price based on traveler types
   const adultTotal = adultPrice * adults
   const childTotal = (childPrice ?? 0) * children
-  const totalPrice = (adultTotal + childTotal).toFixed(2)
+  const ticketTotal = ticketItems.reduce((total, item) => {
+    const ticketType = ticketTypes.find((ticket) => ticket.id === item.ticketTypeId);
+
+    return total + (ticketType ? (ticketType.priceInCents / 100) * item.quantity : 0);
+  }, 0);
+  const totalPrice = (usesTicketTypes ? ticketTotal : adultTotal + childTotal).toFixed(2)
 
   const handleIncreaseCount = (field: "adultsCount" | "childrenCount" | "infantsCount") => {
     const current = form.getValues(field) || 0
@@ -328,6 +374,23 @@ const BookingSubmitDialog = ({
     }
   }
 
+  const handleIncreaseTicketCount = (index: number) => {
+    const current = form.getValues(`ticketItems.${index}.quantity`) || 0;
+    const max = 10;
+
+    if (current < max) {
+      form.setValue(`ticketItems.${index}.quantity`, current + 1, { shouldValidate: true });
+    }
+  }
+
+  const handleDecreaseTicketCount = (index: number) => {
+    const current = form.getValues(`ticketItems.${index}.quantity`) || 0;
+
+    if (current > 0) {
+      form.setValue(`ticketItems.${index}.quantity`, current - 1, { shouldValidate: true });
+    }
+  }
+
   function onSubmit(data: TripBookingFormValues) {
     if (isPending) return;
 
@@ -337,6 +400,18 @@ const BookingSubmitDialog = ({
         message: 'Email is required for guest bookings'
       });
       return;
+    }
+
+    if (usesTicketTypes) {
+      const selectedTicketsCount = data.ticketItems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
+
+      if (selectedTicketsCount === 0) {
+        form.setError("ticketItems", {
+          type: "required",
+          message: "Please select at least one ticket",
+        });
+        return;
+      }
     }
 
     createBooking({
@@ -503,6 +578,68 @@ const BookingSubmitDialog = ({
 />
               <Label className="block mb-2 text-sm font-medium">{t("travelersCount")}</Label>
               <Card className="p-3 space-y-3">
+                {usesTicketTypes ? (
+                  <>
+                    {ticketTypes.map((ticketType, index) => (
+                      <FormField
+                        key={ticketType.id}
+                        control={form.control}
+                        name={`ticketItems.${index}.quantity`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="text-sm font-medium">
+                                  {locale === "ru" ? ticketType.nameRu : ticketType.nameEn}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {locale === 'en' ? '€' : '$'}{ticketType.priceInCents / 100}
+                                </p>
+                              </div>
+                              <div className="flex items-center">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  className="h-7 w-7 p-0"
+                                  onClick={() => handleDecreaseTicketCount(index)}
+                                  disabled={field.value <= 0}
+                                >
+                                  -
+                                </Button>
+                                <FormControl>
+                                  <div className="w-8 text-center">
+                                    <span className="text-sm font-medium">{field.value}</span>
+                                    <Input
+                                      type="hidden"
+                                      {...field}
+                                      onChange={(e) => {
+                                        const value = Number.parseInt(e.target.value)
+                                        field.onChange(isNaN(value) ? 0 : value)
+                                      }}
+                                    />
+                                  </div>
+                                </FormControl>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  className="h-7 w-7 p-0"
+                                  onClick={() => handleIncreaseTicketCount(index)}
+                                  disabled={field.value >= 10}
+                                >
+                                  +
+                                </Button>
+                              </div>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    ))}
+                    <FormMessage />
+                  </>
+                ) : (
+                  <>
                 <FormField
                   control={form.control}
                   name="adultsCount"
@@ -662,12 +799,30 @@ const BookingSubmitDialog = ({
                   )
                 }
 
+                  </>
+                )}
               </Card>
             </div>
 
             <Card className="p-3 space-y-2">
               <div className="space-y-1 text-sm">
-                {adults > 0 && (
+                {usesTicketTypes && ticketItems.map((item) => {
+                  const ticketType = ticketTypes.find((ticket) => ticket.id === item.ticketTypeId);
+                  if (!ticketType || item.quantity <= 0) return null;
+
+                  const unitPrice = ticketType.priceInCents / 100;
+                  const lineTotal = unitPrice * item.quantity;
+
+                  return (
+                    <div key={ticketType.id} className="flex items-center justify-between">
+                      <span>
+                        {locale === "ru" ? ticketType.nameRu : ticketType.nameEn} ({item.quantity}) &times; {locale === 'en' ? '€' : '$'}{unitPrice}
+                      </span>
+                      <span>{locale === 'en' ? '€' : '$'}{lineTotal.toFixed(2)}</span>
+                    </div>
+                  );
+                })}
+                {!usesTicketTypes && adults > 0 && (
                   <div className="flex items-center justify-between">
                     <span>
                       {t("adults")} ({adults}) &times; {locale === 'en' ? '€' : '$'}{adultPrice}
@@ -675,7 +830,7 @@ const BookingSubmitDialog = ({
                     <span>{locale === 'en' ? '€' : '$'}{adultTotal.toFixed(2)}</span>
                   </div>
                 )}
-                {children > 0 && (
+                {!usesTicketTypes && children > 0 && (
                   <div className="flex items-center justify-between">
                     <span>
                       {t("children")} ({children}) &times; {locale === 'en' ? '€' : '$'}{childPrice}
@@ -683,7 +838,7 @@ const BookingSubmitDialog = ({
                     <span>{locale === 'en' ? '€' : '$'}{childTotal.toFixed(2)}</span>
                   </div>
                 )}
-                {infants > 0 && (
+                {!usesTicketTypes && infants > 0 && (
                   <div className="flex items-center justify-between">
                     <span>
                       {t("infants")} ({infants}) &times; {t("free")}
