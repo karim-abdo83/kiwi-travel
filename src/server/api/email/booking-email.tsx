@@ -26,12 +26,6 @@ interface BookingEmailProps {
     childrenCount: number;
     adultsCount: number;
     infantsCount: number;
-    selectedTickets?: {
-      name: string;
-      quantity: number;
-      unitPrice: number;
-      totalPrice: number;
-    }[];
     totalAmount: number;
     tripTitle: string;
     hotelNameAddress?: string;
@@ -99,29 +93,14 @@ export const BookingEmail = ({
   <td style={tdLeft}>Room Number / Special Requests</td>
   <td style={tdRight}>{bookingData.roomNumberOrSpecialRequests || "-"}</td>
 </tr>
-                {bookingData.selectedTickets && bookingData.selectedTickets.length > 0 ? (
-                  <tr>
-                    <td style={tdLeft}>Selected Tickets</td>
-                    <td style={tdRight}>
-                      {bookingData.selectedTickets.map((ticket) => (
-                        <div key={`${ticket.name}-${ticket.quantity}-${ticket.unitPrice}`}>
-                          {ticket.name} x {ticket.quantity} = ${ticket.totalPrice}
-                        </div>
-                      ))}
-                    </td>
-                  </tr>
-                ) : (
-                  <>
-                    <tr>
-                      <td style={tdLeft}>Children Count</td>
-                      <td style={tdRight}>{bookingData.childrenCount}</td>
-                    </tr>
-                    <tr>
-                      <td style={tdLeft}>Number of Adults</td>
-                      <td style={tdRight}>{bookingData.adultsCount}</td>
-                    </tr>
-                  </>
-                )}
+                <tr>
+                  <td style={tdLeft}>Children Count</td>
+                  <td style={tdRight}>{bookingData.childrenCount}</td>
+                </tr>
+                <tr>
+                  <td style={tdLeft}>Number of Adults</td>
+                  <td style={tdRight}>{bookingData.adultsCount}</td>
+                </tr>
                 <tr>
                   <td style={tdLeft}>Trip Price</td>
                   <td style={tdRight}>${bookingData.totalAmount}</td>
