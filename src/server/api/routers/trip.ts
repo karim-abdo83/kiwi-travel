@@ -16,7 +16,6 @@ import {
 import {
   days,
   tripFormSchema,
-  tripFormUpdateSchema,
   tripSearchFormSchema,
 } from "@/validators/trip-schema";
 import {
@@ -31,22 +30,6 @@ import {
   sql
 } from "drizzle-orm";
 import { z } from "zod";
-
-function isMissingRelationError(error: unknown): boolean {
-  if (!error || typeof error !== "object") return false;
-
-  const current = error as { code?: unknown; cause?: unknown; message?: unknown };
-
-  return (
-    current.code === "42P01" ||
-    (typeof current.message === "string" && current.message.includes("trip_ticket_types")) ||
-    isMissingRelationError(current.cause)
-  );
-}
-
-function priceToCents(price: number | undefined) {
-  return Math.floor((price ?? 0) * 100);
-}
 
 export const tripRouter = createTRPCRouter({
   adminList: adminProcedure.query(async ({ ctx }) => {
@@ -74,34 +57,15 @@ export const tripRouter = createTRPCRouter({
     });
   }),
   adminView: adminProcedure.input(z.number().int()).query(
-    async ({ ctx, input }) => {
-      const item = await ctx.db.query.trip.findFirst({
+    async ({ ctx, input }) =>
+      await ctx.db.query.trip.findFirst({
         where: ({ id }, { eq }) => eq(id, input),
         with: {
           destination: true,
           features: true,
           tripTypes: true,
         },
-      });
-
-      if (!item) return item;
-
-      try {
-        const ticketTypes = await ctx.db.query.tripTicketType.findMany({
-          where: ({ tripId }, { eq }) => eq(tripId, input),
-          orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
-        });
-
-        return {
-          ...item,
-          ticketTypes,
-        };
-      } catch (error) {
-        if (isMissingRelationError(error)) return item;
-
-        throw error;
-      }
-    },
+      }),
   ),
   adminViewDetailsPage: adminProcedure.input(z.number().int()).query(
     async ({ ctx, input }) =>
@@ -141,15 +105,14 @@ export const tripRouter = createTRPCRouter({
     .input(tripFormSchema)
     .mutation(async ({ input, ctx }) => {
       await ctx.db.transaction(async (tx) => {
-        const { ticketTypes, displayFromPrice, ...tripInput } = input;
+        const { ticketTypes, ...tripInput } = input;
         const result = await tx
           .insert(trip)
           .values({
             ...tripInput,
             assetsUrls: tripInput.assets,
-            displayFromPriceInCents: displayFromPrice === undefined ? null : priceToCents(displayFromPrice),
-            adultTripPriceInCents: priceToCents(tripInput.adultPrice),
-            childTripPriceInCents: priceToCents(tripInput.childPrice),
+            adultTripPriceInCents: Math.floor(tripInput.adultPrice * 100),
+            childTripPriceInCents: Math.floor(tripInput.childPrice * 100),
           })
           .returning({ id: trip.id });
 
@@ -188,18 +151,17 @@ export const tripRouter = createTRPCRouter({
       };
     }),
   adminUpdate: adminProcedure
-    .input(tripFormUpdateSchema)
+    .input(tripFormSchema.extend({ id: z.number().int() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.transaction(async (tx) => {
-        const { ticketTypes, displayFromPrice, ...tripInput } = input;
+        const { ticketTypes, ...tripInput } = input;
         await tx
           .update(trip)
           .set({
             ...tripInput,
             assetsUrls: tripInput.assets,
-            displayFromPriceInCents: displayFromPrice === undefined ? null : priceToCents(displayFromPrice),
-            adultTripPriceInCents: priceToCents(tripInput.adultPrice),
-            childTripPriceInCents: priceToCents(tripInput.childPrice),
+            adultTripPriceInCents: Math.floor(tripInput.adultPrice * 100),
+            childTripPriceInCents: Math.floor(tripInput.childPrice * 100),
           })
           .where(eq(trip.id, tripInput.id));
 
@@ -226,25 +188,21 @@ export const tripRouter = createTRPCRouter({
         );
 
         if (ticketTypes !== undefined) {
-          try {
-            await tx
-              .delete(tripTicketType)
-              .where(eq(tripTicketType.tripId, tripInput.id));
+          await tx
+            .delete(tripTicketType)
+            .where(eq(tripTicketType.tripId, tripInput.id));
 
-            if (ticketTypes.length > 0) {
-              await tx.insert(tripTicketType).values(
-                ticketTypes.map((ticketType) => ({
-                  tripId: tripInput.id,
-                  nameEn: ticketType.nameEn,
-                  nameRu: ticketType.nameRu,
-                  priceInCents: priceToCents(ticketType.price),
-                  sortOrder: ticketType.sortOrder,
-                  isActive: ticketType.isActive,
-                })),
-              );
-            }
-          } catch (error) {
-            if (!isMissingRelationError(error)) throw error;
+          if (ticketTypes.length > 0) {
+            await tx.insert(tripTicketType).values(
+              ticketTypes.map((ticketType) => ({
+                tripId: tripInput.id,
+                nameEn: ticketType.nameEn,
+                nameRu: ticketType.nameRu,
+                priceInCents: Math.floor(ticketType.price * 100),
+                sortOrder: ticketType.sortOrder,
+                isActive: ticketType.isActive,
+              })),
+            );
           }
         }
       });
@@ -417,7 +375,7 @@ export const tripRouter = createTRPCRouter({
           titleEn: trip.titleEn,
           titleRu: trip.titleRu,
           assets: trip.assetsUrls,
-          priceInCents: sql<number>`coalesce(${trip.displayFromPriceInCents}, ${trip.adultTripPriceInCents})`,
+          priceInCents: trip.adultTripPriceInCents,
           duration: trip.duration,
           isFeatured: trip.isFeatured,
           countryEn: country.nameEn,
@@ -470,7 +428,6 @@ export const tripRouter = createTRPCRouter({
             titleEn: true,
             titleRu: true,
             adultTripPriceInCents: true,
-            displayFromPriceInCents: true,
             assetsUrls: true,
           },
           with: {
@@ -491,7 +448,7 @@ export const tripRouter = createTRPCRouter({
               slug: item.slug,
               titleEn: item.titleEn,
               titleRu: item.titleRu,
-              price: Math.floor((item.displayFromPriceInCents ?? item.adultTripPriceInCents) / 100),
+              price: Math.floor(item.adultTripPriceInCents / 100),
               image: mainImage(item.assetsUrls),
               reviewsValue: isNaN(_reviewsValue) ? 0 : _reviewsValue,
             }
@@ -513,7 +470,6 @@ export const tripRouter = createTRPCRouter({
               descriptionRu: true,
               duration: true,
               adultTripPriceInCents: true,
-              displayFromPriceInCents: true,
               assetsUrls: true,
             },
           },
@@ -555,8 +511,8 @@ export const tripRouter = createTRPCRouter({
       }),
   ),
   viewBySlug: publicProcedure.input(z.string()).query(
-    async ({ ctx, input }) => {
-      const item = await ctx.db.query.trip.findFirst({
+    async ({ ctx, input }) =>
+      await ctx.db.query.trip.findFirst({
         where: ({ slug }, { eq }) => eq(slug, input),
         with: {
           tripTypes: {
@@ -578,27 +534,7 @@ export const tripRouter = createTRPCRouter({
             where: ({ isHiddenByAdmin }, { eq }) => eq(isHiddenByAdmin, false),
           },
         },
-      });
-
-      if (!item) return item;
-
-      try {
-        const ticketTypes = await ctx.db.query.tripTicketType.findMany({
-          where: ({ tripId, isActive }, { and, eq }) =>
-            and(eq(tripId, item.id), eq(isActive, true)),
-          orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
-        });
-
-        return {
-          ...item,
-          ticketTypes,
-        };
-      } catch (error) {
-        if (isMissingRelationError(error)) return item;
-
-        throw error;
-      }
-    },
+      }),
   ),
   similar: publicProcedure.input(z.number().int()).query(
     async ({ ctx, input }) => await ctx.db.query.trip.findMany({

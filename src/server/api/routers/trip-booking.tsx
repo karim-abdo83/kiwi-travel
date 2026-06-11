@@ -3,7 +3,6 @@ import {
   confirmNotification,
   reviewNotification,
   tripBooking,
-  tripBookingTicketType,
 } from "@/server/db/schema";
 import { tripBookingFormSchema } from "@/validators/trip-booking-schema";
 import { TRPCError } from "@trpc/server";
@@ -33,77 +32,6 @@ const emailTransporter = nodemailer.createTransport({
     pass: env.EMAIL_SENDING_PASSWORD,
   },
 });
-
-function isMissingRelationError(error: unknown): boolean {
-  if (!error || typeof error !== "object") return false;
-
-  const current = error as { code?: unknown; cause?: unknown; message?: unknown };
-
-  return (
-    current.code === "42P01" ||
-    (typeof current.message === "string" &&
-      (current.message.includes("trip_ticket_types") || current.message.includes("trip_booking_ticket_types"))) ||
-    isMissingRelationError(current.cause)
-  );
-}
-
-type ActiveTicketType = {
-  id: number;
-  nameEn: string;
-  nameRu: string;
-  priceInCents: number;
-  sortOrder: number;
-  isActive: boolean;
-};
-
-type SelectedTicketLine = {
-  ticketTypeId: number;
-  ticketNameEn: string;
-  ticketNameRu: string;
-  unitPriceInCents: number;
-  quantity: number;
-  totalPriceInCents: number;
-  sortOrder: number;
-};
-
-function buildSelectedTicketLines(
-  activeTicketTypes: ActiveTicketType[],
-  inputItems: { ticketTypeId: number; quantity: number }[] | undefined,
-) {
-  const selectedLines = (inputItems ?? [])
-    .map((item) => {
-      const ticketType = activeTicketTypes.find((ticket) => ticket.id === item.ticketTypeId);
-      if (!ticketType || item.quantity <= 0) return null;
-
-      return {
-        ticketTypeId: ticketType.id,
-        ticketNameEn: ticketType.nameEn,
-        ticketNameRu: ticketType.nameRu,
-        unitPriceInCents: ticketType.priceInCents,
-        quantity: item.quantity,
-        totalPriceInCents: ticketType.priceInCents * item.quantity,
-        sortOrder: ticketType.sortOrder,
-      } satisfies SelectedTicketLine;
-    })
-    .filter((item): item is SelectedTicketLine => item !== null);
-
-  const totalQuantity = selectedLines.reduce((total, item) => total + item.quantity, 0);
-
-  if (activeTicketTypes.length > 0 && totalQuantity === 0) {
-    throw new TRPCError({
-      code: "BAD_REQUEST",
-      message: "Please select at least one ticket",
-    });
-  }
-
-  return selectedLines;
-}
-
-function formatTicketLines(lines: SelectedTicketLine[]) {
-  return lines
-    .map((line) => `${line.ticketNameEn} × ${line.quantity} = $${line.totalPriceInCents / 100}`)
-    .join("\n");
-}
 
 export const tripBookingRouter = createTRPCRouter({
   list: authProtectedProcedure.query(
@@ -195,9 +123,6 @@ export const tripBookingRouter = createTRPCRouter({
               },
             },
           },
-          ticketTypes: {
-            orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
-          },
         },
       }),
   ),
@@ -230,29 +155,6 @@ export const tripBookingRouter = createTRPCRouter({
         });
       }
 
-      let activeTicketTypes: ActiveTicketType[] = [];
-
-      try {
-        activeTicketTypes = await ctx.db.query.tripTicketType.findMany({
-          where: ({ tripId, isActive }, { and, eq }) =>
-            and(eq(tripId, input.tripId), eq(isActive, true)),
-          orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
-        });
-      } catch (error) {
-        if (!isMissingRelationError(error)) throw error;
-      }
-
-      const selectedTicketLines = buildSelectedTicketLines(activeTicketTypes, input.ticketItems);
-      const usesTicketTypes = selectedTicketLines.length > 0;
-      const ticketsTotalInCents = selectedTicketLines.reduce(
-        (total, line) => total + line.totalPriceInCents,
-        0,
-      );
-      const selectedTicketsCount = selectedTicketLines.reduce(
-        (total, line) => total + line.quantity,
-        0,
-      );
-
       const existingBooking = await ctx.db.query.tripBooking.findFirst({
         columns: {
           id: true,
@@ -275,51 +177,29 @@ export const tripBookingRouter = createTRPCRouter({
 
       const user = (await currentUser())!;
 
-      const bookingResult = await ctx.db.insert(tripBooking).values({
+      await ctx.db.insert(tripBooking).values({
         userId: ctx.userId,
         userName: input.name || (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName || null),
         userPhone: input.phone,
         userEmail: user.emailAddresses[0]!.emailAddress,
-        adultPriceInCents: usesTicketTypes ? 0 : trip.adultTripPriceInCents,
-        childPriceInCents: usesTicketTypes ? 0 : trip.childTripPriceInCents,
-        adultsCount: usesTicketTypes ? selectedTicketsCount : input.adultsCount,
-        childrenCount: usesTicketTypes ? 0 : input.childrenCount,
-        infantsCount: usesTicketTypes ? 0 : input.infantsCount,
+        adultPriceInCents: trip.adultTripPriceInCents,
+        childPriceInCents: trip.childTripPriceInCents,
+        adultsCount: input.adultsCount,
+        childrenCount: input.childrenCount,
+        infantsCount: input.infantsCount,
         tripId: input.tripId,
         bookingDate: format(input.date, "yyyy-MM-dd"),
         status: trip.isConfirmationRequired ? "pending" : "accepted",
-      }).returning({ id: tripBooking.id });
-
-      const bookingId = bookingResult[0]!.id;
-
-      if (selectedTicketLines.length > 0) {
-        await ctx.db.insert(tripBookingTicketType).values(
-          selectedTicketLines.map((line) => ({
-            bookingId,
-            ticketTypeId: line.ticketTypeId,
-            ticketNameEn: line.ticketNameEn,
-            ticketNameRu: line.ticketNameRu,
-            unitPriceInCents: line.unitPriceInCents,
-            quantity: line.quantity,
-            totalPriceInCents: line.totalPriceInCents,
-            sortOrder: line.sortOrder,
-          })),
-        );
-      }
+      });
 
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
 const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
 
-const telegramTotal = usesTicketTypes
-  ? ticketsTotalInCents / 100
-  :
+const telegramTotal =
   (trip.adultTripPriceInCents / 100) * input.adultsCount +
   (trip.childTripPriceInCents
     ? (trip.childTripPriceInCents / 100) * input.childrenCount
     : 0);
-const telegramTicketLines = usesTicketTypes
-  ? `\n🎟️ <b>Selected Tickets:</b>\n${formatTicketLines(selectedTicketLines)}`
-  : "";
 
 await sendTelegramNotification(
 `🧾 <b>Новая бронь</b>
@@ -334,7 +214,6 @@ await sendTelegramNotification(
 👨 <b>Взрослые:</b> ${input.adultsCount}
 👧 <b>Дети:</b> ${input.childrenCount}
 👶 <b>Младенцы:</b> ${input.infantsCount}
-${telegramTicketLines}
 💰 <b>Сумма:</b> $${telegramTotal}
 💳 <b>Оплата:</b> Наличные
 🔗 <a href="${bookingLink}">Открыть в админке</a>
@@ -343,16 +222,14 @@ ${telegramTicketLines}
 
 const tEmail = await getTranslations("General.bookingEmail.new");
       // Calculate totals for email
-      const totalPeople = usesTicketTypes
-        ? selectedTicketsCount
-        : input.adultsCount + input.childrenCount + input.infantsCount;
+      const totalPeople = input.adultsCount + input.childrenCount + input.infantsCount;
       const adultTotal = (trip.adultTripPriceInCents / 100) * input.adultsCount;
       const childTotal = trip.childTripPriceInCents ? (trip.childTripPriceInCents / 100) * input.childrenCount : 0;
-      const emailTotal = usesTicketTypes ? ticketsTotalInCents / 100 : adultTotal + childTotal;
+      const emailTotal = adultTotal + childTotal;
 
       const emailHtml = await render(
         <BookingEmail
-          bookingId={bookingId}
+          bookingId={0} // или реальный ID, если захочешь получить его из insert
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
@@ -365,12 +242,6 @@ const tEmail = await getTranslations("General.bookingEmail.new");
             adultsCount: input.adultsCount,
             infantsCount: input.infantsCount,
             totalAmount: emailTotal,
-            selectedTickets: selectedTicketLines.map((line) => ({
-              name: line.ticketNameEn,
-              quantity: line.quantity,
-              unitPrice: line.unitPriceInCents / 100,
-              totalPrice: line.totalPriceInCents / 100,
-            })),
             tripTitle: trip.titleEn,
             hotelNameAddress: input.hotelNameAddress,
             roomNumberOrSpecialRequests: input.roomNumberOrSpecialRequests,
@@ -421,29 +292,6 @@ const tEmail = await getTranslations("General.bookingEmail.new");
         });
       }
 
-      let activeTicketTypes: ActiveTicketType[] = [];
-
-      try {
-        activeTicketTypes = await ctx.db.query.tripTicketType.findMany({
-          where: ({ tripId, isActive }, { and, eq }) =>
-            and(eq(tripId, input.tripId), eq(isActive, true)),
-          orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
-        });
-      } catch (error) {
-        if (!isMissingRelationError(error)) throw error;
-      }
-
-      const selectedTicketLines = buildSelectedTicketLines(activeTicketTypes, input.ticketItems);
-      const usesTicketTypes = selectedTicketLines.length > 0;
-      const ticketsTotalInCents = selectedTicketLines.reduce(
-        (total, line) => total + line.totalPriceInCents,
-        0,
-      );
-      const selectedTicketsCount = selectedTicketLines.reduce(
-        (total, line) => total + line.quantity,
-        0,
-      );
-
       const existingBooking = await ctx.db.query.tripBooking.findFirst({
         columns: {
           id: true,
@@ -464,51 +312,29 @@ const tEmail = await getTranslations("General.bookingEmail.new");
         });
       }
 
-      const bookingResult = await ctx.db.insert(tripBooking).values({
+      await ctx.db.insert(tripBooking).values({
         userId: input.email,
         userName: input.name || null,
         userPhone: input.phone,
         userEmail: input.email,
-        adultPriceInCents: usesTicketTypes ? 0 : trip.adultTripPriceInCents,
-        childPriceInCents: usesTicketTypes ? 0 : trip.childTripPriceInCents,
-        adultsCount: usesTicketTypes ? selectedTicketsCount : input.adultsCount,
-        childrenCount: usesTicketTypes ? 0 : input.childrenCount,
-        infantsCount: usesTicketTypes ? 0 : input.infantsCount,
+        adultPriceInCents: trip.adultTripPriceInCents,
+        childPriceInCents: trip.childTripPriceInCents,
+        adultsCount: input.adultsCount,
+        childrenCount: input.childrenCount,
+        infantsCount: input.infantsCount,
         tripId: input.tripId,
         bookingDate: format(input.date, "yyyy-MM-dd"),
         status: trip.isConfirmationRequired ? "pending" : "accepted",
-      }).returning({ id: tripBooking.id });
-
-      const bookingId = bookingResult[0]!.id;
-
-      if (selectedTicketLines.length > 0) {
-        await ctx.db.insert(tripBookingTicketType).values(
-          selectedTicketLines.map((line) => ({
-            bookingId,
-            ticketTypeId: line.ticketTypeId,
-            ticketNameEn: line.ticketNameEn,
-            ticketNameRu: line.ticketNameRu,
-            unitPriceInCents: line.unitPriceInCents,
-            quantity: line.quantity,
-            totalPriceInCents: line.totalPriceInCents,
-            sortOrder: line.sortOrder,
-          })),
-        );
-      }
+      });
 
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
       const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
 
-      const telegramTotal = usesTicketTypes
-  ? ticketsTotalInCents / 100
-  :
+      const telegramTotal =
   (trip.adultTripPriceInCents / 100) * input.adultsCount +
   (trip.childTripPriceInCents
     ? (trip.childTripPriceInCents / 100) * input.childrenCount
     : 0);
-const telegramTicketLines = usesTicketTypes
-  ? `\n🎟️ <b>Selected Tickets:</b>\n${formatTicketLines(selectedTicketLines)}`
-  : "";
 
 await sendTelegramNotification(
 `🧾 <b>Новая бронь</b>
@@ -523,7 +349,6 @@ await sendTelegramNotification(
 👨 <b>Взрослые:</b> ${input.adultsCount}
 👧 <b>Дети:</b> ${input.childrenCount}
 👶 <b>Младенцы:</b> ${input.infantsCount}
-${telegramTicketLines}
 💰 <b>Сумма:</b> $${telegramTotal}
 💳 <b>Оплата:</b> Наличные
 🔗 <a href="${bookingLink}">Открыть в админке</a>
@@ -533,16 +358,14 @@ ${telegramTicketLines}
       const tEmail = await getTranslations("General.bookingEmail.new");
 
       // Calculate totals for email
-      const totalPeople = usesTicketTypes
-        ? selectedTicketsCount
-        : input.adultsCount + input.childrenCount + input.infantsCount;
+      const totalPeople = input.adultsCount + input.childrenCount + input.infantsCount;
       const adultTotal = (trip.adultTripPriceInCents / 100) * input.adultsCount;
       const childTotal = trip.childTripPriceInCents ? (trip.childTripPriceInCents / 100) * input.childrenCount : 0;
-      const emailTotal = usesTicketTypes ? ticketsTotalInCents / 100 : adultTotal + childTotal;
+      const emailTotal = adultTotal + childTotal;
 
       const emailHtml = await render(
         <BookingEmail
-          bookingId={bookingId}
+          bookingId={0} // или реальный ID, если захочешь получить его из insert
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
@@ -555,12 +378,6 @@ ${telegramTicketLines}
             adultsCount: input.adultsCount,
             infantsCount: input.infantsCount,
             totalAmount: emailTotal,
-            selectedTickets: selectedTicketLines.map((line) => ({
-              name: line.ticketNameEn,
-              quantity: line.quantity,
-              unitPrice: line.unitPriceInCents / 100,
-              totalPrice: line.totalPriceInCents / 100,
-            })),
             tripTitle: trip.titleRu,
             hotelNameAddress: input.hotelNameAddress,
             roomNumberOrSpecialRequests: input.roomNumberOrSpecialRequests,
@@ -647,11 +464,6 @@ ${telegramTicketLines}
               eq(tripId, input.tripId),
               eq(bookingDate, format(input.date, "yyyy-MM-dd")),
             ),
-          with: {
-            ticketTypes: {
-              orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
-            },
-          },
         }),
     ),
   adminConfirmBooking: adminProcedure
@@ -919,9 +731,6 @@ ${telegramTicketLines}
               columns: {
                 titleEn: true,
               },
-            },
-            ticketTypes: {
-              orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
             },
           },
           orderBy: desc(tripBooking.isSeenByAdmin),

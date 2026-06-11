@@ -32,7 +32,7 @@ import { useCommonMutationResponse } from "@/hooks/use-common-mutation-response"
 import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/hooks/use-upload-thing";
 import { api } from "@/trpc/react";
-import { days, tripClientFormSchema } from "@/validators/trip-schema";
+import { days, tripFormSchema } from "@/validators/trip-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -45,7 +45,7 @@ import {
   type FileWithProgress,
 } from "./upload-progress-dialog";
 
-const clientFormSchema = tripClientFormSchema;
+const clientFormSchema = tripFormSchema.omit({ assets: true });
 
 type TripFormValues = z.infer<typeof clientFormSchema>;
 
@@ -180,9 +180,8 @@ export function TripForm({ initialData, id }: TripFormProps) {
       features: initialData?.features || [],
       travelTime: initialData?.travelTime || "00:00",
       destinationId: initialData?.destinationId || ("" as any),
-      displayFromPrice: initialData?.displayFromPrice,
-      adultPrice: initialData?.adultPrice,
-      childPrice: initialData?.childPrice,
+      adultPrice: initialData?.adultPrice || 0,
+      childPrice: initialData?.childPrice || 0,
       childAge: initialData?.childAge || "",
       infantAge: initialData?.infantAge || "",
       availableDays: initialData?.availableDays || [
@@ -262,7 +261,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
         ...formattedValue,
       };
 
-      if (initialData?.ticketTypes === undefined && (submitValue.ticketTypes?.length ?? 0) === 0) {
+      if (initialData?.ticketTypes === undefined) {
         delete submitValue.ticketTypes;
       }
 
@@ -772,30 +771,6 @@ export function TripForm({ initialData, id }: TripFormProps) {
           {/* Adult Trip Price */}
           <FormField
             control={form.control}
-            name="displayFromPrice"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Display From Price</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder="Enter display price"
-                    {...field}
-                    value={field.value ?? ""}
-                    onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}
-                  />
-                </FormControl>
-                <FormDescription>Manual price shown to customers outside the trip, for example Price from 60.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Adult Trip Price */}
-          <FormField
-            control={form.control}
             name="adultPrice"
             render={({ field }) => (
               <FormItem>
@@ -805,8 +780,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
                     type="number"
                     placeholder="Enter price"
                     {...field}
-                    value={field.value ?? ""}
-                    onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}
+                    onChange={(e) => field.onChange(Number(e.target.value) || '')}
                   />
                 </FormControl>
                 <FormDescription>Enter the price (e.g. 10.00)</FormDescription>
@@ -827,8 +801,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
                     type="number"
                     placeholder="Enter price"
                     {...field}
-                    value={field.value ?? ""}
-                    onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}
+                    onChange={(e) => field.onChange(Number(e.target.value) || '')}
                   />
                 </FormControl>
                 <FormDescription>Enter the price (e.g. 10.00)</FormDescription>

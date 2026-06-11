@@ -141,8 +141,6 @@ export default async function TripDetailsPage({
   const similarTrips = await api.trip.similar(Number(trip.destinationId));
   const adultPrice = trip.adultTripPriceInCents / 100;
   const childPrice = trip.childTripPriceInCents / 100;
-  const activeTicketTypes = "ticketTypes" in trip ? trip.ticketTypes : [];
-  const displayFromPrice = (trip.displayFromPriceInCents ?? trip.adultTripPriceInCents) / 100;
 
   const amenities = [
     { title: "transfer", icon: Car },
@@ -186,7 +184,7 @@ export default async function TripDetailsPage({
     touristType: "IndividualOrGroup",
     offers: {
       "@type": "Offer",
-      price: displayFromPrice.toFixed(2),
+      price: (trip.adultTripPriceInCents / 100).toFixed(2),
       priceCurrency: "USD",
       availability: "InStock",
       url: `${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.id}`.replaceAll(
@@ -213,7 +211,7 @@ export default async function TripDetailsPage({
         description: localeAttribute(trip, "description"),
         image: mainImage(trip.assetsUrls),
         slug: trip.slug,
-        price: trip.displayFromPriceInCents ?? trip.adultTripPriceInCents,
+        price: trip.adultTripPriceInCents,
         reviews: trip.reviews,
       },
       locale,
@@ -432,8 +430,6 @@ export default async function TripDetailsPage({
                 childPrice={!!trip.childAge.trim() ? childPrice : null}
                 childAge={trip.childAge}
                 infantAge={trip.infantAge}
-                displayFromPrice={displayFromPrice}
-                ticketTypes={activeTicketTypes}
                 duration={duration}
                 reviewsValue={reviewsValue}
                 reviewsCount={reviewsCount}
@@ -512,8 +508,6 @@ export default async function TripDetailsPage({
               childPrice={!!trip.childAge.trim() ? childPrice : null}
               childAge={trip.childAge}
               infantAge={trip.infantAge}
-              displayFromPrice={displayFromPrice}
-              ticketTypes={activeTicketTypes}
               duration={duration}
               reviewsValue={reviewsValue}
               reviewsCount={reviewsCount}
@@ -617,7 +611,7 @@ export default async function TripDetailsPage({
                   </p>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="text-lg font-bold">
-                      ${Math.floor((trip.displayFromPriceInCents ?? trip.adultTripPriceInCents) / 100)}
+                      ${Math.floor(trip.adultTripPriceInCents / 100)}
                     </span>
                     <Button>{t("bookNow")}</Button>
                   </div>
