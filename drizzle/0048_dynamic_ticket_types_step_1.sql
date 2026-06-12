@@ -23,12 +23,11 @@ INSERT INTO "trip_ticket_types" (
 SELECT
 	"id",
 	'Adult',
-	'Взрослый',
+	'Adult',
 	"adult_trip_price_in_cents",
 	0,
 	true
-FROM "trips"
-WHERE "adult_trip_price_in_cents" IS NOT NULL;--> statement-breakpoint
+FROM "trips";--> statement-breakpoint
 
 INSERT INTO "trip_ticket_types" (
 	"trip_id",
@@ -41,13 +40,12 @@ INSERT INTO "trip_ticket_types" (
 SELECT
 	"id",
 	'Child',
-	'Ребенок',
+	'Child',
 	"child_trip_price_in_cents",
 	1,
 	true
 FROM "trips"
-WHERE trim(coalesce("child_age", '')) <> ''
-AND "child_trip_price_in_cents" IS NOT NULL;--> statement-breakpoint
+WHERE trim(coalesce("child_age", '')) <> '';--> statement-breakpoint
 
 INSERT INTO "trip_ticket_types" (
 	"trip_id",
@@ -60,7 +58,7 @@ INSERT INTO "trip_ticket_types" (
 SELECT
 	"id",
 	'Infant',
-	'Младенец',
+	'Infant',
 	0,
 	2,
 	true

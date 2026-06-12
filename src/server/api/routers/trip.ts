@@ -31,23 +31,6 @@ import {
 } from "drizzle-orm";
 import { z } from "zod";
 
-function isMissingTripTicketTypesError(error: unknown): boolean {
-  if (!error || typeof error !== "object") return false;
-
-  const current = error as {
-    code?: unknown;
-    cause?: unknown;
-    message?: unknown;
-  };
-
-  return (
-    current.code === "42P01" ||
-    (typeof current.message === "string" &&
-      current.message.includes("trip_ticket_types")) ||
-    isMissingTripTicketTypesError(current.cause)
-  );
-}
-
 export const tripRouter = createTRPCRouter({
   adminList: adminProcedure.query(async ({ ctx }) => {
     return await ctx.db.query.trip.findMany({
@@ -74,39 +57,15 @@ export const tripRouter = createTRPCRouter({
     });
   }),
   adminView: adminProcedure.input(z.number().int()).query(
-    async ({ ctx, input }) => {
-      const item = await ctx.db.query.trip.findFirst({
+    async ({ ctx, input }) =>
+      await ctx.db.query.trip.findFirst({
         where: ({ id }, { eq }) => eq(id, input),
         with: {
           destination: true,
           features: true,
           tripTypes: true,
         },
-      });
-
-      if (!item) return item;
-
-      try {
-        const ticketTypes = await ctx.db.query.tripTicketType.findMany({
-          where: ({ tripId }, { eq }) => eq(tripId, input),
-          orderBy: ({ sortOrder }, { asc }) => asc(sortOrder),
-        });
-
-        return {
-          ...item,
-          ticketTypes,
-        };
-      } catch (error) {
-        if (isMissingTripTicketTypesError(error)) {
-          return {
-            ...item,
-            ticketTypes: [],
-          };
-        }
-
-        throw error;
-      }
-    },
+      }),
   ),
   adminViewDetailsPage: adminProcedure.input(z.number().int()).query(
     async ({ ctx, input }) =>
@@ -145,10 +104,8 @@ export const tripRouter = createTRPCRouter({
   adminCreate: adminProcedure
     .input(tripFormSchema)
     .mutation(async ({ input, ctx }) => {
-      let tripId = 0;
-
       await ctx.db.transaction(async (tx) => {
-        const { ticketTypes: _ticketTypes, ...tripInput } = input;
+        const { ticketTypes, ...tripInput } = input;
         const result = await tx
           .insert(trip)
           .values({
@@ -159,7 +116,7 @@ export const tripRouter = createTRPCRouter({
           })
           .returning({ id: trip.id });
 
-        tripId = result[0]!.id;
+        const tripId = result[0]!.id;
 
         await tx.insert(tripToFeature).values(
           tripInput.features.map((featureId) => ({
@@ -174,12 +131,10 @@ export const tripRouter = createTRPCRouter({
             tripTypeId,
           }))
         );
-      });
 
-      if (input.ticketTypes !== undefined && input.ticketTypes.length > 0) {
-        try {
-          await ctx.db.insert(tripTicketType).values(
-            input.ticketTypes.map((ticketType) => ({
+        if (ticketTypes !== undefined && ticketTypes.length > 0) {
+          await tx.insert(tripTicketType).values(
+            ticketTypes.map((ticketType) => ({
               tripId,
               nameEn: ticketType.nameEn,
               nameRu: ticketType.nameRu,
@@ -188,10 +143,8 @@ export const tripRouter = createTRPCRouter({
               isActive: ticketType.isActive,
             })),
           );
-        } catch (error) {
-          if (!isMissingTripTicketTypesError(error)) throw error;
         }
-      }
+      });
 
       return {
         message: "Created successfully",
@@ -201,7 +154,7 @@ export const tripRouter = createTRPCRouter({
     .input(tripFormSchema.extend({ id: z.number().int() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.transaction(async (tx) => {
-        const { ticketTypes: _ticketTypes, ...tripInput } = input;
+        const { ticketTypes, ...tripInput } = input;
         await tx
           .update(trip)
           .set({
@@ -233,37 +186,26 @@ export const tripRouter = createTRPCRouter({
             tripTypeId,
           }))
         );
-      });
 
-      if (input.ticketTypes !== undefined) {
-        try {
-          await ctx.db.transaction(async (tx) => {
-            await tx
-              .delete(tripTicketType)
-              .where(eq(tripTicketType.tripId, input.id));
+        if (ticketTypes !== undefined) {
+          await tx
+            .delete(tripTicketType)
+            .where(eq(tripTicketType.tripId, tripInput.id));
 
-            if (input.ticketTypes!.length > 0) {
-              await tx.insert(tripTicketType).values(
-                input.ticketTypes!.map((ticketType) => ({
-                  tripId: input.id,
-                  nameEn: ticketType.nameEn,
-                  nameRu: ticketType.nameRu,
-                  priceInCents: Math.floor(ticketType.price * 100),
-                  sortOrder: ticketType.sortOrder,
-                  isActive: ticketType.isActive,
-                })),
-              );
-            }
-          });
-        } catch (error) {
-          if (!isMissingTripTicketTypesError(error)) throw error;
-
-          return {
-            message:
-              "Updated successfully. Ticket types were skipped because the trip_ticket_types table is not available.",
-          };
+          if (ticketTypes.length > 0) {
+            await tx.insert(tripTicketType).values(
+              ticketTypes.map((ticketType) => ({
+                tripId: tripInput.id,
+                nameEn: ticketType.nameEn,
+                nameRu: ticketType.nameRu,
+                priceInCents: Math.floor(ticketType.price * 100),
+                sortOrder: ticketType.sortOrder,
+                isActive: ticketType.isActive,
+              })),
+            );
+          }
         }
-      }
+      });
 
       return {
         message: "Updated successfully",
