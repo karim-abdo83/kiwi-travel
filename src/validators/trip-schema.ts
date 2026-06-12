@@ -10,14 +10,6 @@ export const days = [
   "Saturday",
 ] as const;
 
-export const tripTicketTypeFormSchema = z.object({
-  nameEn: z.string().min(1, "English ticket name is required"),
-  nameRu: z.string().min(1, "Russian ticket name is required"),
-  price: z.number({ message: "Ticket price is required" }).min(0, "Ticket price cannot be negative"),
-  sortOrder: z.number({ message: "Sort order is required" }).int().min(0, "Sort order cannot be negative"),
-  isActive: z.boolean().default(true),
-});
-
 export const tripFormSchema = z.object({
   slug: z.string().min  (1, "Slug is required"),
   titleEn: z.string().min(1, "English title is required"),
@@ -61,7 +53,6 @@ export const tripFormSchema = z.object({
     .positive("Child price must be a positive number"),
   childAge: z.string(),
   infantAge: z.string(),
-  ticketTypes: z.array(tripTicketTypeFormSchema).optional(),
   // 
   pickupPointEn: z.string().optional(),
   pickupPointRu: z.string().optional(),

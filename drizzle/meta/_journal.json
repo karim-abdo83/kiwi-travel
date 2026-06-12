@@ -337,13 +337,6 @@
       "when": 1765276549902,
       "tag": "0047_tan_red_skull",
       "breakpoints": true
-    },
-    {
-      "idx": 48,
-      "version": "7",
-      "when": 1781038800000,
-      "tag": "0048_dynamic_ticket_types_step_1",
-      "breakpoints": true
     }
   ]
 }
