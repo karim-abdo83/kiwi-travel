@@ -235,16 +235,18 @@ export const tripRouter = createTRPCRouter({
         );
       });
 
-      if (input.ticketTypes !== undefined) {
+      const ticketTypes = input.ticketTypes;
+
+      if (ticketTypes !== undefined) {
         try {
           await ctx.db.transaction(async (tx) => {
             await tx
               .delete(tripTicketType)
               .where(eq(tripTicketType.tripId, input.id));
 
-            if (input.ticketTypes!.length > 0) {
+            if (ticketTypes.length > 0) {
               await tx.insert(tripTicketType).values(
-                input.ticketTypes!.map((ticketType) => ({
+                ticketTypes.map((ticketType) => ({
                   tripId: input.id,
                   nameEn: ticketType.nameEn,
                   nameRu: ticketType.nameRu,
