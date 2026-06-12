@@ -261,6 +261,10 @@ export function TripForm({ initialData, id }: TripFormProps) {
         ...formattedValue,
       };
 
+      if (initialData?.ticketTypes === undefined) {
+        delete submitValue.ticketTypes;
+      }
+
       const assets = await getAssets();
 
       if (assets.length === 0) {
