@@ -35,6 +35,14 @@ const config = {
         protocol: 'https',
         hostname: env.UPLOADTHING_HOST,
       },
+      {
+        protocol: 'https',
+        hostname: 'utfs.io',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.ufs.sh',
+      },
     ],
   },
   
