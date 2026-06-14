@@ -12,6 +12,7 @@ import { ZodError } from "zod";
 
 import { db } from "@/server/db";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { hasAdminAccess } from "@/lib/admin-auth";
 
 /**
  * 1. CONTEXT
@@ -98,9 +99,13 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 });
 
 const adminMiddleware = t.middleware(async ({ next }) => {
+  const { sessionClaims } = await auth();
+
+  if (hasAdminAccess(sessionClaims)) return next();
+
   const user = await currentUser();
 
-  if (!user?.publicMetadata?.isAdmin)
+  if (!hasAdminAccess(user))
     throw new TRPCError({
       code: "FORBIDDEN",
       message: "admin only procedure",
