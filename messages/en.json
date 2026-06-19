@@ -31,7 +31,7 @@
     },
     "featuredTrips": {
       "sectionTitle": "Featured Trips",
-      "buttonLabel": "Book Now",
+      "buttonLabel": "Reserve for Free",
       "description": "Hand-picked by our local experts, these are the top-rated experiences our travelers love most. From iconic historical landmarks to hidden coastal gems, explore the very best of Egypt with guaranteed quality and comfort."
     },
     "popularDestinations": {
@@ -186,7 +186,7 @@
     "travelTime": "Travel time:",
     "askQuestion": "Ask a Question",
     "reviews": "Reviews",
-    "bookNow": "Book Now",
+    "bookNow": "Reserve for Free",
     "pickupPoint": "Pickup Point",
     "placeOfReturn": "Place of Return",
     "availableDays": "Available Days",
@@ -210,13 +210,13 @@
       "travelersCount": "Travelers count",
       "basePrice": "Base price",
       "total": "Total",
-      "bookNow": "Book Now",
-      "noCharge": "No charge for reservation. Pay later.",
+      "bookNow": "Reserve for Free",
+      "noCharge": "No prepayment. Pay on the day of the tour.",
       "reviews": "reviews",
       "loading": "Loading...",
       "signInFirstly": "Sign in before booking",
       "phoneNumber": "Phone Number",
-      "completeBooking": "Complete Booking",
+      "completeBooking": "Submit Free Reservation",
       "dialogTitle": "Book Your Trip",
       "dialogDescription": "Fill in the details to complete your booking",
       "success": "Success",
@@ -337,7 +337,7 @@
     "tripsAvailable": "{count} trips available",
     "noTripsAvailable": "No trips available for this destination yet.",
     "availableTrips": "Available Trips",
-    "bookNow": "Book Now"
+    "bookNow": "Reserve for Free"
   },
   "ConfirmFeedback": {
     "bookingCancelled": "Booking Cancelled",
