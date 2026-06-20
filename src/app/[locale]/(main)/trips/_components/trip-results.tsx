@@ -10,7 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { PLACEHOLDER_IMAGE, TRIP_SEARCH_PAGE_SIZE } from "@/constants";
 import { Link } from "@/i18n/routing";
-import { localeAttributeFactory } from "@/lib/utils";
+import { formatRating, localeAttributeFactory } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import {
   Calendar,
@@ -154,7 +154,7 @@ export function TripResults() {
                   {trip.reviewsCount !== 0 && (
                     <div className="flex items-center">
                       <Star className="mr-1 h-4 w-4 text-yellow-500" />
-                      {trip.reviewsValue} ({trip.reviewsCount})
+                      {formatRating(trip.reviewsValue)} ({trip.reviewsCount})
                     </div>
                   )}
                 </div>

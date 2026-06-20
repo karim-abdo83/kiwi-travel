@@ -12,6 +12,10 @@ export function mainImage(assets: string[]) {
   );
 }
 
+export function formatRating(rating: number) {
+  return rating.toFixed(1);
+}
+
 export function localeAttributeFactory(locale: string) {
   const currentLocale: Locale = locale as any;
 

@@ -437,8 +437,29 @@ export const tripRouter = createTRPCRouter({
               adultTripPriceInCents: true,
               assetsUrls: true,
             },
+            with: {
+              reviews: {
+                where: ({ isHiddenByAdmin }, { eq }) => eq(isHiddenByAdmin, false),
+                columns: {
+                  ratingValue: true,
+                },
+              },
+            },
           },
         },
+      }).then((destination) => {
+        if (!destination) return destination;
+
+        return {
+          ...destination,
+          trips: destination.trips.map(({ reviews, ...trip }) => ({
+            ...trip,
+            reviewsValue: reviews.length
+              ? reviews.reduce((sum, review) => sum + review.ratingValue, 0) / reviews.length
+              : 0,
+            reviewsCount: reviews.length,
+          })),
+        };
       }),
   ),
   listStaticParams: publicProcedure.query(async ({ ctx }) => ctx.db.query.trip.findMany({
