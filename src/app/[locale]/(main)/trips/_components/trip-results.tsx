@@ -8,6 +8,8 @@ import {
   PaginationItem,
 } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TripCardBadge } from "@/components/trip-card-badge";
+import { TripPrice } from "@/components/trip-price";
 import { PLACEHOLDER_IMAGE, TRIP_SEARCH_PAGE_SIZE } from "@/constants";
 import { Link } from "@/i18n/routing";
 import { formatRating, localeAttributeFactory } from "@/lib/utils";
@@ -111,12 +113,13 @@ export function TripResults() {
               id={`book-trip-outside-id-${trip.id}`}
               className="relative overflow-hidden"
             >
-              {trip.isFeatured && (
+              {trip.isFeatured && !trip.badge && (
                 <div className="absolute -left-10 top-10 z-10 w-48 -rotate-45 bg-red-500 py-[1px] text-center text-primary-foreground">
                   {t("featured")}
                 </div>
               )}
               <div className="relative h-48">
+                <TripCardBadge badge={trip.badge} />
                 <Image
                   src={trip.image || PLACEHOLDER_IMAGE}
                   alt={localeAttribute(trip, "title")}
@@ -139,7 +142,12 @@ export function TripResults() {
                     </Link>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-bold">${trip.price}</div>
+                    <TripPrice
+                      currency="$"
+                      salePrice={trip.price}
+                      originalPrice={trip.originalPrice}
+                      align="end"
+                    />
                     <div className="text-xs text-muted-foreground">
                       {t("tripCardPricePerPerson")}
                     </div>

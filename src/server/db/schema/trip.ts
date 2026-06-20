@@ -1,7 +1,7 @@
 import { sql, relations } from "drizzle-orm";
 import { pgTable, primaryKey } from "drizzle-orm/pg-core";
 import { destination } from "./destination";
-import { days } from "@/validators/trip-schema";
+import { days, tripBadges } from "@/validators/trip-schema";
 import { tripBooking } from "./trip-booking";
 import { review } from "./review";
 
@@ -29,11 +29,13 @@ export const trip = pgTable("trips", (c) => ({
     .notNull()
     .references(() => destination.id, { onDelete: "restrict" }),
   adultTripPriceInCents: c.integer("adult_trip_price_in_cents").notNull(),
+  originalAdultTripPriceInCents: c.integer("original_adult_trip_price_in_cents"),
   childTripPriceInCents: c.integer("child_trip_price_in_cents").notNull().default(0),
   childAge: c.text("child_age").notNull().default(""),
   infantAge: c.text("infant_age").notNull().default(""),
   isAvailable: c.boolean("is_available").notNull(),
   isFeatured: c.boolean("is_featured").notNull(),
+  badge: c.text("badge", { enum: tripBadges }),
   isConfirmationRequired: c
     .boolean("is_confirmation_required")
     .notNull()

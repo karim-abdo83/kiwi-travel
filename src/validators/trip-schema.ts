@@ -10,6 +10,24 @@ export const days = [
   "Saturday",
 ] as const;
 
+export const tripBadges = ["Popular", "Best Seller", "VIP", "New"] as const;
+
+export function validateTripPrices(
+  values: { adultPrice: number; originalPrice?: number },
+  ctx: z.RefinementCtx,
+) {
+  if (
+    values.originalPrice !== undefined &&
+    values.originalPrice <= values.adultPrice
+  ) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["originalPrice"],
+      message: "Original Price must be greater than Sale Price",
+    });
+  }
+}
+
 export const tripFormSchema = z.object({
   slug: z.string().min  (1, "Slug is required"),
   titleEn: z.string().min(1, "English title is required"),
@@ -40,6 +58,7 @@ export const tripFormSchema = z.object({
   sizeOfTrip: z.string().min(1, "Size of trip is required"),
   isAvailable: z.boolean().default(true),
   isFeatured: z.boolean().default(false),
+  badge: z.enum(tripBadges).nullable().default(null),
   isConfirmationRequired: z.boolean().default(false),
   destinationId: z
     .number({ message: "Destination is required" })
@@ -48,6 +67,10 @@ export const tripFormSchema = z.object({
   adultPrice: z
     .number({ message: "Adult price is required" })
     .positive("Adult price must be a positive number"),
+  originalPrice: z
+    .number({ message: "Original price must be a number" })
+    .positive("Original price must be a positive number")
+    .optional(),
   childPrice: z
     .number({ message: "Child price is required" })
     .positive("Child price must be a positive number"),
@@ -78,6 +101,8 @@ export const tripSearchFormSchema = z.object({
 });
 
 export type TripFormValues = z.infer<typeof tripFormSchema>;
+
+export type TripBadge = (typeof tripBadges)[number];
 
 export type TripSearchFormValues = z.infer<typeof tripSearchFormSchema>;
 

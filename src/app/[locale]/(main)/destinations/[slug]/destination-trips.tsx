@@ -2,6 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { TripCardBadge } from "@/components/trip-card-badge";
+import { TripPrice } from "@/components/trip-price";
 import {
   Select,
   SelectContent,
@@ -10,7 +12,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Link } from "@/i18n/routing";
-import { formatRating, localeAttributeFactory, mainImage } from "@/lib/utils";
+import {
+  cn,
+  formatRating,
+  localeAttributeFactory,
+  mainImage,
+} from "@/lib/utils";
 import type { RouterOutputs } from "@/trpc/react";
 import { Clock, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -99,14 +106,19 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
 
   return (
     <>
-      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div className="flex flex-wrap gap-2">
+      <div className="mb-6 flex flex-col items-center gap-4">
+        <div className="flex flex-wrap justify-center gap-2">
           <Button
             type="button"
-            variant={selectedTypeId === null ? "default" : "outline"}
+            variant="outline"
             size="sm"
             aria-pressed={selectedTypeId === null}
             onClick={() => setSelectedTypeId(null)}
+            className={cn(
+              "border-blue-600 bg-white text-blue-600 hover:border-blue-700 hover:bg-blue-50 hover:text-blue-700",
+              selectedTypeId === null &&
+                "bg-blue-600 text-white hover:bg-blue-700 hover:text-white",
+            )}
           >
             {t("allTripTypes")}
           </Button>
@@ -114,10 +126,15 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
             <Button
               key={tripType.id}
               type="button"
-              variant={selectedTypeId === tripType.id ? "default" : "outline"}
+              variant="outline"
               size="sm"
               aria-pressed={selectedTypeId === tripType.id}
               onClick={() => setSelectedTypeId(tripType.id)}
+              className={cn(
+                "border-blue-600 bg-white text-blue-600 hover:border-blue-700 hover:bg-blue-50 hover:text-blue-700",
+                selectedTypeId === tripType.id &&
+                  "bg-blue-600 text-white hover:bg-blue-700 hover:text-white",
+              )}
             >
               {localeAttribute(tripType, "name")}
             </Button>
@@ -154,6 +171,7 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
             >
               <Card className="h-full">
                 <CardHeader className="relative h-48 w-full p-0">
+                  <TripCardBadge badge={trip.badge} />
                   <Image
                     src={mainImage(trip.assetsUrls)}
                     alt={localeAttribute(trip, "title")}
@@ -183,10 +201,15 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
                     {localeAttribute(trip, "description")}
                   </p>
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="text-lg font-bold">
-                      {locale === "en" ? "€" : "$"}
-                      {Math.floor(trip.adultTripPriceInCents / 100)}
-                    </span>
+                    <TripPrice
+                      currency={locale === "en" ? "€" : "$"}
+                      salePrice={trip.adultTripPriceInCents / 100}
+                      originalPrice={
+                        trip.originalAdultTripPriceInCents === null
+                          ? null
+                          : trip.originalAdultTripPriceInCents / 100
+                      }
+                    />
                     <Button>{t("bookNow")}</Button>
                   </div>
                 </CardContent>
