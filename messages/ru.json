@@ -344,7 +344,14 @@
     "noTripsAvailable": "Пока нет доступных поездок для этого направления.",
     "availableTrips": "Доступные поездки",
     "bookNow": "Забронировать бесплатно",
-    "reviewCount": "{count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзыва}}"
+    "reviewCount": "{count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзыва}}",
+    "allTripTypes": "Все",
+    "sortBy": "Сортировать поездки",
+    "sortRecommended": "По умолчанию / Рекомендуемые",
+    "sortHighestRating": "Сначала с высоким рейтингом",
+    "sortLowestPrice": "Сначала дешевле",
+    "sortHighestPrice": "Сначала дороже",
+    "noMatchingTrips": "Нет поездок этого типа."
   },
   "Admin": {
     "Settings": {

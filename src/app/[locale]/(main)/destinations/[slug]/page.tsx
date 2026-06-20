@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
-import { formatRating, localeAttributeFactory, mainImage } from "@/lib/utils";
+import { localeAttributeFactory } from "@/lib/utils";
 import { api } from "@/trpc/server";
 import { PageParams } from "@/types/page-params";
-import { ArrowLeft, Clock, Star } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
@@ -19,6 +18,7 @@ import {
   PageSlug 
 } from "./introduction";
 import { cleanSchema, generateBreadcrumb, generateDestinationSchema } from "../../lib/seo/schemas";
+import { DestinationTrips } from "./destination-trips";
 
 export async function generateMetadata(
   { params }: PageParams<{ slug: string }>
@@ -72,7 +72,6 @@ export default async function DestinationTripsPage({ params }: PageParams<{ slug
   if (!destination) return notFound();
 
   const t = await getTranslations("DestinationTripsPage");
-  const t_TimeUnits = await getTranslations("General.timeUnits");
   const baseUrl = (env.NEXT_PUBLIC_APP_URL || "https://karimtor.com").replace(/\/$/, "");
 
 
@@ -115,14 +114,6 @@ const breadcrumbSchema = cleanSchema(
     ru: "Часто задаваемые вопросы",
     tr: "Sıkça Sorulan Sorular",
     en: "Frequently Asked Questions"
-  };
-
-  const getLocaleDuration = (duration: string) => {
-    return duration
-      .replaceAll("days", t_TimeUnits("days"))
-      .replaceAll("day", t_TimeUnits("day"))
-      .replaceAll("hours", t_TimeUnits("hours"))
-      .replaceAll("hour", t_TimeUnits("hour"));
   };
 
   return (
@@ -181,52 +172,7 @@ const breadcrumbSchema = cleanSchema(
 
       {/* Available Trips */}
       <h2 className="mb-6 text-2xl font-semibold">{t("availableTrips")}</h2>
-      {destination.trips.length === 0 ? (
-        <p className="text-gray-500">{t("noTripsAvailable")}</p>
-      ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 mb-12">
-          {destination.trips.map((trip) => (
-            <Link
-              key={trip.slug}
-              href={`/trips/${trip.slug}`}
-              className="block transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 hover:shadow-gray-200 dark:hover:shadow-gray-800 rounded-lg overflow-hidden"
-            >
-              <Card className="h-full">
-                <CardHeader className="relative h-48 w-full p-0">
-                  <Image
-                    src={mainImage(trip.assetsUrls)}
-                    alt={localeAttribute(trip, "title")}
-                    fill
-                    className="object-cover"
-                  />
-                </CardHeader>
-                <CardContent className="p-4">
-                  <h3 className="text-base font-semibold break-words">{localeAttribute(trip, "title")}</h3>
-                  <p className="mt-1 flex items-center gap-1 text-sm text-gray-500">
-                    <Clock className="size-4" />
-                    {getLocaleDuration(trip.duration)}
-                  </p>
-                  {trip.reviewsCount > 0 && (
-                    <p className="mt-2 flex items-center gap-1 text-sm text-gray-600">
-                      <Star className="size-4 fill-yellow-400 text-yellow-400" />
-                      <span>
-                        {formatRating(trip.reviewsValue)} ({t("reviewCount", { count: trip.reviewsCount })})
-                      </span>
-                    </p>
-                  )}
-                  <p className="mt-2 line-clamp-2 text-gray-700">{localeAttribute(trip, "description")}</p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="text-lg font-bold">
-                      {locale === "en" ? "€" : "$"}{Math.floor(trip.adultTripPriceInCents / 100)}
-                    </span>
-                    <Button>{t("bookNow")}</Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      )}
+      <DestinationTrips trips={destination.trips} locale={locale} />
 
       {/* Contenido Extra + FAQ Dinámico */}
       {content && (
