@@ -211,6 +211,7 @@
       "bookNow": "Hemen Rezervasyon",
       "noCharge": "Rezervasyon için ücret yok. Sonra ödeyin.",
       "reviews": "değerlendirme",
+      "reviewCount": "{count} değerlendirme",
       "loading": "Yükleniyor...",
       "signInFirstly": "Rezervasyon öncesi giriş yapın",
       "phoneNumber": "Telefon Numarası",
@@ -329,7 +330,8 @@
     "tripsAvailable": "{count} tur mevcut",
     "noTripsAvailable": "Bu destinasyon için henüz tur mevcut değil.",
     "availableTrips": "Mevcut Turlar",
-    "bookNow": "Hemen Rezervasyon"
+    "bookNow": "Hemen Rezervasyon",
+    "reviewCount": "{count} değerlendirme"
   },
   "ConfirmFeedback": {
     "bookingCancelled": "Rezervasyon İptal Edildi",

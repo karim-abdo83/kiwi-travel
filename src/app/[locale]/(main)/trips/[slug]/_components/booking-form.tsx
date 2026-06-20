@@ -43,6 +43,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocale } from "next-intl";
+import { formatRating } from "@/lib/utils";
 interface BookingFormProps {
   duration: string;
   availableDays: (typeof days)[number][];
@@ -136,7 +137,7 @@ const BookingForm = ({
                     ))}
                 </div>
                 <span className="text-sm text-gray-500">
-                  {reviewsValue} ({reviewsCount} {t("reviews")})
+                  {formatRating(reviewsValue)} ({t("reviewCount", { count: reviewsCount })})
                 </span>
               </div>
             ) : null}

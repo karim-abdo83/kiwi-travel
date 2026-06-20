@@ -20,7 +20,7 @@ import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { api } from "@/trpc/react";
-import { localeAttributeFactory } from "@/lib/utils";
+import { formatRating, localeAttributeFactory } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function FeaturedTrips() {
@@ -131,7 +131,7 @@ export default function FeaturedTrips() {
                         <div className="mt-2 flex items-center">
                           <Star className="h-5 w-5 fill-current text-yellow-400" />
                           <span className="ml-1 text-sm">
-                            {trip.reviewsValue}
+                            {formatRating(trip.reviewsValue)}
                           </span>
                         </div>
                       ) : (

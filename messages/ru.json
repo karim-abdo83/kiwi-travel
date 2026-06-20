@@ -210,6 +210,7 @@
       "bookNow": "Забронировать бесплатно",
       "noCharge": "Без предоплаты. Оплата в день экскурсии.",
       "reviews": "отзывов",
+      "reviewCount": "{count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзыва}}",
       "loading": "Загрузка...",
       "signInFirstly": "Войдите в систему перед бронированием",
       "phoneNumber": "Номер телефона",
@@ -342,7 +343,8 @@
     "tripsAvailable": "Доступно {count} поездок",
     "noTripsAvailable": "Пока нет доступных поездок для этого направления.",
     "availableTrips": "Доступные поездки",
-    "bookNow": "Забронировать бесплатно"
+    "bookNow": "Забронировать бесплатно",
+    "reviewCount": "{count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзыва}}"
   },
   "Admin": {
     "Settings": {

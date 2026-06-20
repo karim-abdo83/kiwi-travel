@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
-import { localeAttributeFactory, mainImage } from "@/lib/utils";
+import { formatRating, localeAttributeFactory, mainImage } from "@/lib/utils";
 import { api } from "@/trpc/server";
 import { PageParams } from "@/types/page-params";
-import { ArrowLeft, Clock } from "lucide-react";
+import { ArrowLeft, Clock, Star } from "lucide-react";
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
@@ -206,6 +206,14 @@ const breadcrumbSchema = cleanSchema(
                     <Clock className="size-4" />
                     {getLocaleDuration(trip.duration)}
                   </p>
+                  {trip.reviewsCount > 0 && (
+                    <p className="mt-2 flex items-center gap-1 text-sm text-gray-600">
+                      <Star className="size-4 fill-yellow-400 text-yellow-400" />
+                      <span>
+                        {formatRating(trip.reviewsValue)} ({t("reviewCount", { count: trip.reviewsCount })})
+                      </span>
+                    </p>
+                  )}
                   <p className="mt-2 line-clamp-2 text-gray-700">{localeAttribute(trip, "description")}</p>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="text-lg font-bold">

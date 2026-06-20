@@ -213,6 +213,7 @@
       "bookNow": "Reserve for Free",
       "noCharge": "No prepayment. Pay on the day of the tour.",
       "reviews": "reviews",
+      "reviewCount": "{count, plural, one {# review} other {# reviews}}",
       "loading": "Loading...",
       "signInFirstly": "Sign in before booking",
       "phoneNumber": "Phone Number",
@@ -337,7 +338,8 @@
     "tripsAvailable": "{count} trips available",
     "noTripsAvailable": "No trips available for this destination yet.",
     "availableTrips": "Available Trips",
-    "bookNow": "Reserve for Free"
+    "bookNow": "Reserve for Free",
+    "reviewCount": "{count, plural, one {# review} other {# reviews}}"
   },
   "ConfirmFeedback": {
     "bookingCancelled": "Booking Cancelled",
