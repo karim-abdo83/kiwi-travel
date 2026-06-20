@@ -22,6 +22,8 @@ import { Link } from "@/i18n/routing";
 import { api } from "@/trpc/react";
 import { formatRating, localeAttributeFactory } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TripCardBadge } from "@/components/trip-card-badge";
+import { TripPrice } from "@/components/trip-price";
 
 export default function FeaturedTrips() {
   const t = useTranslations("HomePage.featuredTrips");
@@ -109,7 +111,8 @@ export default function FeaturedTrips() {
                     id={`book-trip-outside-id-${trip.id}`}
                     className="overflow-hidden"
                   >
-                    <CardHeader className="p-0">
+                    <CardHeader className="relative p-0">
+                      <TripCardBadge badge={trip.badge} />
                       <Image
                         src={trip.image}
                         alt={localeAttribute(trip, "title")}
@@ -139,9 +142,11 @@ export default function FeaturedTrips() {
                       )}
                     </CardContent>
                     <CardFooter className="flex items-center justify-between p-4 pt-0">
-                      <span className="text-lg font-bold">
-                        {locale === 'en' ? '€' : '$'}{trip.price}
-                      </span>
+                      <TripPrice
+                        currency={locale === "en" ? "€" : "$"}
+                        salePrice={trip.price}
+                        originalPrice={trip.originalPrice}
+                      />
                       <Button size="sm">{t("buttonLabel")}</Button>
                     </CardFooter>
                   </Card>
