@@ -331,7 +331,14 @@
     "noTripsAvailable": "Bu destinasyon için henüz tur mevcut değil.",
     "availableTrips": "Mevcut Turlar",
     "bookNow": "Hemen Rezervasyon",
-    "reviewCount": "{count} değerlendirme"
+    "reviewCount": "{count} değerlendirme",
+    "allTripTypes": "Tümü",
+    "sortBy": "Turları sırala",
+    "sortRecommended": "Varsayılan / Önerilen",
+    "sortHighestRating": "En yüksek puan",
+    "sortLowestPrice": "En düşük fiyat",
+    "sortHighestPrice": "En yüksek fiyat",
+    "noMatchingTrips": "Bu tur tipine uygun tur bulunamadı."
   },
   "ConfirmFeedback": {
     "bookingCancelled": "Rezervasyon İptal Edildi",

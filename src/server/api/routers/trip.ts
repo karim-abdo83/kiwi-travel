@@ -436,8 +436,14 @@ export const tripRouter = createTRPCRouter({
               duration: true,
               adultTripPriceInCents: true,
               assetsUrls: true,
+              isFeatured: true,
             },
             with: {
+              tripTypes: {
+                with: {
+                  tripType: true,
+                },
+              },
               reviews: {
                 where: ({ isHiddenByAdmin }, { eq }) => eq(isHiddenByAdmin, false),
                 columns: {
