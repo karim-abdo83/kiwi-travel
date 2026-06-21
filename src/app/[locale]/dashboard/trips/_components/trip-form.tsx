@@ -27,6 +27,10 @@ import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/hooks/use-upload-thing";
 import { api } from "@/trpc/react";
 import {
+  getNoTripBadgeLabel,
+  getTripBadgeLabel,
+} from "@/lib/trip-badge-labels";
+import {
   days,
   tripBadges,
   tripFormSchema,
@@ -36,6 +40,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useLocale } from "next-intl";
 import { RichTextEditor } from "./rich-text-editor";
 import UploadFilesField, { AssetFile } from "./upload-files-field";
 import {
@@ -55,6 +60,7 @@ interface TripFormProps {
 }
 
 export function TripForm({ initialData, id }: TripFormProps) {
+  const locale = useLocale();
   const { data: destinations, isLoading: isDestinationsLoading } =
     api.destination.adminList.useQuery();
   const { data: tripFeatures, isLoading: isTripFeaturesLoading } =
@@ -931,10 +937,12 @@ export function TripForm({ initialData, id }: TripFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="none">
+                      {getNoTripBadgeLabel(locale)}
+                    </SelectItem>
                     {tripBadges.map((badge) => (
                       <SelectItem key={badge} value={badge}>
-                        {badge}
+                        {getTripBadgeLabel(badge, locale)}
                       </SelectItem>
                     ))}
                   </SelectContent>
