@@ -1,5 +1,9 @@
+"use client";
+
 import { cn } from "@/lib/utils";
+import { getTripBadgeLabel } from "@/lib/trip-badge-labels";
 import type { TripBadge } from "@/validators/trip-schema";
+import { useLocale } from "next-intl";
 
 const badgeStyles: Record<TripBadge, string> = {
   Popular: "bg-blue-600",
@@ -14,6 +18,8 @@ interface TripCardBadgeProps {
 }
 
 export function TripCardBadge({ badge, className }: TripCardBadgeProps) {
+  const locale = useLocale();
+
   if (!badge) return null;
 
   return (
@@ -24,7 +30,7 @@ export function TripCardBadge({ badge, className }: TripCardBadgeProps) {
         className,
       )}
     >
-      {badge}
+      {getTripBadgeLabel(badge, locale)}
     </span>
   );
 }
