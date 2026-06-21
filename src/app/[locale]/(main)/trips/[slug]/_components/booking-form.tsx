@@ -43,6 +43,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocale } from "next-intl";
+import { TripPrice } from "@/components/trip-price";
 interface BookingFormProps {
   duration: string;
   availableDays: (typeof days)[number][];
@@ -50,6 +51,7 @@ interface BookingFormProps {
   reviewsCount: number;
   reviewsValue: number;
   adultPrice: number;
+  originalPrice?: number | null;
   childAge: string;
   infantAge: string;
   childPrice: number | null;
@@ -62,6 +64,7 @@ const BookingForm = ({
   reviewsCount,
   reviewsValue,
   adultPrice,
+  originalPrice,
   childPrice,
   childAge,
   infantAge,
@@ -90,9 +93,12 @@ const BookingForm = ({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-md font-semibold text-gray-500">{t("perPerson")}</span>
-                <span className="text-lg font-semibold text-primary">
-                        {locale === 'en' ? '€' : '$'}{adultPrice}
-                      </span>
+                <TripPrice
+                  currency={locale === "en" ? "€" : "$"}
+                  salePrice={adultPrice}
+                  originalPrice={originalPrice}
+                  align="end"
+                />
               </div>
               {/* Child Price - only show if not null */}
               {childPrice !== null && (

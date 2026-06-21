@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { TripCardBadge } from "@/components/trip-card-badge";
+import { TripPrice } from "@/components/trip-price";
 import { Link } from "@/i18n/routing";
 import { localeAttributeFactory, mainImage } from "@/lib/utils";
 import { api } from "@/trpc/server";
@@ -193,6 +195,7 @@ const breadcrumbSchema = cleanSchema(
             >
               <Card className="h-full">
                 <CardHeader className="relative h-48 w-full p-0">
+                  <TripCardBadge badge={trip.badge} />
                   <Image
                     src={mainImage(trip.assetsUrls)}
                     alt={localeAttribute(trip, "title")}
@@ -208,9 +211,15 @@ const breadcrumbSchema = cleanSchema(
                   </p>
                   <p className="mt-2 line-clamp-2 text-gray-700">{localeAttribute(trip, "description")}</p>
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="text-lg font-bold">
-                      {locale === "en" ? "€" : "$"}{Math.floor(trip.adultTripPriceInCents / 100)}
-                    </span>
+                    <TripPrice
+                      currency={locale === "en" ? "€" : "$"}
+                      salePrice={trip.adultTripPriceInCents / 100}
+                      originalPrice={
+                        trip.originalAdultTripPriceInCents === null
+                          ? null
+                          : trip.originalAdultTripPriceInCents / 100
+                      }
+                    />
                     <Button>{t("bookNow")}</Button>
                   </div>
                 </CardContent>

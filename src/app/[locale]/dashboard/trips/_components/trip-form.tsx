@@ -26,7 +26,12 @@ import { useCommonMutationResponse } from "@/hooks/use-common-mutation-response"
 import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/hooks/use-upload-thing";
 import { api } from "@/trpc/react";
-import { days, tripFormSchema } from "@/validators/trip-schema";
+import {
+  days,
+  tripBadges,
+  tripFormSchema,
+  validateTripPrices,
+} from "@/validators/trip-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -38,7 +43,9 @@ import {
   type FileWithProgress,
 } from "./upload-progress-dialog";
 
-const clientFormSchema = tripFormSchema.omit({ assets: true });
+const clientFormSchema = tripFormSchema
+  .omit({ assets: true })
+  .superRefine(validateTripPrices);
 
 type TripFormValues = z.infer<typeof clientFormSchema>;
 
@@ -174,6 +181,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
       travelTime: initialData?.travelTime || "00:00",
       destinationId: initialData?.destinationId || ("" as any),
       adultPrice: initialData?.adultPrice || 0,
+      originalPrice: initialData?.originalPrice,
       childPrice: initialData?.childPrice || 0,
       childAge: initialData?.childAge || "",
       infantAge: initialData?.infantAge || "",
@@ -189,6 +197,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
       duration: initialData?.duration || "",
       isAvailable: initialData?.isAvailable || true,
       isFeatured: initialData?.isFeatured || false,
+      badge: initialData?.badge ?? null,
       isConfirmationRequired: initialData?.isConfirmationRequired || false,
       tripTypes: initialData?.tripTypes || [],
       // pickup and place of return
@@ -747,13 +756,13 @@ export function TripForm({ initialData, id }: TripFormProps) {
             )}
           />
 
-          {/* Adult Trip Price */}
+          {/* Sale Price */}
           <FormField
             control={form.control}
             name="adultPrice"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Adult Price</FormLabel>
+                <FormLabel>Sale Price</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -762,7 +771,40 @@ export function TripForm({ initialData, id }: TripFormProps) {
                     onChange={(e) => field.onChange(Number(e.target.value) || '')}
                   />
                 </FormControl>
-                <FormDescription>Enter the price (e.g. 10.00)</FormDescription>
+                <FormDescription>
+                  This remains the price used for adult bookings.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="originalPrice"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Original Price (Optional)</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Leave empty when there is no discount"
+                    value={field.value ?? ""}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    ref={field.ref}
+                    onChange={(event) =>
+                      field.onChange(
+                        event.target.value === ""
+                          ? undefined
+                          : Number(event.target.value),
+                      )
+                    }
+                  />
+                </FormControl>
+                <FormDescription>
+                  Must be greater than the Sale Price when provided.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -865,6 +907,38 @@ export function TripForm({ initialData, id }: TripFormProps) {
                   />
                 </FormControl>
                 <FormLabel>Featured</FormLabel>
+              </FormItem>
+            )}
+          />
+
+          {/* Promotional badge */}
+          <FormField
+            control={form.control}
+            name="badge"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Trip Badge</FormLabel>
+                <Select
+                  value={field.value ?? "none"}
+                  onValueChange={(value) =>
+                    field.onChange(value === "none" ? null : value)
+                  }
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a badge" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    {tripBadges.map((badge) => (
+                      <SelectItem key={badge} value={badge}>
+                        {badge}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
               </FormItem>
             )}
           />
