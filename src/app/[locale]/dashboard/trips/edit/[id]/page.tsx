@@ -29,6 +29,10 @@ export default async function EditTripPage({
           ...trip,
           assets: trip.assetsUrls,
           adultPrice: trip.adultTripPriceInCents / 100,
+          originalPrice:
+            trip.originalAdultTripPriceInCents === null
+              ? undefined
+              : trip.originalAdultTripPriceInCents / 100,
           childPrice: trip.childTripPriceInCents / 100,
           features: trip.features.map((f) => f.featureId),
           tripTypes: trip.tripTypes.map((t) => t.tripTypeId),

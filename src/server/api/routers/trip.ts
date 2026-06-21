@@ -16,6 +16,7 @@ import {
   days,
   tripFormSchema,
   tripSearchFormSchema,
+  validateTripPrices,
 } from "@/validators/trip-schema";
 import {
   and,
@@ -101,7 +102,7 @@ export const tripRouter = createTRPCRouter({
       }),
   ),
   adminCreate: adminProcedure
-    .input(tripFormSchema)
+    .input(tripFormSchema.superRefine(validateTripPrices))
     .mutation(async ({ input, ctx }) => {
       await ctx.db.transaction(async (tx) => {
         const result = await tx
@@ -110,6 +111,10 @@ export const tripRouter = createTRPCRouter({
             ...input,
             assetsUrls: input.assets,
             adultTripPriceInCents: Math.floor(input.adultPrice * 100),
+            originalAdultTripPriceInCents:
+              input.originalPrice === undefined
+                ? null
+                : Math.floor(input.originalPrice * 100),
             childTripPriceInCents: Math.floor(input.childPrice * 100),
           })
           .returning({ id: trip.id });
@@ -136,7 +141,11 @@ export const tripRouter = createTRPCRouter({
       };
     }),
   adminUpdate: adminProcedure
-    .input(tripFormSchema.extend({ id: z.number().int() }))
+    .input(
+      tripFormSchema
+        .extend({ id: z.number().int() })
+        .superRefine(validateTripPrices),
+    )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.transaction(async (tx) => {
         await tx
@@ -145,6 +154,10 @@ export const tripRouter = createTRPCRouter({
             ...input,
             assetsUrls: input.assets,
             adultTripPriceInCents: Math.floor(input.adultPrice * 100),
+            originalAdultTripPriceInCents:
+              input.originalPrice === undefined
+                ? null
+                : Math.floor(input.originalPrice * 100),
             childTripPriceInCents: Math.floor(input.childPrice * 100),
           })
           .where(eq(trip.id, input.id));
@@ -341,6 +354,8 @@ export const tripRouter = createTRPCRouter({
           titleRu: trip.titleRu,
           assets: trip.assetsUrls,
           priceInCents: trip.adultTripPriceInCents,
+          originalPriceInCents: trip.originalAdultTripPriceInCents,
+          badge: trip.badge,
           duration: trip.duration,
           isFeatured: trip.isFeatured,
           countryEn: country.nameEn,
@@ -373,6 +388,11 @@ export const tripRouter = createTRPCRouter({
               locationEn: `${item.countryEn}, ${item.destinationEn}`,
               locationRu: `${item.countryRu}, ${item.destinationRu}`,
               price: Math.floor(item.priceInCents / 100),
+              originalPrice:
+                item.originalPriceInCents === null
+                  ? null
+                  : Math.floor(item.originalPriceInCents / 100),
+              badge: item.badge,
               duration: item.duration,
               isFeatured: item.isFeatured,
               image: mainImage(item.assets),
@@ -393,6 +413,8 @@ export const tripRouter = createTRPCRouter({
             titleEn: true,
             titleRu: true,
             adultTripPriceInCents: true,
+            originalAdultTripPriceInCents: true,
+            badge: true,
             assetsUrls: true,
           },
           with: {
@@ -414,6 +436,11 @@ export const tripRouter = createTRPCRouter({
               titleEn: item.titleEn,
               titleRu: item.titleRu,
               price: Math.floor(item.adultTripPriceInCents / 100),
+              originalPrice:
+                item.originalAdultTripPriceInCents === null
+                  ? null
+                  : Math.floor(item.originalAdultTripPriceInCents / 100),
+              badge: item.badge,
               image: mainImage(item.assetsUrls),
               reviewsValue: isNaN(_reviewsValue) ? 0 : _reviewsValue,
             }
@@ -435,9 +462,17 @@ export const tripRouter = createTRPCRouter({
               descriptionRu: true,
               duration: true,
               adultTripPriceInCents: true,
+              originalAdultTripPriceInCents: true,
+              badge: true,
               assetsUrls: true,
+              isFeatured: true,
             },
             with: {
+              tripTypes: {
+                with: {
+                  tripType: true,
+                },
+              },
               reviews: {
                 where: ({ isHiddenByAdmin }, { eq }) => eq(isHiddenByAdmin, false),
                 columns: {

@@ -1,4 +1,6 @@
 import { AssetGallery } from "@/components/asset-gallery";
+import { TripCardBadge } from "@/components/trip-card-badge";
+import { TripPrice } from "@/components/trip-price";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -140,6 +142,10 @@ export default async function TripDetailsPage({
 
   const similarTrips = await api.trip.similar(Number(trip.destinationId));
   const adultPrice = trip.adultTripPriceInCents / 100;
+  const originalPrice =
+    trip.originalAdultTripPriceInCents === null
+      ? null
+      : trip.originalAdultTripPriceInCents / 100;
   const childPrice = trip.childTripPriceInCents / 100;
 
   const amenities = [
@@ -278,7 +284,7 @@ export default async function TripDetailsPage({
               </ul>
             </div>
           </div>
-          <div>
+          <div className="relative">
             <ul className="mb-4 flex items-center justify-end gap-2">
               <li className="group">
                 <a
@@ -325,10 +331,13 @@ export default async function TripDetailsPage({
                 </a>
               </li>
             </ul>
-            <AssetGallery
-              assets={trip.assetsUrls}
-              title={localeAttribute(trip, "title")}
-            />
+            <div className="relative">
+              <TripCardBadge badge={trip.badge} />
+              <AssetGallery
+                assets={trip.assetsUrls}
+                title={localeAttribute(trip, "title")}
+              />
+            </div>
           </div>
         </div>
 
@@ -427,6 +436,7 @@ export default async function TripDetailsPage({
                 availableDays={trip.availableDays}
                 tripId={trip.id}
                 adultPrice={adultPrice}
+                originalPrice={originalPrice}
                 childPrice={!!trip.childAge.trim() ? childPrice : null}
                 childAge={trip.childAge}
                 infantAge={trip.infantAge}
@@ -505,6 +515,7 @@ export default async function TripDetailsPage({
               availableDays={trip.availableDays}
               tripId={trip.id}
               adultPrice={adultPrice}
+              originalPrice={originalPrice}
               childPrice={!!trip.childAge.trim() ? childPrice : null}
               childAge={trip.childAge}
               infantAge={trip.infantAge}
@@ -586,6 +597,7 @@ export default async function TripDetailsPage({
             >
               <Card id={`book-trip-outside-id-${trip.id}`} className="h-full">
                 <CardHeader className="relative h-48 w-full p-0">
+                  <TripCardBadge badge={trip.badge} />
                   <Image
                     src={mainImage(trip.assetsUrls)}
                     alt={localeAttribute(trip, "title")}
@@ -610,9 +622,15 @@ export default async function TripDetailsPage({
                     {localeAttribute(trip, "description")}
                   </p>
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="text-lg font-bold">
-                      ${Math.floor(trip.adultTripPriceInCents / 100)}
-                    </span>
+                    <TripPrice
+                      currency="$"
+                      salePrice={trip.adultTripPriceInCents / 100}
+                      originalPrice={
+                        trip.originalAdultTripPriceInCents === null
+                          ? null
+                          : trip.originalAdultTripPriceInCents / 100
+                      }
+                    />
                     <Button>{t("bookNow")}</Button>
                   </div>
                 </CardContent>

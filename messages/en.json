@@ -339,7 +339,14 @@
     "noTripsAvailable": "No trips available for this destination yet.",
     "availableTrips": "Available Trips",
     "bookNow": "Reserve for Free",
-    "reviewCount": "{count, plural, one {# review} other {# reviews}}"
+    "reviewCount": "{count, plural, one {# review} other {# reviews}}",
+    "allTripTypes": "All",
+    "sortBy": "Sort trips",
+    "sortRecommended": "Default / Recommended",
+    "sortHighestRating": "Highest rating",
+    "sortLowestPrice": "Lowest price first",
+    "sortHighestPrice": "Highest price first",
+    "noMatchingTrips": "No trips match this Trip Type."
   },
   "ConfirmFeedback": {
     "bookingCancelled": "Booking Cancelled",
