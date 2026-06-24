@@ -32,7 +32,13 @@ import { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { SearchContext } from "./search-provider";
 
-export function Search({ initialValue }: { initialValue?: string }) {
+export function Search({
+  initialValue,
+  initialCountryIds = [],
+}: {
+  initialValue?: string;
+  initialCountryIds?: number[];
+}) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const { setSearchValue, isExtraFiltersOpen, setIsExtraFiltersOpen } =
@@ -52,7 +58,7 @@ export function Search({ initialValue }: { initialValue?: string }) {
         greater: 10000,
       },
       destinations: [],
-      countries: [],
+      countries: initialCountryIds,
       types: [],
     },
   });
@@ -307,8 +313,7 @@ export function Search({ initialValue }: { initialValue?: string }) {
                                             ])
                                           : field.onChange(
                                               (field.value ?? []).filter(
-                                                (value) =>
-                                                  value !== country.id,
+                                                (value) => value !== country.id,
                                               ),
                                             )
                                       }
@@ -352,9 +357,7 @@ export function Search({ initialValue }: { initialValue?: string }) {
                                 <FormItem className="flex items-end gap-2">
                                   <FormControl>
                                     <Checkbox
-                                      checked={
-                                        !!field.value?.includes(type.id)
-                                      }
+                                      checked={!!field.value?.includes(type.id)}
                                       onCheckedChange={(checked) =>
                                         checked
                                           ? field.onChange([
@@ -363,8 +366,7 @@ export function Search({ initialValue }: { initialValue?: string }) {
                                             ])
                                           : field.onChange(
                                               (field.value ?? []).filter(
-                                                (value) =>
-                                                  value !== type.id,
+                                                (value) => value !== type.id,
                                               ),
                                             )
                                       }

@@ -10,8 +10,15 @@ export const SearchContext = createContext({
   setIsExtraFiltersOpen: (value: boolean) => {},
 });
 
-export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
-  const [searchValue, setSearchValue] = useState<TripSearchFormValues>({});
+export const SearchProvider = ({
+  children,
+  initialSearchValue = {},
+}: {
+  children: React.ReactNode;
+  initialSearchValue?: TripSearchFormValues;
+}) => {
+  const [searchValue, setSearchValue] =
+    useState<TripSearchFormValues>(initialSearchValue);
   const [isExtraFiltersOpen, setIsExtraFiltersOpen] = useState(false);
 
   return (
