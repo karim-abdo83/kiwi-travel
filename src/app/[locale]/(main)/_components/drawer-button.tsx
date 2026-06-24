@@ -16,6 +16,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Link } from "@/i18n/routing";
+import { getCountrySlug } from "@/lib/country-slug";
 import { localeAttributeFactory } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import {
@@ -38,36 +39,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import LanguageToggle from "./language-toggle";
-
-const supportedCountryRoutes: Record<string, string> = {
-  egypt: "egypt",
-  египет: "egypt",
-  misir: "egypt",
-  mısır: "egypt",
-  turkey: "turkey",
-  turkiye: "turkey",
-  турция: "turkey",
-};
-
-const normalizeCountryName = (name: string) =>
-  name
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "-");
-
-const getCountryRoute = (country: {
-  nameEn: string;
-  nameRu: string;
-  nameTr: string;
-}) =>
-  [country.nameEn, country.nameRu, country.nameTr]
-    .map(normalizeCountryName)
-    .map((name) => supportedCountryRoutes[name])
-    .find(Boolean);
 
 export const DrawerButton = () => {
   const [open, setOpen] = useState(false);
@@ -77,53 +50,41 @@ export const DrawerButton = () => {
   const footerT = useTranslations("General.footer");
   const locale = useLocale();
   const localeAttribute = localeAttributeFactory(locale);
-  const menuLabels =
-    locale === "ru"
-      ? {
-          country: "Страна",
-          destinations: "Направления",
-          loading: "Загрузка...",
-          noCountries: "Нет доступных стран",
-          noDestinations: "Нет доступных направлений",
-          closeMenu: "Закрыть меню",
-        }
-      : {
-          country: "Country",
-          destinations: "Destinations",
-          loading: "Loading...",
-          noCountries: "No countries available",
-          noDestinations: "No destinations available",
-          closeMenu: "Close menu",
-        };
+  const menuLabels = {
+    en: {
+      country: "Country",
+      destinations: "Destinations",
+      loading: "Loading...",
+      noCountries: "No countries available",
+      noDestinations: "No destinations available",
+      closeMenu: "Close menu",
+    },
+    ru: {
+      country: "Страна",
+      destinations: "Направления",
+      loading: "Загрузка...",
+      noCountries: "Нет доступных стран",
+      noDestinations: "Нет доступных направлений",
+      closeMenu: "Закрыть меню",
+    },
+    tr: {
+      country: "Ülke",
+      destinations: "Destinasyonlar",
+      loading: "Yükleniyor...",
+      noCountries: "Kullanılabilir ülke yok",
+      noDestinations: "Kullanılabilir destinasyon yok",
+      closeMenu: "Menüyü kapat",
+    },
+  }[locale as "en" | "ru" | "tr"];
 
   const { data: countries, isLoading: isCountriesLoading } =
     api.country.list.useQuery(undefined, { enabled: open });
   const { data: destinations, isLoading: isDestinationsLoading } =
     api.destination.list.useQuery({}, { enabled: open });
-  const destinationTripQueries = api.useQueries((query) =>
-    (destinations ?? []).map((destination) =>
-      query.trip.listSearch(
-        { destinations: [destination.id], page: 0 },
-        { enabled: open },
-      ),
-    ),
-  );
 
   const { user } = useUser();
 
   const isAdmin = !!user?.publicMetadata?.isAdmin;
-  const visibleCountries = useMemo(
-    () => (countries ?? []).filter((country) => getCountryRoute(country)),
-    [countries],
-  );
-  const visibleDestinations = useMemo(
-    () =>
-      (destinations ?? []).filter(
-        (_, index) =>
-          (destinationTripQueries[index]?.data?.totalCount ?? 0) > 0,
-      ),
-    [destinations, destinationTripQueries],
-  );
   const closeDrawer = () => setOpen(false);
 
   return (
@@ -178,21 +139,17 @@ export const DrawerButton = () => {
                   <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
                     {menuLabels.loading}
                   </span>
-                ) : visibleCountries.length > 0 ? (
-                  visibleCountries.map((country) => {
-                    const countrySlug = getCountryRoute(country);
-
-                    return (
-                      <Link
-                        key={country.id}
-                        href={`/destinations/country/${countrySlug}`}
-                        onClick={closeDrawer}
-                        className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
-                      >
-                        {localeAttribute(country, "name")}
-                      </Link>
-                    );
-                  })
+                ) : countries && countries.length > 0 ? (
+                  countries.map((country) => (
+                    <Link
+                      key={country.id}
+                      href={`/destinations/country/${getCountrySlug(country.nameEn)}`}
+                      onClick={closeDrawer}
+                      className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
+                    >
+                      {localeAttribute(country, "name")}
+                    </Link>
+                  ))
                 ) : (
                   <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
                     {menuLabels.noCountries}
@@ -210,8 +167,8 @@ export const DrawerButton = () => {
                   <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
                     {menuLabels.loading}
                   </span>
-                ) : visibleDestinations.length > 0 ? (
-                  visibleDestinations.map((destination) => (
+                ) : destinations && destinations.length > 0 ? (
+                  destinations.map((destination) => (
                     <Link
                       key={destination.id}
                       href={`/destinations/${destination.slug}`}

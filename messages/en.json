@@ -84,9 +84,9 @@
       "anonymous": "Anonymous",
       "rating": "Rating",
       "reply": "Reply",
-      "writeReply":"write Reply",
-      "seeMore":"See More",
-      "seeLess":"See Less"
+      "writeReply": "write Reply",
+      "seeMore": "See More",
+      "seeLess": "See Less"
     },
     "intro": {
       "title": "Your Gateway to the Wonders of Türkiye and Egypt",
@@ -190,12 +190,12 @@
     "pickupPoint": "Pickup Point",
     "placeOfReturn": "Place of Return",
     "availableDays": "Available Days",
-    "youMayLike": "Other Trips you may like ", 
+    "youMayLike": "Other Trips you may like ",
     "tabs": {
       "description": "Description",
       "details": "Details & Features"
     },
-    
+
     "bookingForm": {
       "name": "Full Name",
       "perPerson": "per person",
@@ -286,11 +286,15 @@
       "missed": "Missed"
     }
   },
-  
 
   "DestinationsPage": {
     "destinations": "Destinations",
     "exploreByCountry": "Explore by Country",
+    "countryDestinations": "Destinations in {country}",
+    "viewCountryDestinations": "View destinations in {country}",
+    "genericCountryTitle": "Destinations in {country}",
+    "genericCountryHeading": "Explore {country}",
+    "genericCountryDescription": "Discover every destination currently available in {country}. New cities and destinations added by Karim Tour will appear here automatically.",
     "egypt": "Egypt",
     "egyptDestinations": "Destinations in Egypt",
     "viewEgyptDestinations": "View all Egypt destinations",
@@ -401,7 +405,6 @@
     "fullNameRequired": "Full name is required",
     "confirmCancellation": "Confirm Cancellation",
     "cancelling": "Cancelling..."
-    
   },
   "CancelBookingDialog": {
     "cancelBookingTitle": "Cancel your booking to {title}",
@@ -417,7 +420,6 @@
     "confirmDeletion": "Yes",
     "deleting": "Deleting...",
     "editReview": "Edit Review"
-    
   },
   "Auth": {
     "signIn": "Sign In",
@@ -457,8 +459,8 @@
       "changeLanguage": "Change Language",
       "bookings": "Bookings",
       "destination": "Destinations",
-      "trip":"Trips",
-      "blog":"Blog"
+      "trip": "Trips",
+      "blog": "Blog"
     },
     "footer": {
       "contactUs": "Contact Us",
@@ -469,7 +471,7 @@
         "trips": "Trips",
         "article1": "Best Excursions from Sahl Hasheesh",
         "article2": "Why Choose El Gouna for Excursions?",
-        "article3":"Sharm El Sheikh Airport Transfer to Hotel"
+        "article3": "Sharm El Sheikh Airport Transfer to Hotel"
       },
       "supportTitle": "Support",
       "supportLinks": {
@@ -523,7 +525,6 @@
     "newReview": "New Review",
     "editReview": "Edit Review"
   },
-  
 
   "Blog": {
     "title": "Egypt Travel Guide: Expert Tips & Private Excursions",
@@ -736,45 +737,42 @@
 
       "readMore": "Read More"
     },
-   
 
-  "top-places-to-visit-egypt": {
-    "seoTitle": "Top Places to Visit in Egypt: Complete Travel Guide",
-    "metaDescription": "Discover the best places to visit in Egypt, including Giza, Cairo, Luxor, Hurghada, Sharm El Sheikh, and Marsa Alam. Plan your tours with Karim Tour.",
-    "title": "Top Places to Visit in Egypt: Discover the Wonders of the Land of the Pharaohs",
-    "intro": "Egypt is a unique country, offering an extraordinary blend of ancient history, cultural attractions, and stunning natural landscapes. From iconic archaeological sites to world-famous coastal destinations, it offers unforgettable experiences for every type of traveler. Whether you are planning your first trip or returning to discover more, here are the top places to visit in Egypt.",
-    "sections": [
-      {
-        "title": "Cairo and Giza",
-        "text": "Cairo and Giza form the cultural and historical heart of the country. This region is home to the world-famous Pyramids of Giza, the Great Sphinx, and some of the most important museums in the Middle East. Visiting Cairo allows travelers to experience ancient wonders alongside vibrant modern life, traditional markets, and rich local culture. <cairoLink>City tours</cairoLink> and <gizaLink>pyramid excursions</gizaLink> are among the most popular experiences in Egypt."
-      },
-      {
-        "title": "Luxor",
-        "text": "Often described as the world’s largest open-air museum, Luxor is one of the most impressive destinations in Egypt for history lovers. The city is home to magnificent temples, royal tombs, and ancient monuments that tell the story of the pharaohs. Visiting Luxor offers deep insight into Ancient Egyptian civilization through well-preserved archaeological sites and <luxorLink>guided historical tours</luxorLink>."
-      },
-      {
-        "title": "Hurghada",
-        "text": "Hurghada is one of the most popular places to visit in Egypt for Red Sea experiences. It is famous for its crystal-clear waters, vibrant coral reefs, and wide variety of marine excursions. From snorkeling and diving trips to island cruises and desert safaris, Hurghada is an excellent base for <hurghadaLink>day tours</hurghadaLink> focused on nature and outdoor activities."
-      },
-      {
-        "title": "Sharm El Sheikh",
-        "text": "Located on the Sinai Peninsula, Sharm El Sheikh is one of the top destinations for Red Sea excursions. The area is renowned for its rich underwater life, making it ideal for snorkeling and diving day trips. In addition to marine activities, travelers can enjoy desert safaris and <sharmLink>guided nature excursions</sharmLink> easily accessible from this coastal hub."
-      },
-      {
-        "title": "Marsa Alam",
-        "text": "Marsa Alam is perfect for travelers seeking quieter and less crowded destinations in Egypt. Known for its untouched coral reefs and unique marine life, it is a favorite destination for nature lovers and diving enthusiasts. <marsaLink>Day tours</marsaLink> here focus on eco-friendly excursions, snorkeling, and encounters with extraordinary marine wildlife."
-      },
-      {
-        "title": "Explore Egypt with Karim Tour",
-        "text": "With Karim Tour, discovering Egypt’s most iconic destinations becomes a smooth and well-organized experience. From the ancient landmarks of Cairo, Giza, and Luxor to the Red Sea resorts of Hurghada, Sharm El Sheikh, and Marsa Alam, our excursions are designed to help travelers explore each destination confidently with the support of local experts.\n\nThrough our carefully selected day tours and guided experiences, you can discover Egypt’s highlights at your own pace without the stress of planning logistics. Whether you are interested in historical sites, cultural experiences, or Red Sea excursions, Karim Tour offers flexible options that connect all the key destinations featured in this guide.\n\nPlan your journey through Egypt with professionals and discover how our tours bring together the country’s most remarkable places in one seamless and authentic adventure."
-      }
-    ],
-    "readMore": "Read more"
-  }
-
-
+    "top-places-to-visit-egypt": {
+      "seoTitle": "Top Places to Visit in Egypt: Complete Travel Guide",
+      "metaDescription": "Discover the best places to visit in Egypt, including Giza, Cairo, Luxor, Hurghada, Sharm El Sheikh, and Marsa Alam. Plan your tours with Karim Tour.",
+      "title": "Top Places to Visit in Egypt: Discover the Wonders of the Land of the Pharaohs",
+      "intro": "Egypt is a unique country, offering an extraordinary blend of ancient history, cultural attractions, and stunning natural landscapes. From iconic archaeological sites to world-famous coastal destinations, it offers unforgettable experiences for every type of traveler. Whether you are planning your first trip or returning to discover more, here are the top places to visit in Egypt.",
+      "sections": [
+        {
+          "title": "Cairo and Giza",
+          "text": "Cairo and Giza form the cultural and historical heart of the country. This region is home to the world-famous Pyramids of Giza, the Great Sphinx, and some of the most important museums in the Middle East. Visiting Cairo allows travelers to experience ancient wonders alongside vibrant modern life, traditional markets, and rich local culture. <cairoLink>City tours</cairoLink> and <gizaLink>pyramid excursions</gizaLink> are among the most popular experiences in Egypt."
+        },
+        {
+          "title": "Luxor",
+          "text": "Often described as the world’s largest open-air museum, Luxor is one of the most impressive destinations in Egypt for history lovers. The city is home to magnificent temples, royal tombs, and ancient monuments that tell the story of the pharaohs. Visiting Luxor offers deep insight into Ancient Egyptian civilization through well-preserved archaeological sites and <luxorLink>guided historical tours</luxorLink>."
+        },
+        {
+          "title": "Hurghada",
+          "text": "Hurghada is one of the most popular places to visit in Egypt for Red Sea experiences. It is famous for its crystal-clear waters, vibrant coral reefs, and wide variety of marine excursions. From snorkeling and diving trips to island cruises and desert safaris, Hurghada is an excellent base for <hurghadaLink>day tours</hurghadaLink> focused on nature and outdoor activities."
+        },
+        {
+          "title": "Sharm El Sheikh",
+          "text": "Located on the Sinai Peninsula, Sharm El Sheikh is one of the top destinations for Red Sea excursions. The area is renowned for its rich underwater life, making it ideal for snorkeling and diving day trips. In addition to marine activities, travelers can enjoy desert safaris and <sharmLink>guided nature excursions</sharmLink> easily accessible from this coastal hub."
+        },
+        {
+          "title": "Marsa Alam",
+          "text": "Marsa Alam is perfect for travelers seeking quieter and less crowded destinations in Egypt. Known for its untouched coral reefs and unique marine life, it is a favorite destination for nature lovers and diving enthusiasts. <marsaLink>Day tours</marsaLink> here focus on eco-friendly excursions, snorkeling, and encounters with extraordinary marine wildlife."
+        },
+        {
+          "title": "Explore Egypt with Karim Tour",
+          "text": "With Karim Tour, discovering Egypt’s most iconic destinations becomes a smooth and well-organized experience. From the ancient landmarks of Cairo, Giza, and Luxor to the Red Sea resorts of Hurghada, Sharm El Sheikh, and Marsa Alam, our excursions are designed to help travelers explore each destination confidently with the support of local experts.\n\nThrough our carefully selected day tours and guided experiences, you can discover Egypt’s highlights at your own pace without the stress of planning logistics. Whether you are interested in historical sites, cultural experiences, or Red Sea excursions, Karim Tour offers flexible options that connect all the key destinations featured in this guide.\n\nPlan your journey through Egypt with professionals and discover how our tours bring together the country’s most remarkable places in one seamless and authentic adventure."
+        }
+      ],
+      "readMore": "Read more"
+    }
   },
-  
+
   "Destinations": {
     "egyptTitle": "Egypt Destinations",
     "egyptDescription": "Manage tours, cities, and local details for Egypt.",
@@ -795,6 +793,4 @@
     "dialogTitle": "Confirm Deletion",
     "dialogDescription": "Are you sure you want to delete this destination? This action cannot be undone."
   }
-
-
 }

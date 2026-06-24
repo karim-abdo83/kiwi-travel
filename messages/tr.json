@@ -83,30 +83,30 @@
       "anonymous": "Anonim",
       "rating": "Puan",
       "reply": "Yanıtla",
-      "writeReply":"Yanıt yazın",
-      "seeMore":"Daha Fazla Göster",
-      "seeLess":"Daha Az Göster"
+      "writeReply": "Yanıt yazın",
+      "seeMore": "Daha Fazla Göster",
+      "seeLess": "Daha Az Göster"
     },
     "intro": {
-  "title": "Türkiye ve Mısır’ın Harikalarına Açılan Kapınız",
-  "description": "Akdeniz’in büyüleyici doğasını ve Antik Dünya’nın zamansız tarihini keşfetmek için en güvenilir ortağınız Karimtour’a hoş geldiniz. İster Türkiye’nin canlı pazarlarını ister Mısır’ın görkemli Piramitlerini keşfediyor olun; konfor, güvenlik ve otantik keşifler için özenle seçilmiş deneyimler sunuyoruz. Binlerce mutlu gezgine katılın ve hayalinizdeki yolculuğu gerçeğe dönüştürelim."
-},
-"aboutUs": {
-  "title": "Mısır'ı Yerel Uzmanlarla Deneyimleyin",
-  "description1": "Tutku ve misafirperverlik üzerine kurulan RimTour, sizi Mısır'ın kalbiyle buluşturur. Seyahatin sorunsuz olması gerektiğine inanıyoruz, bu nedenle 24/7 destek ve profesyonel rehberler sunuyoruz.",
-  "description2": "Adrenalin dolu bir çöl safarisi, Nil'de özel bir gezi veya ailece şnorkel günü; yerel uzmanlığımız en yüksek hizmet standartlarını ve en rekabetçi fiyatları garanti eder."
-},
-"faq": {
-  "title": "Sıkça Sorulan Sorular",
-  "q1": "Nasıl rezervasyon yapabilirim?",
-  "a1": "Web sitemizden doğrudan rezervasyon yapabilirsiniz. Ön ödeme gerekmez; şimdi rezerve edin, vardığınızda ödeyin!",
-  "q2": "Otel transferi dahil mi?",
-  "a2": "Evet, faaliyet gösterdiğimiz bölgelerdeki tüm ana otellerden ve havalimanlarından transfer hizmeti sağlıyoruz.",
-  "q3": "İptal politikanız nedir?",
-  "a3": "Çoğu turumuz için başlangıçtan 12 saat öncesine kadar ücretsiz iptal imkanı sunuyoruz.",
-  "q4": "Rehberleriniz profesyonel mi?",
-  "a4": "Kesinlikle. Tüm kültürel turlarımız lisanslı Mısırbilimciler tarafından, safari ve deniz turlarımız ise profesyonel eğitmenler eşliğinde yapılır."
-}
+      "title": "Türkiye ve Mısır’ın Harikalarına Açılan Kapınız",
+      "description": "Akdeniz’in büyüleyici doğasını ve Antik Dünya’nın zamansız tarihini keşfetmek için en güvenilir ortağınız Karimtour’a hoş geldiniz. İster Türkiye’nin canlı pazarlarını ister Mısır’ın görkemli Piramitlerini keşfediyor olun; konfor, güvenlik ve otantik keşifler için özenle seçilmiş deneyimler sunuyoruz. Binlerce mutlu gezgine katılın ve hayalinizdeki yolculuğu gerçeğe dönüştürelim."
+    },
+    "aboutUs": {
+      "title": "Mısır'ı Yerel Uzmanlarla Deneyimleyin",
+      "description1": "Tutku ve misafirperverlik üzerine kurulan RimTour, sizi Mısır'ın kalbiyle buluşturur. Seyahatin sorunsuz olması gerektiğine inanıyoruz, bu nedenle 24/7 destek ve profesyonel rehberler sunuyoruz.",
+      "description2": "Adrenalin dolu bir çöl safarisi, Nil'de özel bir gezi veya ailece şnorkel günü; yerel uzmanlığımız en yüksek hizmet standartlarını ve en rekabetçi fiyatları garanti eder."
+    },
+    "faq": {
+      "title": "Sıkça Sorulan Sorular",
+      "q1": "Nasıl rezervasyon yapabilirim?",
+      "a1": "Web sitemizden doğrudan rezervasyon yapabilirsiniz. Ön ödeme gerekmez; şimdi rezerve edin, vardığınızda ödeyin!",
+      "q2": "Otel transferi dahil mi?",
+      "a2": "Evet, faaliyet gösterdiğimiz bölgelerdeki tüm ana otellerden ve havalimanlarından transfer hizmeti sağlıyoruz.",
+      "q3": "İptal politikanız nedir?",
+      "a3": "Çoğu turumuz için başlangıçtan 12 saat öncesine kadar ücretsiz iptal imkanı sunuyoruz.",
+      "q4": "Rehberleriniz profesyonel mi?",
+      "a4": "Kesinlikle. Tüm kültürel turlarımız lisanslı Mısırbilimciler tarafından, safari ve deniz turlarımız ise profesyonel eğitmenler eşliğinde yapılır."
+    }
   },
   "FAQsPage": {
     "title": "Sıkça Sorulan Sorular",
@@ -284,9 +284,14 @@
       "missed": "Kaçırıldı"
     }
   },
- "DestinationsPage": {
+  "DestinationsPage": {
     "destinations": "Destinasyonlar",
     "exploreByCountry": "Ülkeye Göre Keşfet",
+    "countryDestinations": "{country} destinasyonları",
+    "viewCountryDestinations": "{country} destinasyonlarını görüntüle",
+    "genericCountryTitle": "{country} Destinasyonları",
+    "genericCountryHeading": "{country} ülkesini keşfedin",
+    "genericCountryDescription": "{country} ülkesinde şu anda mevcut olan tüm destinasyonları keşfedin. Karim Tour tarafından eklenen yeni şehirler ve destinasyonlar burada otomatik olarak görünecektir.",
     "egypt": "Mısır",
     "egyptDestinations": "Mısır'daki Destinasyonlar",
     "viewEgyptDestinations": "Tüm Mısır destinasyonlarını gör",
@@ -446,9 +451,9 @@
       "sidenavDescription": "Ayarlar için yan menü",
       "changeLanguage": "Dili Değiştir",
       "bookings": "Rezervasyonlar",
-       "destination": "Varış noktası",
+      "destination": "Varış noktası",
       "trip": "Seyahat",
-      "blog":"Blog"
+      "blog": "Blog"
     },
     "footer": {
       "contactUs": "Bize Ulaşın",
@@ -458,8 +463,8 @@
         "destinations": "Destinasyonlar",
         "trips": "Turlar",
         "article1": "Sahl Hasheesh'ten En İyi Geziler",
- "article2": "Geziler İçin Neden El Gouna'yı Seçmelisiniz?",
- "article3": "Şarm El-Şeyh Havalimanı'ndan Otele Transfer"
+        "article2": "Geziler İçin Neden El Gouna'yı Seçmelisiniz?",
+        "article3": "Şarm El-Şeyh Havalimanı'ndan Otele Transfer"
       },
       "supportTitle": "Destek",
       "supportLinks": {
@@ -513,7 +518,7 @@
     "newReview": "Yeni Değerlendirme",
     "editReview": "Değerlendirmeyi Düzenle"
   },
-  
+
   "Blog": {
     "title": "Mısır Gezi Rehberi: Uzman İpuçları ve Özel Geziler",
     "subtitle": "Şarm El-Şeyh ve ötesinin en iyilerini keşfedin. Özel balık tutma turlarından sorunsuz havaalanı transferlerine kadar mükemmel maceranızı planlamanıza yardımcı oluyoruz.",
@@ -725,43 +730,39 @@
 
       "readMore": "Devamını Oku"
     },
-    
-  
-  "top-places-to-visit-egypt": {
-    "seoTitle": "Mısır’da Gezilecek En İyi Yerler: Kapsamlı Seyahat Rehberi",
-    "metaDescription": "Giza, Kahire, Luksor, Hurghada, Sharm El Sheikh ve Marsa Alam dahil olmak üzere Mısır’da gezilecek en iyi yerleri keşfedin. Karim Tour ile turlarınızı planlayın.",
-    "title": "Mısır’da Gezilecek En İyi Yerler: Firavunlar Ülkesinin Harikalarını Keşfedin",
-    "intro": "Mısır, antik tarih, kültürel zenginlikler ve büyüleyici doğal manzaraların olağanüstü bir birleşimini sunan benzersiz bir ülkedir. İkonik arkeolojik alanlardan dünyaca ünlü sahil destinasyonlarına kadar her tür gezgin için unutulmaz deneyimler sunar. İster ilk seyahatinizi planlıyor olun ister daha fazlasını keşfetmek için geri dönüyor olun, işte Mısır’da gezilecek en iyi yerler.",
-    "sections": [
-      {
-        "title": "Kahire ve Giza",
-        "text": "Kahire ve Giza, ülkenin kültürel ve tarihi kalbini oluşturur. Burada dünyaca ünlü Giza Piramitleri, Büyük Sfenks ve Orta Doğu’nun en önemli müzelerinden bazıları bulunmaktadır. Kahire’yi ziyaret etmek, gezginlere antik harikaları modern yaşam, geleneksel pazarlar ve zengin yerel kültür ile birlikte deneyimleme fırsatı sunar. <cairoLink>Şehir turları</cairoLink> ve <gizaLink>piramit gezileri</gizaLink>, Mısır’daki en popüler aktiviteler arasındadır."
-      },
-      {
-        "title": "Luksor",
-        "text": "Genellikle dünyanın en büyük açık hava müzesi olarak tanımlanan Luksor, tarih severler için Mısır’daki en etkileyici destinasyonlardan biridir. Şehir, firavunların hikâyesini anlatan görkemli tapınaklara, kraliyet mezarlarına ve antik anıtlara ev sahipliği yapmaktadır. Luksor ziyareti, iyi korunmuş arkeolojik alanlar ve <luxorLink>rehberli tarihi turlar</luxorLink> sayesinde Antik Mısır uygarlığını derinlemesine keşfetme imkânı sunar."
-      },
-      {
-        "title": "Hurghada",
-        "text": "Hurghada, Kızıldeniz deneyimleri için Mısır’da ziyaret edilmesi gereken en popüler yerlerden biridir. Kristal berraklığındaki suları, canlı mercan resifleri ve geniş deniz turu seçenekleriyle ünlüdür. Şnorkelle dalış ve tüplü dalış gezilerinden ada turlarına ve çöl safarilerine kadar Hurghada, doğa ve açık hava aktivitelerine odaklanan <hurghadaLink>günlük turlar</hurghadaLink> için mükemmel bir başlangıç noktasıdır."
-      },
-      {
-        "title": "Sharm El Sheikh",
-        "text": "Sina Yarımadası’nda bulunan Sharm El Sheikh, Kızıldeniz gezileri için en iyi destinasyonlardan biridir. Bölge, zengin su altı yaşamıyla ünlüdür ve bu da onu şnorkelle dalış ve tüplü dalış günlük gezileri için ideal hale getirir. Deniz aktivitelerine ek olarak gezginler, çöl safarilerinin ve <sharmLink>rehberli doğa gezilerinin</sharmLink> keyfini çıkarabilir."
-      },
-      {
-        "title": "Marsa Alam",
-        "text": "Marsa Alam, Mısır’da daha sakin ve daha az kalabalık yerler arayan gezginler için mükemmeldir. Bozulmamış mercan resifleri ve eşsiz deniz yaşamıyla tanınan bu bölge, doğa severler ve dalış tutkunları için favori bir destinasyondur. Buradaki <marsaLink>günlük turlar</marsaLink>, çevre dostu geziler, şnorkelle dalış ve benzersiz deniz canlılarıyla karşılaşmalara odaklanır."
-      },
-      {
-        "title": "Karim Tour ile Mısır’ı Keşfedin",
-        "text": "Karim Tour ile Mısır’ın en ikonik yerlerini keşfetmek kolay ve iyi organize edilmiş bir deneyime dönüşür. Kahire, Giza ve Luksor’un antik anıtlarından Hurghada, Sharm El Sheikh ve Marsa Alam’ın Kızıldeniz destinasyonlarına kadar uzanan turlarımız, gezginlerin her bölgeyi yerel uzmanların desteğiyle güvenle keşfetmesine yardımcı olmak için tasarlanmıştır.\n\nÖzenle seçilmiş günlük turlarımız ve rehberli deneyimlerimiz sayesinde, lojistik planlama stresi yaşamadan Mısır’ın önemli noktalarını kendi hızınızda keşfedebilirsiniz. Tarihi alanlar, kültürel deneyimler veya Kızıldeniz gezileriyle ilgileniyorsanız, Karim Tour bu rehberde yer alan tüm önemli destinasyonları birbirine bağlayan esnek seçenekler sunar.\n\nProfesyoneller eşliğinde Mısır yolculuğunuzu planlayın ve turlarımızın ülkenin en büyüleyici yerlerini nasıl kusursuz ve otantik bir macerada bir araya getirdiğini keşfedin."
-      }
-    ],
-    "readMore": "Devamını oku"
+
+    "top-places-to-visit-egypt": {
+      "seoTitle": "Mısır’da Gezilecek En İyi Yerler: Kapsamlı Seyahat Rehberi",
+      "metaDescription": "Giza, Kahire, Luksor, Hurghada, Sharm El Sheikh ve Marsa Alam dahil olmak üzere Mısır’da gezilecek en iyi yerleri keşfedin. Karim Tour ile turlarınızı planlayın.",
+      "title": "Mısır’da Gezilecek En İyi Yerler: Firavunlar Ülkesinin Harikalarını Keşfedin",
+      "intro": "Mısır, antik tarih, kültürel zenginlikler ve büyüleyici doğal manzaraların olağanüstü bir birleşimini sunan benzersiz bir ülkedir. İkonik arkeolojik alanlardan dünyaca ünlü sahil destinasyonlarına kadar her tür gezgin için unutulmaz deneyimler sunar. İster ilk seyahatinizi planlıyor olun ister daha fazlasını keşfetmek için geri dönüyor olun, işte Mısır’da gezilecek en iyi yerler.",
+      "sections": [
+        {
+          "title": "Kahire ve Giza",
+          "text": "Kahire ve Giza, ülkenin kültürel ve tarihi kalbini oluşturur. Burada dünyaca ünlü Giza Piramitleri, Büyük Sfenks ve Orta Doğu’nun en önemli müzelerinden bazıları bulunmaktadır. Kahire’yi ziyaret etmek, gezginlere antik harikaları modern yaşam, geleneksel pazarlar ve zengin yerel kültür ile birlikte deneyimleme fırsatı sunar. <cairoLink>Şehir turları</cairoLink> ve <gizaLink>piramit gezileri</gizaLink>, Mısır’daki en popüler aktiviteler arasındadır."
+        },
+        {
+          "title": "Luksor",
+          "text": "Genellikle dünyanın en büyük açık hava müzesi olarak tanımlanan Luksor, tarih severler için Mısır’daki en etkileyici destinasyonlardan biridir. Şehir, firavunların hikâyesini anlatan görkemli tapınaklara, kraliyet mezarlarına ve antik anıtlara ev sahipliği yapmaktadır. Luksor ziyareti, iyi korunmuş arkeolojik alanlar ve <luxorLink>rehberli tarihi turlar</luxorLink> sayesinde Antik Mısır uygarlığını derinlemesine keşfetme imkânı sunar."
+        },
+        {
+          "title": "Hurghada",
+          "text": "Hurghada, Kızıldeniz deneyimleri için Mısır’da ziyaret edilmesi gereken en popüler yerlerden biridir. Kristal berraklığındaki suları, canlı mercan resifleri ve geniş deniz turu seçenekleriyle ünlüdür. Şnorkelle dalış ve tüplü dalış gezilerinden ada turlarına ve çöl safarilerine kadar Hurghada, doğa ve açık hava aktivitelerine odaklanan <hurghadaLink>günlük turlar</hurghadaLink> için mükemmel bir başlangıç noktasıdır."
+        },
+        {
+          "title": "Sharm El Sheikh",
+          "text": "Sina Yarımadası’nda bulunan Sharm El Sheikh, Kızıldeniz gezileri için en iyi destinasyonlardan biridir. Bölge, zengin su altı yaşamıyla ünlüdür ve bu da onu şnorkelle dalış ve tüplü dalış günlük gezileri için ideal hale getirir. Deniz aktivitelerine ek olarak gezginler, çöl safarilerinin ve <sharmLink>rehberli doğa gezilerinin</sharmLink> keyfini çıkarabilir."
+        },
+        {
+          "title": "Marsa Alam",
+          "text": "Marsa Alam, Mısır’da daha sakin ve daha az kalabalık yerler arayan gezginler için mükemmeldir. Bozulmamış mercan resifleri ve eşsiz deniz yaşamıyla tanınan bu bölge, doğa severler ve dalış tutkunları için favori bir destinasyondur. Buradaki <marsaLink>günlük turlar</marsaLink>, çevre dostu geziler, şnorkelle dalış ve benzersiz deniz canlılarıyla karşılaşmalara odaklanır."
+        },
+        {
+          "title": "Karim Tour ile Mısır’ı Keşfedin",
+          "text": "Karim Tour ile Mısır’ın en ikonik yerlerini keşfetmek kolay ve iyi organize edilmiş bir deneyime dönüşür. Kahire, Giza ve Luksor’un antik anıtlarından Hurghada, Sharm El Sheikh ve Marsa Alam’ın Kızıldeniz destinasyonlarına kadar uzanan turlarımız, gezginlerin her bölgeyi yerel uzmanların desteğiyle güvenle keşfetmesine yardımcı olmak için tasarlanmıştır.\n\nÖzenle seçilmiş günlük turlarımız ve rehberli deneyimlerimiz sayesinde, lojistik planlama stresi yaşamadan Mısır’ın önemli noktalarını kendi hızınızda keşfedebilirsiniz. Tarihi alanlar, kültürel deneyimler veya Kızıldeniz gezileriyle ilgileniyorsanız, Karim Tour bu rehberde yer alan tüm önemli destinasyonları birbirine bağlayan esnek seçenekler sunar.\n\nProfesyoneller eşliğinde Mısır yolculuğunuzu planlayın ve turlarımızın ülkenin en büyüleyici yerlerini nasıl kusursuz ve otantik bir macerada bir araya getirdiğini keşfedin."
+        }
+      ],
+      "readMore": "Devamını oku"
+    }
   }
-
-
-  }
-
 }
