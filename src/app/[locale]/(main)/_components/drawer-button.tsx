@@ -43,11 +43,31 @@ import LanguageToggle from "./language-toggle";
 
 const supportedCountryRoutes: Record<string, string> = {
   egypt: "egypt",
+  египет: "egypt",
+  misir: "egypt",
+  mısır: "egypt",
   turkey: "turkey",
+  turkiye: "turkey",
+  турция: "turkey",
 };
 
 const normalizeCountryName = (name: string) =>
-  name.trim().toLowerCase().replace(/\s+/g, "-");
+  name
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-");
+
+const getCountryRoute = (country: {
+  nameEn: string;
+  nameRu: string;
+  nameTr: string;
+}) =>
+  [country.nameEn, country.nameRu, country.nameTr]
+    .map(normalizeCountryName)
+    .map((name) => supportedCountryRoutes[name])
+    .find(Boolean);
 
 export const DrawerButton = () => {
   const [open, setOpen] = useState(false);
@@ -57,6 +77,24 @@ export const DrawerButton = () => {
   const footerT = useTranslations("General.footer");
   const locale = useLocale();
   const localeAttribute = localeAttributeFactory(locale);
+  const menuLabels =
+    locale === "ru"
+      ? {
+          country: "Страна",
+          destinations: "Направления",
+          loading: "Загрузка...",
+          noCountries: "Нет доступных стран",
+          noDestinations: "Нет доступных направлений",
+          closeMenu: "Закрыть меню",
+        }
+      : {
+          country: "Country",
+          destinations: "Destinations",
+          loading: "Loading...",
+          noCountries: "No countries available",
+          noDestinations: "No destinations available",
+          closeMenu: "Close menu",
+        };
 
   const { data: countries, isLoading: isCountriesLoading } =
     api.country.list.useQuery(undefined, { enabled: open });
@@ -75,11 +113,7 @@ export const DrawerButton = () => {
 
   const isAdmin = !!user?.publicMetadata?.isAdmin;
   const visibleCountries = useMemo(
-    () =>
-      (countries ?? []).filter(
-        (country) =>
-          supportedCountryRoutes[normalizeCountryName(country.nameEn)],
-      ),
+    () => (countries ?? []).filter((country) => getCountryRoute(country)),
     [countries],
   );
   const visibleDestinations = useMemo(
@@ -122,7 +156,7 @@ export const DrawerButton = () => {
                 variant="outline"
                 size="icon"
                 onClick={closeDrawer}
-                aria-label="Close menu"
+                aria-label={menuLabels.closeMenu}
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -137,19 +171,16 @@ export const DrawerButton = () => {
           <Accordion type="multiple" className="w-full">
             <AccordionItem value="country">
               <AccordionTrigger className="py-3 text-base font-semibold hover:no-underline">
-                Country / Страна
+                {menuLabels.country}
               </AccordionTrigger>
               <AccordionContent className="grid gap-1 pb-3">
                 {isCountriesLoading ? (
                   <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
-                    Loading...
+                    {menuLabels.loading}
                   </span>
                 ) : visibleCountries.length > 0 ? (
                   visibleCountries.map((country) => {
-                    const countrySlug =
-                      supportedCountryRoutes[
-                        normalizeCountryName(country.nameEn)
-                      ];
+                    const countrySlug = getCountryRoute(country);
 
                     return (
                       <Link
@@ -164,7 +195,7 @@ export const DrawerButton = () => {
                   })
                 ) : (
                   <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
-                    No countries available
+                    {menuLabels.noCountries}
                   </span>
                 )}
               </AccordionContent>
@@ -172,12 +203,12 @@ export const DrawerButton = () => {
 
             <AccordionItem value="destinations">
               <AccordionTrigger className="py-3 text-base font-semibold hover:no-underline">
-                Destinations / Направления
+                {menuLabels.destinations}
               </AccordionTrigger>
               <AccordionContent className="grid gap-1 pb-3">
                 {isDestinationsLoading ? (
                   <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
-                    Loading...
+                    {menuLabels.loading}
                   </span>
                 ) : visibleDestinations.length > 0 ? (
                   visibleDestinations.map((destination) => (
@@ -192,7 +223,7 @@ export const DrawerButton = () => {
                   ))
                 ) : (
                   <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
-                    No destinations available
+                    {menuLabels.noDestinations}
                   </span>
                 )}
               </AccordionContent>
