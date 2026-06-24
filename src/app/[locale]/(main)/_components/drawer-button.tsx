@@ -1,39 +1,136 @@
 "use client";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Link } from "@/i18n/routing";
+import { localeAttributeFactory } from "@/lib/utils";
+import { api } from "@/trpc/react";
 import {
   SignedIn,
   SignedOut,
   SignInButton,
-  SignUpButton,
   SignOutButton,
+  SignUpButton,
   useClerk,
   useUser,
 } from "@clerk/nextjs";
-import { LogOut, Menu, User, X } from "lucide-react";
-import { useState } from "react";
-import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
+import {
+  LogOut,
+  Menu,
+  MessageCircle,
+  Phone,
+  Send,
+  User,
+  X,
+} from "lucide-react";
+import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 import LanguageToggle from "./language-toggle";
+
+const supportedCountryRoutes: Record<string, string> = {
+  egypt: "egypt",
+  turkey: "turkey",
+  turkiye: "turkey",
+};
+
+const normalizeCountryName = (name: string) =>
+  name
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-");
 
 export const DrawerButton = () => {
   const [open, setOpen] = useState(false);
   const { openUserProfile } = useClerk();
-
-  const t = useTranslations("General.header");
-
   const { user } = useUser();
 
+  const t = useTranslations("General.header");
+  const footerT = useTranslations("General.footer");
+  const locale = useLocale();
+  const localeAttribute = localeAttributeFactory(locale);
+  const menuLabels =
+    locale === "ru"
+      ? {
+          country: "Страна",
+          destinations: "Направления",
+          loading: "Загрузка...",
+          noCountries: "Нет доступных стран",
+          noDestinations: "Нет доступных направлений",
+          closeMenu: "Закрыть меню",
+        }
+      : locale === "tr"
+        ? {
+            country: "Ülke",
+            destinations: "Destinasyonlar",
+            loading: "Yükleniyor...",
+            noCountries: "Kullanılabilir ülke yok",
+            noDestinations: "Kullanılabilir destinasyon yok",
+            closeMenu: "Menüyü kapat",
+          }
+        : {
+            country: "Country",
+            destinations: "Destinations",
+            loading: "Loading...",
+            noCountries: "No countries available",
+            noDestinations: "No destinations available",
+            closeMenu: "Close menu",
+          };
+
+  const { data: countries, isLoading: isCountriesLoading } =
+    api.country.list.useQuery(undefined, { enabled: open });
+  const { data: destinations, isLoading: isDestinationsLoading } =
+    api.destination.list.useQuery({}, { enabled: open });
+  const destinationTripQueries = api.useQueries((query) =>
+    (destinations ?? []).map((destination) =>
+      query.trip.listSearch(
+        { destinations: [destination.id], page: 0 },
+        { enabled: open },
+      ),
+    ),
+  );
+
+  const visibleCountries = useMemo(
+    () =>
+      (countries ?? []).flatMap((country) => {
+        const normalizedName = normalizeCountryName(country.nameEn);
+        const countrySlug = supportedCountryRoutes[normalizedName];
+
+        return countrySlug ? [{ country, countrySlug }] : [];
+      }),
+    [countries],
+  );
+  const visibleDestinations = useMemo(
+    () => {
+      const supportedCountryIds = new Set(
+        visibleCountries.map(({ country }) => country.id),
+      );
+
+      return (destinations ?? []).filter(
+        (destination, index) =>
+          supportedCountryIds.has(destination.countryId) &&
+          (destinationTripQueries[index]?.data?.totalCount ?? 0) > 0,
+      );
+    },
+    [destinations, destinationTripQueries, visibleCountries],
+  );
   const isAdmin = !!user?.publicMetadata?.isAdmin;
+  const closeDrawer = () => setOpen(false);
 
   return (
     <Drawer open={open} onOpenChange={setOpen} direction="right">
@@ -42,18 +139,34 @@ export const DrawerButton = () => {
           <Menu />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="w-80">
-        <DrawerHeader>
-          <DrawerTitle className="flex items-center justify-between">
-            Karim Tour
-            <div className="flex items-center gap-4">
+
+      <DrawerContent className="w-80 max-w-[calc(100vw-1rem)]">
+        <DrawerHeader className="border-b px-4 py-3">
+          <DrawerTitle className="flex items-center justify-between gap-3">
+            <Link
+              href="/"
+              onClick={closeDrawer}
+              className="flex min-w-0 items-center"
+            >
+              <Image
+                className="h-auto w-44"
+                src="/logo.svg"
+                alt="Karim Tour"
+                width={176}
+                height={38}
+                priority
+              />
+            </Link>
+
+            <div className="flex shrink-0 items-center gap-2">
               <LanguageToggle />
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => setOpen(false)}
+                onClick={closeDrawer}
+                aria-label={menuLabels.closeMenu}
               >
-                <X />
+                <X className="h-4 w-4" />
               </Button>
             </div>
           </DrawerTitle>
@@ -61,70 +174,183 @@ export const DrawerButton = () => {
             {t("sidenavDescription")}
           </DrawerDescription>
         </DrawerHeader>
-        <div className="m-4">
-          <div className="flex flex-col gap-2">
+
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-3">
+          <Accordion type="multiple" className="w-full">
+            <AccordionItem value="country">
+              <AccordionTrigger className="py-3 text-base font-semibold hover:no-underline">
+                {menuLabels.country}
+              </AccordionTrigger>
+              <AccordionContent className="grid gap-1 pb-3">
+                {isCountriesLoading ? (
+                  <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
+                    {menuLabels.loading}
+                  </span>
+                ) : visibleCountries.length > 0 ? (
+                  visibleCountries.map(({ country, countrySlug }) => (
+                    <Link
+                      key={country.id}
+                      href={`/destinations/country/${countrySlug}`}
+                      onClick={closeDrawer}
+                      className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
+                    >
+                      {localeAttribute(country, "name")}
+                    </Link>
+                  ))
+                ) : (
+                  <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
+                    {menuLabels.noCountries}
+                  </span>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="destinations">
+              <AccordionTrigger className="py-3 text-base font-semibold hover:no-underline">
+                {menuLabels.destinations}
+              </AccordionTrigger>
+              <AccordionContent className="grid gap-1 pb-3">
+                {isDestinationsLoading ? (
+                  <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
+                    {menuLabels.loading}
+                  </span>
+                ) : visibleDestinations.length > 0 ? (
+                  visibleDestinations.map((destination) => (
+                    <Link
+                      key={destination.id}
+                      href={`/destinations/${destination.slug}`}
+                      onClick={closeDrawer}
+                      className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
+                    >
+                      {localeAttribute(destination, "name")}
+                    </Link>
+                  ))
+                ) : (
+                  <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
+                    {menuLabels.noDestinations}
+                  </span>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          <nav className="grid gap-1 border-b py-3">
+            <Link
+              href="/trips"
+              onClick={closeDrawer}
+              className="rounded-md px-3 py-2 text-base font-semibold transition-colors hover:bg-muted hover:text-primary"
+            >
+              {t("trip")}
+            </Link>
+            <Link
+              href="/blog"
+              onClick={closeDrawer}
+              className="rounded-md px-3 py-2 text-base font-semibold transition-colors hover:bg-muted hover:text-primary"
+            >
+              {t("blog")}
+            </Link>
+          </nav>
+
+          <div className="grid gap-2 border-b py-3">
             {isAdmin && (
-              <Link onClick={() => setOpen(false)} href="/dashboard">
+              <Link onClick={closeDrawer} href="/dashboard">
                 <Button className="w-full">{t("dashboard")}</Button>
               </Link>
             )}
             <SignedIn>
-              <Link onClick={() => setOpen(false)} href="/bookings">
+              <Link onClick={closeDrawer} href="/bookings">
                 <Button className="w-full">{t("bookings")}</Button>
               </Link>
             </SignedIn>
+            <SignedOut>
+              <SignInButton>
+                <Button
+                  id="sign-in-button-2"
+                  className="w-full"
+                  variant="outline"
+                >
+                  {t("signIn")}
+                </Button>
+              </SignInButton>
+              <SignUpButton>
+                <Button id="sign-up-button-2" className="w-full">
+                  {t("signUp")}
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <Button
+                onClick={() => {
+                  closeDrawer();
+                  openUserProfile();
+                }}
+              >
+                <User /> {t("openProfile")}
+              </Button>
+              <SignOutButton>
+                <Button onClick={closeDrawer} variant="outline">
+                  <LogOut />
+                  {t("signOut")}
+                </Button>
+              </SignOutButton>
+            </SignedIn>
           </div>
-        </div>
-        <DrawerFooter>
-<div className="flex flex-col items-center gap-4 text-center">                      <Link
-                        href="/destinations"
-                        className="text-sm font-medium hover:text-primary transition-colors"
-                      >
-                        {t("destination")}
-                      </Link>
-          
-                      <Link
-                        href="/trips"
-                        className="text-sm font-medium hover:text-primary transition-colors"
-                      >
-                        {t("trip")}
-                        
-                      </Link>
-                        <Link
-                        href="/blog"
-                        className="text-sm font-medium hover:text-primary transition-colors"
-                      >
-                        {t("blog")}
-                      </Link>
-                    </div>
-                  <div className="hidden gap-4 md:flex"></div>
-          <SignedOut>
-            <SignInButton>
-              <Button id="sign-in-button-2" variant="outline">
-                {t("signIn")}
-              </Button>
-            </SignInButton>
-            <SignUpButton>
-              <Button id="sign-up-button-2">{t("signUp")}</Button>
-            </SignUpButton>
-          </SignedOut>
-          <SignedIn>
-            <Button
-              onClick={() => {
-                setOpen(false);
-                openUserProfile();
-              }}
+
+          <section className="grid gap-2 border-b py-4">
+            <h3 className="px-3 text-sm font-semibold text-muted-foreground">
+              {footerT("contactUs")}
+            </h3>
+            <a
+              href="https://wa.me/79645056936"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
             >
-              <User /> {t("openProfile")}
-            </Button>
-            <SignOutButton>
-              <Button onClick={() => setOpen(false)} variant="outline">
-                <LogOut />
-                {t("signOut")}
-              </Button>
-            </SignOutButton>
-          </SignedIn>
-        </DrawerFooter>
+              <MessageCircle className="h-4 w-4 text-green-600" />
+              WhatsApp
+            </a>
+            <a
+              href="https://t.me/karimtor_kiwitravel"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
+            >
+              <Send className="h-4 w-4 text-sky-500" />
+              Telegram
+            </a>
+            <a
+              href="tel:+79645056936"
+              className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
+            >
+              <Phone className="h-4 w-4 text-primary" />
+              +79645056936
+            </a>
+          </section>
+
+          <nav className="grid gap-1 py-3">
+            <Link
+              href="/faqs"
+              onClick={closeDrawer}
+              className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
+            >
+              {footerT("supportLinks.faqs")}
+            </Link>
+            <Link
+              href="/privacy"
+              onClick={closeDrawer}
+              className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
+            >
+              {footerT("supportLinks.privacyPolicy")}
+            </Link>
+            <Link
+              href="/terms"
+              onClick={closeDrawer}
+              className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
+            >
+              {footerT("supportLinks.termsOfService")}
+            </Link>
+          </nav>
+        </div>
       </DrawerContent>
     </Drawer>
   );
