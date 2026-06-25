@@ -104,6 +104,19 @@ export function DestinationsList() {
       ),
     },
     {
+      accessorKey: "isFeatured",
+      header: "Featured",
+      cell: ({ row }) => (
+        <div className="ml-4">
+          {row.original.isFeatured ? (
+            <CheckCircle className="text-green-500" />
+          ) : (
+            <CircleX className="text-destructive" />
+          )}
+        </div>
+      ),
+    },
+    {
       id: "actions",
       cell: ({ row }) => {
         const destination = row.original;
@@ -134,7 +147,6 @@ export function DestinationsList() {
 
   return (
     <div>
-
       {/* <Button
         variant="outline"
         size="sm"

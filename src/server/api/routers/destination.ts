@@ -7,7 +7,7 @@ import { destinationFormSchema } from "@/validators/destination-schema";
 export const destinationRouter = createTRPCRouter({
   // slugMigration: adminProcedure.mutation(async ({ ctx }) => {
   //   const destinations = await ctx.db.query.destination.findMany();
-  
+
   //   const updatedDestinations = await Promise.all(
   //     destinations.map(async (item) => {
   //       const slug = item.nameEn
@@ -17,15 +17,15 @@ export const destinationRouter = createTRPCRouter({
   //         .replace(/[^a-z0-9-]/g, "") // remove non-allowed chars
   //         .replace(/-+/g, "-")        // collapse multiple dashes
   //         .replace(/^-+|-+$/g, "");   // trim leading/trailing dashes
-  
+
   //       await ctx.db.update(destination)
   //         .set({ slug })
   //         .where(eq(destination.id, item.id));
-  
+
   //       return { ...item, slug }; // return updated object
   //     })
   //   );
-  
+
   //   return updatedDestinations;
   // }),
   adminList: adminProcedure.query(
@@ -82,20 +82,28 @@ export const destinationRouter = createTRPCRouter({
     .input(
       z.object({
         isPopularOnly: z.boolean().nullish(),
+        isFeaturedOnly: z.boolean().nullish(),
         limit: z.number().int().nullish(),
         minAsLimit: z.boolean().nullish(),
       }),
     )
     .query(async ({ ctx, input }) => {
       const data = await ctx.db.query.destination.findMany({
-        where: input.isPopularOnly
-          ? ({ isPopular }, { eq }) => eq(isPopular, true)
-          : undefined,
+        where: input.isFeaturedOnly
+          ? ({ isFeatured }, { eq }) => eq(isFeatured, true)
+          : input.isPopularOnly
+            ? ({ isPopular }, { eq }) => eq(isPopular, true)
+            : undefined,
         orderBy: input.limit ? sql`random()` : undefined,
         limit: input.limit ?? undefined,
       });
 
-      if (input.minAsLimit && input.isPopularOnly && input.limit && data.length < input.limit) {
+      if (
+        input.minAsLimit &&
+        input.isPopularOnly &&
+        input.limit &&
+        data.length < input.limit
+      ) {
         // If we need more destinations to meet the limit, fetch non-popular ones
         const nonPopular = await ctx.db.query.destination.findMany({
           where: ({ isPopular }, { eq }) => eq(isPopular, false),
