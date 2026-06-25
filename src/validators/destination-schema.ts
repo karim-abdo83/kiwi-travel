@@ -7,6 +7,7 @@ export const destinationFormSchema = z.object({
   nameTr: z.string().min(1, "Turkish name is required"),
   imageUrl: z.string().url("Must be a valid URL").min(1, "Image is required"),
   isPopular: z.boolean().default(false),
+  isFeatured: z.boolean().default(false),
   countryId: z.number({ message: "Country is required" }).int().positive(),
 });
 

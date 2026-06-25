@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm"
+import { relations } from "drizzle-orm";
 import { pgTable } from "drizzle-orm/pg-core";
 import { trip } from "./trip";
 
@@ -17,11 +17,12 @@ export const destination = pgTable("destinations", (c) => ({
   nameTr: c.text("name_tr").notNull().default(""),
   imageUrl: c.text("image_url").notNull(),
   isPopular: c.boolean("is_popular").notNull(),
-  countryId: c.integer("country_id")
+  isFeatured: c.boolean("is_featured").notNull().default(false),
+  countryId: c
+    .integer("country_id")
     .notNull()
     .references(() => country.id, { onDelete: "restrict" }),
 }));
-
 
 // ======================== relations ========================
 export const countryRelations = relations(country, ({ many }) => ({
@@ -34,4 +35,4 @@ export const destinationRelations = relations(destination, ({ one, many }) => ({
     fields: [destination.countryId],
     references: [country.id],
   }),
-}))
+}));

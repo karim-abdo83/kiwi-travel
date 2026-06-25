@@ -65,6 +65,7 @@ export function DestinationForm({ initialData, id }: DestinationFormProps) {
       nameRu: initialData?.nameRu || "",
       nameTr: initialData?.nameTr || "",
       isPopular: initialData?.isPopular || false,
+      isFeatured: initialData?.isFeatured || false,
       countryId: initialData?.countryId || ("" as any),
     },
   });
@@ -105,18 +106,18 @@ export function DestinationForm({ initialData, id }: DestinationFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-
         {/* Slug */}
         <FormField
           control={form.control}
           name="slug"
-          rules={{ 
+          rules={{
             required: true,
             pattern: {
               value: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-              message: "Slug must contain only lowercase letters, numbers, and hyphens",
+              message:
+                "Slug must contain only lowercase letters, numbers, and hyphens",
             },
-           }}
+          }}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Slug</FormLabel>
@@ -157,7 +158,7 @@ export function DestinationForm({ initialData, id }: DestinationFormProps) {
               </FormItem>
             )}
           />
-           {/* Turkish Name */}
+          {/* Turkish Name */}
           <FormField
             control={form.control}
             name="nameTr"
@@ -262,6 +263,27 @@ export function DestinationForm({ initialData, id }: DestinationFormProps) {
                   />
                 </FormControl>
                 <FormLabel>Popular Destination</FormLabel>
+              </FormItem>
+            )}
+          />
+
+          {/* Is it featured */}
+          <FormField
+            control={form.control}
+            name="isFeatured"
+            render={({ field }) => (
+              <FormItem className="-mt-2 flex items-center gap-2">
+                <FormControl>
+                  <Switch
+                    className="mt-2"
+                    name={field.name}
+                    ref={field.ref}
+                    disabled={field.disabled}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel>Featured</FormLabel>
               </FormItem>
             )}
           />
