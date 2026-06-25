@@ -21,71 +21,90 @@ export type PageExtraContent = {
   faq: FaqItem[];
 };
 
-type GeneralFaqCategory = "payment" | "cancellation" | "refund";
+type GeneralFaqCategory = "cancellation" | "refund";
 
 type GeneralFaqItem = FaqItem & {
   category: GeneralFaqCategory;
 };
 
+const SHARED_FAQ_DESTINATION_SLUGS = new Set([
+  // Egypt
+  "sharm-el-sheikh-day-tours",
+  "hurghada-day-tours",
+  "cairo-day-tours",
+  "marsa-alam-day-tours",
+  // Turkey
+  "antalya-day-tours",
+  "belek-day-tours",
+  "kemer-day-tours",
+  "alanya-day-tours",
+]);
+
 const GENERAL_DESTINATION_FAQS: Record<Locale, GeneralFaqItem[]> = {
   en: [
     {
-      category: "payment",
-      question: "What is the payment policy?",
-      answer:
-        "For most group excursions, advance payment is not required. You can reserve online and pay on the day of the trip. Some tours, such as flights, private tours, or cross-border trips, may require advance payment or full prepayment.",
-    },
-    {
       category: "cancellation",
       question: "What is the cancellation policy?",
-      answer:
-        "Free cancellation is available for most group excursions if you cancel at least 24 hours before the trip. For flights, private tours, special tickets, or cross-border trips, different cancellation rules may apply.",
+      answer: `At Karim Tour, we strive to offer one of the most flexible cancellation policies possible. Most of our tours can be cancelled free of charge up to 12 hours before departure.
+
+However, some tours require earlier notice. These include:
+- Flights and flight-inclusive tours
+- Tours in another country
+- Private (individual) tours
+
+For these services, cancellation must be requested at least 48 hours before the scheduled departure.`,
     },
     {
       category: "refund",
       question: "What is the refund policy?",
-      answer:
-        "If a refundable booking was paid in advance and cancelled within the allowed cancellation period, the refund will be processed according to the original payment method and provider conditions. Non-refundable costs such as flight tickets, entrance tickets, visas, or third-party fees may not be refundable.",
+      answer: `Around 90% of our tours require no prepayment, and payment is made on the day of the tour.
+
+If a prepayment is required, the following conditions apply:
+- Flight tickets: If the airline ticket has already been issued, refunds are subject to the airline’s cancellation policy.
+- International tours: A cancellation fee of up to 20% may apply if your seat has already been reserved with our partners.
+- Late cancellations or no-shows: If you cancel at the time of the tour or do not inform us in advance, any prepaid amount is non-refundable.
+
+If you have any questions regarding cancellations or refunds, please contact our support team before booking. We will be happy to assist you.`,
     },
   ],
   ru: [
     {
-      category: "payment",
-      question: "Какая у вас политика оплаты?",
-      answer:
-        "Для большинства групповых экскурсий предоплата не требуется. Вы можете забронировать экскурсию онлайн и оплатить её в день поездки. Для некоторых туров, например авиаперелётов, индивидуальных экскурсий или поездок за границу, может потребоваться предоплата или полная оплата заранее.",
-    },
-    {
       category: "cancellation",
       question: "Какая у вас политика отмены?",
-      answer:
-        "Для большинства групповых экскурсий доступна бесплатная отмена при отмене не позднее чем за 24 часа до начала поездки. Для авиаперелётов, индивидуальных туров, специальных билетов или поездок за границу могут действовать отдельные правила отмены.",
+      answer: `В Karim Tour мы стараемся предложить максимально удобные условия отмены бронирования. Большинство наших экскурсий можно отменить бесплатно не позднее чем за 12 часов до начала.
+
+Однако для некоторых услуг действуют другие правила. К ним относятся:
+- авиабилеты и экскурсии с перелётом;
+- экскурсии в другие страны;
+- индивидуальные (частные) экскурсии.
+
+В таких случаях об отмене необходимо сообщить не менее чем за 48 часов до начала экскурсии.`,
     },
     {
       category: "refund",
       question: "Какая у вас политика возврата?",
-      answer:
-        "Если бронирование было оплачено заранее и отменено в разрешённый срок, возврат производится согласно способу оплаты и условиям поставщика услуги. Невозвратные расходы, такие как авиабилеты, входные билеты, визы или комиссии третьих сторон, могут не возвращаться.",
+      answer: `Около 90% наших экскурсий не требуют предоплаты — оплата производится непосредственно в день экскурсии.
+
+Если для бронирования была внесена предоплата, применяются следующие условия:
+- Авиабилеты: если билет уже оформлен, возврат осуществляется в соответствии с правилами авиакомпании.
+- Экскурсии в другие страны: может удерживаться до 20% стоимости экскурсии, если место уже было забронировано у наших партнёров.
+- Поздняя отмена или неявка: если вы отменяете экскурсию в момент её начала или не предупредили нас заранее, внесённая предоплата не возвращается.
+
+Если у вас есть вопросы по условиям отмены или возврата денежных средств, пожалуйста, свяжитесь с нашей службой поддержки до оформления бронирования. Мы будем рады помочь вам.`,
     },
   ],
   tr: [
     {
-      category: "payment",
-      question: "Ödeme politikası nedir?",
-      answer:
-        "Çoğu grup turunda ön ödeme gerekmez. Online rezervasyon yapabilir ve tur günü ödeme yapabilirsiniz. Uçuşlar, özel turlar veya sınır ötesi geziler gibi bazı turlarda ön ödeme ya da tam ödeme gerekebilir.",
-    },
-    {
       category: "cancellation",
       question: "İptal politikası nedir?",
       answer:
-        "Çoğu grup turunda, tur başlangıcından en az 24 saat önce iptal etmeniz halinde ücretsiz iptal mümkündür. Uçuşlar, özel turlar, özel biletler veya sınır ötesi geziler için farklı iptal koşulları geçerli olabilir.",
+        "Turlarımızın çoğu, tur başlangıcından 12 saat öncesine kadar ücretsiz iptal edilebilir. Uçuş içeren, başka bir ülkede düzenlenen veya özel turlarda iptal talebi en az 48 saat önce iletilmelidir.",
     },
     {
       category: "refund",
       question: "İade politikası nedir?",
       answer:
-        "İade edilebilir bir rezervasyon önceden ödenmiş ve izin verilen iptal süresi içinde iptal edilmişse, iade ilk ödeme yöntemine ve hizmet sağlayıcının koşullarına göre işleme alınır. Uçak bileti, giriş bileti, vize veya üçüncü taraf ücretleri gibi iade edilemeyen masraflar geri ödenmeyebilir.",
+        "Turlarımızın yaklaşık %90'ında ön ödeme gerekmez. Ön ödeme yapılan rezervasyonlarda uçak bileti, uluslararası tur, geç iptal ve tura katılmama koşullarına göre kesinti uygulanabilir. Ayrıntılar için rezervasyondan önce destek ekibimizle iletişime geçebilirsiniz.",
     },
   ],
 };
@@ -95,18 +114,14 @@ const GENERAL_FAQ_CATEGORY_PATTERNS: Record<
   Record<GeneralFaqCategory, RegExp>
 > = {
   en: {
-    payment:
-      /\b(pay|payment|prepayment|advance payment|credit card|currency)\b/i,
     cancellation: /\b(cancel|cancellation)\b/i,
     refund: /\b(refund|refundable|money back)\b/i,
   },
   ru: {
-    payment: /(оплат|предоплат|платить|валют)/i,
     cancellation: /(отмен|аннулир)/i,
     refund: /(возврат|вернут.*деньг)/i,
   },
   tr: {
-    payment: /(ödeme|ön ödeme|ücret|kredi kart|para birimi)/i,
     cancellation: /(iptal)/i,
     refund: /(iade|geri ödeme)/i,
   },
@@ -658,17 +673,22 @@ export const getPageExtraContent = ({
   ) as Locale;
   const page = GLOBAL_EXTRA_CONTENT[slug as PageSlug];
   const content = page?.[resolvedLocale] || page?.en;
+  const shouldAppendGeneralFaqs = SHARED_FAQ_DESTINATION_SLUGS.has(slug);
 
   if (!content) {
     return {
       sections: [],
-      faq: appendGeneralFaqs([], resolvedLocale),
+      faq: shouldAppendGeneralFaqs
+        ? appendGeneralFaqs([], resolvedLocale)
+        : [],
     };
   }
 
   return {
     ...content,
-    faq: appendGeneralFaqs(content.faq, resolvedLocale),
+    faq: shouldAppendGeneralFaqs
+      ? appendGeneralFaqs(content.faq, resolvedLocale)
+      : content.faq,
   };
 };
 
