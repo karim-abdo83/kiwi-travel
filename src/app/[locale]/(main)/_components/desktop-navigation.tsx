@@ -5,12 +5,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "@/i18n/routing";
+import { getCountrySlug } from "@/lib/country-slug";
 import { localeAttributeFactory } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { ChevronDown } from "lucide-react";
@@ -25,12 +23,6 @@ export const DesktopNavigation = () => {
   const localeAttribute = localeAttributeFactory(locale);
   const countryLabel =
     locale === "ru" ? "Страны" : locale === "tr" ? "Ülkeler" : "Countries";
-  const noDestinationsLabel =
-    locale === "ru"
-      ? "Направлений пока нет"
-      : locale === "tr"
-        ? "Henüz destinasyon yok"
-        : "No destinations yet";
 
   const { data: countries } = api.country.list.useQuery();
   const { data: destinations } = api.destination.list.useQuery({});
@@ -48,34 +40,13 @@ export const DesktopNavigation = () => {
           align="start"
           className="max-h-80 min-w-56 overflow-y-auto"
         >
-          {countries?.map((country) => {
-            const countryDestinations = (destinations ?? []).filter(
-              (destination) => destination.countryId === country.id,
-            );
-
-            return (
-              <DropdownMenuSub key={country.id}>
-                <DropdownMenuSubTrigger>
-                  {localeAttribute(country, "name")}
-                </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent className="max-h-80 min-w-64 overflow-y-auto">
-                  {countryDestinations.length > 0 ? (
-                    countryDestinations.map((destination) => (
-                      <DropdownMenuItem key={destination.id} asChild>
-                        <Link href={`/destinations/${destination.slug}`}>
-                          {localeAttribute(destination, "name")}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))
-                  ) : (
-                    <DropdownMenuItem disabled>
-                      {noDestinationsLabel}
-                    </DropdownMenuItem>
-                  )}
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
-            );
-          })}
+          {countries?.map((country) => (
+            <DropdownMenuItem key={country.id} asChild>
+              <Link href={`/destinations/country/${getCountrySlug(country)}`}>
+                {localeAttribute(country, "name")}
+              </Link>
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
 

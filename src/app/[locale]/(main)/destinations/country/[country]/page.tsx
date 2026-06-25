@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { api } from "@/trpc/server"
 import { getTranslations, setRequestLocale } from "next-intl/server"
+import { findCountryBySlug, getCountrySeoKey } from "@/lib/country-slug"
 import { localeAttributeFactory } from "@/lib/utils"
 import { Link, routing } from "@/i18n/routing"
 import { cleanSchema, generateListSchema } from "../../../lib/seo/schemas"
@@ -63,20 +64,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CountryDestinationsPage({ params }: Props) {
-  const { locale, country } = await params
+  const { locale, country: countrySlug } = await params
   setRequestLocale(locale)
-
-  const validSlugs = COUNTRY_DESTINATIONS[country]
-  if (!validSlugs) {
-    notFound()
-  }
 
   const localeAttribute = localeAttributeFactory(locale)
   const t = await getTranslations({ locale, namespace: "DestinationsPage" })
-  const destinations = await api.destination.list({})
+  const [countries, destinations] = await Promise.all([
+    api.country.list(),
+    api.destination.list({}),
+  ])
+  const selectedCountry = findCountryBySlug(countries, countrySlug)
+  if (!selectedCountry) {
+    notFound()
+  }
+  const seoKey = getCountrySeoKey(selectedCountry)
 
   const filteredDestinations = destinations.filter(d => 
-    validSlugs.includes(d.slug)
+    d.countryId === selectedCountry.id
   )
 
   const priorityDestinations = [
@@ -92,12 +96,21 @@ export default async function CountryDestinationsPage({ params }: Props) {
   ]
 
   // Cargar FAQs del archivo i18n
-  const rawFaqs = t.raw(`${country}Faqs`) as Array<{ q: string; a: string }>
+  const rawFaqs = seoKey
+    ? t.raw(`${seoKey}Faqs`) as Array<{ q: string; a: string }>
+    : []
   const faqs = Array.isArray(rawFaqs) ? rawFaqs : []
+
+  const seoSlugs = seoKey ? (COUNTRY_DESTINATIONS[seoKey] ?? []) : []
+  const seoDestinations = destinations.filter(d => seoSlugs.includes(d.slug))
+  const sortedSeoDestinations = [
+    ...seoDestinations.filter(d => priorityDestinations.includes(d.slug)),
+    ...seoDestinations.filter(d => !priorityDestinations.includes(d.slug)),
+  ]
 
   // Generamos el ItemList Schema (Tours)
   const listSchema = generateListSchema({
-    destinations: sortedDestinations.map(d => ({
+    destinations: sortedSeoDestinations.map(d => ({
       name: localeAttribute(d, "name"),
       slug: d.slug,
     })),
@@ -127,8 +140,11 @@ export default async function CountryDestinationsPage({ params }: Props) {
     ]
   });
 
-  const titleKey = `${country}Title`
-  const seoTextKey = `${country}SeoTextRich`
+  const titleKey = seoKey ? `${seoKey}Title` : null
+  const seoTextKey = seoKey ? `${seoKey}SeoTextRich` : null
+  const pageTitle = titleKey
+    ? t(titleKey as any)
+    : localeAttribute(selectedCountry, "name")
 
   // Mapeador de etiquetas de texto enriquecido (Rich Text parsing nativo de next-intl)
   const richTextElements = {
@@ -207,12 +223,14 @@ export default async function CountryDestinationsPage({ params }: Props) {
 
   return (
     <main className="container mx-auto mt-20 px-4 py-8 lg:px-6">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(combinedSchema).replace(/</g, "\\u003c"),
-        }}
-      />
+      {seoKey && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(combinedSchema).replace(/</g, "\\u003c"),
+          }}
+        />
+      )}
       
       <div className="mb-6">
         <Link 
@@ -224,7 +242,7 @@ export default async function CountryDestinationsPage({ params }: Props) {
       </div>
 
       <h1 className="text-3xl font-bold mb-8 text-center">
-        {t(titleKey)}
+        {pageTitle}
       </h1>
 
       {sortedDestinations.length > 0 ? (
@@ -274,12 +292,16 @@ export default async function CountryDestinationsPage({ params }: Props) {
         </div>
       )}
 
-      {/* --- SECCIÓN TEXTO SEO ENRIQUECIDO --- */}
-      <section className="bg-muted p-6 sm:p-10 rounded-xl max-w-4xl mx-auto border border-border mb-16">
-        <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-          {t.rich(seoTextKey, richTextElements)}
-        </div>
-      </section>
+      {seoTextKey && (
+        <>
+          {/* --- SECCIÓN TEXTO SEO ENRIQUECIDO --- */}
+          <section className="bg-muted p-6 sm:p-10 rounded-xl max-w-4xl mx-auto border border-border mb-16">
+            <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+              {t.rich(seoTextKey as any, richTextElements)}
+            </div>
+          </section>
+        </>
+      )}
 
       {/* --- SECCIÓN ACORDEÓN PREGUNTAS FRECUENTES (FAQs) CON SEO SEMÁNTICO H3 --- */}
       {faqs.length > 0 && (

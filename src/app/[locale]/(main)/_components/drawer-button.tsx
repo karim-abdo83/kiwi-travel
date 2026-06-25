@@ -16,6 +16,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Link } from "@/i18n/routing";
+import { getCountrySlug } from "@/lib/country-slug";
 import { localeAttributeFactory } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import {
@@ -58,7 +59,6 @@ export const DrawerButton = () => {
           loading: "Загрузка...",
           noCountries: "Нет доступных стран",
           noDestinations: "Нет доступных направлений",
-          noCountryDestinations: "В этой стране пока нет направлений",
           closeMenu: "Закрыть меню",
         }
       : locale === "tr"
@@ -68,7 +68,6 @@ export const DrawerButton = () => {
             loading: "Yükleniyor...",
             noCountries: "Kullanılabilir ülke yok",
             noDestinations: "Kullanılabilir destinasyon yok",
-            noCountryDestinations: "Bu ülkede henüz destinasyon yok",
             closeMenu: "Menüyü kapat",
           }
         : {
@@ -77,7 +76,6 @@ export const DrawerButton = () => {
             loading: "Loading...",
             noCountries: "No countries available",
             noDestinations: "No destinations available",
-            noCountryDestinations: "No destinations in this country yet",
             closeMenu: "Close menu",
           };
 
@@ -144,47 +142,16 @@ export const DrawerButton = () => {
                     {menuLabels.loading}
                   </span>
                 ) : countries && countries.length > 0 ? (
-                  <Accordion type="multiple" className="w-full border-none">
-                    {countries.map((country) => {
-                      const countryDestinations = (destinations ?? []).filter(
-                        (destination) => destination.countryId === country.id,
-                      );
-
-                      return (
-                        <AccordionItem
-                          key={country.id}
-                          value={`country-${country.id}`}
-                          className="border-none"
-                        >
-                          <AccordionTrigger className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted hover:no-underline">
-                            {localeAttribute(country, "name")}
-                          </AccordionTrigger>
-                          <AccordionContent className="grid gap-1 pb-2 pl-3">
-                            {isDestinationsLoading ? (
-                              <span className="px-3 py-2 text-sm text-muted-foreground">
-                                {menuLabels.loading}
-                              </span>
-                            ) : countryDestinations.length > 0 ? (
-                              countryDestinations.map((destination) => (
-                                <Link
-                                  key={destination.id}
-                                  href={`/destinations/${destination.slug}`}
-                                  onClick={closeDrawer}
-                                  className="rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted hover:text-primary"
-                                >
-                                  {localeAttribute(destination, "name")}
-                                </Link>
-                              ))
-                            ) : (
-                              <span className="px-3 py-2 text-sm text-muted-foreground">
-                                {menuLabels.noCountryDestinations}
-                              </span>
-                            )}
-                          </AccordionContent>
-                        </AccordionItem>
-                      );
-                    })}
-                  </Accordion>
+                  countries.map((country) => (
+                    <Link
+                      key={country.id}
+                      href={`/destinations/country/${getCountrySlug(country)}`}
+                      onClick={closeDrawer}
+                      className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
+                    >
+                      {localeAttribute(country, "name")}
+                    </Link>
+                  ))
                 ) : (
                   <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
                     {menuLabels.noCountries}
