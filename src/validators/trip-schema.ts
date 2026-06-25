@@ -10,7 +10,14 @@ export const days = [
   "Saturday",
 ] as const;
 
-export const tripBadges = ["Popular", "Best Seller", "VIP", "New"] as const;
+export const tripBadges = [
+  "Popular",
+  "Best Seller",
+  "VIP",
+  "New",
+  "Sale",
+  "Wow Price",
+] as const;
 
 export function validateTripPrices(
   values: { adultPrice: number; originalPrice?: number },

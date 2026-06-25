@@ -5,6 +5,8 @@ const russianBadgeLabels: Record<TripBadge, string> = {
   "Best Seller": "Хит продаж",
   VIP: "VIP",
   New: "Новинка",
+  Sale: "Распродажа",
+  "Wow Price": "Вау-цены",
 };
 
 export function getTripBadgeLabel(badge: TripBadge, locale: string) {
