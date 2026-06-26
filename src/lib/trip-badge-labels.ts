@@ -5,7 +5,7 @@ const russianBadgeLabels: Record<TripBadge, string> = {
   "Best Seller": "Хит продаж",
   VIP: "VIP",
   New: "Новинка",
-  Sale: "Скидка",
+  Sale: "Распродажа",
   "Wow Price": "Вау цена",
 };
 
