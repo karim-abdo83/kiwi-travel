@@ -10,6 +10,8 @@ const badgeStyles: Record<TripBadge, string> = {
   "Best Seller": "bg-orange-500",
   VIP: "bg-violet-600",
   New: "bg-emerald-600",
+  Sale: "bg-red-600",
+  "Wow Price": "bg-pink-600",
 };
 
 interface TripCardBadgeProps {
