@@ -53,11 +53,14 @@ export function BookingDetails({ booking }: { booking: Booking }) {
   const localeAttribute = localeAttributeFactory(locale);
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    const [year, month, day] = dateString.split("-").map(Number);
+
+    return new Intl.DateTimeFormat("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
-    });
+      timeZone: "UTC",
+    }).format(new Date(Date.UTC(year!, month! - 1, day)));
   };
 
   const getStatusColor = (status: string) => {

@@ -34,11 +34,14 @@ export default async function BookingsPage() {
   const t = await getTranslations("BookingsPage");
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString(locale, {
+    const [year, month, day] = dateString.split("-").map(Number);
+
+    return new Intl.DateTimeFormat(locale, {
       month: "short",
       day: "numeric",
       year: "numeric",
-    });
+      timeZone: "UTC",
+    }).format(new Date(Date.UTC(year!, month! - 1, day)));
   };
 
   const getStatusColor = (status: string) => {

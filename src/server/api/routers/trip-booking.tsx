@@ -6,7 +6,6 @@ import {
 } from "@/server/db/schema";
 import { tripBookingFormSchema } from "@/validators/trip-booking-schema";
 import { TRPCError } from "@trpc/server";
-import { format } from "date-fns";
 import { count, desc, eq, inArray } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
@@ -163,7 +162,7 @@ export const tripBookingRouter = createTRPCRouter({
           and(
             eq(userId, ctx.userId),
             eq(tripId, input.tripId),
-            eq(bookingDate, format(input.date, "yyyy-MM-dd")),
+            eq(bookingDate, input.date),
             inArray(status, ["pending", "accepted"]),
           ),
       });
@@ -188,7 +187,7 @@ export const tripBookingRouter = createTRPCRouter({
         childrenCount: input.childrenCount,
         infantsCount: input.infantsCount,
         tripId: input.tripId,
-        bookingDate: format(input.date, "yyyy-MM-dd"),
+        bookingDate: input.date,
         status: trip.isConfirmationRequired ? "pending" : "accepted",
       });
 
@@ -210,7 +209,7 @@ await sendTelegramNotification(
 🏨 <b>Отель:</b> ${input.hotelNameAddress || "Не указан"}
 🚪 <b>Номер комнаты:</b> ${input.roomNumberOrSpecialRequests || "Не указан"}
 🎫 <b>Тур:</b> ${trip.titleRu || trip.titleEn}
-📅 <b>Дата:</b> ${format(input.date, "yyyy-MM-dd")}
+📅 <b>Дата:</b> ${input.date}
 👨 <b>Взрослые:</b> ${input.adultsCount}
 👧 <b>Дети:</b> ${input.childrenCount}
 👶 <b>Младенцы:</b> ${input.infantsCount}
@@ -236,7 +235,7 @@ const tEmail = await getTranslations("General.bookingEmail.new");
             fullName: input.name || (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName || "Guest User"),
             email: user.emailAddresses[0]!.emailAddress,
             phoneNumber: input.phone,
-            bookingDate: format(input.date, "yyyy-MM-dd"),
+            bookingDate: input.date,
             numberOfPeople: totalPeople,
             childrenCount: input.childrenCount,
             adultsCount: input.adultsCount,
@@ -300,7 +299,7 @@ const tEmail = await getTranslations("General.bookingEmail.new");
           and(
             eq(userId, input.email),
             eq(tripId, input.tripId),
-            eq(bookingDate, format(input.date, "yyyy-MM-dd")),
+            eq(bookingDate, input.date),
             inArray(status, ["pending", "accepted"]),
           ),
       });
@@ -323,7 +322,7 @@ const tEmail = await getTranslations("General.bookingEmail.new");
         childrenCount: input.childrenCount,
         infantsCount: input.infantsCount,
         tripId: input.tripId,
-        bookingDate: format(input.date, "yyyy-MM-dd"),
+        bookingDate: input.date,
         status: trip.isConfirmationRequired ? "pending" : "accepted",
       });
 
@@ -345,7 +344,7 @@ await sendTelegramNotification(
 🏨 <b>Отель:</b> ${input.hotelNameAddress || "Не указан"}
 🚪 <b>Номер комнаты:</b> ${input.roomNumberOrSpecialRequests || "Не указан"}
 🎫 <b>Тур:</b> ${trip.titleRu || trip.titleEn}
-📅 <b>Дата:</b> ${format(input.date, "yyyy-MM-dd")}
+📅 <b>Дата:</b> ${input.date}
 👨 <b>Взрослые:</b> ${input.adultsCount}
 👧 <b>Дети:</b> ${input.childrenCount}
 👶 <b>Младенцы:</b> ${input.infantsCount}
@@ -372,7 +371,7 @@ await sendTelegramNotification(
             fullName: input.name || "Guest User",
             email: input.email,
             phoneNumber: input.phone,
-            bookingDate: format(input.date, "yyyy-MM-dd"),
+            bookingDate: input.date,
             numberOfPeople: totalPeople,
             childrenCount: input.childrenCount,
             adultsCount: input.adultsCount,
@@ -453,7 +452,7 @@ await sendTelegramNotification(
     .input(
       z.object({
         tripId: z.number(),
-        date: z.date(),
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
       }),
     )
     .query(
@@ -462,7 +461,7 @@ await sendTelegramNotification(
           where: ({ tripId, bookingDate }, { and, eq }) =>
             and(
               eq(tripId, input.tripId),
-              eq(bookingDate, format(input.date, "yyyy-MM-dd")),
+              eq(bookingDate, input.date),
             ),
         }),
     ),

@@ -56,7 +56,7 @@ export function TripDetails({ trip }: { trip: Trip }) {
   const { data: bookingRequests, refetch: refetchBookingRequests } =
     api.tripBooking.adminListByDate.useQuery({
       tripId: trip.id,
-      date,
+      date: format(date, "yyyy-MM-dd"),
     });
 
   const { data: d, refetch } = api.trip.adminViewDetailsPage.useQuery(trip.id, {

@@ -31,7 +31,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/trpc/react";
 import {
-  tripBookingFormSchema,
+  tripBookingUiFormSchema,
   TripBookingFormValues,
 } from "@/validators/trip-booking-schema";
 import { days } from "@/validators/trip-schema";
@@ -296,7 +296,7 @@ const BookingSubmitDialog = ({
 
   // Initialize the form
   const form = useForm<TripBookingFormValues>({
-    resolver: zodResolver(tripBookingFormSchema),
+    resolver: zodResolver(tripBookingUiFormSchema),
     defaultValues: {
       name: "",
       adultsCount: 1,
@@ -348,6 +348,7 @@ const BookingSubmitDialog = ({
 
     createBooking({
       ...data,
+      date: format(data.date, "yyyy-MM-dd"),
       tripId,
       email: data.email || "",
     });

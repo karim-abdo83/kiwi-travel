@@ -1,14 +1,11 @@
 import { z } from "zod";
 
 
-export const tripBookingFormSchema = z.object({
+const tripBookingFields = {
   name: z
     .string()
     .min(1, "Name is required")
     .min(2, "Name must be at least 2 characters"),
-  date: z.date({
-    required_error: "Please select a date",
-  }),
   adultsCount: z
     .number({
       required_error: "Please select number of adults",
@@ -25,7 +22,30 @@ export const tripBookingFormSchema = z.object({
     ),
   email: z.string().optional(),
   hotelNameAddress: z.string().optional(),
-roomNumberOrSpecialRequests: z.string().optional(),
+  roomNumberOrSpecialRequests: z.string().optional(),
+};
+
+const bookingDateSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must use YYYY-MM-DD format")
+  .refine((value) => {
+    const [year, month, day] = value.split("-").map(Number);
+    const isLeapYear = year! % 4 === 0 && (year! % 100 !== 0 || year! % 400 === 0);
+    const daysInMonth = [31, isLeapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    return month! >= 1 && month! <= 12 && day! >= 1 && day! <= daysInMonth[month! - 1]!;
+  }, "Please select a valid date");
+
+export const tripBookingFormSchema = z.object({
+  ...tripBookingFields,
+  date: bookingDateSchema,
 });
 
-export type TripBookingFormValues = z.infer<typeof tripBookingFormSchema>
+export const tripBookingUiFormSchema = z.object({
+  ...tripBookingFields,
+  date: z.custom<Date>((value) => value instanceof Date && !Number.isNaN(value.getTime()), {
+    message: "Please select a date",
+  }),
+});
+
+export type TripBookingFormValues = z.infer<typeof tripBookingUiFormSchema>;

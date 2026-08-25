@@ -84,6 +84,10 @@ export const BookingEmail = ({
                   <td style={tdLeft}>Service (Trip)</td>
                   <td style={tdRight}>{bookingData.tripTitle}</td>
                 </tr>
+                <tr>
+                  <td style={tdLeft}>Booking Date</td>
+                  <td style={tdRight}>{bookingData.bookingDate || "-"}</td>
+                </tr>
                    <tr>
   <td style={tdLeft}>Hotel Name</td>
   <td style={tdRight}>{bookingData.hotelNameAddress || "-"}</td>
