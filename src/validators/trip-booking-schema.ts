@@ -23,6 +23,7 @@ const tripBookingFields = {
   email: z.string().optional(),
   hotelNameAddress: z.string().optional(),
   roomNumberOrSpecialRequests: z.string().optional(),
+  attribution: z.string().max(10000).optional(),
 };
 
 const bookingDateSchema = z

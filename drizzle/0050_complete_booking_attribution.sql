@@ -1,0 +1,14 @@
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "gclid" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "gbraid" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "wbraid" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "yclid" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "utm_source" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "utm_medium" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "utm_campaign" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "utm_content" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "utm_term" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "first_landing_page" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "last_landing_page" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "referrer" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "first_touch_source" text;
+ALTER TABLE "trip_bookings" ADD COLUMN IF NOT EXISTS "last_touch_source" text;

@@ -21,6 +21,7 @@ import {
   secondDataLayerScript,
   yandexCounterScript,
 } from "./scripts";
+import { AttributionTracker } from "@/components/attribution-tracker";
 
 export const metadata: Metadata = {
   title: "Karim Tour",
@@ -138,6 +139,7 @@ export default async function RootLayout({
         />
       </head>
       <body suppressHydrationWarning={true}>
+        <AttributionTracker />
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PTKXXBPK"
@@ -159,4 +161,3 @@ export default async function RootLayout({
     </html>
   );
 }
-

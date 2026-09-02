@@ -38,6 +38,7 @@ import { days } from "@/validators/trip-schema";
 import { useAuth } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
+import { serializeAttribution, trackBookingComplete } from "@/lib/attribution-tracking";
 import { BookLock, CalendarIcon, FileText, Loader2, MessageCircleQuestion, ShieldCheck, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -266,7 +267,8 @@ const BookingSubmitDialog = ({
 
   const createBookingMutation = isSignedIn ? api.tripBooking.create.useMutation : api.tripBooking.createAnonymously.useMutation;
   
-  const { mutate: createBooking, isPending } = createBookingMutation({      onSuccess: ({ message }) => {
+  const { mutate: createBooking, isPending } = createBookingMutation({      onSuccess: ({ message, bookingId, bookingValue, currency, productId }) => {
+        trackBookingComplete({ bookingId, value: bookingValue, currency, productId });
         toast({
           title: t("success"),
           description: message,
@@ -351,6 +353,7 @@ const BookingSubmitDialog = ({
       date: format(data.date, "yyyy-MM-dd"),
       tripId,
       email: data.email || "",
+      attribution: serializeAttribution(),
     });
   }
 

@@ -21,6 +21,7 @@ import { env } from "@/env";
 import { render } from "@react-email/components";
 import { BookingEmail } from "../email/booking-email";
 import { currentUser } from "@clerk/nextjs/server";
+import { attributionColumns } from "@/server/analytics/attribution";
 
 const emailTransporter = nodemailer.createTransport({
   host: env.EMAIL_SENDING_HOST,
@@ -176,7 +177,7 @@ export const tripBookingRouter = createTRPCRouter({
 
       const user = (await currentUser())!;
 
-      await ctx.db.insert(tripBooking).values({
+      const [createdBooking] = await ctx.db.insert(tripBooking).values({
         userId: ctx.userId,
         userName: input.name || (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName || null),
         userPhone: input.phone,
@@ -189,7 +190,8 @@ export const tripBookingRouter = createTRPCRouter({
         tripId: input.tripId,
         bookingDate: input.date,
         status: trip.isConfirmationRequired ? "pending" : "accepted",
-      });
+        ...attributionColumns(input.attribution),
+      }).returning({ id: tripBooking.id });
 
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
 const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
@@ -228,7 +230,7 @@ const tEmail = await getTranslations("General.bookingEmail.new");
 
       const emailHtml = await render(
         <BookingEmail
-          bookingId={0} // или реальный ID, если захочешь получить его из insert
+          bookingId={createdBooking!.id}
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
@@ -256,6 +258,10 @@ const tEmail = await getTranslations("General.bookingEmail.new");
       });
 
       return {
+        bookingId: createdBooking!.id,
+        bookingValue: emailTotal,
+        currency: "USD",
+        productId: input.tripId,
         message: trip.isConfirmationRequired
           ? t("successMessageWithConfirm")
           : t("successMessage"),
@@ -311,7 +317,7 @@ const tEmail = await getTranslations("General.bookingEmail.new");
         });
       }
 
-      await ctx.db.insert(tripBooking).values({
+      const [createdBooking] = await ctx.db.insert(tripBooking).values({
         userId: input.email,
         userName: input.name || null,
         userPhone: input.phone,
@@ -324,7 +330,8 @@ const tEmail = await getTranslations("General.bookingEmail.new");
         tripId: input.tripId,
         bookingDate: input.date,
         status: trip.isConfirmationRequired ? "pending" : "accepted",
-      });
+        ...attributionColumns(input.attribution),
+      }).returning({ id: tripBooking.id });
 
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
       const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
@@ -364,7 +371,7 @@ await sendTelegramNotification(
 
       const emailHtml = await render(
         <BookingEmail
-          bookingId={0} // или реальный ID, если захочешь получить его из insert
+          bookingId={createdBooking!.id}
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
@@ -392,6 +399,10 @@ await sendTelegramNotification(
       });
 
       return {
+        bookingId: createdBooking!.id,
+        bookingValue: emailTotal,
+        currency: "USD",
+        productId: input.tripId,
         message: trip.isConfirmationRequired
           ? t("successMessageWithConfirm")
           : t("successMessage"),

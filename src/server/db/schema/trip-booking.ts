@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import { index, pgTable } from "drizzle-orm/pg-core";
 import { trip } from "./trip";
 import { review } from "./review";
+import type { AttributionSource } from "@/lib/attribution";
 
 export const tripBooking = pgTable(
   "trip_bookings",
@@ -24,6 +25,20 @@ export const tripBooking = pgTable(
     status: c.text("status", {
       enum: ["pending", "accepted", "cancelled", "done", "missed"],
     }).notNull(),
+    gclid: c.text("gclid"),
+    gbraid: c.text("gbraid"),
+    wbraid: c.text("wbraid"),
+    yclid: c.text("yclid"),
+    utmSource: c.text("utm_source"),
+    utmMedium: c.text("utm_medium"),
+    utmCampaign: c.text("utm_campaign"),
+    utmContent: c.text("utm_content"),
+    utmTerm: c.text("utm_term"),
+    firstLandingPage: c.text("first_landing_page"),
+    lastLandingPage: c.text("last_landing_page"),
+    referrer: c.text("referrer"),
+    firstTouchSource: c.text("first_touch_source").$type<AttributionSource>(),
+    lastTouchSource: c.text("last_touch_source").$type<AttributionSource>(),
     createdAt: c.timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
