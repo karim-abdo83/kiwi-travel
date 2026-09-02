@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { TrackedContactLink } from "@/components/tracked-contact-link";
 import {
   Drawer,
   DrawerContent,
@@ -255,7 +256,9 @@ export const DrawerButton = () => {
             <h3 className="px-3 text-sm font-semibold text-muted-foreground">
               {footerT("contactUs")}
             </h3>
-            <a
+            <TrackedContactLink
+              channel="whatsapp"
+              ctaLocation="drawer"
               href="https://wa.me/79645056936"
               target="_blank"
               rel="noopener noreferrer"
@@ -263,8 +266,10 @@ export const DrawerButton = () => {
             >
               <MessageCircle className="h-4 w-4 text-green-600" />
               WhatsApp
-            </a>
-            <a
+            </TrackedContactLink>
+            <TrackedContactLink
+              channel="telegram"
+              ctaLocation="drawer"
               href="https://t.me/karimtor_kiwitravel"
               target="_blank"
               rel="noopener noreferrer"
@@ -272,7 +277,7 @@ export const DrawerButton = () => {
             >
               <Send className="h-4 w-4 text-sky-500" />
               Telegram
-            </a>
+            </TrackedContactLink>
             <a
               href="tel:+79645056936"
               className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"

@@ -10,6 +10,7 @@ import { notificationsRouter } from "./routers/notifications";
 import { tripTypeRouter } from "./routers/trip-type";
 import { tripSearchRouter } from "./routers/trip-search";
 import { appContentRouter } from "./routers/app-content";
+import { contactClickRouter } from "./routers/contact-click";
 
 /**
  * This is the primary router for your server.
@@ -28,6 +29,7 @@ export const appRouter = createTRPCRouter({
   tripType: tripTypeRouter,
   search: tripSearchRouter,
   appContent: appContentRouter,
+  contactClick: contactClickRouter,
 });
 
 // export type definition of API

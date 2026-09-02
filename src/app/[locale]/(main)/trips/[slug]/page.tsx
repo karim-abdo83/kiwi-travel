@@ -37,7 +37,12 @@ import { Button } from "@/components/ui/button";
 import { ReviewWriteForm } from "../../_components/reviewWrite-form";
 import Testimonials from "../../_components/testimonials";
 import { ensureLengthRange } from "../helperSEO";
-import { cleanSchema, generateBreadcrumb, generateTripSchema } from "../../lib/seo/schemas";
+import { TrackedContactLink } from "@/components/tracked-contact-link";
+import {
+  cleanSchema,
+  generateBreadcrumb,
+  generateTripSchema,
+} from "../../lib/seo/schemas";
 
 export async function generateMetadata({
   params,
@@ -51,12 +56,7 @@ export async function generateMetadata({
 
   const rawTitle = localeAttribute(trip, "title");
 
-  const title = ensureLengthRange(
-    rawTitle,
-    50,
-    65,
-    "Karim Tour",
-  );
+  const title = ensureLengthRange(rawTitle, 50, 65, "Karim Tour");
 
   const baseDescription =
     locale === "en"
@@ -65,14 +65,14 @@ export async function generateMetadata({
           "name",
         )}. Prices, duration, itinerary and instant booking.`
       : locale === "ru"
-      ? `Откройте тур "${rawTitle}" в ${localeAttribute(
-          trip.destination,
-          "name",
-        )}. Программа, цены и онлайн-бронирование.`
-      : `${rawTitle} turunu ${localeAttribute(
-          trip.destination,
-          "name",
-        )} bölgesinde keşfedin. Program, fiyatlar ve online rezervasyon.`;
+        ? `Откройте тур "${rawTitle}" в ${localeAttribute(
+            trip.destination,
+            "name",
+          )}. Программа, цены и онлайн-бронирование.`
+        : `${rawTitle} turunu ${localeAttribute(
+            trip.destination,
+            "name",
+          )} bölgesinde keşfedin. Program, fiyatlar ve online rezervasyon.`;
 
   const description = ensureLengthRange(
     baseDescription,
@@ -81,26 +81,29 @@ export async function generateMetadata({
     locale === "en"
       ? "Travel with Karim Tour."
       : locale === "ru"
-      ? "Путешествуйте с Karim Tour." 
-      : "Karim Tour ile seyahat edin."
+        ? "Путешествуйте с Karim Tour."
+        : "Karim Tour ile seyahat edin.",
   );
 
+  let seoDescription =
+    locale === "en"
+      ? trip.descriptionEn
+      : locale === "ru"
+        ? trip.descriptionRu
+        : trip.descriptionTr;
 
-let seoDescription =
-  locale === "en"
-    ? trip.descriptionEn
-    : locale === "ru"
-    ? trip.descriptionRu
-    : trip.descriptionTr;
-
-if (!seoDescription || seoDescription.length < 130 || seoDescription.length > 165) {
-  seoDescription = description;
-}
+  if (
+    !seoDescription ||
+    seoDescription.length < 130 ||
+    seoDescription.length > 165
+  ) {
+    seoDescription = description;
+  }
 
   return {
-     title: {
-    absolute: title, 
-  },
+    title: {
+      absolute: title,
+    },
     description: seoDescription,
     alternates: {
       canonical: `/${locale}/trips/${slug}`,
@@ -121,8 +124,6 @@ if (!seoDescription || seoDescription.length < 130 || seoDescription.length > 16
     },
   };
 }
-
-
 
 export default async function TripDetailsPage({
   params,
@@ -161,11 +162,15 @@ export default async function TripDetailsPage({
     .replaceAll("day", t_TimeUnits("day"))
     .replaceAll("hour", t_TimeUnits("hour"));
   // Format size of trip with localized "persons" text
-  const sizeOfTrip = trip.sizeOfTrip ? trip.sizeOfTrip.replace("persons", t("persons")) : '';
-
+  const sizeOfTrip = trip.sizeOfTrip
+    ? trip.sizeOfTrip.replace("persons", t("persons"))
+    : "";
 
   // Day name translations
-  const dayTranslations: Record<string, { en: string; ru: string; tr: string }> = {
+  const dayTranslations: Record<
+    string,
+    { en: string; ru: string; tr: string }
+  > = {
     Sunday: { en: "Sunday", ru: "Вс", tr: "Pazar" },
     Monday: { en: "Monday", ru: "Пн", tr: "Pazartesi" },
     Tuesday: { en: "Tuesday", ru: "Вт", tr: "Salı" },
@@ -207,8 +212,10 @@ export default async function TripDetailsPage({
       .replaceAll("hour", t_TimeUnits("hour"));
   };
 
-  const baseUrl = (env.NEXT_PUBLIC_APP_URL || "https://karimtor.com").replace(/\/$/, "");
-  
+  const baseUrl = (env.NEXT_PUBLIC_APP_URL || "https://karimtor.com").replace(
+    /\/$/,
+    "",
+  );
 
   const tripSchema = cleanSchema(
     generateTripSchema({
@@ -222,9 +229,9 @@ export default async function TripDetailsPage({
       },
       locale,
       baseUrl,
-    })
+    }),
   );
-  
+
   const breadcrumbSchema = cleanSchema(
     generateBreadcrumb([
       { name: "Home", url: `${baseUrl}/${locale}` },
@@ -237,12 +244,12 @@ export default async function TripDetailsPage({
         name: localeAttribute(trip, "title"),
         url: `${baseUrl}/${locale}/trips/${trip.slug}`,
       },
-    ])
+    ]),
   );
 
   return (
     <>
-          <script
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(tripSchema).replace(/</g, "\\u003c"),
@@ -320,7 +327,10 @@ export default async function TripDetailsPage({
                 </a>
               </li>
               <li className="group">
-                <a
+                <TrackedContactLink
+                  channel="telegram"
+                  ctaLocation="trip_social"
+                  tripId={trip.id}
                   href="https://t.me/karimkiwi"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -328,7 +338,7 @@ export default async function TripDetailsPage({
                   aria-label="Telegram"
                 >
                   <Send className="h-4 w-4 text-blue-500 md:h-5 md:w-5 lg:h-6 lg:w-5" />
-                </a>
+                </TrackedContactLink>
               </li>
             </ul>
             <div className="relative">
@@ -382,7 +392,7 @@ export default async function TripDetailsPage({
                     {t("sizeOfTrip")}
                   </p>
                   <p className="text-base font-semibold text-gray-700">
-                    {sizeOfTrip || t('notSpecified')}
+                    {sizeOfTrip || t("notSpecified")}
                   </p>
                 </div>
 
@@ -395,10 +405,21 @@ export default async function TripDetailsPage({
                   </p>
                   <div className="flex flex-wrap justify-center gap-1">
                     {trip.availableDays.map((day, index) => {
-                      const translation = dayTranslations[day] || { en: day, ru: day, tr: day };
+                      const translation = dayTranslations[day] || {
+                        en: day,
+                        ru: day,
+                        tr: day,
+                      };
                       return (
-                        <span key={index} className="inline-block rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
-                          {locale === 'ru' ? translation.ru : locale === 'tr' ? translation.tr : translation.en}
+                        <span
+                          key={index}
+                          className="inline-block rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800"
+                        >
+                          {locale === "ru"
+                            ? translation.ru
+                            : locale === "tr"
+                              ? translation.tr
+                              : translation.en}
                         </span>
                       );
                     })}
@@ -577,11 +598,11 @@ export default async function TripDetailsPage({
             )} */}
           </div>
         </div>
-        <div className="w-full lg:top-8 bg-gray-50 flex flex-col lg:flex-row relative rounded-lg">
-          <div className="flex-1 w-full">
+        <div className="relative flex w-full flex-col rounded-lg bg-gray-50 lg:top-8 lg:flex-row">
+          <div className="w-full flex-1">
             <Testimonials tripId={trip.id} />
           </div>
-          <div className="w-full lg:w-80 py-6 px-2 lg:px-0">
+          <div className="w-full px-2 py-6 lg:w-80 lg:px-0">
             <ReviewWriteForm tripId={trip.id} />
           </div>
         </div>

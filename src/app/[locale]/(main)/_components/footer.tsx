@@ -1,9 +1,19 @@
 "use client";
-import { useState } from 'react';
+import { useState } from "react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Instagram, Facebook, MessageSquare, MessageCircle, Send, Phone, FacebookIcon, X } from "lucide-react";
+import {
+  Instagram,
+  Facebook,
+  MessageSquare,
+  MessageCircle,
+  Send,
+  Phone,
+  FacebookIcon,
+  X,
+} from "lucide-react";
+import { TrackedContactLink } from "@/components/tracked-contact-link";
 interface Social {
   icon: React.ReactNode;
   link: string;
@@ -18,44 +28,51 @@ export default function Footer() {
 
   const socials: Social[] = [
     {
-      icon: <Instagram className="w-5 h-5" />,
+      icon: <Instagram className="h-5 w-5" />,
       link: "https://www.instagram.com/kiwitraveleg?igsh=MXJzZjFwY2Fzc2E2Zw==",
-      name: "Instagram"
+      name: "Instagram",
     },
     {
-      icon: <FacebookIcon className="w-5 h-5" />,
+      icon: <FacebookIcon className="h-5 w-5" />,
       link: "https://www.facebook.com/share/16NjtcXwqN/?mibextid=wwXIfr",
-      name: "Facebook"
+      name: "Facebook",
     },
     {
-      icon: <MessageSquare className="w-5 h-5" />,
+      icon: <MessageSquare className="h-5 w-5" />,
       link: "https://vk.com/kiwitravelseg",
-      name: "VK"
+      name: "VK",
     },
     {
-      icon: <MessageCircle className="w-5 h-5" />,
+      icon: <MessageCircle className="h-5 w-5" />,
       link: "https://wa.me/79645056936",
-      name: "WhatsApp"
+      name: "WhatsApp",
     },
     {
-      icon: <Send className="w-5 h-5" />,
+      icon: <Send className="h-5 w-5" />,
       link: "https://t.me/karimtor_kiwitravel",
-      name: "Telegram"
+      name: "Telegram",
     },
     {
-      icon: <Phone className="w-5 h-5" />,
+      icon: <Phone className="h-5 w-5" />,
       link: "https://invite.viber.com/?g2=AQA0x%2BECmdFOrlSTvNRusTVCZ9u6iaAtDGMI1Ok8C480GH8eKU2hM9%2F8J8kWlMHp",
-      name: "Viber"
+      name: "Viber",
     },
   ];
 
   return (
-    <footer className="bg-[#0b3275] py-8 text-primary-foreground px-4 lg:px-6">
+    <footer className="bg-[#0b3275] px-4 py-8 text-primary-foreground lg:px-6">
       <div className="container mx-auto px-4 md:px-0">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div>
             <Link href="/" className="flex items-center space-x-2">
-              <Image className="-mt-2 w-48 h-auto" src="/logo-footer.svg" alt="Karim Tour" width={192} height={40} priority />
+              <Image
+                className="-mt-2 h-auto w-48"
+                src="/logo-footer.svg"
+                alt="Karim Tour"
+                width={192}
+                height={40}
+                priority
+              />
             </Link>
             <p className="mt-2 text-sm">{t("discoverTheWorld")}</p>
 
@@ -75,33 +92,39 @@ export default function Footer() {
                 ))}
               </ul>
               <div className="mt-4">
-                <Image 
-                  src='/registration-footer.jpg'
-                  alt="Footer image" 
-                  width={500} 
-                  height={250} 
-                  className="w-auto h-auto max-w-[170px] cursor-pointer hover:opacity-80 transition-opacity rounded-md shadow-md"
+                <Image
+                  src="/registration-footer.jpg"
+                  alt="Footer image"
+                  width={500}
+                  height={250}
+                  className="h-auto w-auto max-w-[170px] cursor-pointer rounded-md shadow-md transition-opacity hover:opacity-80"
                   onClick={() => setShowModal(true)}
                   priority
                 />
-                
+
                 {showModal && (
-                  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" onClick={() => setShowModal(false)}>
-                    <div className="relative max-w-6xl w-full max-h-[95vh]" onClick={(e) => e.stopPropagation()}>
-                      <button 
-                        className="absolute -top-12 right-0 text-white hover:text-gray-300 bg-black/50 rounded-full p-1"
+                  <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+                    onClick={() => setShowModal(false)}
+                  >
+                    <div
+                      className="relative max-h-[95vh] w-full max-w-6xl"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        className="absolute -top-12 right-0 rounded-full bg-black/50 p-1 text-white hover:text-gray-300"
                         onClick={() => setShowModal(false)}
                         aria-label="Close"
                       >
-                        <X className="w-8 h-8" />
+                        <X className="h-8 w-8" />
                       </button>
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Image 
-                          src='/registration-certificate.jpg' 
-                          alt="Enlarged footer image" 
+                      <div className="flex h-full w-full items-center justify-center">
+                        <Image
+                          src="/registration-certificate.jpg"
+                          alt="Enlarged footer image"
                           width={2000}
                           height={1000}
-                          className="max-w-full max-h-[90vh] object-contain"
+                          className="max-h-[90vh] max-w-full object-contain"
                           priority
                         />
                       </div>
@@ -131,19 +154,28 @@ export default function Footer() {
                   {t("quickLinks.trips")}
                 </Link>
               </li>
-               <li>
-                <Link href="/blog/sahl-hasheesh-excursions" className="hover:underline">
+              <li>
+                <Link
+                  href="/blog/sahl-hasheesh-excursions"
+                  className="hover:underline"
+                >
                   {t("quickLinks.article1")}
                 </Link>
               </li>
-               <li>
-                <Link href="/blog/el-gouna-excursions-guide" className="hover:underline">
+              <li>
+                <Link
+                  href="/blog/el-gouna-excursions-guide"
+                  className="hover:underline"
+                >
                   {t("quickLinks.article2")}
                 </Link>
               </li>
-              
-               <li>
-                <Link href="/blog/sharm-airport-transfer" className="hover:underline">
+
+              <li>
+                <Link
+                  href="/blog/sharm-airport-transfer"
+                  className="hover:underline"
+                >
                   {t("quickLinks.article3")}
                 </Link>
               </li>
@@ -156,7 +188,6 @@ export default function Footer() {
                 <Link href="/faqs" className="hover:underline">
                   {t("supportLinks.faqs")}
                 </Link>
-                
               </li>
               <li>
                 <Link href="/privacy" className="hover:underline">
@@ -173,20 +204,45 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-lg font-semibold">{t("followUsTitle")}</h3>
             <div className="grid grid-cols-2 gap-4">
-              {socials.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center space-x-2 p-2 rounded-lg transition-colors"
-                >
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-[#0b3275] flex-shrink-0 group-hover:bg-transparent group-hover:text-[#ff8106] transition-colors">
-                    {social.icon}
-                  </span>
-                  <span className="text-sm whitespace-nowrap group-hover:text-[#ff8106] transition-colors">{social.name}</span>
-                </a>
-              ))}
+              {socials.map((social) => {
+                const channel =
+                  social.name === "WhatsApp"
+                    ? "whatsapp"
+                    : social.name === "Telegram"
+                      ? "telegram"
+                      : null;
+                const content = (
+                  <>
+                    <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-[#0b3275] transition-colors group-hover:bg-transparent group-hover:text-[#ff8106]">
+                      {social.icon}
+                    </span>
+                    <span className="whitespace-nowrap text-sm transition-colors group-hover:text-[#ff8106]">
+                      {social.name}
+                    </span>
+                  </>
+                );
+                return channel ? (
+                  <TrackedContactLink
+                    key={social.name}
+                    channel={channel}
+                    ctaLocation="footer"
+                    href={social.link}
+                    className="group flex items-center space-x-2 rounded-lg p-2 transition-colors"
+                  >
+                    {content}
+                  </TrackedContactLink>
+                ) : (
+                  <a
+                    key={social.name}
+                    href={social.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center space-x-2 rounded-lg p-2 transition-colors"
+                  >
+                    {content}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
