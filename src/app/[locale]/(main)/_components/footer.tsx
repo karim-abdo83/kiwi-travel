@@ -54,7 +54,10 @@ export default function Footer() {
     },
     {
       icon: <Send className="h-5 w-5" />,
-      link: "https://t.me/karimtor_kiwitravel",
+      link:
+        locale === "en"
+          ? "https://t.me/karimtouren"
+          : "https://t.me/karimtor_kiwitravel",
       name: "Telegram",
     },
     {

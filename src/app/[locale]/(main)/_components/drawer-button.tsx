@@ -270,7 +270,11 @@ export const DrawerButton = () => {
             <TrackedContactLink
               channel="telegram"
               ctaLocation="drawer"
-              href="https://t.me/karimtor_kiwitravel"
+              href={
+                locale === "en"
+                  ? "https://t.me/karimtouren"
+                  : "https://t.me/karimtor_kiwitravel"
+              }
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"

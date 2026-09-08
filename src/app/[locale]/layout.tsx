@@ -116,7 +116,9 @@ export default async function RootLayout({
                 "https://www.instagram.com/kiwitraveleg?igsh=MXJzZjFwY2Fzc2E2Zw==",
                 "https://www.facebook.com/share/16NjtcXwqN/?mibextid=wwXIfr",
                 "https://vk.com/kiwitravelseg",
-                "https://t.me/karimkiwi",
+                locale === "en"
+                  ? "https://t.me/karimtouren"
+                  : "https://t.me/karimkiwi",
               ],
             }),
           }}

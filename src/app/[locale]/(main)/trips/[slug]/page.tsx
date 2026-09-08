@@ -335,7 +335,11 @@ export default async function TripDetailsPage({
                   channel="telegram"
                   ctaLocation="trip_social"
                   tripId={trip.id}
-                  href="https://t.me/karimkiwi"
+                  href={
+                    locale === "en"
+                      ? "https://t.me/karimtouren"
+                      : "https://t.me/karimkiwi"
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-300 transition-all duration-200 hover:scale-105 hover:shadow"
