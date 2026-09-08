@@ -29,6 +29,7 @@ export const trip = pgTable("trips", (c) => ({
     .notNull()
     .references(() => destination.id, { onDelete: "restrict" }),
   adultTripPriceInCents: c.integer("adult_trip_price_in_cents").notNull(),
+  englishAdultTripPriceInCents: c.integer("english_adult_trip_price_in_cents"),
   originalAdultTripPriceInCents: c.integer("original_adult_trip_price_in_cents"),
   childTripPriceInCents: c.integer("child_trip_price_in_cents").notNull().default(0),
   childAge: c.text("child_age").notNull().default(""),

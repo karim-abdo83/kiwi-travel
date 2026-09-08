@@ -111,6 +111,10 @@ export const tripRouter = createTRPCRouter({
             ...input,
             assetsUrls: input.assets,
             adultTripPriceInCents: Math.floor(input.adultPrice * 100),
+            englishAdultTripPriceInCents:
+              input.englishAdultPrice === undefined
+                ? null
+                : Math.floor(input.englishAdultPrice * 100),
             originalAdultTripPriceInCents:
               input.originalPrice === undefined
                 ? null
@@ -154,6 +158,10 @@ export const tripRouter = createTRPCRouter({
             ...input,
             assetsUrls: input.assets,
             adultTripPriceInCents: Math.floor(input.adultPrice * 100),
+            englishAdultTripPriceInCents:
+              input.englishAdultPrice === undefined
+                ? null
+                : Math.floor(input.englishAdultPrice * 100),
             originalAdultTripPriceInCents:
               input.originalPrice === undefined
                 ? null
@@ -354,6 +362,7 @@ export const tripRouter = createTRPCRouter({
           titleRu: trip.titleRu,
           assets: trip.assetsUrls,
           priceInCents: trip.adultTripPriceInCents,
+          englishPriceInCents: trip.englishAdultTripPriceInCents,
           originalPriceInCents: trip.originalAdultTripPriceInCents,
           badge: trip.badge,
           duration: trip.duration,
@@ -388,6 +397,9 @@ export const tripRouter = createTRPCRouter({
               locationEn: `${item.countryEn}, ${item.destinationEn}`,
               locationRu: `${item.countryRu}, ${item.destinationRu}`,
               price: Math.floor(item.priceInCents / 100),
+              englishPrice: Math.floor(
+                (item.englishPriceInCents ?? item.priceInCents) / 100,
+              ),
               originalPrice:
                 item.originalPriceInCents === null
                   ? null
@@ -413,6 +425,7 @@ export const tripRouter = createTRPCRouter({
             titleEn: true,
             titleRu: true,
             adultTripPriceInCents: true,
+            englishAdultTripPriceInCents: true,
             originalAdultTripPriceInCents: true,
             badge: true,
             assetsUrls: true,
@@ -436,6 +449,10 @@ export const tripRouter = createTRPCRouter({
               titleEn: item.titleEn,
               titleRu: item.titleRu,
               price: Math.floor(item.adultTripPriceInCents / 100),
+              englishPrice: Math.floor(
+                (item.englishAdultTripPriceInCents ??
+                  item.adultTripPriceInCents) / 100,
+              ),
               originalPrice:
                 item.originalAdultTripPriceInCents === null
                   ? null
@@ -462,6 +479,7 @@ export const tripRouter = createTRPCRouter({
               descriptionRu: true,
               duration: true,
               adultTripPriceInCents: true,
+              englishAdultTripPriceInCents: true,
               originalAdultTripPriceInCents: true,
               badge: true,
               assetsUrls: true,

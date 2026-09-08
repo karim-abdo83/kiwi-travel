@@ -142,9 +142,13 @@ export default async function TripDetailsPage({
   if (!trip) notFound();
 
   const similarTrips = await api.trip.similar(Number(trip.destinationId));
-  const adultPrice = trip.adultTripPriceInCents / 100;
+  const localizedAdultPriceInCents =
+    locale === "en"
+      ? trip.englishAdultTripPriceInCents ?? trip.adultTripPriceInCents
+      : trip.adultTripPriceInCents;
+  const adultPrice = localizedAdultPriceInCents / 100;
   const originalPrice =
-    trip.originalAdultTripPriceInCents === null
+    locale === "en" || trip.originalAdultTripPriceInCents === null
       ? null
       : trip.originalAdultTripPriceInCents / 100;
   const childPrice = trip.childTripPriceInCents / 100;
@@ -195,8 +199,8 @@ export default async function TripDetailsPage({
     touristType: "IndividualOrGroup",
     offers: {
       "@type": "Offer",
-      price: (trip.adultTripPriceInCents / 100).toFixed(2),
-      priceCurrency: "USD",
+      price: (localizedAdultPriceInCents / 100).toFixed(2),
+      priceCurrency: locale === "en" ? "EUR" : "USD",
       availability: "InStock",
       url: `${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.id}`.replaceAll(
         "//",
@@ -224,7 +228,7 @@ export default async function TripDetailsPage({
         description: localeAttribute(trip, "description"),
         image: mainImage(trip.assetsUrls),
         slug: trip.slug,
-        price: trip.adultTripPriceInCents,
+        price: localizedAdultPriceInCents,
         reviews: trip.reviews,
       },
       locale,
@@ -644,10 +648,10 @@ export default async function TripDetailsPage({
                   </p>
                   <div className="mt-4 flex items-center justify-between">
                     <TripPrice
-                      currency="$"
-                      salePrice={trip.adultTripPriceInCents / 100}
+                      currency={locale === "en" ? "€" : "$"}
+                      salePrice={localizedAdultPriceInCents / 100}
                       originalPrice={
-                        trip.originalAdultTripPriceInCents === null
+                        locale === "en" || trip.originalAdultTripPriceInCents === null
                           ? null
                           : trip.originalAdultTripPriceInCents / 100
                       }

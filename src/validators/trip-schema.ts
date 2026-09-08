@@ -74,6 +74,10 @@ export const tripFormSchema = z.object({
   adultPrice: z
     .number({ message: "Adult price is required" })
     .positive("Adult price must be a positive number"),
+  englishAdultPrice: z
+    .number({ message: "English price must be a number" })
+    .positive("English price must be a positive number")
+    .optional(),
   originalPrice: z
     .number({ message: "Original price must be a number" })
     .positive("Original price must be a positive number")

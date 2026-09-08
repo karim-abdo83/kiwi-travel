@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import {
   Instagram,
@@ -23,6 +24,7 @@ interface Social {
 export default function Footer() {
   const [showModal, setShowModal] = useState(false);
   const t = useTranslations("General.footer");
+  const locale = useLocale();
 
   const phones = ["+201003637624", "+905352699881", "+79645056936"];
 
@@ -44,7 +46,10 @@ export default function Footer() {
     },
     {
       icon: <MessageCircle className="h-5 w-5" />,
-      link: "https://wa.me/79645056936",
+      link:
+        locale === "en"
+          ? "https://wa.me/905352699881"
+          : "https://wa.me/79645056936",
       name: "WhatsApp",
     },
     {

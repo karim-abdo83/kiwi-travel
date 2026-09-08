@@ -74,12 +74,18 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
           );
         case "price-asc":
           return (
-            a.adultTripPriceInCents - b.adultTripPriceInCents ||
+            (locale === "en"
+              ? (a.englishAdultTripPriceInCents ?? a.adultTripPriceInCents) -
+                (b.englishAdultTripPriceInCents ?? b.adultTripPriceInCents)
+              : a.adultTripPriceInCents - b.adultTripPriceInCents) ||
             (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
           );
         case "price-desc":
           return (
-            b.adultTripPriceInCents - a.adultTripPriceInCents ||
+            (locale === "en"
+              ? (b.englishAdultTripPriceInCents ?? b.adultTripPriceInCents) -
+                (a.englishAdultTripPriceInCents ?? a.adultTripPriceInCents)
+              : b.adultTripPriceInCents - a.adultTripPriceInCents) ||
             (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
           );
         case "recommended":
@@ -203,9 +209,14 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
                   <div className="mt-4 flex items-center justify-between">
                     <TripPrice
                       currency={locale === "en" ? "€" : "$"}
-                      salePrice={trip.adultTripPriceInCents / 100}
+                      salePrice={
+                        (locale === "en"
+                          ? trip.englishAdultTripPriceInCents ??
+                            trip.adultTripPriceInCents
+                          : trip.adultTripPriceInCents) / 100
+                      }
                       originalPrice={
-                        trip.originalAdultTripPriceInCents === null
+                        locale === "en" || trip.originalAdultTripPriceInCents === null
                           ? null
                           : trip.originalAdultTripPriceInCents / 100
                       }

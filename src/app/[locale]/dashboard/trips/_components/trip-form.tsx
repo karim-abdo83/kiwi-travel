@@ -187,6 +187,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
       travelTime: initialData?.travelTime || "00:00",
       destinationId: initialData?.destinationId || ("" as any),
       adultPrice: initialData?.adultPrice || 0,
+      englishAdultPrice: initialData?.englishAdultPrice,
       originalPrice: initialData?.originalPrice,
       childPrice: initialData?.childPrice || 0,
       childAge: initialData?.childAge || "",
@@ -762,13 +763,13 @@ export function TripForm({ initialData, id }: TripFormProps) {
             )}
           />
 
-          {/* Sale Price */}
+          {/* Russian Price */}
           <FormField
             control={form.control}
             name="adultPrice"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Sale Price</FormLabel>
+                <FormLabel>Russian Price (USD)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -778,7 +779,39 @@ export function TripForm({ initialData, id }: TripFormProps) {
                   />
                 </FormControl>
                 <FormDescription>
-                  This remains the price used for adult bookings.
+                  Existing Russian price used by the booking system.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* English Price */}
+          <FormField
+            control={form.control}
+            name="englishAdultPrice"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>English Price (EUR)</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Enter English price"
+                    value={field.value ?? ""}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    ref={field.ref}
+                    onChange={(event) =>
+                      field.onChange(
+                        event.target.value === ""
+                          ? undefined
+                          : Number(event.target.value),
+                      )
+                    }
+                  />
+                </FormControl>
+                <FormDescription>
+                  Enter the English EUR price manually. No currency conversion is applied.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

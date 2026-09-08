@@ -259,7 +259,7 @@ export const DrawerButton = () => {
             <TrackedContactLink
               channel="whatsapp"
               ctaLocation="drawer"
-              href="https://wa.me/79645056936"
+              href={locale === "en" ? "https://wa.me/905352699881" : "https://wa.me/79645056936"}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"

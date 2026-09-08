@@ -144,8 +144,8 @@ export default function FeaturedTrips() {
                     <CardFooter className="flex items-center justify-between p-4 pt-0">
                       <TripPrice
                         currency={locale === "en" ? "€" : "$"}
-                        salePrice={trip.price}
-                        originalPrice={trip.originalPrice}
+                        salePrice={locale === "en" ? trip.englishPrice : trip.price}
+                        originalPrice={locale === "en" ? null : trip.originalPrice}
                       />
                       <Button size="sm">{t("buttonLabel")}</Button>
                     </CardFooter>

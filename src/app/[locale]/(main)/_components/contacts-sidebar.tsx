@@ -1,7 +1,12 @@
 import React from "react";
 import { TrackedContactLink } from "@/components/tracked-contact-link";
+import { getLocale } from "next-intl/server";
 
-const ContactsSidebar = () => {
+const ContactsSidebar = async () => {
+  const locale = await getLocale();
+  const whatsappUrl = locale === "en"
+    ? "https://wa.me/905352699881"
+    : "https://wa.me/79645056936";
   return (
     <ul
       className="fixed bottom-28 right-0 z-40 grid gap-4 rounded-l-lg border-b-2 border-l-2 border-t-2 border-primary/50 bg-accent p-4 shadow-lg"
@@ -11,7 +16,7 @@ const ContactsSidebar = () => {
         <TrackedContactLink
           channel="whatsapp"
           ctaLocation="sidebar"
-          href="https://wa.me/79645056936"
+          href={whatsappUrl}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

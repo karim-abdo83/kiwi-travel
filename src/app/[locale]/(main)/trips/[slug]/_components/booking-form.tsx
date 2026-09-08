@@ -203,7 +203,7 @@ const BookingForm = ({
             channel="whatsapp"
             ctaLocation="booking_form"
             tripId={tripId}
-            href="https://wa.me/79645056936"
+            href={locale === "en" ? "https://wa.me/905352699881" : "https://wa.me/79645056936"}
             className="flex w-full transform items-center justify-center gap-3 rounded-full bg-green-500 px-6 py-4 font-medium text-white shadow-md transition-all duration-200 hover:scale-105 hover:bg-green-600 hover:shadow-lg"
           >
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
