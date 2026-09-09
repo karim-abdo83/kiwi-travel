@@ -7,7 +7,7 @@ import {
 import { tripBookingFormSchema } from "@/validators/trip-booking-schema";
 import { TRPCError } from "@trpc/server";
 import { count, desc, eq, inArray } from "drizzle-orm";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import path from "path";
@@ -134,6 +134,7 @@ export const tripBookingRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const t = await getTranslations("TripDetailsPage.bookingForm");
+      const locale = await getLocale();
 
       const trip = await ctx.db.query.trip.findFirst({
         columns: {
@@ -202,8 +203,7 @@ const telegramTotal =
     ? (trip.childTripPriceInCents / 100) * input.childrenCount
     : 0);
 
-await sendTelegramNotification(
-`🧾 <b>Новая бронь</b>
+const russianTelegramMessage = `🧾 <b>Новая бронь</b>
 🆔 <b>Trip ID:</b> ${input.tripId}
 👤 <b>Клиент:</b> ${input.name || user.firstName || "Guest"}
 📧 <b>Email:</b> ${user.emailAddresses[0]?.emailAddress || "Не указан"}
@@ -218,8 +218,31 @@ await sendTelegramNotification(
 💰 <b>Сумма:</b> $${telegramTotal}
 💳 <b>Оплата:</b> Наличные
 🔗 <a href="${bookingLink}">Открыть в админке</a>
-🌍 <a href="${tripLink}">Ссылка на тур</a>`
-);
+🌍 <a href="${tripLink}">Ссылка на тур</a>`;
+
+const englishTelegramMessage = `🧾 <b>New booking</b>
+🆔 <b>Booking ID:</b> ${createdBooking!.id}
+🎟️ <b>Trip ID:</b> ${input.tripId}
+👤 <b>Client:</b> ${input.name || user.firstName || "Guest"}
+📧 <b>Email:</b> ${user.emailAddresses[0]?.emailAddress || "Not provided"}
+📞 <b>Phone:</b> ${input.phone}
+🏨 <b>Hotel:</b> ${input.hotelNameAddress || "Not provided"}
+🚪 <b>Room / Special Requests:</b> ${input.roomNumberOrSpecialRequests || "Not provided"}
+🎫 <b>Trip:</b> ${trip.titleEn || trip.titleRu}
+📅 <b>Date:</b> ${input.date}
+👨 <b>Adults:</b> ${input.adultsCount}
+👧 <b>Children:</b> ${input.childrenCount}
+👶 <b>Infants:</b> ${input.infantsCount}
+💰 <b>Total:</b> $${telegramTotal}
+💳 <b>Payment:</b> Cash
+🔗 <a href="${bookingLink}">Open in dashboard</a>
+🌍 <a href="${tripLink}">Trip link</a>`;
+
+await sendBookingTelegramNotification({
+  locale,
+  russianMessage: russianTelegramMessage,
+  englishMessage: englishTelegramMessage,
+});
 
 const tEmail = await getTranslations("General.bookingEmail.new");
       // Calculate totals for email
@@ -276,6 +299,7 @@ const tEmail = await getTranslations("General.bookingEmail.new");
     )
     .mutation(async ({ ctx, input }) => {
       const t = await getTranslations("TripDetailsPage.bookingForm");
+      const locale = await getLocale();
 
       const trip = await ctx.db.query.trip.findFirst({
         columns: {
@@ -342,8 +366,7 @@ const tEmail = await getTranslations("General.bookingEmail.new");
     ? (trip.childTripPriceInCents / 100) * input.childrenCount
     : 0);
 
-await sendTelegramNotification(
-`🧾 <b>Новая бронь</b>
+const russianTelegramMessage = `🧾 <b>Новая бронь</b>
 🆔 <b>Trip ID:</b> ${input.tripId}
 👤 <b>Клиент:</b> ${input.name || "Guest"}
 📧 <b>Email:</b> ${input.email || "Не указан"}
@@ -358,8 +381,31 @@ await sendTelegramNotification(
 💰 <b>Сумма:</b> $${telegramTotal}
 💳 <b>Оплата:</b> Наличные
 🔗 <a href="${bookingLink}">Открыть в админке</a>
-🌍 <a href="${tripLink}">Ссылка на тур</a>`
-);
+🌍 <a href="${tripLink}">Ссылка на тур</a>`;
+
+const englishTelegramMessage = `🧾 <b>New booking</b>
+🆔 <b>Booking ID:</b> ${createdBooking!.id}
+🎟️ <b>Trip ID:</b> ${input.tripId}
+👤 <b>Client:</b> ${input.name || "Guest"}
+📧 <b>Email:</b> ${input.email || "Not provided"}
+📞 <b>Phone:</b> ${input.phone}
+🏨 <b>Hotel:</b> ${input.hotelNameAddress || "Not provided"}
+🚪 <b>Room / Special Requests:</b> ${input.roomNumberOrSpecialRequests || "Not provided"}
+🎫 <b>Trip:</b> ${trip.titleEn || trip.titleRu}
+📅 <b>Date:</b> ${input.date}
+👨 <b>Adults:</b> ${input.adultsCount}
+👧 <b>Children:</b> ${input.childrenCount}
+👶 <b>Infants:</b> ${input.infantsCount}
+💰 <b>Total:</b> $${telegramTotal}
+💳 <b>Payment:</b> Cash
+🔗 <a href="${bookingLink}">Open in dashboard</a>
+🌍 <a href="${tripLink}">Trip link</a>`;
+
+await sendBookingTelegramNotification({
+  locale,
+  russianMessage: russianTelegramMessage,
+  englishMessage: englishTelegramMessage,
+});
 
       const tEmail = await getTranslations("General.bookingEmail.new");
 
@@ -821,9 +867,37 @@ async function sendEmail({
   }
 }
 
-async function sendTelegramNotification(message: string) {
+async function sendBookingTelegramNotification({
+  locale,
+  russianMessage,
+  englishMessage,
+}: {
+  locale: string;
+  russianMessage: string;
+  englishMessage: string;
+}) {
+  if (locale === "en") {
+    const englishChatId = env.TELEGRAM_ENGLISH_BOOKINGS_CHAT_ID;
+
+    if (!englishChatId) {
+      console.error(
+        "❌ TELEGRAM_ENGLISH_BOOKINGS_CHAT_ID is missing; English booking notification was not sent",
+      );
+      return;
+    }
+
+    await sendTelegramNotification(englishMessage, englishChatId);
+    return;
+  }
+
+  await sendTelegramNotification(russianMessage);
+}
+
+async function sendTelegramNotification(
+  message: string,
+  chatId = env.TELEGRAM_ADMIN_CHAT_ID,
+) {
   const token = env.TELEGRAM_BOT_TOKEN;
-  const chatId = env.TELEGRAM_ADMIN_CHAT_ID;
 
   if (!token || !chatId) {
     console.warn("⚠️ Telegram config missing");

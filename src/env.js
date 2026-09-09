@@ -19,6 +19,7 @@ export const env = createEnv({
     EMAIL_SENDING_PORT: z.string()  ,
     TELEGRAM_BOT_TOKEN: z.string(),
     TELEGRAM_ADMIN_CHAT_ID: z.string(),
+    TELEGRAM_ENGLISH_BOOKINGS_CHAT_ID: z.string().optional(),
 
   },
 
@@ -46,7 +47,9 @@ export const env = createEnv({
     EMAIL_SENDING_HOST: process.env.EMAIL_SENDING_HOST,
     EMAIL_SENDING_PORT: process.env.EMAIL_SENDING_PORT,
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
-    TELEGRAM_ADMIN_CHAT_ID: process.env.TELEGRAM_ADMIN_CHAT_ID
+    TELEGRAM_ADMIN_CHAT_ID: process.env.TELEGRAM_ADMIN_CHAT_ID,
+    TELEGRAM_ENGLISH_BOOKINGS_CHAT_ID:
+      process.env.TELEGRAM_ENGLISH_BOOKINGS_CHAT_ID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
