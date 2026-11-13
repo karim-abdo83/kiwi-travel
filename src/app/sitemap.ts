@@ -1,95 +1,99 @@
 import { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
-import { env } from '@/env';
 import { api } from '@/trpc/server';
+import { BLOG_ARTICLE_SLUGS } from '@/lib/blog';
+import {
+  type AppLocale,
+  availableLocales,
+  buildAlternates,
+  localizedUrl,
+} from '@/lib/seo/alternates';
+
+type SitemapEntry = MetadataRoute.Sitemap[number];
+
+/** One entry per available locale, each declaring the same hreflang set as the page. */
+function localizedEntries(
+  path: string,
+  options: Omit<SitemapEntry, 'url' | 'alternates'>,
+  available: readonly AppLocale[] = routing.locales,
+): MetadataRoute.Sitemap {
+  return available.map((locale) => ({
+    url: localizedUrl(locale, path),
+    ...options,
+    alternates: { languages: buildAlternates(path, locale, available).languages },
+  }));
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = (env.NEXT_PUBLIC_APP_URL || 'https://karimtor.com').replace(/\/$/, '');
   const now = new Date();
 
   // Static, localized top-level routes
-  const staticLocalized = routing.locales.flatMap((locale) => [
-    { url: `${base}/${locale}`, lastModified: now, changeFrequency: 'daily' as const, priority: 1 },
-    { url: `${base}/${locale}/trips`, lastModified: now, changeFrequency: 'daily' as const, priority: 0.8 },
-    { url: `${base}/${locale}/destinations`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.7 },
-    { url: `${base}/${locale}/faqs`, lastModified: now, changeFrequency: 'yearly' as const, priority: 0.3 },
-  ]);
+  const staticLocalized: MetadataRoute.Sitemap = [
+    ...localizedEntries('', { lastModified: now, changeFrequency: 'daily', priority: 1 }),
+    ...localizedEntries('/trips', { lastModified: now, changeFrequency: 'daily', priority: 0.8 }),
+    ...localizedEntries('/destinations', { lastModified: now, changeFrequency: 'weekly', priority: 0.7 }),
+    ...localizedEntries('/faqs', { lastModified: now, changeFrequency: 'yearly', priority: 0.3 }),
+  ];
 
-  //country pages
-    const countries = ['egypt', 'turkey'];
+  // Country pages
+  const countries = ['egypt', 'turkey'];
   const countryEntries = countries.flatMap((country) =>
-    routing.locales.map((locale) => ({
-      url: `${base}/${locale}/destinations/country/${country}`,
+    localizedEntries(`/destinations/country/${country}`, {
       lastModified: now,
-      changeFrequency: 'weekly' as const,
+      changeFrequency: 'weekly',
       priority: 0.7,
-    }))
+    }),
   );
 
-  // Dynamic: trips (use listStaticParams for id/slug/updatedAt)
+  // Dynamic: trips (only locales with real content)
   let tripEntries: MetadataRoute.Sitemap = [];
   try {
     const trips = await api.trip.listStaticParams();
     tripEntries = trips.flatMap((t) =>
-      routing.locales.map((locale) => ({
-        url: `${base}/${locale}/trips/${t.slug}`,
-        lastModified: t.updatedAt ?? now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-      }))
+      localizedEntries(
+        `/trips/${t.slug}`,
+        { lastModified: t.updatedAt ?? now, changeFrequency: 'weekly', priority: 0.7 },
+        availableLocales(t.titleTr),
+      ),
     );
   } catch {
     // no-op: keep sitemap working even if trips fetch fails
   }
 
-  // Dynamic: destinations (list and use slug)
+  // Dynamic: destinations (only locales with real content)
   let destinationEntries: MetadataRoute.Sitemap = [];
   try {
     const destinations = await api.destination.list({});
-    destinationEntries = destinations.flatMap((d: any) =>
-      routing.locales.map((locale) => ({
-        url: `${base}/${locale}/destinations/${d.slug}`,
-        lastModified: now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.6,
-      }))
+    destinationEntries = destinations.flatMap((d) =>
+      localizedEntries(
+        `/destinations/${d.slug}`,
+        { lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
+        availableLocales(d.nameTr),
+      ),
     );
-
-  
   } catch {
     // no-op
   }
- let blogLocalized: MetadataRoute.Sitemap = [];
-  try {
-    blogLocalized = routing.locales.flatMap((locale) => [
-      { url: `${base}/${locale}/blog`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.8 },
-    ]);
-  } catch (error) {
-    // no-op
-  }
 
-  // 6. Dynamic: Blog Articles (CORREGIDO: Se quitó el 'const' e integramos el nuevo artículo 'top-places-to-visit-egypt')
-  let blogArticles: MetadataRoute.Sitemap = [];
-  try {
-    blogArticles = ["article1", "article2", "article3", "top-places-to-visit-egypt"].flatMap((slug) =>
-      routing.locales.map((locale) => ({
-        url: `${base}/${locale}/blog/${slug}`,
-        lastModified: now,
-        changeFrequency: 'monthly' as const,
-        priority: 0.7,
-      }))
-    );
-  } catch (error) {
-    // no-op
-  }
- 
+  // Blog index
+  const blogLocalized = localizedEntries('/blog', {
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  });
 
- 
+  // Blog articles
+  const blogArticles = BLOG_ARTICLE_SLUGS.flatMap((slug) =>
+    localizedEntries(`/blog/${slug}`, {
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    }),
+  );
 
   return [
-    { url: `${base}/`, lastModified: now, changeFrequency: 'daily', priority: 1 },
     ...staticLocalized,
-    ...blogLocalized, 
+    ...blogLocalized,
     ...countryEntries,
     ...blogArticles,
     ...tripEntries,

@@ -9,6 +9,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { env } from "@/env";
+import { availableLocales, buildAlternates } from "@/lib/seo/alternates";
 import { getSeoDescription } from "./helperDescription";
 import { 
   getPageExtraContent, 
@@ -28,6 +29,9 @@ export async function generateMetadata(
   
   const destination = await api.trip.listByDestination(slug);
   if (!destination) return {};
+
+  const available = availableLocales(destination.nameTr);
+  const isUntranslated = locale === "tr" && !available.includes("tr");
 
   const baseUrl = (env.NEXT_PUBLIC_APP_URL || "https://karimtor.com").replace(/\/$/, "");
   const url = `${baseUrl}/${locale}/destinations/${slug}`;
@@ -49,10 +53,8 @@ export async function generateMetadata(
   return {
     title,
     description,
-    alternates: {
-      canonical: url,
-      languages: Object.fromEntries(["en", "ru", "tr"].map((l) => [l, `${baseUrl}/${l}/destinations/${slug}`])),
-    },
+    alternates: buildAlternates(`/destinations/${slug}`, locale, available),
+    ...(isUntranslated ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title,
       description,

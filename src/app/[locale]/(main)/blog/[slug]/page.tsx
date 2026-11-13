@@ -3,6 +3,10 @@ import { PageParams } from "@/types/page-params";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Link } from "@/i18n/routing";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { isBlogArticleSlug } from "@/lib/blog";
+import { buildAlternates } from "@/lib/seo/alternates";
 
 const internalLinks: Record<string, string> = {
   article1: "/destinations/sharm-el-sheikh-day-tours",
@@ -10,8 +14,23 @@ const internalLinks: Record<string, string> = {
   article3: "/trips/transfer-from-to-airport-sharm-elsheikh"
 };
 
+export async function generateMetadata({ params }: PageParams<{ slug: string }>): Promise<Metadata> {
+  const { slug } = await params;
+  if (!isBlogArticleSlug(slug)) notFound();
+
+  const t = await getTranslations("Blog");
+  const locale = await getLocale();
+
+  return {
+    title: t(`${slug}.title`),
+    alternates: buildAlternates(`/blog/${slug}`, locale),
+  };
+}
+
 export default async function BlogPage({ params }: PageParams<{ slug: string }>) {
   const { slug } = await params;
+  if (!isBlogArticleSlug(slug)) notFound();
+
   const t = await getTranslations("Blog");
 
   const articleLink = internalLinks[slug] || "/destinations";

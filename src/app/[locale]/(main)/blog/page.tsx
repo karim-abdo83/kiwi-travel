@@ -4,12 +4,26 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import type { Metadata } from "next";
+import { BLOG_ARTICLE_SLUGS } from "@/lib/blog";
+import { buildAlternates } from "@/lib/seo/alternates";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Blog");
+  const locale = await getLocale();
+
+  return {
+    title: t("title"),
+    description: t("subtitle"),
+    alternates: buildAlternates("/blog", locale),
+  };
+}
 
 export default async function BlogListPage() {
   const t = await getTranslations("Blog");
   const locale = await getLocale();
   
-  const articleSlugs = ["sahl-hasheesh-excursions", "el-gouna-excursions-guide", "sharm-airport-transfer", "top-places-to-visit-egypt"];
+  const articleSlugs = BLOG_ARTICLE_SLUGS;
 
   return (
     <main className="container mx-auto md:mt-24 mt-16 px-4 py-12 max-w-6xl">

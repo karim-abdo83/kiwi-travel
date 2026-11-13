@@ -3,6 +3,7 @@ import { Search } from "./_components/search";
 import { SearchProvider } from "./_components/search-provider";
 import { TripResults } from "./_components/trip-results";
 import { Metadata } from "next";
+import { buildAlternates } from "@/lib/seo/alternates";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -24,6 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: buildAlternates("/trips", locale),
   };
 }
 

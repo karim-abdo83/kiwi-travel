@@ -26,7 +26,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import { Metadata } from "next";
-import { routing } from "@/i18n/routing";
+import { availableLocales, buildAlternates } from "@/lib/seo/alternates";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -53,6 +53,9 @@ export async function generateMetadata({
 
   const trip = await api.trip.viewBySlug(slug);
   if (!trip) return {};
+
+  const available = availableLocales(trip.titleTr);
+  const isUntranslated = locale === "tr" && !available.includes("tr");
 
   const rawTitle = localeAttribute(trip, "title");
 
@@ -105,12 +108,8 @@ export async function generateMetadata({
       absolute: title,
     },
     description: seoDescription,
-    alternates: {
-      canonical: `/${locale}/trips/${slug}`,
-      languages: Object.fromEntries(
-        routing.locales.map((l) => [l, `/${l}/trips/${slug}`]),
-      ),
-    },
+    alternates: buildAlternates(`/trips/${slug}`, locale, available),
+    ...(isUntranslated ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title,
       description: seoDescription,

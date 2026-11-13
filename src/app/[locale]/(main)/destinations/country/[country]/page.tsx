@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 import { findCountryBySlug, getCountrySeoKey } from "@/lib/country-slug"
 import { localeAttributeFactory } from "@/lib/utils"
 import { Link, routing } from "@/i18n/routing"
+import { buildAlternates } from "@/lib/seo/alternates"
 import { cleanSchema, generateListSchema } from "../../../lib/seo/schemas"
 
 const baseUrl = "https://karimtor.com";
@@ -59,7 +60,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const titleKey = `${country}Title` as any
 
   return {
-    title: `${t(titleKey)} | Karim Tour`
+    title: `${t(titleKey)} | Karim Tour`,
+    alternates: buildAlternates(`/destinations/country/${country}`, locale),
   }
 }
 
