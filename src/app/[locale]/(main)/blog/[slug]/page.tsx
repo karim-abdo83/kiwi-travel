@@ -3,6 +3,10 @@ import { PageParams } from "@/types/page-params";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Link } from "@/i18n/routing";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { isBlogArticleSlug } from "@/lib/blog";
+import { buildAlternates } from "@/lib/seo/alternates";
 
 const internalLinks: Record<string, string> = {
   article1: "/destinations/sharm-el-sheikh-day-tours",
@@ -10,8 +14,32 @@ const internalLinks: Record<string, string> = {
   article3: "/trips/transfer-from-to-airport-sharm-elsheikh"
 };
 
+/** Plain-text meta description from a rich-text intro: strips tags, cuts at a word boundary. */
+function toMetaDescription(raw: string, max = 160) {
+  const text = raw.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 1);
+  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s,.;:—–-]+$/, "")}…`;
+}
+
+export async function generateMetadata({ params }: PageParams<{ slug: string }>): Promise<Metadata> {
+  const { slug } = await params;
+  if (!isBlogArticleSlug(slug)) notFound();
+
+  const t = await getTranslations("Blog");
+  const locale = await getLocale();
+
+  return {
+    title: t(`${slug}.title`),
+    description: toMetaDescription(t.raw(`${slug}.intro`) as string),
+    alternates: buildAlternates(`/blog/${slug}`, locale),
+  };
+}
+
 export default async function BlogPage({ params }: PageParams<{ slug: string }>) {
   const { slug } = await params;
+  if (!isBlogArticleSlug(slug)) notFound();
+
   const t = await getTranslations("Blog");
 
   const articleLink = internalLinks[slug] || "/destinations";

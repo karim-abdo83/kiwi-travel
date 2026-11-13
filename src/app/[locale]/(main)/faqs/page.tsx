@@ -11,7 +11,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { localeAttributeFactory } from "@/lib/utils";
 import { api } from "@/trpc/server";
 import { env } from "@/env";
-import { routing } from "@/i18n/routing";
+import { buildAlternates } from "@/lib/seo/alternates";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("FAQsPage");
@@ -26,15 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: {
-      canonical: url,
-      languages: Object.fromEntries(
-        routing.locales.map((l) => [
-          l,
-          `${baseUrl}/${l}/faqs`,
-        ])
-      ),
-    },
+    alternates: buildAlternates("/faqs", locale),
     openGraph: {
       title,
       description,

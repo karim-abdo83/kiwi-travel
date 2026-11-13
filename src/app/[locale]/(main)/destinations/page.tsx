@@ -4,15 +4,18 @@ import { api } from "@/trpc/server"
 import { getLocale, getTranslations } from "next-intl/server"
 import { localeAttributeFactory } from "@/lib/utils"
 import { Link } from "@/i18n/routing"
+import { buildAlternates } from "@/lib/seo/alternates"
 import { cleanSchema, generateListSchema } from "../lib/seo/schemas"
 
 const baseUrl = "https://karimtor.com";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("DestinationsPage")
+  const locale = await getLocale()
 
   return {
-    title: `${t("destinations")} | Karim Tour`
+    title: `${t("destinations")} | Karim Tour`,
+    alternates: buildAlternates("/destinations", locale),
   }
 }
 

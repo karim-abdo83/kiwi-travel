@@ -8,18 +8,13 @@ import IntroText from "./_components/intro-text";
 import AboutUs from "./_components/aboutUs";
 import FaqSection from "./_components/faqhome";
 import type { Metadata } from "next";
-import { routing } from "@/i18n/routing";
+import { buildAlternates } from "@/lib/seo/alternates";
 import { getLocale } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   return {
-    alternates: {
-      canonical: `/${locale}`,
-      languages: Object.fromEntries(
-        routing.locales.map((l) => [l, `/${l}`])
-      ),
-    },
+    alternates: buildAlternates("", locale),
   };
 }
 

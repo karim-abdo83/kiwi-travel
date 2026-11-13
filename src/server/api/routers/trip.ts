@@ -520,6 +520,7 @@ export const tripRouter = createTRPCRouter({
     columns: {
       id: true,
       slug: true,
+      titleTr: true,
       updatedAt: true,
     },
   })),
