@@ -23,6 +23,7 @@ import { Clock, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import { sortByPriority } from "@/lib/destination-seo/sort";
 
 type Destination = NonNullable<RouterOutputs["trip"]["listByDestination"]>;
 type SortOption = "recommended" | "rating" | "price-asc" | "price-desc";
@@ -30,9 +31,21 @@ type SortOption = "recommended" | "rating" | "price-asc" | "price-desc";
 interface DestinationTripsProps {
   trips: Destination["trips"];
   locale: string;
+  /** "Default / Recommended" order (trip slugs). Without it, featured trips go first. */
+  priority?: readonly string[];
+  /** Out-of-season trips: badge on the card, sorted last in "Default / Recommended". */
+  offSlugs?: readonly string[];
+  /** Trip-type chips moved to the end of the filter row (English names). */
+  lastTripTypes?: readonly string[];
 }
 
-export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
+export function DestinationTrips({
+  trips,
+  locale,
+  priority,
+  offSlugs,
+  lastTripTypes,
+}: DestinationTripsProps) {
   const t = useTranslations("DestinationTripsPage");
   const tTimeUnits = useTranslations("General.timeUnits");
   const localeAttribute = localeAttributeFactory(locale);
@@ -51,8 +64,21 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
       });
     });
 
-    return Array.from(typesById.values());
-  }, [trips]);
+    const types = Array.from(typesById.values());
+    const last = (lastTripTypes ?? []).map((name) => name.trim().toLowerCase());
+    if (last.length === 0) return types;
+    const lastIndex = (type: (typeof types)[number]) =>
+      last.indexOf(type.nameEn.trim().toLowerCase());
+    // Keep the original order, but move the configured types to the end (in config order).
+    return [
+      ...types.filter((type) => lastIndex(type) === -1),
+      ...types
+        .filter((type) => lastIndex(type) !== -1)
+        .sort((a, b) => lastIndex(a) - lastIndex(b)),
+    ];
+  }, [trips, lastTripTypes]);
+
+  const offSet = useMemo(() => new Set(offSlugs ?? []), [offSlugs]);
 
   const visibleTrips = useMemo(() => {
     const originalOrder = new Map(trips.map((trip, index) => [trip.id, index]));
@@ -64,6 +90,10 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
               ({ tripType }) => tripType.id === selectedTypeId,
             ),
           );
+
+    if (sortOption === "recommended") {
+      return sortByPriority(filteredTrips, { priority, off: offSlugs });
+    }
 
     return [...filteredTrips].sort((a, b) => {
       switch (sortOption) {
@@ -88,16 +118,11 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
               : b.adultTripPriceInCents - a.adultTripPriceInCents) ||
             (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
           );
-        case "recommended":
-          return (
-            Number(b.isFeatured) - Number(a.isFeatured) ||
-            (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
-          );
         default:
           return (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0);
       }
     });
-  }, [selectedTypeId, sortOption, trips]);
+  }, [selectedTypeId, sortOption, trips, priority, offSlugs]);
 
   const getLocaleDuration = (duration: string) =>
     duration
@@ -178,6 +203,11 @@ export function DestinationTrips({ trips, locale }: DestinationTripsProps) {
               <Card className="h-full">
                 <CardHeader className="relative h-48 w-full p-0">
                   <TripCardBadge badge={trip.badge} />
+                  {offSet.has(trip.slug) && (
+                    <span className="absolute right-3 top-3 z-10 rounded-md bg-gray-800/90 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
+                      {t("outOfSeason")}
+                    </span>
+                  )}
                   <Image
                     src={mainImage(trip.assetsUrls)}
                     alt={localeAttribute(trip, "title")}

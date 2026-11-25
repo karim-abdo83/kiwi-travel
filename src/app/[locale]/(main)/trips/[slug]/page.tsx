@@ -38,6 +38,9 @@ import { ReviewWriteForm } from "../../_components/reviewWrite-form";
 import Testimonials from "../../_components/testimonials";
 import { ensureLengthRange } from "../helperSEO";
 import { TrackedContactLink } from "@/components/tracked-contact-link";
+import { Link as LocaleLink } from "@/i18n/routing";
+import { getTripSeason, pickLocale, visibleTrips } from "@/lib/destination-seo";
+import { sortByPriority } from "@/lib/destination-seo/sort";
 import {
   cleanSchema,
   generateBreadcrumb,
@@ -139,6 +142,22 @@ export default async function TripDetailsPage({
   const trip = await api.trip.viewBySlug(slug);
 
   if (!trip) notFound();
+
+  // Off-season trip: notice plus links to 3 active trips of the same destination (from the destination SEO config).
+  const seasonConfig = getTripSeason(trip.destination.slug, trip.slug);
+  const seasonNotice = pickLocale(seasonConfig?.season?.tripPageNotice, locale);
+  let seasonAlternatives: { slug: string; title: string }[] = [];
+  if (seasonConfig && seasonNotice) {
+    const offSlugs = seasonConfig.trips?.off ?? [];
+    const destinationTrips = await api.trip.listByDestination(trip.destination.slug);
+    seasonAlternatives = sortByPriority(visibleTrips(destinationTrips?.trips ?? [], seasonConfig), {
+      priority: seasonConfig.trips?.priority,
+      off: offSlugs,
+    })
+      .filter((other) => other.slug !== trip.slug && !offSlugs.includes(other.slug))
+      .slice(0, 3)
+      .map((other) => ({ slug: other.slug, title: localeAttribute(other, "title") }));
+  }
 
   const similarTrips = await api.trip.similar(Number(trip.destinationId));
   const localizedAdultPriceInCents =
@@ -266,6 +285,26 @@ export default async function TripDetailsPage({
         }}
       />
       <main className="container mx-auto mt-14 space-y-8 px-4 py-8 md:px-6 lg:px-6">
+        {seasonNotice && (
+          <section className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+            <p className="font-medium text-amber-900">{seasonNotice}</p>
+            {seasonAlternatives.length > 0 && (
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {seasonAlternatives.map((alternative) => (
+                  <li key={alternative.slug}>
+                    <LocaleLink
+                      href={`/trips/${alternative.slug}`}
+                      className="inline-block rounded-full border border-amber-300 bg-white px-3 py-1 text-sm font-medium text-amber-900 hover:bg-amber-100"
+                    >
+                      {alternative.title}
+                    </LocaleLink>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )}
+
         {/* Image Gallery - Full Width */}
         <div className="space-y-2">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">

@@ -20,38 +20,31 @@ const clampSeoDescription = (text: string): string => {
 };
 
 
+/**
+ * Fallback meta description for destinations without custom SEO texts.
+ * `name` is the destination title (e.g. "Antalya Day Tours"), so it is used as a heading,
+ * never inside "in …"; the trip count is left out because it changes and is shown on the page.
+ */
 export const getSeoDescription = ({
   locale,
   name,
-  tripsCount,
 }: {
   locale: string;
   name: string;
-  tripsCount?: number;
 }): string => {
   let base: string;
 
   switch (locale) {
-    case "en":
-      base = `Discover the best trips and tours in ${name}, featuring expert guides, carefully planned itineraries, and unique travel experiences${
-        tripsCount ? ` with ${tripsCount} available options` : ""
-      }. Explore top attractions and book your journey with Karim Tour today.`;
-      break;
-
     case "ru":
-      base = `Откройте для себя лучшие туры и поездки в ${name} с профессиональными гидами, продуманными маршрутами и уникальными впечатлениями${
-        tripsCount ? ` — доступно ${tripsCount} вариантов` : ""
-      }. Посетите главные достопримечательности и бронируйте с Karim Tour.`;
+      base = `${name} с Karim Tour: лучшие экскурсии с опытными гидами, понятные цены и удобное онлайн-бронирование. Сравните туры и бронируйте сегодня.`;
       break;
 
     case "tr":
-      base = `${name} bölgesindeki en iyi turları keşfedin. Profesyonel rehberler, özenle hazırlanmış programlar ve unutulmaz seyahat deneyimleri${
-        tripsCount ? ` (${tripsCount} farklı tur seçeneği)` : ""
-      }. Karim Tour ile hemen güvenle rezervasyon yapın.`;
+      base = `${name} – Karim Tour: deneyimli rehberler, şeffaf fiyatlar ve kolay online rezervasyon ile seçkin turlar. Turları karşılaştırın, bugün rezervasyon yapın.`;
       break;
 
     default:
-      base = `Explore the best tours and travel experiences in ${name} with expert guides, curated itineraries, and unforgettable moments. Book your trip with Karim Tour today.`;
+      base = `${name} with Karim Tour: hand-picked excursions with expert guides, clear prices and easy online booking. Compare tours and book your trip today.`;
   }
 
   return clampSeoDescription(base);

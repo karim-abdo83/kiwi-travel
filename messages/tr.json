@@ -338,7 +338,10 @@
     "sortHighestRating": "En yüksek puan",
     "sortLowestPrice": "En düşük fiyat",
     "sortHighestPrice": "En yüksek fiyat",
-    "noMatchingTrips": "Bu tur tipine uygun tur bulunamadı."
+    "noMatchingTrips": "Bu tur tipine uygun tur bulunamadı.",
+    "breadcrumbHome": "Ana Sayfa",
+    "breadcrumbDestinations": "Destinasyonlar",
+    "outOfSeason": "Sezon dışı"
   },
   "ConfirmFeedback": {
     "bookingCancelled": "Rezervasyon İptal Edildi",
