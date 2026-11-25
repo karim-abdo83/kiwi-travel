@@ -351,7 +351,10 @@
     "sortHighestRating": "Сначала с высоким рейтингом",
     "sortLowestPrice": "Сначала дешевле",
     "sortHighestPrice": "Сначала дороже",
-    "noMatchingTrips": "Нет поездок этого типа."
+    "noMatchingTrips": "Нет поездок этого типа.",
+    "breadcrumbHome": "Главная",
+    "breadcrumbDestinations": "Направления",
+    "outOfSeason": "Вне сезона"
   },
   "Admin": {
     "Settings": {

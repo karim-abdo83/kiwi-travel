@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { Link } from "@/i18n/routing";
+import { Link, usePathname } from "@/i18n/routing";
+import { COUNTRY_QUICK_LINKS, countryForPath } from "@/lib/destination-seo/footer-links";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import Image from "next/image";
@@ -25,6 +26,13 @@ export default function Footer() {
   const [showModal, setShowModal] = useState(false);
   const t = useTranslations("General.footer");
   const locale = useLocale();
+  const pathname = usePathname();
+  const country = countryForPath(pathname);
+  // Destination pages show links of their own country; everywhere else keeps the default blog links.
+  const countryLinks = (country ? COUNTRY_QUICK_LINKS[country] ?? [] : []).flatMap((link) => {
+    const label = link.label[locale as "en" | "ru" | "tr"];
+    return label ? [{ href: link.href, label }] : [];
+  });
 
   const phones = ["+201003637624", "+905352699881", "+79645056936"];
 
@@ -162,6 +170,16 @@ export default function Footer() {
                   {t("quickLinks.trips")}
                 </Link>
               </li>
+              {countryLinks.length > 0 ? (
+                countryLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="hover:underline">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <>
               <li>
                 <Link
                   href="/blog/sahl-hasheesh-excursions"
@@ -187,6 +205,8 @@ export default function Footer() {
                   {t("quickLinks.article3")}
                 </Link>
               </li>
+                </>
+              )}
             </ul>
           </div>
           <div>
