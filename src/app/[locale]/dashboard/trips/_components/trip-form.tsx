@@ -70,7 +70,10 @@ export function TripForm({ initialData, id }: TripFormProps) {
 
   const { invalidate } = api.useUtils().trip.adminList;
 
-  const mutationResponse = useCommonMutationResponse("/dashboard/trips", invalidate);
+  const mutationResponse = useCommonMutationResponse(
+    "/dashboard/trips",
+    invalidate,
+  );
   const { mutate: create } = api.trip.adminCreate.useMutation(mutationResponse);
   const { mutate: update } = api.trip.adminUpdate.useMutation(mutationResponse);
 
@@ -177,12 +180,15 @@ export function TripForm({ initialData, id }: TripFormProps) {
       titleEn: initialData?.titleEn || "",
       titleRu: initialData?.titleRu || "",
       titleTr: initialData?.titleTr || "",
+      titleDe: initialData?.titleDe || "",
       descriptionEn: initialData?.descriptionEn || "",
       descriptionRu: initialData?.descriptionRu || "",
       descriptionTr: initialData?.descriptionTr || "",
+      descriptionDe: initialData?.descriptionDe || "",
       longDescriptionEn: initialData?.longDescriptionEn || "",
       longDescriptionRu: initialData?.longDescriptionRu || "",
       longDescriptionTr: initialData?.longDescriptionTr || "",
+      longDescriptionDe: initialData?.longDescriptionDe || "",
       features: initialData?.features || [],
       travelTime: initialData?.travelTime || "00:00",
       destinationId: initialData?.destinationId || ("" as any),
@@ -211,9 +217,11 @@ export function TripForm({ initialData, id }: TripFormProps) {
       pickupPointEn: initialData?.pickupPointEn || "",
       pickupPointRu: initialData?.pickupPointRu || "",
       pickupPointTr: initialData?.pickupPointTr || "",
+      pickupPointDe: initialData?.pickupPointDe || "",
       placeOfReturnEn: initialData?.placeOfReturnEn || "",
       placeOfReturnRu: initialData?.placeOfReturnRu || "",
       placeOfReturnTr: initialData?.placeOfReturnTr || "",
+      placeOfReturnDe: initialData?.placeOfReturnDe || "",
       // size of trip
       sizeOfTrip: initialData?.sizeOfTrip || "",
     },
@@ -254,7 +262,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
       const formattedValue = {
         ...value,
         // Ensure slug is trimmed and in lowercase with hyphens
-        slug: value.slug.trim().toLowerCase().replace(/\s+/g, '-'),
+        slug: value.slug.trim().toLowerCase().replace(/\s+/g, "-"),
       };
       const submitValue = {
         ...formattedValue,
@@ -288,7 +296,8 @@ export function TripForm({ initialData, id }: TripFormProps) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "An error occurred while saving the trip. Please try again.",
+        description:
+          "An error occurred while saving the trip. Please try again.",
       });
     }
   };
@@ -300,11 +309,12 @@ export function TripForm({ initialData, id }: TripFormProps) {
         <FormField
           control={form.control}
           name="slug"
-          rules={{ 
+          rules={{
             required: "Slug is required",
             pattern: {
               value: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-              message: "Slug must be a valid URL slug (lowercase letters, numbers, and hyphens only)",
+              message:
+                "Slug must be a valid URL slug (lowercase letters, numbers, and hyphens only)",
             },
             minLength: {
               value: 3,
@@ -320,22 +330,23 @@ export function TripForm({ initialData, id }: TripFormProps) {
               <FormLabel>Slug</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Input 
-                    placeholder="my-awesome-trip" 
-                    {...field} 
+                  <Input
+                    placeholder="my-awesome-trip"
+                    {...field}
                     onChange={(e) => {
                       // Automatically format the slug as user types
                       const value = e.target.value
                         .toLowerCase()
-                        .replace(/\s+/g, '-')
-                        .replace(/[^a-z0-9-]/g, '');
+                        .replace(/\s+/g, "-")
+                        .replace(/[^a-z0-9-]/g, "");
                       field.onChange(value);
                     }}
                   />
                 </div>
               </FormControl>
               <FormDescription>
-                A URL-friendly version of the title. Only lowercase letters, numbers, and hyphens are allowed.
+                A URL-friendly version of the title. Only lowercase letters,
+                numbers, and hyphens are allowed.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -372,7 +383,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
             )}
           />
           {/* turkish Title */}
-           <FormField
+          <FormField
             control={form.control}
             name="titleTr"
             render={({ field }) => (
@@ -380,6 +391,19 @@ export function TripForm({ initialData, id }: TripFormProps) {
                 <FormLabel>Turkish Title</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Turkish title" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="titleDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Title (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter German title" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -421,7 +445,7 @@ export function TripForm({ initialData, id }: TripFormProps) {
               </FormItem>
             )}
           />
-           {/* Turkish Description */}
+          {/* Turkish Description */}
           <FormField
             control={form.control}
             name="descriptionTr"
@@ -433,6 +457,19 @@ export function TripForm({ initialData, id }: TripFormProps) {
                     placeholder="Enter Turkish description"
                     {...field}
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="descriptionDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Description (optional)</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Enter German description" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -487,6 +524,23 @@ export function TripForm({ initialData, id }: TripFormProps) {
                   <RichTextEditor
                     placeholder="Enter detailed Turkish description"
                     content={field.value}
+                    setContent={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="longDescriptionDe"
+            render={({ field }) => (
+              <FormItem className="col-span-1 md:col-span-2">
+                <FormLabel>German Long Description (optional)</FormLabel>
+                <FormControl>
+                  <RichTextEditor
+                    placeholder="Enter detailed German description"
+                    content={field.value || ""}
                     setContent={field.onChange}
                   />
                 </FormControl>
@@ -595,9 +649,9 @@ export function TripForm({ initialData, id }: TripFormProps) {
               </FormItem>
             )}
           />
-        
-         {/* Size of trip */}
-            <FormField
+
+          {/* Size of trip */}
+          <FormField
             control={form.control}
             name="sizeOfTrip"
             render={({ field }) => (
@@ -683,7 +737,11 @@ export function TripForm({ initialData, id }: TripFormProps) {
               <FormItem>
                 <FormLabel>English Pickup Point</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Enter English pickup point" {...field} />
+                  <Input
+                    type="text"
+                    placeholder="Enter English pickup point"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -698,13 +756,17 @@ export function TripForm({ initialData, id }: TripFormProps) {
               <FormItem>
                 <FormLabel>Russian Pickup Point</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Enter Russian pickup point" {...field} />
+                  <Input
+                    type="text"
+                    placeholder="Enter Russian pickup point"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-           {/* Turkish Pickup Point */}
+          {/* Turkish Pickup Point */}
           <FormField
             control={form.control}
             name="pickupPointTr"
@@ -712,7 +774,24 @@ export function TripForm({ initialData, id }: TripFormProps) {
               <FormItem>
                 <FormLabel>Turkish Pickup Point</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Enter Turkish pickup point" {...field} />
+                  <Input
+                    type="text"
+                    placeholder="Enter Turkish pickup point"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="pickupPointDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Pickup Point (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter German pickup point" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -727,7 +806,11 @@ export function TripForm({ initialData, id }: TripFormProps) {
               <FormItem>
                 <FormLabel>English Place of Return</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Enter English place of return" {...field} />
+                  <Input
+                    type="text"
+                    placeholder="Enter English place of return"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -742,7 +825,11 @@ export function TripForm({ initialData, id }: TripFormProps) {
               <FormItem>
                 <FormLabel>Russian Place of Return</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Enter Russian place of return" {...field} />
+                  <Input
+                    type="text"
+                    placeholder="Enter Russian place of return"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -756,7 +843,27 @@ export function TripForm({ initialData, id }: TripFormProps) {
               <FormItem>
                 <FormLabel>Turkish Place of Return</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Enter Turkish place of return" {...field} />
+                  <Input
+                    type="text"
+                    placeholder="Enter Turkish place of return"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="placeOfReturnDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Place of Return (optional)</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter German place of return"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -775,7 +882,9 @@ export function TripForm({ initialData, id }: TripFormProps) {
                     type="number"
                     placeholder="Enter price"
                     {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value) || '')}
+                    onChange={(e) =>
+                      field.onChange(Number(e.target.value) || "")
+                    }
                   />
                 </FormControl>
                 <FormDescription>
@@ -811,7 +920,8 @@ export function TripForm({ initialData, id }: TripFormProps) {
                   />
                 </FormControl>
                 <FormDescription>
-                  Enter the English EUR price manually. No currency conversion is applied.
+                  Enter the English EUR price manually. No currency conversion
+                  is applied.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -862,7 +972,9 @@ export function TripForm({ initialData, id }: TripFormProps) {
                     type="number"
                     placeholder="Enter price"
                     {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value) || '')}
+                    onChange={(e) =>
+                      field.onChange(Number(e.target.value) || "")
+                    }
                   />
                 </FormControl>
                 <FormDescription>Enter the price (e.g. 10.00)</FormDescription>
@@ -879,12 +991,12 @@ export function TripForm({ initialData, id }: TripFormProps) {
               <FormItem>
                 <FormLabel>Child Age</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Enter age"
-                    {...field}
-                  />
+                  <Input placeholder="Enter age" {...field} />
                 </FormControl>
-                <FormDescription>Enter the age or keep it empty if child is not included in the trip plan</FormDescription>
+                <FormDescription>
+                  Enter the age or keep it empty if child is not included in the
+                  trip plan
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -898,12 +1010,12 @@ export function TripForm({ initialData, id }: TripFormProps) {
               <FormItem>
                 <FormLabel>Infant Age</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Enter age"
-                    {...field}
-                  />
+                  <Input placeholder="Enter age" {...field} />
                 </FormControl>
-                <FormDescription>Enter the age or keep it empty if infant is not included in the trip plan</FormDescription>
+                <FormDescription>
+                  Enter the age or keep it empty if infant is not included in
+                  the trip plan
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

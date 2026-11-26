@@ -27,6 +27,9 @@ export default async function EditTripPage({
         id={Number(id)}
         initialData={{
           ...trip,
+          titleDe: trip.titleDe ?? "",
+          descriptionDe: trip.descriptionDe ?? "",
+          longDescriptionDe: trip.longDescriptionDe ?? "",
           assets: trip.assetsUrls,
           adultPrice: trip.adultTripPriceInCents / 100,
           englishAdultPrice:
@@ -43,9 +46,11 @@ export default async function EditTripPage({
           pickupPointEn: trip?.pickupPointEn || "",
           pickupPointRu: trip?.pickupPointRu || "",
           pickupPointTr: trip?.pickupPointTr || "",
+          pickupPointDe: trip?.pickupPointDe || "",
           placeOfReturnEn: trip?.placeOfReturnEn || "",
           placeOfReturnRu: trip?.placeOfReturnRu || "",
           placeOfReturnTr: trip?.placeOfReturnTr || "",
+          placeOfReturnDe: trip?.placeOfReturnDe || "",
         }}
       />
     </div>

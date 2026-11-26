@@ -1,9 +1,15 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "@/i18n/routing";
 import { api } from "@/trpc/react";
@@ -24,14 +30,14 @@ export function CountriesList() {
         title: "Error",
         description: error.message,
         variant: "destructive",
-      })
+      });
     },
     onSuccess: ({ message }) => {
       toast({
         title: "Success",
         description: message,
-      })
-      refetch()
+      });
+      refetch();
     },
   });
 
@@ -39,10 +45,10 @@ export function CountriesList() {
 
   const handleDelete = () => {
     if (countryToDelete) {
-      deleteCountry(countryToDelete)
+      deleteCountry(countryToDelete);
     }
-    setCountryToDelete(null)
-    setDialogOpen(false)
+    setCountryToDelete(null);
+    setDialogOpen(false);
   };
 
   const columns: ColumnDef<Country>[] = [
@@ -57,6 +63,10 @@ export function CountriesList() {
     {
       accessorKey: "nameTr",
       header: "Turkish Name",
+    },
+    {
+      accessorKey: "nameDe",
+      header: "German Name",
     },
     {
       id: "actions",
@@ -89,7 +99,7 @@ export function CountriesList() {
 
   if (isLoading) {
     return (
-      <div  className="space-y-4">
+      <div className="space-y-4">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
@@ -97,16 +107,14 @@ export function CountriesList() {
 
   return (
     <>
-      <DataTable 
-        columns={columns} 
-        data={data ?? []} 
-      />
+      <DataTable columns={columns} data={data ?? []} />
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Confirm Deletion</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this country? This action cannot be undone.
+              Are you sure you want to delete this country? This action cannot
+              be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

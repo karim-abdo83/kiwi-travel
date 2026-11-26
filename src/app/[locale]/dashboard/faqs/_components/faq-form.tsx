@@ -37,8 +37,10 @@ export function FAQForm({ initialData, id }: FAQFormProps) {
     defaultValues: {
       questionEn: initialData?.questionEn || "",
       questionRu: initialData?.questionRu || "",
+      questionDe: initialData?.questionDe || "",
       answerEn: initialData?.answerEn || "",
       answerRu: initialData?.answerRu || "",
+      answerDe: initialData?.answerDe || "",
     },
   });
 
@@ -86,6 +88,19 @@ export function FAQForm({ initialData, id }: FAQFormProps) {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="questionDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Question (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter German question" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* English Question */}
           <FormField
@@ -105,7 +120,7 @@ export function FAQForm({ initialData, id }: FAQFormProps) {
               </FormItem>
             )}
           />
-          
+
           {/* Russian Question */}
           <FormField
             control={form.control}
@@ -116,6 +131,23 @@ export function FAQForm({ initialData, id }: FAQFormProps) {
                 <FormControl>
                   <Textarea
                     placeholder="Enter russian answer"
+                    className="min-h-[120px]"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="answerDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Answer (optional)</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Enter German answer"
                     className="min-h-[120px]"
                     {...field}
                   />

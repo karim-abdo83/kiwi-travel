@@ -35,7 +35,11 @@ const LanguageToggle = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger disabled={isPending} title={t("changeLanguage")} asChild>
+      <DropdownMenuTrigger
+        disabled={isPending}
+        title={t("changeLanguage")}
+        asChild
+      >
         <Button variant="outline" size="icon">
           <Globe className="size-[1.2rem]" />
         </Button>
@@ -49,6 +53,9 @@ const LanguageToggle = () => {
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => changeLang("tr")}>
           Türkçe
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => changeLang("de")}>
+          Deutsch
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

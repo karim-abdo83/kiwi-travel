@@ -4,11 +4,14 @@ import { getLocale } from "next-intl/server";
 
 const ContactsSidebar = async () => {
   const locale = await getLocale();
-  const whatsappUrl = locale === "en"
-    ? "https://wa.me/905352699881"
-    : "https://wa.me/79645056936";
+  const whatsappUrl =
+    locale === "en" || locale === "de"
+      ? "https://wa.me/905352699881"
+      : "https://wa.me/79645056936";
   const telegramUrl =
-    locale === "en" ? "https://t.me/karimtouren" : "https://t.me/karimtours";
+    locale === "en" || locale === "de"
+      ? "https://t.me/karimtouren"
+      : "https://t.me/karimtours";
   return (
     <ul
       className="fixed bottom-28 right-0 z-40 grid gap-4 rounded-l-lg border-b-2 border-l-2 border-t-2 border-primary/50 bg-accent p-4 shadow-lg"

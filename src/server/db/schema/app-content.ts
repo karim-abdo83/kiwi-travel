@@ -6,6 +6,7 @@ export const appContent = pgTable("app_content", (c) => ({
   popularDestinationEn: c.text("popular_destination_en").notNull(),
   popularDestinationRu: c.text("popular_destination_ru").notNull(),
   popularDestinationTr: c.text("popular_destination_tr").notNull().default(""),
+  popularDestinationDe: c.text("popular_destination_de"),
   createdAt: c
     .timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)

@@ -30,7 +30,10 @@ export function TripFeatureForm({
 }: TripFeatureFormDialogProps) {
   const { invalidate } = api.useUtils().tripFeature.adminList;
 
-  const mutationResponse = useCommonMutationResponse("/dashboard/features", invalidate);
+  const mutationResponse = useCommonMutationResponse(
+    "/dashboard/features",
+    invalidate,
+  );
   const { mutate: create } =
     api.tripFeature.adminCreate.useMutation(mutationResponse);
   const { mutate: update } =
@@ -41,6 +44,7 @@ export function TripFeatureForm({
     values: {
       contentEn: initialData?.contentEn || "",
       contentRu: initialData?.contentRu || "",
+      contentDe: initialData?.contentDe || "",
     },
   });
 
@@ -87,6 +91,19 @@ export function TripFeatureForm({
                 <FormLabel>Russian Content</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Russian content" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="contentDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Content (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter German content" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

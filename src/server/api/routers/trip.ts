@@ -10,7 +10,7 @@ import {
   destination,
   trip,
   tripToFeature,
-  tripToTripType
+  tripToTripType,
 } from "@/server/db/schema";
 import {
   days,
@@ -27,7 +27,7 @@ import {
   inArray,
   lte,
   or,
-  sql
+  sql,
 } from "drizzle-orm";
 import { z } from "zod";
 
@@ -133,10 +133,10 @@ export const tripRouter = createTRPCRouter({
         );
 
         await tx.insert(tripToTripType).values(
-          input.tripTypes.map(tripTypeId => ({
+          input.tripTypes.map((tripTypeId) => ({
             tripId,
             tripTypeId,
-          }))
+          })),
         );
       });
 
@@ -186,10 +186,10 @@ export const tripRouter = createTRPCRouter({
         );
 
         await tx.insert(tripToTripType).values(
-          input.tripTypes.map(tripTypeId => ({
+          input.tripTypes.map((tripTypeId) => ({
             tripId: input.id,
             tripTypeId,
-          }))
+          })),
         );
       });
 
@@ -207,64 +207,79 @@ export const tripRouter = createTRPCRouter({
       };
     }),
   adminDuplicate: adminProcedure
-  .input(z.number())
-  .mutation(async ({ ctx, input }) => {
-    const original = await ctx.db.query.trip.findFirst({
-      where: (fields, { eq }) => eq(fields.id, input),
-    });
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      const original = await ctx.db.query.trip.findFirst({
+        where: (fields, { eq }) => eq(fields.id, input),
+      });
 
-    if (!original) throw new Error("Trip not found");
+      if (!original) throw new Error("Trip not found");
 
-    // Убираем id из original
-    const { id, createdAt, updatedAt, ...rest } = original;
+      // Убираем id из original
+      const { id, createdAt, updatedAt, ...rest } = original;
 
-    const duplicated = await ctx.db
-      .insert(trip)
-      .values({
-        ...rest,
-        titleEn: original.titleEn + " (Copy)",
-        titleRu: original.titleRu + " (Copy)",
-        assetsUrls: original.assetsUrls,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
-      .returning({ id: trip.id });
+      const duplicated = await ctx.db
+        .insert(trip)
+        .values({
+          ...rest,
+          titleEn: original.titleEn + " (Copy)",
+          titleRu: original.titleRu + " (Copy)",
+          assetsUrls: original.assetsUrls,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        })
+        .returning({ id: trip.id });
 
-    if (!duplicated[0]) {
-      throw new Error("Trip duplication failed");
-    }
+      if (!duplicated[0]) {
+        throw new Error("Trip duplication failed");
+      }
 
-    return {
-      message: "Trip duplicated successfully",
-      tripId: duplicated[0].id,
-    };
-  }),
-  listRssFeed: publicProcedure.input(z.enum(["en", "ru"])).query(({ ctx, input }) => ctx.db.query.trip.findMany({
-    columns: input === "en" ? ({
-      id: true,
-      slug: true,
-      createdAt: true,
-      titleEn: true,
-      descriptionEn: true,
-      adultTripPriceInCents: true,
-    }) : ({
-      id: true,
-      slug: true,
-      createdAt: true,
-      titleRu: true,
-      descriptionRu: true,
-      adultTripPriceInCents: true,
+      return {
+        message: "Trip duplicated successfully",
+        tripId: duplicated[0].id,
+      };
     }),
-    orderBy: (fields, { desc }) => desc(fields.isFeatured),
-    limit: 500,
-  }).then(res => res.map(item => ({
-    id: item.id,
-    slug: item.slug,
-    price: Math.floor(item.adultTripPriceInCents / 100),
-    createdAt: item.createdAt,
-    title: ('titleEn' in item ? item.titleEn : (item as any).titleRu) as string,
-    description: ('descriptionEn' in item ? item.descriptionEn : (item as any).descriptionRu) as string,
-  })))),
+  listRssFeed: publicProcedure
+    .input(z.enum(["en", "ru"]))
+    .query(({ ctx, input }) =>
+      ctx.db.query.trip
+        .findMany({
+          columns:
+            input === "en"
+              ? {
+                  id: true,
+                  slug: true,
+                  createdAt: true,
+                  titleEn: true,
+                  descriptionEn: true,
+                  adultTripPriceInCents: true,
+                }
+              : {
+                  id: true,
+                  slug: true,
+                  createdAt: true,
+                  titleRu: true,
+                  descriptionRu: true,
+                  adultTripPriceInCents: true,
+                },
+          orderBy: (fields, { desc }) => desc(fields.isFeatured),
+          limit: 500,
+        })
+        .then((res) =>
+          res.map((item) => ({
+            id: item.id,
+            slug: item.slug,
+            price: Math.floor(item.adultTripPriceInCents / 100),
+            createdAt: item.createdAt,
+            title: ("titleEn" in item
+              ? item.titleEn
+              : (item as any).titleRu) as string,
+            description: ("descriptionEn" in item
+              ? item.descriptionEn
+              : (item as any).descriptionRu) as string,
+          })),
+        ),
+    ),
   listSearch: publicProcedure
     .input(tripSearchFormSchema)
     .query(async ({ ctx, input }) => {
@@ -343,15 +358,20 @@ export const tripRouter = createTRPCRouter({
       const calculateReviewsValueAndCount = (tripId: number) => {
         const arr = _reviews.filter((r) => r.tripId === tripId);
 
-        const res = arr.reduce((acc, curr) => acc + curr.ratingValue, 0) / arr.length;
+        const res =
+          arr.reduce((acc, curr) => acc + curr.ratingValue, 0) / arr.length;
 
-        return isNaN(res) ? {
-          reviewsValue: 0,
-          reviewsCount: 0,
-        } : {
-          reviewsValue: arr.reduce((acc, curr) => acc + curr.ratingValue, 0) / arr.length,
-          reviewsCount: arr.length,
-        };
+        return isNaN(res)
+          ? {
+              reviewsValue: 0,
+              reviewsCount: 0,
+            }
+          : {
+              reviewsValue:
+                arr.reduce((acc, curr) => acc + curr.ratingValue, 0) /
+                arr.length,
+              reviewsCount: arr.length,
+            };
       };
 
       return await ctx.db
@@ -385,7 +405,8 @@ export const tripRouter = createTRPCRouter({
         .then((result) => ({
           totalCount: totalCountResult[0]?.count ?? 0,
           items: result.map((item) => {
-            const { reviewsCount, reviewsValue } = calculateReviewsValueAndCount(item.id);
+            const { reviewsCount, reviewsValue } =
+              calculateReviewsValueAndCount(item.id);
 
             return {
               id: item.id,
@@ -410,7 +431,7 @@ export const tripRouter = createTRPCRouter({
               image: mainImage(item.assets),
               reviewsValue,
               reviewsCount,
-            }
+            };
           }),
         }));
     }),
@@ -432,7 +453,8 @@ export const tripRouter = createTRPCRouter({
           },
           with: {
             reviews: {
-              where: ({ isHiddenByAdmin }, { eq }) => eq(isHiddenByAdmin, false),
+              where: ({ isHiddenByAdmin }, { eq }) =>
+                eq(isHiddenByAdmin, false),
               columns: {
                 ratingValue: true,
               },
@@ -441,7 +463,9 @@ export const tripRouter = createTRPCRouter({
         })
         .then((res) =>
           res.map((item) => {
-            const _reviewsValue = item.reviews.reduce((acc, curr) => acc + curr.ratingValue, 0) / item.reviews.length;
+            const _reviewsValue =
+              item.reviews.reduce((acc, curr) => acc + curr.ratingValue, 0) /
+              item.reviews.length;
 
             return {
               id: item.id,
@@ -460,70 +484,77 @@ export const tripRouter = createTRPCRouter({
               badge: item.badge,
               image: mainImage(item.assetsUrls),
               reviewsValue: isNaN(_reviewsValue) ? 0 : _reviewsValue,
-            }
+            };
           }),
         ),
   ),
   listByDestination: publicProcedure.input(z.string()).query(
     async ({ ctx, input }) =>
-      await ctx.db.query.destination.findFirst({
-        where: ({ slug }, { eq }) => eq(slug, input),
-        with: {
-          trips: {
-            columns: {
-              id: true,
-              slug: true,
-              titleEn: true,
-              titleRu: true,
-              descriptionEn: true,
-              descriptionRu: true,
-              duration: true,
-              adultTripPriceInCents: true,
-              englishAdultTripPriceInCents: true,
-              originalAdultTripPriceInCents: true,
-              badge: true,
-              assetsUrls: true,
-              isFeatured: true,
-            },
-            with: {
-              tripTypes: {
-                with: {
-                  tripType: true,
-                },
+      await ctx.db.query.destination
+        .findFirst({
+          where: ({ slug }, { eq }) => eq(slug, input),
+          with: {
+            trips: {
+              columns: {
+                id: true,
+                slug: true,
+                titleEn: true,
+                titleRu: true,
+                descriptionEn: true,
+                descriptionRu: true,
+                duration: true,
+                adultTripPriceInCents: true,
+                englishAdultTripPriceInCents: true,
+                originalAdultTripPriceInCents: true,
+                badge: true,
+                assetsUrls: true,
+                isFeatured: true,
               },
-              reviews: {
-                where: ({ isHiddenByAdmin }, { eq }) => eq(isHiddenByAdmin, false),
-                columns: {
-                  ratingValue: true,
+              with: {
+                tripTypes: {
+                  with: {
+                    tripType: true,
+                  },
+                },
+                reviews: {
+                  where: ({ isHiddenByAdmin }, { eq }) =>
+                    eq(isHiddenByAdmin, false),
+                  columns: {
+                    ratingValue: true,
+                  },
                 },
               },
             },
           },
-        },
-      }).then((destination) => {
-        if (!destination) return destination;
+        })
+        .then((destination) => {
+          if (!destination) return destination;
 
-        return {
-          ...destination,
-          trips: destination.trips.map(({ reviews, ...trip }) => ({
-            ...trip,
-            reviewsValue: reviews.length
-              ? reviews.reduce((sum, review) => sum + review.ratingValue, 0) / reviews.length
-              : 0,
-            reviewsCount: reviews.length,
-          })),
-        };
-      }),
+          return {
+            ...destination,
+            trips: destination.trips.map(({ reviews, ...trip }) => ({
+              ...trip,
+              reviewsValue: reviews.length
+                ? reviews.reduce((sum, review) => sum + review.ratingValue, 0) /
+                  reviews.length
+                : 0,
+              reviewsCount: reviews.length,
+            })),
+          };
+        }),
   ),
-  listStaticParams: publicProcedure.query(async ({ ctx }) => ctx.db.query.trip.findMany({
-    where: ({ isAvailable }, { eq }) => eq(isAvailable, true),
-    columns: {
-      id: true,
-      slug: true,
-      titleTr: true,
-      updatedAt: true,
-    },
-  })),
+  listStaticParams: publicProcedure.query(async ({ ctx }) =>
+    ctx.db.query.trip.findMany({
+      where: ({ isAvailable }, { eq }) => eq(isAvailable, true),
+      columns: {
+        id: true,
+        slug: true,
+        titleTr: true,
+        titleDe: true,
+        updatedAt: true,
+      },
+    }),
+  ),
   view: publicProcedure.input(z.number().int()).query(
     async ({ ctx, input }) =>
       await ctx.db.query.trip.findFirst({
@@ -577,20 +608,21 @@ export const tripRouter = createTRPCRouter({
       }),
   ),
   similar: publicProcedure.input(z.number().int()).query(
-    async ({ ctx, input }) => await ctx.db.query.trip.findMany({
-      where: ({ destinationId }, { eq }) => eq(destinationId, input),
-      limit: 4,
-      orderBy: sql`random()`,
-      // columns: {
-      //   id: true,
-      //   titleEn: true,
-      //   titleRu: true,
-      //   adultTripPriceInCents: true,
-      //   assetsUrls: true,
-      //   duration: true,
-      //   descriptionEn: true,
-      //   descriptionRu: true,
-      // },
-    })
+    async ({ ctx, input }) =>
+      await ctx.db.query.trip.findMany({
+        where: ({ destinationId }, { eq }) => eq(destinationId, input),
+        limit: 4,
+        orderBy: sql`random()`,
+        // columns: {
+        //   id: true,
+        //   titleEn: true,
+        //   titleRu: true,
+        //   adultTripPriceInCents: true,
+        //   assetsUrls: true,
+        //   duration: true,
+        //   descriptionEn: true,
+        //   descriptionRu: true,
+        // },
+      }),
   ),
 });

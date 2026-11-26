@@ -20,7 +20,10 @@ export default async function EditDestinationPage({
         description="Update destination information"
         backButtonLink="/dashboard/destinations"
       />
-      <DestinationForm id={Number(id)} initialData={destination} />
+      <DestinationForm
+        id={Number(id)}
+        initialData={{ ...destination, nameDe: destination.nameDe ?? "" }}
+      />
     </div>
   );
 }

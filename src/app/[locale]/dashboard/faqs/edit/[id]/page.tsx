@@ -20,7 +20,14 @@ export default async function EditCountryPage({
         description="Update question information"
         backButtonLink="/dashboard/faqs"
       />
-      <FAQForm id={Number(id)} initialData={question} />
+      <FAQForm
+        id={Number(id)}
+        initialData={{
+          ...question,
+          questionDe: question.questionDe ?? "",
+          answerDe: question.answerDe ?? "",
+        }}
+      />
     </div>
   );
 }

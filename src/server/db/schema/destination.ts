@@ -7,6 +7,7 @@ export const country = pgTable("contries", (c) => ({
   nameEn: c.text("name_en").notNull(),
   nameRu: c.text("name_ru").notNull(),
   nameTr: c.text("name_tr").notNull().default(""),
+  nameDe: c.text("name_de"),
 }));
 
 export const destination = pgTable("destinations", (c) => ({
@@ -15,6 +16,7 @@ export const destination = pgTable("destinations", (c) => ({
   nameEn: c.text("name_en").notNull(),
   nameRu: c.text("name_ru").notNull(),
   nameTr: c.text("name_tr").notNull().default(""),
+  nameDe: c.text("name_de"),
   imageUrl: c.text("image_url").notNull(),
   isPopular: c.boolean("is_popular").notNull(),
   isFeatured: c.boolean("is_featured").notNull().default(false),

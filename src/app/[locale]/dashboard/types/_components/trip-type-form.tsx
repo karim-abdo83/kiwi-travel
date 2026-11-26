@@ -24,13 +24,13 @@ interface TripTypeFormDialogProps {
   id?: number;
 }
 
-export function TripTypeForm({
-  initialData,
-  id,
-}: TripTypeFormDialogProps) {
+export function TripTypeForm({ initialData, id }: TripTypeFormDialogProps) {
   const { invalidate } = api.useUtils().tripType.list;
 
-  const mutationResponse = useCommonMutationResponse("/dashboard/types", invalidate);
+  const mutationResponse = useCommonMutationResponse(
+    "/dashboard/types",
+    invalidate,
+  );
   const { mutate: create } =
     api.tripType.adminCreate.useMutation(mutationResponse);
   const { mutate: update } =
@@ -41,6 +41,7 @@ export function TripTypeForm({
     values: {
       nameEn: initialData?.nameEn || "",
       nameRu: initialData?.nameRu || "",
+      nameDe: initialData?.nameDe || "",
     },
   });
 
@@ -87,6 +88,19 @@ export function TripTypeForm({
                 <FormLabel>Russian Content</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Russian name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="nameDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Content (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter German name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

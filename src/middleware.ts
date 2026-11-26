@@ -4,23 +4,23 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { ipAddress } from "@vercel/functions";
 import { routing } from "./i18n/routing";
+import { hasAdminAccess } from "./lib/admin-auth";
 import { NextResponse } from "next/server";
 
 const ratelimit = new Ratelimit({
   redis: kv,
   limiter: Ratelimit.fixedWindow(10, "3s"),
   prefix: "@upstash/ratelimit",
-})
+});
 
 const isAdminRoute = createRouteMatcher([
   "/en/dashboard(.*)",
   "/ru/dashboard(.*)",
   "/tr/dashboard(.*)",
-])
+  "/de/dashboard(.*)",
+]);
 
-const isAPIRoute = createRouteMatcher([
-  "/api(.*)",
-])
+const isAPIRoute = createRouteMatcher(["/api(.*)"]);
 
 const isSeoStaticRoute = createRouteMatcher([
   "/robots.txt",
@@ -33,14 +33,19 @@ const isBookingsRoute = createRouteMatcher([
   "/en/bookings(.*)",
   "/ru/bookings(.*)",
   "/tr/bookings(.*)",
-])
+  "/de/bookings(.*)",
+]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
   const { pathname } = req.nextUrl;
-  
-  if (isAdminRoute(req) && !sessionClaims?.metadata.isAdmin) {
-    await auth.protect();
+
+  if (isAdminRoute(req) && !hasAdminAccess(sessionClaims)) {
+    const { userId } = await auth.protect();
+
+    if (userId) {
+      return new NextResponse("Forbidden", { status: 403 });
+    }
   }
 
   if (isBookingsRoute(req)) {
@@ -54,25 +59,27 @@ export default clerkMiddleware(async (auth, req) => {
   if (isSeoStaticRoute(req)) return NextResponse.next();
 
   // REDIRECT 301 for url without locate
-    const hasLocale = routing.locales.some(
-      (l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`)
-    );
+  const hasLocale = routing.locales.some(
+    (l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`),
+  );
 
-    if (!hasLocale) {
-      const url = req.nextUrl.clone();
-      url.pathname = `/${routing.defaultLocale}${pathname}`;
-      return NextResponse.redirect(url, 301); 
-    }
-
+  if (!hasLocale) {
+    const url = req.nextUrl.clone();
+    url.pathname = `/${routing.defaultLocale}${pathname}`;
+    return NextResponse.redirect(url, 301);
+  }
 
   const ip = ipAddress(req) ?? "127.0.0.1";
 
   const { success } = await ratelimit.limit(ip);
 
-  if (!success) return new NextResponse("You have reached the limit of requests, please reduce your requests speed :).")
+  if (!success)
+    return new NextResponse(
+      "You have reached the limit of requests, please reduce your requests speed :).",
+    );
 
   return createIntlMiddleware(routing)(req);
-})
+});
 
 export const config = {
   matcher: [
@@ -82,6 +89,6 @@ export const config = {
     "/(api|trpc)(.*)",
     // for internationalized pathnames
     "/",
-    "/(en|ru|tr)/:path*",
+    "/(en|ru|tr|de)/:path*",
   ],
 };

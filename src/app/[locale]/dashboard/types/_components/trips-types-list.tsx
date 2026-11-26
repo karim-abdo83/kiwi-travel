@@ -62,6 +62,10 @@ export function TripsTypesList() {
       header: "Russian Name",
     },
     {
+      accessorKey: "nameDe",
+      header: "German Name",
+    },
+    {
       id: "actions",
       cell: ({ row }) => {
         const type = row.original;
@@ -99,8 +103,8 @@ export function TripsTypesList() {
           <DialogHeader>
             <DialogTitle>Confirm Deletion</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this type? This action cannot
-              be undone.
+              Are you sure you want to delete this type? This action cannot be
+              undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

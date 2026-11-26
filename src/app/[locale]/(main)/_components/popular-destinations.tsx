@@ -28,14 +28,18 @@ export default function PopularDestinations() {
       ? appContent?.popularDestinationRu || t("sectionTitle")
       : locale === "tr"
         ? appContent?.popularDestinationTr || t("sectionTitle")
-        : appContent?.popularDestinationEn || t("sectionTitle");
+        : locale === "de"
+          ? appContent?.popularDestinationDe || t("sectionTitle")
+          : appContent?.popularDestinationEn || t("sectionTitle");
 
   const sectionDescription =
     locale === "ru"
       ? "Забудьте о холодах и насладитесь золотым египетским солнцем. Наша зимняя коллекция включает лучшие места для снорклинга на Красном море и приключения в пустыне, идеально подходящие для тех, кто ищет тепло и яркие впечатления."
       : locale === "tr"
         ? "Soğuktan kaçın ve altın rengi Mısır güneşinin tadını çıkarın. Kış koleksiyonumuz, kış mevsiminde sıcaklık ve unutulmaz anılar arayanlar için en iyi Kızıldeniz şnorkel noktalarını ve çöl maceralarını sunuyor."
-        : "Escape the cold and bask in the golden Egyptian sun. Our curated winter collection features the best Red Sea snorkeling spots and desert adventures, perfect for those seeking warmth and unforgettable memories during the winter season.";
+        : locale === "de"
+          ? "Entfliehen Sie der Kälte und genießen Sie die goldene Sonne Ägyptens. Unsere sorgfältig zusammengestellte Winterkollektion bietet die schönsten Schnorchelplätze am Roten Meer und spannende Wüstenabenteuer – ideal für alle, die im Winter Wärme und unvergessliche Erlebnisse suchen."
+          : "Escape the cold and bask in the golden Egyptian sun. Our curated winter collection features the best Red Sea snorkeling spots and desert adventures, perfect for those seeking warmth and unforgettable memories during the winter season.";
 
   return (
     <section className="px-4 py-16 lg:px-6" id="destinations">

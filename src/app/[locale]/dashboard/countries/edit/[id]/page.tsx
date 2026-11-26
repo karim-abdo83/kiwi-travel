@@ -20,7 +20,10 @@ export default async function EditCountryPage({
         description="Update country information"
         backButtonLink="/dashboard/countries"
       />
-      <CountryForm id={Number(id)} initialData={country} />
+      <CountryForm
+        id={Number(id)}
+        initialData={{ ...country, nameDe: country.nameDe ?? "" }}
+      />
     </div>
   );
 }

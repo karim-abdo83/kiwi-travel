@@ -31,7 +31,8 @@
     },
     "featuredTrips": {
       "sectionTitle": "Öne Çıkan Turlar",
-      "buttonLabel": "Hemen Rezervasyon"
+      "buttonLabel": "Hemen Rezervasyon",
+      "description": "Yerel uzmanlarımız tarafından özenle seçilen bu turlar, gezginlerimizin en çok sevdiği yüksek puanlı deneyimlerdir. Tarihi simge yapılardan saklı kıyı güzelliklerine kadar Mısır'ın en özel noktalarını kalite ve konforla keşfedin."
     },
     "popularDestinations": {
       "sectionTitle": "Popüler Destinasyonlar",
