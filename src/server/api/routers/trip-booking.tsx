@@ -178,32 +178,39 @@ export const tripBookingRouter = createTRPCRouter({
 
       const user = (await currentUser())!;
 
-      const [createdBooking] = await ctx.db.insert(tripBooking).values({
-        userId: ctx.userId,
-        userName: input.name || (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName || null),
-        userPhone: input.phone,
-        userEmail: user.emailAddresses[0]!.emailAddress,
-        adultPriceInCents: trip.adultTripPriceInCents,
-        childPriceInCents: trip.childTripPriceInCents,
-        adultsCount: input.adultsCount,
-        childrenCount: input.childrenCount,
-        infantsCount: input.infantsCount,
-        tripId: input.tripId,
-        bookingDate: input.date,
-        status: trip.isConfirmationRequired ? "pending" : "accepted",
-        ...attributionColumns(input.attribution),
-      }).returning({ id: tripBooking.id });
+      const [createdBooking] = await ctx.db
+        .insert(tripBooking)
+        .values({
+          userId: ctx.userId,
+          userName:
+            input.name ||
+            (user.firstName && user.lastName
+              ? `${user.firstName} ${user.lastName}`
+              : user.firstName || null),
+          userPhone: input.phone,
+          userEmail: user.emailAddresses[0]!.emailAddress,
+          adultPriceInCents: trip.adultTripPriceInCents,
+          childPriceInCents: trip.childTripPriceInCents,
+          adultsCount: input.adultsCount,
+          childrenCount: input.childrenCount,
+          infantsCount: input.infantsCount,
+          tripId: input.tripId,
+          bookingDate: input.date,
+          status: trip.isConfirmationRequired ? "pending" : "accepted",
+          ...attributionColumns(input.attribution),
+        })
+        .returning({ id: tripBooking.id });
 
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
-const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
+      const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
 
-const telegramTotal =
-  (trip.adultTripPriceInCents / 100) * input.adultsCount +
-  (trip.childTripPriceInCents
-    ? (trip.childTripPriceInCents / 100) * input.childrenCount
-    : 0);
+      const telegramTotal =
+        (trip.adultTripPriceInCents / 100) * input.adultsCount +
+        (trip.childTripPriceInCents
+          ? (trip.childTripPriceInCents / 100) * input.childrenCount
+          : 0);
 
-const russianTelegramMessage = `🧾 <b>Новая бронь</b>
+      const russianTelegramMessage = `🧾 <b>Новая бронь</b>
 🆔 <b>Trip ID:</b> ${input.tripId}
 👤 <b>Клиент:</b> ${input.name || user.firstName || "Guest"}
 📧 <b>Email:</b> ${user.emailAddresses[0]?.emailAddress || "Не указан"}
@@ -220,7 +227,7 @@ const russianTelegramMessage = `🧾 <b>Новая бронь</b>
 🔗 <a href="${bookingLink}">Открыть в админке</a>
 🌍 <a href="${tripLink}">Ссылка на тур</a>`;
 
-const englishTelegramMessage = `🧾 <b>New booking</b>
+      const englishTelegramMessage = `🧾 <b>New booking</b>
 🆔 <b>Booking ID:</b> ${createdBooking!.id}
 🎟️ <b>Trip ID:</b> ${input.tripId}
 👤 <b>Client:</b> ${input.name || user.firstName || "Guest"}
@@ -238,17 +245,20 @@ const englishTelegramMessage = `🧾 <b>New booking</b>
 🔗 <a href="${bookingLink}">Open in dashboard</a>
 🌍 <a href="${tripLink}">Trip link</a>`;
 
-await sendBookingTelegramNotification({
-  locale,
-  russianMessage: russianTelegramMessage,
-  englishMessage: englishTelegramMessage,
-});
+      await sendBookingTelegramNotification({
+        locale,
+        russianMessage: russianTelegramMessage,
+        englishMessage: englishTelegramMessage,
+      });
 
-const tEmail = await getTranslations("General.bookingEmail.new");
+      const tEmail = await getTranslations("General.bookingEmail.new");
       // Calculate totals for email
-      const totalPeople = input.adultsCount + input.childrenCount + input.infantsCount;
+      const totalPeople =
+        input.adultsCount + input.childrenCount + input.infantsCount;
       const adultTotal = (trip.adultTripPriceInCents / 100) * input.adultsCount;
-      const childTotal = trip.childTripPriceInCents ? (trip.childTripPriceInCents / 100) * input.childrenCount : 0;
+      const childTotal = trip.childTripPriceInCents
+        ? (trip.childTripPriceInCents / 100) * input.childrenCount
+        : 0;
       const emailTotal = adultTotal + childTotal;
 
       const emailHtml = await render(
@@ -257,7 +267,11 @@ const tEmail = await getTranslations("General.bookingEmail.new");
           bookingLink={bookingLink}
           translations={tEmail}
           bookingData={{
-            fullName: input.name || (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName || "Guest User"),
+            fullName:
+              input.name ||
+              (user.firstName && user.lastName
+                ? `${user.firstName} ${user.lastName}`
+                : user.firstName || "Guest User"),
             email: user.emailAddresses[0]!.emailAddress,
             phoneNumber: input.phone,
             bookingDate: input.date,
@@ -271,7 +285,7 @@ const tEmail = await getTranslations("General.bookingEmail.new");
             roomNumberOrSpecialRequests: input.roomNumberOrSpecialRequests,
             additionalNotes: "",
           }}
-        />
+        />,
       );
 
       await sendEmail({
@@ -341,32 +355,35 @@ const tEmail = await getTranslations("General.bookingEmail.new");
         });
       }
 
-      const [createdBooking] = await ctx.db.insert(tripBooking).values({
-        userId: input.email,
-        userName: input.name || null,
-        userPhone: input.phone,
-        userEmail: input.email,
-        adultPriceInCents: trip.adultTripPriceInCents,
-        childPriceInCents: trip.childTripPriceInCents,
-        adultsCount: input.adultsCount,
-        childrenCount: input.childrenCount,
-        infantsCount: input.infantsCount,
-        tripId: input.tripId,
-        bookingDate: input.date,
-        status: trip.isConfirmationRequired ? "pending" : "accepted",
-        ...attributionColumns(input.attribution),
-      }).returning({ id: tripBooking.id });
+      const [createdBooking] = await ctx.db
+        .insert(tripBooking)
+        .values({
+          userId: input.email,
+          userName: input.name || null,
+          userPhone: input.phone,
+          userEmail: input.email,
+          adultPriceInCents: trip.adultTripPriceInCents,
+          childPriceInCents: trip.childTripPriceInCents,
+          adultsCount: input.adultsCount,
+          childrenCount: input.childrenCount,
+          infantsCount: input.infantsCount,
+          tripId: input.tripId,
+          bookingDate: input.date,
+          status: trip.isConfirmationRequired ? "pending" : "accepted",
+          ...attributionColumns(input.attribution),
+        })
+        .returning({ id: tripBooking.id });
 
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/dashboard/bookings`;
       const tripLink = `${env.NEXT_PUBLIC_APP_URL}/trips/${trip.slug}`;
 
       const telegramTotal =
-  (trip.adultTripPriceInCents / 100) * input.adultsCount +
-  (trip.childTripPriceInCents
-    ? (trip.childTripPriceInCents / 100) * input.childrenCount
-    : 0);
+        (trip.adultTripPriceInCents / 100) * input.adultsCount +
+        (trip.childTripPriceInCents
+          ? (trip.childTripPriceInCents / 100) * input.childrenCount
+          : 0);
 
-const russianTelegramMessage = `🧾 <b>Новая бронь</b>
+      const russianTelegramMessage = `🧾 <b>Новая бронь</b>
 🆔 <b>Trip ID:</b> ${input.tripId}
 👤 <b>Клиент:</b> ${input.name || "Guest"}
 📧 <b>Email:</b> ${input.email || "Не указан"}
@@ -383,7 +400,7 @@ const russianTelegramMessage = `🧾 <b>Новая бронь</b>
 🔗 <a href="${bookingLink}">Открыть в админке</a>
 🌍 <a href="${tripLink}">Ссылка на тур</a>`;
 
-const englishTelegramMessage = `🧾 <b>New booking</b>
+      const englishTelegramMessage = `🧾 <b>New booking</b>
 🆔 <b>Booking ID:</b> ${createdBooking!.id}
 🎟️ <b>Trip ID:</b> ${input.tripId}
 👤 <b>Client:</b> ${input.name || "Guest"}
@@ -401,18 +418,21 @@ const englishTelegramMessage = `🧾 <b>New booking</b>
 🔗 <a href="${bookingLink}">Open in dashboard</a>
 🌍 <a href="${tripLink}">Trip link</a>`;
 
-await sendBookingTelegramNotification({
-  locale,
-  russianMessage: russianTelegramMessage,
-  englishMessage: englishTelegramMessage,
-});
+      await sendBookingTelegramNotification({
+        locale,
+        russianMessage: russianTelegramMessage,
+        englishMessage: englishTelegramMessage,
+      });
 
       const tEmail = await getTranslations("General.bookingEmail.new");
 
       // Calculate totals for email
-      const totalPeople = input.adultsCount + input.childrenCount + input.infantsCount;
+      const totalPeople =
+        input.adultsCount + input.childrenCount + input.infantsCount;
       const adultTotal = (trip.adultTripPriceInCents / 100) * input.adultsCount;
-      const childTotal = trip.childTripPriceInCents ? (trip.childTripPriceInCents / 100) * input.childrenCount : 0;
+      const childTotal = trip.childTripPriceInCents
+        ? (trip.childTripPriceInCents / 100) * input.childrenCount
+        : 0;
       const emailTotal = adultTotal + childTotal;
 
       const emailHtml = await render(
@@ -435,7 +455,7 @@ await sendBookingTelegramNotification({
             roomNumberOrSpecialRequests: input.roomNumberOrSpecialRequests,
             additionalNotes: "",
           }}
-        />
+        />,
       );
 
       await sendEmail({
@@ -516,10 +536,7 @@ await sendBookingTelegramNotification({
       async ({ ctx, input }) =>
         await ctx.db.query.tripBooking.findMany({
           where: ({ tripId, bookingDate }, { and, eq }) =>
-            and(
-              eq(tripId, input.tripId),
-              eq(bookingDate, input.date),
-            ),
+            and(eq(tripId, input.tripId), eq(bookingDate, input.date)),
         }),
     ),
   adminConfirmBooking: adminProcedure
@@ -758,11 +775,11 @@ await sendBookingTelegramNotification({
         email,
         to: userEmailAddress ?? "",
         subject: t("title"),
-      })
+      });
       const bookingLink = `${env.NEXT_PUBLIC_APP_URL}/bookings/${input}`;
 
       await sendTelegramNotification(
-        `📩 New booking confirmed\n<a href="${bookingLink}">View booking</a>`
+        `📩 New booking confirmed\n<a href="${bookingLink}">View booking</a>`,
       );
 
       return {
@@ -808,17 +825,17 @@ await sendBookingTelegramNotification({
         message: "Deleted Successfully",
       };
     }),
-  adminDeleteAcceptedBulk: adminProcedure
-    .mutation(async ({ ctx }) => {
-      const deleted = await ctx.db
-        .delete(tripBooking)
-        .where(eq(tripBooking.status, "accepted" as const));
+  adminDeleteAcceptedBulk: adminProcedure.mutation(async ({ ctx }) => {
+    const deleted = await ctx.db
+      .delete(tripBooking)
+      .where(eq(tripBooking.status, "accepted" as const));
 
-      return {
-        message: "All accepted bookings deleted successfully",
-        count: (deleted as unknown as { rowCount?: number }).rowCount ?? undefined,
-      };
-    }),
+    return {
+      message: "All accepted bookings deleted successfully",
+      count:
+        (deleted as unknown as { rowCount?: number }).rowCount ?? undefined,
+    };
+  }),
 });
 
 async function sendEmail({
@@ -835,7 +852,12 @@ async function sendEmail({
   const publicDir = path.join(process.cwd(), "public");
   const emailLogoPath = path.join(publicDir, "email-logo.png");
   const attachments = [
-    { filename: "email-logo.png", path: emailLogoPath, cid: "logo", contentType: "image/png" },
+    {
+      filename: "email-logo.png",
+      path: emailLogoPath,
+      cid: "logo",
+      contentType: "image/png",
+    },
   ];
 
   try {
@@ -876,7 +898,7 @@ async function sendBookingTelegramNotification({
   russianMessage: string;
   englishMessage: string;
 }) {
-  if (locale === "en") {
+  if (locale === "en" || locale === "de") {
     const englishChatId = env.TELEGRAM_ENGLISH_BOOKINGS_CHAT_ID;
 
     if (!englishChatId) {

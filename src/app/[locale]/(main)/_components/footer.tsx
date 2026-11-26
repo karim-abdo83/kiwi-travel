@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
 import { Link, usePathname } from "@/i18n/routing";
-import { COUNTRY_QUICK_LINKS, countryForPath } from "@/lib/destination-seo/footer-links";
+import {
+  COUNTRY_QUICK_LINKS,
+  countryForPath,
+} from "@/lib/destination-seo/footer-links";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import Image from "next/image";
@@ -29,7 +32,9 @@ export default function Footer() {
   const pathname = usePathname();
   const country = countryForPath(pathname);
   // Destination pages show links of their own country; everywhere else keeps the default blog links.
-  const countryLinks = (country ? COUNTRY_QUICK_LINKS[country] ?? [] : []).flatMap((link) => {
+  const countryLinks = (
+    country ? (COUNTRY_QUICK_LINKS[country] ?? []) : []
+  ).flatMap((link) => {
     const label = link.label[locale as "en" | "ru" | "tr"];
     return label ? [{ href: link.href, label }] : [];
   });
@@ -55,7 +60,7 @@ export default function Footer() {
     {
       icon: <MessageCircle className="h-5 w-5" />,
       link:
-        locale === "en"
+        locale === "en" || locale === "de"
           ? "https://wa.me/905352699881"
           : "https://wa.me/79645056936",
       name: "WhatsApp",
@@ -63,7 +68,7 @@ export default function Footer() {
     {
       icon: <Send className="h-5 w-5" />,
       link:
-        locale === "en"
+        locale === "en" || locale === "de"
           ? "https://t.me/karimtouren"
           : "https://t.me/karimtor_kiwitravel",
       name: "Telegram",
@@ -180,31 +185,31 @@ export default function Footer() {
                 ))
               ) : (
                 <>
-              <li>
-                <Link
-                  href="/blog/sahl-hasheesh-excursions"
-                  className="hover:underline"
-                >
-                  {t("quickLinks.article1")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/blog/el-gouna-excursions-guide"
-                  className="hover:underline"
-                >
-                  {t("quickLinks.article2")}
-                </Link>
-              </li>
+                  <li>
+                    <Link
+                      href="/blog/sahl-hasheesh-excursions"
+                      className="hover:underline"
+                    >
+                      {t("quickLinks.article1")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/blog/el-gouna-excursions-guide"
+                      className="hover:underline"
+                    >
+                      {t("quickLinks.article2")}
+                    </Link>
+                  </li>
 
-              <li>
-                <Link
-                  href="/blog/sharm-airport-transfer"
-                  className="hover:underline"
-                >
-                  {t("quickLinks.article3")}
-                </Link>
-              </li>
+                  <li>
+                    <Link
+                      href="/blog/sharm-airport-transfer"
+                      className="hover:underline"
+                    >
+                      {t("quickLinks.article3")}
+                    </Link>
+                  </li>
                 </>
               )}
             </ul>

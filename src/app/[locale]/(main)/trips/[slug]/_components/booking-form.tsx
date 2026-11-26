@@ -110,7 +110,7 @@ const BookingForm = ({
                   {t("perPerson")}
                 </span>
                 <TripPrice
-                  currency={locale === "en" ? "€" : "$"}
+                  currency={locale === "en" || locale === "de" ? "€" : "$"}
                   salePrice={adultPrice}
                   originalPrice={originalPrice}
                   align="end"
@@ -123,7 +123,7 @@ const BookingForm = ({
                     {t("perChild")} ({childAge})
                   </span>
                   <span className="text-lg font-semibold text-primary">
-                    {locale === "en" ? "€" : "$"}
+                    {locale === "en" || locale === "de" ? "€" : "$"}
                     {childPrice}
                   </span>
                 </div>
@@ -203,7 +203,11 @@ const BookingForm = ({
             channel="whatsapp"
             ctaLocation="booking_form"
             tripId={tripId}
-            href={locale === "en" ? "https://wa.me/905352699881" : "https://wa.me/79645056936"}
+            href={
+              locale === "en" || locale === "de"
+                ? "https://wa.me/905352699881"
+                : "https://wa.me/79645056936"
+            }
             className="flex w-full transform items-center justify-center gap-3 rounded-full bg-green-500 px-6 py-4 font-medium text-white shadow-md transition-all duration-200 hover:scale-105 hover:bg-green-600 hover:shadow-lg"
           >
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -787,11 +791,11 @@ const BookingSubmitDialog = ({
                   <div className="flex items-center justify-between">
                     <span>
                       {t("adults")} ({adults}) &times;{" "}
-                      {locale === "en" ? "€" : "$"}
+                      {locale === "en" || locale === "de" ? "€" : "$"}
                       {adultPrice}
                     </span>
                     <span>
-                      {locale === "en" ? "€" : "$"}
+                      {locale === "en" || locale === "de" ? "€" : "$"}
                       {adultTotal.toFixed(2)}
                     </span>
                   </div>
@@ -800,11 +804,11 @@ const BookingSubmitDialog = ({
                   <div className="flex items-center justify-between">
                     <span>
                       {t("children")} ({children}) &times;{" "}
-                      {locale === "en" ? "€" : "$"}
+                      {locale === "en" || locale === "de" ? "€" : "$"}
                       {childPrice}
                     </span>
                     <span>
-                      {locale === "en" ? "€" : "$"}
+                      {locale === "en" || locale === "de" ? "€" : "$"}
                       {childTotal.toFixed(2)}
                     </span>
                   </div>
@@ -821,7 +825,7 @@ const BookingSubmitDialog = ({
               <div className="flex items-center justify-between border-t pt-2">
                 <span className="font-bold">{t("total")}</span>
                 <span className="font-bold">
-                  {locale === "en" ? "€" : "$"}
+                  {locale === "en" || locale === "de" ? "€" : "$"}
                   {totalPrice}
                 </span>
               </div>

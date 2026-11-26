@@ -86,6 +86,10 @@ export function DestinationsList() {
       header: "Russian name",
     },
     {
+      accessorKey: "nameDe",
+      header: "German name",
+    },
+    {
       accessorKey: "country",
       header: "Country",
       cell: ({ row }) => row.original.country.nameEn,

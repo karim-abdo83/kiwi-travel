@@ -62,6 +62,10 @@ export function TripsFeaturesList() {
       header: "Russian Content",
     },
     {
+      accessorKey: "contentDe",
+      header: "German Content",
+    },
+    {
       id: "actions",
       cell: ({ row }) => {
         const feature = row.original;

@@ -13,14 +13,18 @@ export async function generateMetadata(): Promise<Metadata> {
       ? "Explore Trips & Tours Worldwide with Local Experts"
       : locale === "ru"
         ? "Туры и экскурсии по всему миру с местными гидами"
-        : "Dünya Çapında Turlar ve Geziler – Yerel Rehberlerle";
+        : locale === "tr"
+          ? "Dünya Çapında Turlar ve Geziler – Yerel Rehberlerle"
+          : "Ausflüge und Touren weltweit mit lokalen Experten";
 
   const description =
     locale === "en"
       ? "Browse all available trips and tours by destination, duration and price. Book unforgettable experiences with Karim Tour."
       : locale === "ru"
         ? "Выберите туры и экскурсии по направлениям, длительности и цене. Онлайн-бронирование с Karim Tour."
-        : "Destinasyona, süreye ve fiyata göre tüm turları keşfedin. Karim Tour ile kolay rezervasyon.";
+        : locale === "tr"
+          ? "Destinasyona, süreye ve fiyata göre tüm turları keşfedin. Karim Tour ile kolay rezervasyon."
+          : "Entdecken Sie verfügbare Ausflüge nach Reiseziel, Dauer und Preis. Buchen Sie besondere Erlebnisse mit Karim Tour.";
 
   return {
     title,

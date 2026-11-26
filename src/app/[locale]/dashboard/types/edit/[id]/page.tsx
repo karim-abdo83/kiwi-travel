@@ -22,7 +22,7 @@ export default async function EditTripPage({
       />
       <TripTypeForm
         id={Number(id)}
-        initialData={feature}
+        initialData={{ ...feature, nameDe: feature.nameDe ?? "" }}
       />
     </div>
   );

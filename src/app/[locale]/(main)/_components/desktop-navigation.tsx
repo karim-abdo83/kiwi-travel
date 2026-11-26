@@ -22,7 +22,13 @@ export const DesktopNavigation = () => {
   const locale = useLocale();
   const localeAttribute = localeAttributeFactory(locale);
   const countryLabel =
-    locale === "ru" ? "Страны" : locale === "tr" ? "Ülkeler" : "Countries";
+    locale === "ru"
+      ? "Страны"
+      : locale === "tr"
+        ? "Ülkeler"
+        : locale === "de"
+          ? "Länder"
+          : "Countries";
 
   const { data: countries } = api.country.list.useQuery();
   const { data: destinations } = api.destination.list.useQuery({});

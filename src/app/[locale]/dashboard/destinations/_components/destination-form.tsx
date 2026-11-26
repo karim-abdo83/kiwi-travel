@@ -64,6 +64,7 @@ export function DestinationForm({ initialData, id }: DestinationFormProps) {
       nameEn: initialData?.nameEn || "",
       nameRu: initialData?.nameRu || "",
       nameTr: initialData?.nameTr || "",
+      nameDe: initialData?.nameDe || "",
       isPopular: initialData?.isPopular || false,
       isFeatured: initialData?.isFeatured || false,
       countryId: initialData?.countryId || ("" as any),
@@ -167,6 +168,19 @@ export function DestinationForm({ initialData, id }: DestinationFormProps) {
                 <FormLabel>Turkish Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Turkish name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="nameDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Name (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter German name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

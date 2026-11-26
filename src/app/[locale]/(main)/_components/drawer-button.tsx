@@ -71,14 +71,23 @@ export const DrawerButton = () => {
             noDestinations: "Kullanılabilir destinasyon yok",
             closeMenu: "Menüyü kapat",
           }
-        : {
-            country: "Country",
-            destinations: "Destinations",
-            loading: "Loading...",
-            noCountries: "No countries available",
-            noDestinations: "No destinations available",
-            closeMenu: "Close menu",
-          };
+        : locale === "de"
+          ? {
+              country: "Land",
+              destinations: "Reiseziele",
+              loading: "Wird geladen...",
+              noCountries: "Keine Länder verfügbar",
+              noDestinations: "Keine Reiseziele verfügbar",
+              closeMenu: "Menü schließen",
+            }
+          : {
+              country: "Country",
+              destinations: "Destinations",
+              loading: "Loading...",
+              noCountries: "No countries available",
+              noDestinations: "No destinations available",
+              closeMenu: "Close menu",
+            };
 
   const { data: countries, isLoading: isCountriesLoading } =
     api.country.list.useQuery(undefined, { enabled: open });
@@ -219,7 +228,7 @@ export const DrawerButton = () => {
               </Link>
             </SignedIn>
             <SignedOut>
-              <SignInButton>
+              <SignInButton mode="redirect">
                 <Button
                   id="sign-in-button-2"
                   className="w-full"
@@ -259,7 +268,11 @@ export const DrawerButton = () => {
             <TrackedContactLink
               channel="whatsapp"
               ctaLocation="drawer"
-              href={locale === "en" ? "https://wa.me/905352699881" : "https://wa.me/79645056936"}
+              href={
+                locale === "en" || locale === "de"
+                  ? "https://wa.me/905352699881"
+                  : "https://wa.me/79645056936"
+              }
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary"
@@ -271,7 +284,7 @@ export const DrawerButton = () => {
               channel="telegram"
               ctaLocation="drawer"
               href={
-                locale === "en"
+                locale === "en" || locale === "de"
                   ? "https://t.me/karimtouren"
                   : "https://t.me/karimtor_kiwitravel"
               }

@@ -26,11 +26,14 @@ interface CountryFormProps {
 
 export function CountryForm({ initialData, id }: CountryFormProps) {
   const { invalidate } = api.useUtils().country.list;
-  const mutationResponse = useCommonMutationResponse("/dashboard/countries", invalidate);
+  const mutationResponse = useCommonMutationResponse(
+    "/dashboard/countries",
+    invalidate,
+  );
   const { mutate: create } =
-      api.country.adminCreate.useMutation(mutationResponse);
-    const { mutate: update } =
-      api.country.adminUpdate.useMutation(mutationResponse);
+    api.country.adminCreate.useMutation(mutationResponse);
+  const { mutate: update } =
+    api.country.adminUpdate.useMutation(mutationResponse);
 
   // Define form with default values
   const form = useForm<CountryFormValues>({
@@ -38,7 +41,8 @@ export function CountryForm({ initialData, id }: CountryFormProps) {
     defaultValues: {
       nameEn: initialData?.nameEn || "",
       nameRu: initialData?.nameRu || "",
-      nameTr:initialData?.nameTr || "",
+      nameTr: initialData?.nameTr || "",
+      nameDe: initialData?.nameDe || "",
     },
   });
 
@@ -95,6 +99,19 @@ export function CountryForm({ initialData, id }: CountryFormProps) {
                 <FormLabel>Turkish Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Turkish name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="nameDe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>German Name (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter German name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

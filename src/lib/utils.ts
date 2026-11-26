@@ -26,6 +26,7 @@ export function localeAttributeFactory(locale: string) {
     const enKey = `${key}En` as const;
     const ruKey = `${key}Ru` as const;
     const trKey = `${key}Tr` as const;
+    const deKey = `${key}De` as const;
 
     const object: any = obj;
 
@@ -41,6 +42,10 @@ export function localeAttributeFactory(locale: string) {
       return object[trKey]!;
     }
 
+    if (currentLocale === "de" && deKey in object && object[deKey]?.trim()) {
+      return object[deKey];
+    }
+
     // Fallback to English if Russian translation doesn't exist
     if (enKey in object) {
       return object[enKey];
@@ -51,4 +56,4 @@ export function localeAttributeFactory(locale: string) {
   };
 }
 
-type Locale = "en" | "ru" | "tr";
+type Locale = "en" | "ru" | "tr" | "de";

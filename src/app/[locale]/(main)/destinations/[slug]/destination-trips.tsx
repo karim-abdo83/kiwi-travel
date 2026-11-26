@@ -104,7 +104,7 @@ export function DestinationTrips({
           );
         case "price-asc":
           return (
-            (locale === "en"
+            (locale === "en" || locale === "de"
               ? (a.englishAdultTripPriceInCents ?? a.adultTripPriceInCents) -
                 (b.englishAdultTripPriceInCents ?? b.adultTripPriceInCents)
               : a.adultTripPriceInCents - b.adultTripPriceInCents) ||
@@ -112,14 +112,16 @@ export function DestinationTrips({
           );
         case "price-desc":
           return (
-            (locale === "en"
+            (locale === "en" || locale === "de"
               ? (b.englishAdultTripPriceInCents ?? b.adultTripPriceInCents) -
                 (a.englishAdultTripPriceInCents ?? a.adultTripPriceInCents)
               : b.adultTripPriceInCents - a.adultTripPriceInCents) ||
             (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
           );
         default:
-          return (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0);
+          return (
+            (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
+          );
       }
     });
   }, [selectedTypeId, sortOption, trips, priority, offSlugs]);
@@ -181,10 +183,14 @@ export function DestinationTrips({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="recommended">{t("sortRecommended")}</SelectItem>
+              <SelectItem value="recommended">
+                {t("sortRecommended")}
+              </SelectItem>
               <SelectItem value="rating">{t("sortHighestRating")}</SelectItem>
               <SelectItem value="price-asc">{t("sortLowestPrice")}</SelectItem>
-              <SelectItem value="price-desc">{t("sortHighestPrice")}</SelectItem>
+              <SelectItem value="price-desc">
+                {t("sortHighestPrice")}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -227,9 +233,11 @@ export function DestinationTrips({
                     <p className="mt-2 flex items-center gap-1 text-sm text-gray-600">
                       <Star className="size-4 fill-yellow-400 text-yellow-400" />
                       <span>
-                        {formatRating(trip.reviewsValue)} ({t("reviewCount", {
+                        {formatRating(trip.reviewsValue)} (
+                        {t("reviewCount", {
                           count: trip.reviewsCount,
-                        })})
+                        })}
+                        )
                       </span>
                     </p>
                   )}
@@ -238,15 +246,17 @@ export function DestinationTrips({
                   </p>
                   <div className="mt-4 flex items-center justify-between">
                     <TripPrice
-                      currency={locale === "en" ? "€" : "$"}
+                      currency={locale === "en" || locale === "de" ? "€" : "$"}
                       salePrice={
-                        (locale === "en"
-                          ? trip.englishAdultTripPriceInCents ??
-                            trip.adultTripPriceInCents
+                        (locale === "en" || locale === "de"
+                          ? (trip.englishAdultTripPriceInCents ??
+                            trip.adultTripPriceInCents)
                           : trip.adultTripPriceInCents) / 100
                       }
                       originalPrice={
-                        locale === "en" || trip.originalAdultTripPriceInCents === null
+                        locale === "en" ||
+                        locale === "de" ||
+                        trip.originalAdultTripPriceInCents === null
                           ? null
                           : trip.originalAdultTripPriceInCents / 100
                       }

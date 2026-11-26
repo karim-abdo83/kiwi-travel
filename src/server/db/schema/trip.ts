@@ -10,13 +10,16 @@ export const trip = pgTable("trips", (c) => ({
   slug: c.text("slug").notNull(),
   titleEn: c.text("title_en").notNull(),
   titleRu: c.text("title_ru").notNull(),
-  titleTr: c.text("title_tr").notNull().default(''),
+  titleTr: c.text("title_tr").notNull().default(""),
+  titleDe: c.text("title_de"),
   descriptionEn: c.text("description_en").notNull(),
   descriptionRu: c.text("description_ru").notNull(),
-  descriptionTr: c.text("description_tr").notNull().default(''),
+  descriptionTr: c.text("description_tr").notNull().default(""),
+  descriptionDe: c.text("description_de"),
   longDescriptionEn: c.text("long_description_en").notNull(),
   longDescriptionRu: c.text("long_description_ru").notNull(),
-  longDescriptionTr: c.text("long_description_tr").notNull().default(''),
+  longDescriptionTr: c.text("long_description_tr").notNull().default(""),
+  longDescriptionDe: c.text("long_description_de"),
   /**
    * each asset consists of this format:
    * `{url}?type=video` if video
@@ -30,8 +33,13 @@ export const trip = pgTable("trips", (c) => ({
     .references(() => destination.id, { onDelete: "restrict" }),
   adultTripPriceInCents: c.integer("adult_trip_price_in_cents").notNull(),
   englishAdultTripPriceInCents: c.integer("english_adult_trip_price_in_cents"),
-  originalAdultTripPriceInCents: c.integer("original_adult_trip_price_in_cents"),
-  childTripPriceInCents: c.integer("child_trip_price_in_cents").notNull().default(0),
+  originalAdultTripPriceInCents: c.integer(
+    "original_adult_trip_price_in_cents",
+  ),
+  childTripPriceInCents: c
+    .integer("child_trip_price_in_cents")
+    .notNull()
+    .default(0),
   childAge: c.text("child_age").notNull().default(""),
   infantAge: c.text("infant_age").notNull().default(""),
   isAvailable: c.boolean("is_available").notNull(),
@@ -42,15 +50,17 @@ export const trip = pgTable("trips", (c) => ({
     .notNull()
     .default(false),
   duration: c.text("duration").notNull(),
-  sizeOfTrip: c.text("size_of_trip").notNull().default(''),
+  sizeOfTrip: c.text("size_of_trip").notNull().default(""),
   // tour information
   pickupPointEn: c.text("pickup_point_en"),
   pickupPointRu: c.text("pickup_point_ru"),
   pickupPointTr: c.text("pickup_point_tr"),
+  pickupPointDe: c.text("pickup_point_de"),
   placeOfReturnEn: c.text("place_of_return_en"),
   placeOfReturnRu: c.text("place_of_return_ru"),
   placeOfReturnTr: c.text("place_of_return_tr"),
-  // 
+  placeOfReturnDe: c.text("place_of_return_de"),
+  //
   availableDays: c
     .text("available_days", {
       enum: days,
@@ -70,6 +80,7 @@ export const tripFeature = pgTable("trip_features", (c) => ({
   id: c.integer("id").primaryKey().generatedByDefaultAsIdentity(),
   contentEn: c.text("content_en").notNull(),
   contentRu: c.text("content_ru").notNull(),
+  contentDe: c.text("content_de"),
 }));
 
 export const tripToFeature = pgTable(
@@ -91,6 +102,7 @@ export const tripType = pgTable("trip_type", (c) => ({
   id: c.integer("id").primaryKey().generatedByDefaultAsIdentity(),
   nameEn: c.text("name_en").notNull(),
   nameRu: c.text("name_ru").notNull(),
+  nameDe: c.text("name_de"),
 }));
 
 export const tripToTripType = pgTable(

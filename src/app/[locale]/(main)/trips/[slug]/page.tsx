@@ -57,8 +57,10 @@ export async function generateMetadata({
   const trip = await api.trip.viewBySlug(slug);
   if (!trip) return {};
 
-  const available = availableLocales(trip.titleTr);
-  const isUntranslated = locale === "tr" && !available.includes("tr");
+  const available = availableLocales(trip.titleTr, trip.titleDe);
+  const isUntranslated =
+    (locale === "tr" && !available.includes("tr")) ||
+    (locale === "de" && !available.includes("de"));
 
   const rawTitle = localeAttribute(trip, "title");
 
@@ -75,10 +77,15 @@ export async function generateMetadata({
             trip.destination,
             "name",
           )}. Программа, цены и онлайн-бронирование.`
-        : `${rawTitle} turunu ${localeAttribute(
-            trip.destination,
-            "name",
-          )} bölgesinde keşfedin. Program, fiyatlar ve online rezervasyon.`;
+        : locale === "tr"
+          ? `${rawTitle} turunu ${localeAttribute(
+              trip.destination,
+              "name",
+            )} bölgesinde keşfedin. Program, fiyatlar ve online rezervasyon.`
+          : `Entdecken Sie ${rawTitle} in ${localeAttribute(
+              trip.destination,
+              "name",
+            )}. Programm, Preise und Online-Buchung.`;
 
   const description = ensureLengthRange(
     baseDescription,
@@ -88,7 +95,9 @@ export async function generateMetadata({
       ? "Travel with Karim Tour."
       : locale === "ru"
         ? "Путешествуйте с Karim Tour."
-        : "Karim Tour ile seyahat edin.",
+        : locale === "tr"
+          ? "Karim Tour ile seyahat edin."
+          : "Reisen Sie mit Karim Tour.",
   );
 
   let seoDescription =
@@ -96,7 +105,9 @@ export async function generateMetadata({
       ? trip.descriptionEn
       : locale === "ru"
         ? trip.descriptionRu
-        : trip.descriptionTr;
+        : locale === "tr"
+          ? trip.descriptionTr
+          : trip.descriptionDe || trip.descriptionEn;
 
   if (
     !seoDescription ||
@@ -149,24 +160,36 @@ export default async function TripDetailsPage({
   let seasonAlternatives: { slug: string; title: string }[] = [];
   if (seasonConfig && seasonNotice) {
     const offSlugs = seasonConfig.trips?.off ?? [];
-    const destinationTrips = await api.trip.listByDestination(trip.destination.slug);
-    seasonAlternatives = sortByPriority(visibleTrips(destinationTrips?.trips ?? [], seasonConfig), {
-      priority: seasonConfig.trips?.priority,
-      off: offSlugs,
-    })
-      .filter((other) => other.slug !== trip.slug && !offSlugs.includes(other.slug))
+    const destinationTrips = await api.trip.listByDestination(
+      trip.destination.slug,
+    );
+    seasonAlternatives = sortByPriority(
+      visibleTrips(destinationTrips?.trips ?? [], seasonConfig),
+      {
+        priority: seasonConfig.trips?.priority,
+        off: offSlugs,
+      },
+    )
+      .filter(
+        (other) => other.slug !== trip.slug && !offSlugs.includes(other.slug),
+      )
       .slice(0, 3)
-      .map((other) => ({ slug: other.slug, title: localeAttribute(other, "title") }));
+      .map((other) => ({
+        slug: other.slug,
+        title: localeAttribute(other, "title"),
+      }));
   }
 
   const similarTrips = await api.trip.similar(Number(trip.destinationId));
   const localizedAdultPriceInCents =
-    locale === "en"
-      ? trip.englishAdultTripPriceInCents ?? trip.adultTripPriceInCents
+    locale === "en" || locale === "de"
+      ? (trip.englishAdultTripPriceInCents ?? trip.adultTripPriceInCents)
       : trip.adultTripPriceInCents;
   const adultPrice = localizedAdultPriceInCents / 100;
   const originalPrice =
-    locale === "en" || trip.originalAdultTripPriceInCents === null
+    locale === "en" ||
+    locale === "de" ||
+    trip.originalAdultTripPriceInCents === null
       ? null
       : trip.originalAdultTripPriceInCents / 100;
   const childPrice = trip.childTripPriceInCents / 100;
@@ -191,15 +214,15 @@ export default async function TripDetailsPage({
   // Day name translations
   const dayTranslations: Record<
     string,
-    { en: string; ru: string; tr: string }
+    { en: string; ru: string; tr: string; de: string }
   > = {
-    Sunday: { en: "Sunday", ru: "Вс", tr: "Pazar" },
-    Monday: { en: "Monday", ru: "Пн", tr: "Pazartesi" },
-    Tuesday: { en: "Tuesday", ru: "Вт", tr: "Salı" },
-    Wednesday: { en: "Wednesday", ru: "Ср", tr: "Çarşamba" },
-    Thursday: { en: "Thursday", ru: "Чт", tr: "Perşembe" },
-    Friday: { en: "Friday", ru: "Пт", tr: "Cuma" },
-    Saturday: { en: "Saturday", ru: "Сб", tr: "Cumartesi" },
+    Sunday: { en: "Sunday", ru: "Вс", tr: "Pazar", de: "Sonntag" },
+    Monday: { en: "Monday", ru: "Пн", tr: "Pazartesi", de: "Montag" },
+    Tuesday: { en: "Tuesday", ru: "Вт", tr: "Salı", de: "Dienstag" },
+    Wednesday: { en: "Wednesday", ru: "Ср", tr: "Çarşamba", de: "Mittwoch" },
+    Thursday: { en: "Thursday", ru: "Чт", tr: "Perşembe", de: "Donnerstag" },
+    Friday: { en: "Friday", ru: "Пт", tr: "Cuma", de: "Freitag" },
+    Saturday: { en: "Saturday", ru: "Сб", tr: "Cumartesi", de: "Samstag" },
   };
 
   const _avarage =
@@ -218,7 +241,7 @@ export default async function TripDetailsPage({
     offers: {
       "@type": "Offer",
       price: (localizedAdultPriceInCents / 100).toFixed(2),
-      priceCurrency: locale === "en" ? "EUR" : "USD",
+      priceCurrency: locale === "en" || locale === "de" ? "EUR" : "USD",
       availability: "InStock",
       url: `${env.NEXT_PUBLIC_APP_URL}/${locale}/trips/${trip.id}`.replaceAll(
         "//",
@@ -285,6 +308,12 @@ export default async function TripDetailsPage({
         }}
       />
       <main className="container mx-auto mt-14 space-y-8 px-4 py-8 md:px-6 lg:px-6">
+        {locale === "de" && !trip.titleDe?.trim() && (
+          <p className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900">
+            Dieser Ausflug ist noch nicht auf Deutsch verfügbar. Die Inhalte
+            werden vorübergehend auf Englisch angezeigt.
+          </p>
+        )}
         {seasonNotice && (
           <section className="rounded-lg border border-amber-200 bg-amber-50 p-4">
             <p className="font-medium text-amber-900">{seasonNotice}</p>
@@ -374,7 +403,7 @@ export default async function TripDetailsPage({
                   ctaLocation="trip_social"
                   tripId={trip.id}
                   href={
-                    locale === "en"
+                    locale === "en" || locale === "de"
                       ? "https://t.me/karimtouren"
                       : "https://t.me/karimkiwi"
                   }
@@ -455,6 +484,7 @@ export default async function TripDetailsPage({
                         en: day,
                         ru: day,
                         tr: day,
+                        de: day,
                       };
                       return (
                         <span
@@ -465,7 +495,9 @@ export default async function TripDetailsPage({
                             ? translation.ru
                             : locale === "tr"
                               ? translation.tr
-                              : translation.en}
+                              : locale === "de"
+                                ? translation.de
+                                : translation.en}
                         </span>
                       );
                     })}
@@ -690,10 +722,12 @@ export default async function TripDetailsPage({
                   </p>
                   <div className="mt-4 flex items-center justify-between">
                     <TripPrice
-                      currency={locale === "en" ? "€" : "$"}
+                      currency={locale === "en" || locale === "de" ? "€" : "$"}
                       salePrice={localizedAdultPriceInCents / 100}
                       originalPrice={
-                        locale === "en" || trip.originalAdultTripPriceInCents === null
+                        locale === "en" ||
+                        locale === "de" ||
+                        trip.originalAdultTripPriceInCents === null
                           ? null
                           : trip.originalAdultTripPriceInCents / 100
                       }

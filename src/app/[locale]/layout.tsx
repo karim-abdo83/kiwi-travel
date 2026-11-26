@@ -81,10 +81,13 @@ export default async function RootLayout({
         <link rel="preload" as="image" href="/hero1.jpg" />
         <link rel="preload" as="image" href="/mobile1.jpg" />
 
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-17215052073" />
-           <Script id="gtm" strategy="afterInteractive">
-            {googleTagManagerScript}
-          </Script>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17215052073"
+        />
+        <Script id="gtm" strategy="afterInteractive">
+          {googleTagManagerScript}
+        </Script>
         <Script id="gtm-data-layer" strategy="afterInteractive">
           {firstDataLayerScript}
         </Script>
@@ -116,7 +119,7 @@ export default async function RootLayout({
                 "https://www.instagram.com/kiwitraveleg?igsh=MXJzZjFwY2Fzc2E2Zw==",
                 "https://www.facebook.com/share/16NjtcXwqN/?mibextid=wwXIfr",
                 "https://vk.com/kiwitravelseg",
-                locale === "en"
+                locale === "en" || locale === "de"
                   ? "https://t.me/karimtouren"
                   : "https://t.me/karimkiwi",
               ],

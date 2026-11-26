@@ -2,7 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "@/i18n/routing";
 import { api } from "@/trpc/react";
@@ -23,14 +30,14 @@ export function FAQsList() {
         title: "Error",
         description: error.message,
         variant: "destructive",
-      })
+      });
     },
     onSuccess: ({ message }) => {
       toast({
         title: "Success",
         description: message,
-      })
-      refetch()
+      });
+      refetch();
     },
   });
 
@@ -38,10 +45,10 @@ export function FAQsList() {
 
   const handleDelete = () => {
     if (faqToDelete) {
-      deleteFAQ(faqToDelete)
+      deleteFAQ(faqToDelete);
     }
-    setFAQToDelete(null)
-    setDialogOpen(false)
+    setFAQToDelete(null);
+    setDialogOpen(false);
   };
 
   const columns: ColumnDef<FAQ>[] = [
@@ -52,6 +59,10 @@ export function FAQsList() {
     {
       accessorKey: "questionRu",
       header: "Russian Question",
+    },
+    {
+      accessorKey: "questionDe",
+      header: "German Question",
     },
     {
       id: "actions",
@@ -84,13 +95,19 @@ export function FAQsList() {
 
   return (
     <>
-      <DataTable columns={columns} data={data ?? []} searchColumn="questionEn" searchPlaceholder="Search questions..." />
+      <DataTable
+        columns={columns}
+        data={data ?? []}
+        searchColumn="questionEn"
+        searchPlaceholder="Search questions..."
+      />
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Confirm Deletion</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this question? This action cannot be undone.
+              Are you sure you want to delete this question? This action cannot
+              be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

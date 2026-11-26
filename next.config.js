@@ -47,16 +47,7 @@ const config = {
   },
   
   async headers() {
-    return [
-      {
-        source: "/:all*(png|jpg|jpeg|gif|webp|avif|svg|ico|css|js|woff|woff2)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
+    const headers = [
       {
         source: "/api/:path*",
         headers: [
@@ -67,6 +58,20 @@ const config = {
         ],
       },
     ];
+
+    if (process.env.NODE_ENV === "production") {
+      headers.unshift({
+        source: "/:all*(png|jpg|jpeg|gif|webp|avif|svg|ico|css|js|woff|woff2)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      });
+    }
+
+    return headers;
   },
   
   // Optimize bundle and reduce JavaScript

@@ -3,7 +3,9 @@ import { routing } from "@/i18n/routing";
 
 export type AppLocale = (typeof routing.locales)[number];
 
-export const SITE_URL = (env.NEXT_PUBLIC_APP_URL || "https://karimtor.com").replace(/\/$/, "");
+export const SITE_URL = (
+  env.NEXT_PUBLIC_APP_URL || "https://karimtor.com"
+).replace(/\/$/, "");
 
 export function localizedUrl(locale: string, path: string) {
   return `${SITE_URL}/${locale}${path}`;
@@ -27,6 +29,12 @@ export function buildAlternates(
 }
 
 /** Locales with content for an entity that has translated fields. */
-export function availableLocales(trValue: string | null | undefined): AppLocale[] {
-  return trValue?.trim() ? ["en", "ru", "tr"] : ["en", "ru"];
+export function availableLocales(
+  trValue: string | null | undefined,
+  deValue?: string | null,
+): AppLocale[] {
+  const available: AppLocale[] = ["en", "ru"];
+  if (trValue?.trim()) available.push("tr");
+  if (deValue?.trim()) available.push("de");
+  return available;
 }

@@ -31,35 +31,42 @@ type Destination = {
   slug: string;
   locationEn: string;
   locationRu: string;
-  
+  locationTr: string;
+  locationDe: string | null;
+
   image: string;
   tripsCount: number;
 };
 
 const getLocalizedValue = (locale: string, obj: any, key: string): string => {
-  if (!obj) return '';
-  
+  if (!obj) return "";
+
   const enKey = `${key}En`;
   const ruKey = `${key}Ru`;
-  const trKey = `${key}Tr`;  // Add Turkish key
-  
+  const trKey = `${key}Tr`; // Add Turkish key
+  const deKey = `${key}De`;
+
   // Check for Turkish first
-  if (locale === 'tr' && obj[trKey]) {
-    return obj[trKey] || '';
+  if (locale === "tr" && obj[trKey]) {
+    return obj[trKey] || "";
   }
-  
+
+  if (locale === "de" && obj[deKey]) {
+    return obj[deKey] || "";
+  }
+
   // Then check for Russian
-  if (locale === 'ru' && obj[ruKey]) {
-    return obj[ruKey] || '';
+  if (locale === "ru" && obj[ruKey]) {
+    return obj[ruKey] || "";
   }
-  
+
   // Fall back to English
   if (obj[enKey]) {
-    return obj[enKey] || '';
+    return obj[enKey] || "";
   }
-  
+
   // Last resort: try direct key
-  return obj[key] || '';
+  return obj[key] || "";
 };
 
 export default function SearchCard() {
@@ -78,20 +85,23 @@ export default function SearchCard() {
     api.destination.tinyListSearch.useQuery(debouncedSearchTerm, {
       enabled: open,
     });
-    
+
   const { data: trips, isLoading: isLoadingTrips } =
-    api.search.searchExtended.useQuery(debouncedSearchTerm || '', {
-      enabled: Boolean(debouncedSearchTerm && debouncedSearchTerm.trim().length > 0),
+    api.search.searchExtended.useQuery(debouncedSearchTerm || "", {
+      enabled: Boolean(
+        debouncedSearchTerm && debouncedSearchTerm.trim().length > 0,
+      ),
     });
 
   const isLoading = isLoadingDestinations || isLoadingTrips;
-  const hasResults = (destinations?.length ?? 0) > 0 || (trips?.length ?? 0) > 0;
+  const hasResults =
+    (destinations?.length ?? 0) > 0 || (trips?.length ?? 0) > 0;
 
   return (
-    <Card className="mx-auto w-full max-w-3xl sm:rounded-xl  ">
+    <Card className="mx-auto w-full max-w-3xl sm:rounded-xl">
       <CardContent className="p-3 lg:p-6">
         <div className="flex flex-col space-y-4">
-          <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
+          <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
             <h2 className="text-xl font-semibold">{t("cardTitle")}</h2>
             <Link href="/trips">
               <Button variant="secondary" className="flex items-center gap-2">
@@ -128,15 +138,20 @@ export default function SearchCard() {
                   className="h-9"
                 />
                 <CommandList className="max-h-[250px]">
-                  {!isLoading && !hasResults && debouncedSearchTerm.length > 0 && (
-                    <CommandEmpty>{t("notFound")}</CommandEmpty>
-                  )}
+                  {!isLoading &&
+                    !hasResults &&
+                    debouncedSearchTerm.length > 0 && (
+                      <CommandEmpty>{t("notFound")}</CommandEmpty>
+                    )}
                   <CommandGroup heading={t("suggestions")}>
                     {isLoading ? (
                       // Skeleton loading state
                       [1, 2, 3].map((item) => (
-                        <div key={item} className="flex items-center gap-3 px-2 py-2">
-                          <Skeleton className="sm:block hidden h-8 w-8 rounded-md" />
+                        <div
+                          key={item}
+                          className="flex items-center gap-3 px-2 py-2"
+                        >
+                          <Skeleton className="hidden h-8 w-8 rounded-md sm:block" />
                           <div className="flex-1 space-y-1">
                             <Skeleton className="h-3 w-3/4 rounded" />
                             <Skeleton className="h-2 w-1/2 rounded" />
@@ -146,163 +161,204 @@ export default function SearchCard() {
                     ) : (
                       <>
                         {/* Show destinations */}
-                        {!debouncedSearchTerm && destinations?.slice(0, 5).map((destination: Destination) => (
-                          <CommandItem
-                            key={`dest-${destination.id}`}
-                            value={`dest-${destination.id}`}
-                            onSelect={() => {
-                              router.push(`/${locale}/destinations/${destination.slug}`);
-                              setOpen(false);
-                            }}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">
-                                {destination.image ? (
-                                  <Image 
-                                    src={destination.image} 
-                                    alt={`${getLocalizedValue(locale, { nameEn: destination.locationEn, nameRu: destination.locationRu }, 'name')} image`}
-                                    width={40}
-                                    height={40}
-                                    className="h-full w-full object-cover"
-                                  />
-                                ) : (
-                                  <MapPin className="h-4 w-4 text-muted-foreground" />
-                                )}
-                              </div>
-                              <div className="flex-1">
-                                <div className="font-medium">
-                                  {getLocalizedValue(locale, { 
-                                    nameEn: destination.locationEn, 
-                                    nameRu: destination.locationRu 
-                                  }, 'name')}
+                        {!debouncedSearchTerm &&
+                          destinations
+                            ?.slice(0, 5)
+                            .map((destination: Destination) => (
+                              <CommandItem
+                                key={`dest-${destination.id}`}
+                                value={`dest-${destination.id}`}
+                                onSelect={() => {
+                                  router.push(
+                                    `/${locale}/destinations/${destination.slug}`,
+                                  );
+                                  setOpen(false);
+                                }}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">
+                                    {destination.image ? (
+                                      <Image
+                                        src={destination.image}
+                                        alt={`${getLocalizedValue(locale, { nameEn: destination.locationEn, nameRu: destination.locationRu }, "name")} image`}
+                                        width={40}
+                                        height={40}
+                                        className="h-full w-full object-cover"
+                                      />
+                                    ) : (
+                                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                                    )}
+                                  </div>
+                                  <div className="flex-1">
+                                    <div className="font-medium">
+                                      {getLocalizedValue(
+                                        locale,
+                                        {
+                                          nameEn: destination.locationEn,
+                                          nameRu: destination.locationRu,
+                                        },
+                                        "name",
+                                      )}
+                                    </div>
+                                    <div className="text-xs text-muted-foreground">
+                                      {destination.tripsCount}{" "}
+                                      {t("trips", {
+                                        count: destination.tripsCount,
+                                      })}
+                                    </div>
+                                  </div>
+                                  <span className="text-xs text-muted-foreground">
+                                    {t("destination")}
+                                  </span>
                                 </div>
-                                <div className="text-xs text-muted-foreground">
-                                  {destination.tripsCount} {t('trips', { count: destination.tripsCount })}
-                                </div>
-                              </div>
-                              <span className="text-xs text-muted-foreground">
-                                {t('destination')}
-                              </span>
-                            </div>
-                          </CommandItem>
-                        ))}
+                              </CommandItem>
+                            ))}
 
                         {/* Show trips */}
                         {/* Only show trips when there's a search term */}
-                        {debouncedSearchTerm && trips?.map((item) => (
-                          <CommandItem
-                            key={`${item.type}-${item.id}`}
-                            value={`${item.type}-${item.id}`}
-                            onSelect={() => {
-                              if (item.type === "trip") {
-                                router.push(`/${locale}/trips/${item.slug}`);
-                              } else if (item.type === "destination") {
-                                router.push(`/${locale}/destinations/${item.slug}`);
-                              }
-                              setOpen(false);
-                            }}
-                          >
-                            <div className="flex items-center gap-3">
-                              {/* Icon */}
-                              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
-                                {item.type === "trip" ? (
-                                  <Plane className="h-4 w-4" />
-                                ) : (
-                                  <MapPin className="h-4 w-4" />
-                                )}
-                              </div>
-                          
-                              {/* Main content */}
-                              <div className="flex-1">
-                                <div className="font-medium">
-                                  {item.type === "trip"
-                                    ? getLocalizedValue(locale, {
-                                        nameEn: item.titleEn,
-                                        nameRu: item.titleRu,
-                                        nameTr: item.titleTr
-                                      }, 'name')
-                                    : getLocalizedValue(locale, {
-                                        nameEn: item.nameEn,
-                                        nameRu: item.nameRu,
-                                        nameTr: item.nameTr
-                                      }, 'name')}
-                                </div>
-                          
-                                {/* Secondary info */}
-                                <div className="text-xs text-muted-foreground">
+                        {debouncedSearchTerm &&
+                          trips?.map((item) => (
+                            <CommandItem
+                              key={`${item.type}-${item.id}`}
+                              value={`${item.type}-${item.id}`}
+                              onSelect={() => {
+                                if (item.type === "trip") {
+                                  router.push(`/${locale}/trips/${item.slug}`);
+                                } else if (item.type === "destination") {
+                                  router.push(
+                                    `/${locale}/destinations/${item.slug}`,
+                                  );
+                                }
+                                setOpen(false);
+                              }}
+                            >
+                              <div className="flex items-center gap-3">
+                                {/* Icon */}
+                                <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
                                   {item.type === "trip" ? (
-                                    <>
-                                      {getLocalizedValue(locale, {
-                                        nameEn: item.destinationNameEn,
-                                        nameRu: item.destinationNameRu,
-                                        nameTr: item.destinationNameTr
-                                      }, 'name')}
-                                      {item.countryNameEn && (
-                                        <span className="text-orange-600 font-medium">
-                                          , {getLocalizedValue(locale, {
-                                            nameEn: item.countryNameEn,
-                                            nameRu: item.countryNameRu,
-                                            nameTr: item.countryNameTr
-                                          }, 'name')}
-                                        </span>
-                                      )}
-                                    </>
+                                    <Plane className="h-4 w-4" />
                                   ) : (
-                                    <>
-                                      {item.countryNameEn && (
-                                        <span className="text-orange-600 font-medium">
-                                          {getLocalizedValue(locale, {
-                                            nameEn: item.countryNameEn,
-                                            nameRu: item.countryNameRu,
-                                            nameTr: item.countryNameTr
-                                          }, 'name')}
-                                        </span>
-                                      )}
-                                    </>
+                                    <MapPin className="h-4 w-4" />
                                   )}
                                 </div>
+
+                                {/* Main content */}
+                                <div className="flex-1">
+                                  <div className="font-medium">
+                                    {item.type === "trip"
+                                      ? getLocalizedValue(
+                                          locale,
+                                          {
+                                            nameEn: item.titleEn,
+                                            nameRu: item.titleRu,
+                                            nameTr: item.titleTr,
+                                            nameDe: item.titleDe,
+                                          },
+                                          "name",
+                                        )
+                                      : getLocalizedValue(
+                                          locale,
+                                          {
+                                            nameEn: item.nameEn,
+                                            nameRu: item.nameRu,
+                                            nameTr: item.nameTr,
+                                            nameDe: item.nameDe,
+                                          },
+                                          "name",
+                                        )}
+                                  </div>
+
+                                  {/* Secondary info */}
+                                  <div className="text-xs text-muted-foreground">
+                                    {item.type === "trip" ? (
+                                      <>
+                                        {getLocalizedValue(
+                                          locale,
+                                          {
+                                            nameEn: item.destinationNameEn,
+                                            nameRu: item.destinationNameRu,
+                                            nameTr: item.destinationNameTr,
+                                            nameDe: item.destinationNameDe,
+                                          },
+                                          "name",
+                                        )}
+                                        {item.countryNameEn && (
+                                          <span className="font-medium text-orange-600">
+                                            ,{" "}
+                                            {getLocalizedValue(
+                                              locale,
+                                              {
+                                                nameEn: item.countryNameEn,
+                                                nameRu: item.countryNameRu,
+                                                nameTr: item.countryNameTr,
+                                                nameDe: item.countryNameDe,
+                                              },
+                                              "name",
+                                            )}
+                                          </span>
+                                        )}
+                                      </>
+                                    ) : (
+                                      <>
+                                        {item.countryNameEn && (
+                                          <span className="font-medium text-orange-600">
+                                            {getLocalizedValue(
+                                              locale,
+                                              {
+                                                nameEn: item.countryNameEn,
+                                                nameRu: item.countryNameRu,
+                                                nameTr: item.countryNameTr,
+                                                nameDe: item.countryNameDe,
+                                              },
+                                              "name",
+                                            )}
+                                          </span>
+                                        )}
+                                      </>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Badge */}
+                                <span className="text-xs capitalize text-muted-foreground">
+                                  {t(item.type)}
+                                </span>
                               </div>
-                          
-                              {/* Badge */}
-                              <span className="text-xs text-muted-foreground capitalize">
-                                {t(item.type)}
-                              </span>
-                            </div>
-                          </CommandItem>
-                        
-                          // <CommandItem
-                          //   key={`trip-${trip.id}`}
-                          //   value={`trip-${trip.id}`}
-                          //   onSelect={() => {
-                          //     router.push(`/trips/${trip.slug}`);
-                          //     setOpen(false);
-                          //   }}
-                          // >
-                          //   <div className="flex items-center gap-3">
-                          //     <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
-                          //       <Plane className="h-4 w-4" />
-                          //     </div>
-                          //     <div className="flex-1">
-                          //       <div className="font-medium">
-                          //         {getLocalizedValue(locale, trip, 'title')}
-                          //       </div>
-                          //       {trip.destination && (
-                          //         <div className="text-xs text-muted-foreground">
-                          //           {getLocalizedValue(locale, trip.destination, 'name')}
-                          //           {trip.country && (
-                          //             <span className="text-orange-600 font-medium">
-                          //               , {getLocalizedValue(locale, trip.country, 'name')}
-                          //             </span>
-                          //           )}
-                          //         </div>
-                          //       )}
-                          //     </div>
-                          //     <span className="text-xs text-muted-foreground">
-                          //       {t('trip')}
-                          //     </span>
-                          //   </div>
-                          // </CommandItem>
-                        ))}
+                            </CommandItem>
+
+                            // <CommandItem
+                            //   key={`trip-${trip.id}`}
+                            //   value={`trip-${trip.id}`}
+                            //   onSelect={() => {
+                            //     router.push(`/trips/${trip.slug}`);
+                            //     setOpen(false);
+                            //   }}
+                            // >
+                            //   <div className="flex items-center gap-3">
+                            //     <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
+                            //       <Plane className="h-4 w-4" />
+                            //     </div>
+                            //     <div className="flex-1">
+                            //       <div className="font-medium">
+                            //         {getLocalizedValue(locale, trip, 'title')}
+                            //       </div>
+                            //       {trip.destination && (
+                            //         <div className="text-xs text-muted-foreground">
+                            //           {getLocalizedValue(locale, trip.destination, 'name')}
+                            //           {trip.country && (
+                            //             <span className="text-orange-600 font-medium">
+                            //               , {getLocalizedValue(locale, trip.country, 'name')}
+                            //             </span>
+                            //           )}
+                            //         </div>
+                            //       )}
+                            //     </div>
+                            //     <span className="text-xs text-muted-foreground">
+                            //       {t('trip')}
+                            //     </span>
+                            //   </div>
+                            // </CommandItem>
+                          ))}
                       </>
                     )}
                   </CommandGroup>

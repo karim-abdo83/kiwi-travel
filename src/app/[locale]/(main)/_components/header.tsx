@@ -35,7 +35,7 @@ export const Header = () => {
           <DesktopNavigation />
           <div className="hidden gap-4 md:flex">
             <SignedOut>
-              <SignInButton>
+              <SignInButton mode="redirect">
                 <Button id="sign-in-button-1" variant="outline">
                   {t("signIn")}
                 </Button>

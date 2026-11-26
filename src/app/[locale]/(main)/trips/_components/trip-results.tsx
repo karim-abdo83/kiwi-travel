@@ -143,9 +143,17 @@ export function TripResults() {
                   </div>
                   <div className="text-right">
                     <TripPrice
-                      currency={locale === "en" ? "€" : "$"}
-                      salePrice={locale === "en" ? trip.englishPrice : trip.price}
-                      originalPrice={locale === "en" ? null : trip.originalPrice}
+                      currency={locale === "en" || locale === "de" ? "€" : "$"}
+                      salePrice={
+                        locale === "en" || locale === "de"
+                          ? trip.englishPrice
+                          : trip.price
+                      }
+                      originalPrice={
+                        locale === "en" || locale === "de"
+                          ? null
+                          : trip.originalPrice
+                      }
                       align="end"
                     />
                     <div className="text-xs text-muted-foreground">

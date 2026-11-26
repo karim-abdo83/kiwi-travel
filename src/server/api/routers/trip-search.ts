@@ -9,35 +9,42 @@ type SearchResult = {
   titleEn: string | null;
   titleRu: string | null;
   titleTr: string | null;
-  type: 'trip';
+  titleDe: string | null;
+  type: "trip";
   destination: {
     nameEn: string | null;
     nameRu: string | null;
     nameTr: string | null;
+    nameDe: string | null;
   };
   country: {
     nameEn: string | null;
     nameRu: string | null;
     nameTr: string | null;
+    nameDe: string | null;
   };
 };
 
 type SearchExtendedResult = {
   id: number;
-  type: 'trip' | 'destination';
+  type: "trip" | "destination";
   slug: string;
   nameEn?: string | null;
   nameRu?: string | null;
   nameTr?: string | null;
+  nameDe?: string | null;
   titleEn?: string | null;
   titleRu?: string | null;
   titleTr?: string | null;
+  titleDe?: string | null;
   destinationNameEn?: string | null;
   destinationNameRu?: string | null;
   destinationNameTr?: string | null;
+  destinationNameDe?: string | null;
   countryNameEn?: string | null;
   countryNameRu?: string | null;
   countryNameTr?: string | null;
+  countryNameDe?: string | null;
   score: number;
   iconKey: string;
 };
@@ -47,7 +54,7 @@ export const tripSearchRouter = createTRPCRouter({
     .input(z.string().min(1))
     .query(async ({ ctx, input }): Promise<SearchResult[]> => {
       const searchTerm = `%${input}%`;
-      
+
       const results = await ctx.db
         .select({
           id: trip.id,
@@ -55,15 +62,18 @@ export const tripSearchRouter = createTRPCRouter({
           titleEn: trip.titleEn,
           titleRu: trip.titleRu,
           titleTr: trip.titleTr,
+          titleDe: trip.titleDe,
           destination: {
             nameEn: destination.nameEn,
             nameRu: destination.nameRu,
             nameTr: destination.nameTr,
+            nameDe: destination.nameDe,
           },
           country: {
             nameEn: country.nameEn,
             nameRu: country.nameRu,
             nameTr: country.nameTr,
+            nameDe: country.nameDe,
           },
         })
         .from(trip)
@@ -76,20 +86,23 @@ export const tripSearchRouter = createTRPCRouter({
               ilike(trip.titleEn, searchTerm),
               ilike(trip.titleRu, searchTerm),
               ilike(trip.titleTr, searchTerm),
+              ilike(trip.titleDe, searchTerm),
               ilike(destination.nameEn, searchTerm),
               ilike(destination.nameRu, searchTerm),
               ilike(destination.nameTr, searchTerm),
+              ilike(destination.nameDe, searchTerm),
               ilike(country.nameEn, searchTerm),
               ilike(country.nameRu, searchTerm),
-              ilike(country.nameTr, searchTerm)
-            )
-          )
+              ilike(country.nameTr, searchTerm),
+              ilike(country.nameDe, searchTerm),
+            ),
+          ),
         )
         .limit(10);
 
-      return results.map(result => ({
+      return results.map((result) => ({
         ...result,
-        type: 'trip' as const
+        type: "trip" as const,
       }));
     }),
 
@@ -98,9 +111,9 @@ export const tripSearchRouter = createTRPCRouter({
     .query(async ({ ctx, input }): Promise<SearchExtendedResult[]> => {
       const q = input.trim();
       if (q.length < 2) return [];
-  
+
       const searchTerm = `%${q}%`;
-  
+
       // Destinations (high priority)
       const destinations = await ctx.db
         .select({
@@ -108,10 +121,12 @@ export const tripSearchRouter = createTRPCRouter({
           slug: destination.slug,
           nameEn: destination.nameEn,
           nameRu: destination.nameRu,
-          nameTr: destination.nameTr,  // Add Turkish name
+          nameTr: destination.nameTr, // Add Turkish name
+          nameDe: destination.nameDe,
           countryNameEn: country.nameEn,
           countryNameRu: country.nameRu,
-          countryNameTr: country.nameTr,  // Add Turkish country name
+          countryNameTr: country.nameTr, // Add Turkish country name
+          countryNameDe: country.nameDe,
           score: sql<number>`CASE 
             WHEN lower(${destination.nameEn}) = lower(${q}) THEN 4
             WHEN lower(${destination.nameTr}) = lower(${q}) THEN 4
@@ -125,28 +140,32 @@ export const tripSearchRouter = createTRPCRouter({
           or(
             ilike(destination.nameEn, searchTerm),
             ilike(destination.nameRu, searchTerm),
-            ilike(destination.nameTr, searchTerm),  // Add Turkish search
+            ilike(destination.nameTr, searchTerm), // Add Turkish search
+            ilike(destination.nameDe, searchTerm),
             ilike(country.nameEn, searchTerm),
             ilike(country.nameRu, searchTerm),
-            ilike(country.nameTr, searchTerm)  // Add Turkish search
-          )
+            ilike(country.nameTr, searchTerm), // Add Turkish search
+            ilike(country.nameDe, searchTerm),
+          ),
         )
         .limit(10);
-  
+
       const destinationResults = destinations.map((d) => ({
         id: d.id,
         type: "destination" as const,
         slug: d.slug,
         nameEn: d.nameEn,
         nameRu: d.nameRu,
-        nameTr: d.nameTr,  // Add Turkish name
+        nameTr: d.nameTr, // Add Turkish name
+        nameDe: d.nameDe,
         countryNameEn: d.countryNameEn,
         countryNameRu: d.countryNameRu,
-        countryNameTr: d.countryNameTr,  // Add Turkish country name
+        countryNameTr: d.countryNameTr, // Add Turkish country name
+        countryNameDe: d.countryNameDe,
         score: d.score,
         iconKey: "location",
       }));
-  
+
       // Trips
       const trips = await ctx.db
         .select({
@@ -154,13 +173,16 @@ export const tripSearchRouter = createTRPCRouter({
           slug: trip.slug,
           titleEn: trip.titleEn,
           titleRu: trip.titleRu,
-          titleTr: trip.titleTr,  // Add Turkish title
+          titleTr: trip.titleTr, // Add Turkish title
+          titleDe: trip.titleDe,
           destinationNameEn: destination.nameEn,
           destinationNameRu: destination.nameRu,
-          destinationNameTr: destination.nameTr,  // Add Turkish destination name
+          destinationNameTr: destination.nameTr, // Add Turkish destination name
+          destinationNameDe: destination.nameDe,
           countryNameEn: country.nameEn,
           countryNameRu: country.nameRu,
-          countryNameTr: country.nameTr,  // Add Turkish country name
+          countryNameTr: country.nameTr, // Add Turkish country name
+          countryNameDe: country.nameDe,
           score: sql<number>`CASE
             WHEN lower(${trip.titleEn}) = lower(${q}) THEN 3
             WHEN lower(${trip.titleTr}) = lower(${q}) THEN 3
@@ -179,51 +201,58 @@ export const tripSearchRouter = createTRPCRouter({
             or(
               ilike(trip.titleEn, searchTerm),
               ilike(trip.titleRu, searchTerm),
-              ilike(trip.titleTr, searchTerm),  // Add Turkish search
+              ilike(trip.titleTr, searchTerm), // Add Turkish search
+              ilike(trip.titleDe, searchTerm),
               ilike(trip.descriptionEn, searchTerm),
               ilike(trip.descriptionRu, searchTerm),
-              ilike(trip.descriptionTr, searchTerm),  // Add Turkish search
+              ilike(trip.descriptionTr, searchTerm), // Add Turkish search
+              ilike(trip.descriptionDe, searchTerm),
               ilike(destination.nameEn, searchTerm),
               ilike(destination.nameRu, searchTerm),
-              ilike(destination.nameTr, searchTerm),  // Add Turkish search
+              ilike(destination.nameTr, searchTerm), // Add Turkish search
+              ilike(destination.nameDe, searchTerm),
               ilike(country.nameEn, searchTerm),
               ilike(country.nameRu, searchTerm),
-              ilike(country.nameTr, searchTerm)  // Add Turkish search
-            )
-          )
+              ilike(country.nameTr, searchTerm), // Add Turkish search
+              ilike(country.nameDe, searchTerm),
+            ),
+          ),
         )
         .limit(10);
-  
+
       const tripResults = trips.map((t) => ({
         id: t.id,
         type: "trip" as const,
         slug: t.slug,
         titleEn: t.titleEn,
         titleRu: t.titleRu,
-        titleTr: t.titleTr,  // Add Turkish title
+        titleTr: t.titleTr, // Add Turkish title
+        titleDe: t.titleDe,
         destinationNameEn: t.destinationNameEn,
         destinationNameRu: t.destinationNameRu,
-        destinationNameTr: t.destinationNameTr,  // Add Turkish destination name
+        destinationNameTr: t.destinationNameTr, // Add Turkish destination name
+        destinationNameDe: t.destinationNameDe,
         countryNameEn: t.countryNameEn,
         countryNameRu: t.countryNameRu,
-        countryNameTr: t.countryNameTr,  // Add Turkish country name
+        countryNameTr: t.countryNameTr, // Add Turkish country name
+        countryNameDe: t.countryNameDe,
         score: t.score,
         iconKey: "trip",
       }));
-  
+
       // Merge + rank by score
       const combined = [...destinationResults, ...tripResults].sort(
-        (a, b) => b.score - a.score
+        (a, b) => b.score - a.score,
       );
-  
+
       return combined.slice(0, 20) as SearchExtendedResult[];
     }),
-  
+
   // searchExtended: publicProcedure
   //   .input(z.string().min(1))
   //   .query(async ({ ctx, input }): Promise<SearchResult[]> => {
   //     const searchTerm = `%${input}%`;
-      
+
   //     const results = await ctx.db
   //       .select({
   //         id: trip.id,

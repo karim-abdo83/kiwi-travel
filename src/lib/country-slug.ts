@@ -2,6 +2,7 @@ type CountryNames = {
   nameEn: string;
   nameRu: string;
   nameTr: string;
+  nameDe?: string | null;
 };
 
 const slugifyCountryName = (name: string) =>
@@ -15,9 +16,12 @@ const slugifyCountryName = (name: string) =>
     .replace(/^-+|-+$/g, "");
 
 export const getCountrySeoKey = (country: CountryNames) => {
-  const names = [country.nameEn, country.nameRu, country.nameTr].map(
-    slugifyCountryName,
-  );
+  const names = [
+    country.nameEn,
+    country.nameRu,
+    country.nameTr,
+    country.nameDe ?? "",
+  ].map(slugifyCountryName);
 
   if (names.some((name) => ["egypt", "egipet", "misir"].includes(name))) {
     return "egypt";
@@ -42,7 +46,7 @@ export const findCountryBySlug = <T extends CountryNames>(
   return countries.find(
     (country) =>
       getCountrySlug(country) === normalizedSlug ||
-      [country.nameEn, country.nameRu, country.nameTr]
+      [country.nameEn, country.nameRu, country.nameTr, country.nameDe ?? ""]
         .map(slugifyCountryName)
         .includes(normalizedSlug),
   );

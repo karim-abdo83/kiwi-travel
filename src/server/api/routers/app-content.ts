@@ -7,28 +7,38 @@ import { eq } from "drizzle-orm";
 
 export const appContentRouter = createTRPCRouter({
   // Get setting by ID
-  get: publicProcedure
-    .query(async ({ ctx }) => {
-      const setting = await ctx.db.query.appContent.findFirst();
+  get: publicProcedure.query(async ({ ctx }) => {
+    const setting = await ctx.db.query.appContent.findFirst();
 
-      if (!setting) {
-        const newSetting = await ctx.db.insert(appContentTableSchema).values({
+    if (!setting) {
+      const newSetting = await ctx.db
+        .insert(appContentTableSchema)
+        .values({
           popularDestinationEn: "Popular Destinations",
           popularDestinationRu: "Популярные направления",
           popularDestinationTr: "Popüler Destinasyonlar",
+          popularDestinationDe: null,
           createdAt: new Date(),
           updatedAt: new Date(),
-        }).returning();
+        })
+        .returning();
 
-        return newSetting?.[0];
-      }
+      return newSetting?.[0];
+    }
 
-      return setting;
-    }),
+    return setting;
+  }),
 
   // Update setting by ID
   update: adminProcedure
-    .input(z.object({ en: z.string(), ru: z.string(), tr: z.string() }))
+    .input(
+      z.object({
+        en: z.string(),
+        ru: z.string(),
+        tr: z.string(),
+        de: z.string().optional(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const existingSetting = await ctx.db.query.appContent.findFirst();
 
@@ -39,12 +49,16 @@ export const appContentRouter = createTRPCRouter({
         });
       }
 
-      await ctx.db.update(appContentTableSchema).set({
-        popularDestinationEn: input.en,
-        popularDestinationRu: input.ru,
-        popularDestinationTr: input.tr,
-        updatedAt: new Date(),
-      }).where(eq(appContentTableSchema.id, existingSetting.id));
+      await ctx.db
+        .update(appContentTableSchema)
+        .set({
+          popularDestinationEn: input.en,
+          popularDestinationRu: input.ru,
+          popularDestinationTr: input.tr,
+          popularDestinationDe: input.de || null,
+          updatedAt: new Date(),
+        })
+        .where(eq(appContentTableSchema.id, existingSetting.id));
 
       const t = await getTranslations("ToastMessages");
 
